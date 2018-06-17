@@ -1,3 +1,23 @@
 .fw-button{
 	width: 100%;
 }
+
+.hidden{
+	display: none;
+}
+
+#chat{
+	border-left: 1px solid;
+}
+
+html, body{
+	height: 100%;
+}
+
+.full-height{
+	height: 100%;
+}
+
+.no-overflow{
+	overflow: hidden;
+}
