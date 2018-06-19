@@ -17,8 +17,27 @@ const io = require("socket.io")(server)
 io.on("connection", socket => {
 	console.log("connexct")
 
-	socket.on("disconnect", () => {
-		console.log("disconnect")
+	socket.on("disconnecting", () => {
+		let roomID = Object.keys(socket.rooms)[1]
+
+		if(roomData[roomID] !== undefined){
+
+			let user = roomData[roomID].users.filter(user => {
+				console.log(user)
+				return user.id === socket.id
+			}).user
+
+			let data = {
+				timeStamp: Date.now(),
+				roomCode: roomID,
+				user: {
+					id: socket.id,
+					username: user.username
+				}
+			}
+
+			io.to(roomID).emit("USER_LEAVE", data)
+		}
 	})
 
 	socket.on("JOIN", data => {
@@ -34,7 +53,7 @@ io.on("connection", socket => {
 		data.roomCode = data.gameCode
 		data.user = {
 			username: data.username,
-			id: Date.now().toString(36)
+			id: socket.id
 		}
 
 		roomData[data.gameCode].users.push(data)
