@@ -42,3 +42,19 @@ socket.on('chat', data => {
 
 	document.querySelector(`.chat-message[data-timestamp='${data.timeStamp}']`).scrollIntoView()
 })
+
+socket.on('USER_JOIN', data => {
+	messageContainer.appendChild(
+		htmlToElement(`
+			<li class="chat-message" data-sender="SYSTEM" data-timestamp="${data.timeStamp}">
+				<!--<img src="http://placehold.it/128x128" class="chat-image"/>-->
+				<div class="message-wrap">
+					<!--<span class="chat-sender">${data.user.username}</span>-->
+					<span class="chat-message">User ${data.user.username} Joined!</span>
+				</div>
+			</li>
+		`)
+	)
+
+	document.querySelector(`.chat-message[data-timestamp='${data.timeStamp}']`).scrollIntoView()
+})

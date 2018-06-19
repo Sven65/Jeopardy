@@ -20,6 +20,19 @@ io.on("connection", socket => {
 		console.log("disconnect")
 	})
 
+	socket.on("JOIN", data => {
+		socket.join(data.gameCode)
+
+		data.timeStamp = Date.now()
+		data.roomCode = data.gameCode
+		data.user = {
+			username: data.username,
+			id: Date.now().toString(36)
+		}
+
+		io.to(data.gameCode).emit("USER_JOIN", data)
+	})
+
 	socket.on('chat', data => {
 		// TODO: Add logic to check if the sending user is in the room
 
