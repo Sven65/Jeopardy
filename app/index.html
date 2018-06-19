@@ -17,7 +17,7 @@
 				<a id="logo-container" href="#" class="brand-logo">Jeopardy - <span id="gameCodeHeader"></span></a>
 			</div>
 		</nav>
-		<div class="section no-pad-bot hidden" id="beforeGame">
+		<div class="section no-pad-bot" id="beforeGame">
 			<div class="container">
 				<h1 class="header center orange-text">Please enter details</h1>
 				<div class="container">
@@ -58,72 +58,17 @@
 				</div>
 			</div>
 		</div>
-		<div class="section no-pad-bot" id="gameArea">
+		<div class="section no-pad-bot hidden" id="gameArea">
 			<div class="container">
 				<div class="row">
-					<div class="col s8">
-						<table id="gameTable">
-							<thead>
-								<tr>
-									<th>Category 1</th>
-									<th>Category 2</th>
-									<th>Category 3</th>
-									<th>Category 4</th>
-									<th>Category 5</th>
-									<th>Category 6</th>
-								</tr>
-							</thead>
+					<!-- Start player stats -->
+					<div class="col s8 left" id="stat-container">
+						<div class="row" id="card-container">
 
-							<tbody>
-								<tr>
-									<td>$200</td>
-									<td>$200</td>
-									<td>$200</td>
-									<td>$200</td>
-									<td>$200</td>
-									<td>$200</td>
-								</tr>
-
-								<tr>
-									<td>$400</td>
-									<td>$400</td>
-									<td>$400</td>
-									<td>$400</td>
-									<td>$400</td>
-									<td>$400</td>
-								</tr>
-
-								<tr>
-									<td>$600</td>
-									<td>$600</td>
-									<td>$600</td>
-									<td>$600</td>
-									<td>$600</td>
-									<td>$600</td>
-								</tr>
-
-								<tr>
-									<td>$800</td>
-									<td>$800</td>
-									<td>$800</td>
-									<td>$800</td>
-									<td>$800</td>
-									<td>$800</td>
-								</tr>
-
-								<tr>
-									<td>$1000</td>
-									<td>$1000</td>
-									<td>$1000</td>
-									<td>$1000</td>
-									<td>$1000</td>
-									<td>$1000</td>
-								</tr>
-								
-
-							</tbody>
-						</table>
+						</div>
 					</div>
+
+					<!-- End player stats -->
 
 					<!-- Start chat -->
 					<div class="col s4 right" id="chat">
@@ -187,64 +132,73 @@
 					</div>
 					<!-- End Chat -->
 
-					<div class="row">
-						<!-- Start player stats -->
-						<div class="col s8 left" id="stat-container">
-							<div class="row">
+					<!-- Start table area -->
+					<div class="col s8">
+						<table id="gameTable">
+							<thead>
+								<tr>
+									<th>Category 1</th>
+									<th>Category 2</th>
+									<th>Category 3</th>
+									<th>Category 4</th>
+									<th>Category 5</th>
+									<th>Category 6</th>
+								</tr>
+							</thead>
 
-								<div class="col s3">
-									<div class="card">
-										<div class="card-image">
-											<img src="http://placehold.it/128x128">
-											<span class="card-title">Player 1</span>
-										</div>
-										<div class="card-content">
-											<p>$0</p>
-										</div>
-									</div>
-								</div>
+							<tbody>
+								<tr>
+									<td>$200</td>
+									<td>$200</td>
+									<td>$200</td>
+									<td>$200</td>
+									<td>$200</td>
+									<td>$200</td>
+								</tr>
 
-								<div class="col s3">
-									<div class="card">
-										<div class="card-image">
-											<img src="http://placehold.it/128x128">
-											<span class="card-title">Player 2</span>
-										</div>
-										<div class="card-content">
-											<p>$0</p>
-										</div>
-									</div>
-								</div>
+								<tr>
+									<td>$400</td>
+									<td>$400</td>
+									<td>$400</td>
+									<td>$400</td>
+									<td>$400</td>
+									<td>$400</td>
+								</tr>
 
-								<div class="col s3">
-									<div class="card">
-										<div class="card-image">
-											<img src="http://placehold.it/128x128">
-											<span class="card-title">Player 3</span>
-										</div>
-										<div class="card-content">
-											<p>$0</p>
-										</div>
-									</div>
-								</div>
+								<tr>
+									<td>$600</td>
+									<td>$600</td>
+									<td>$600</td>
+									<td>$600</td>
+									<td>$600</td>
+									<td>$600</td>
+								</tr>
 
-								<div class="col s3">
-									<div class="card">
-										<div class="card-image">
-											<img src="http://placehold.it/128x128">
-											<span class="card-title">Player 4</span>
-										</div>
-										<div class="card-content">
-											<p>$0</p>
-										</div>
-									</div>
-								</div>
+								<tr>
+									<td>$800</td>
+									<td>$800</td>
+									<td>$800</td>
+									<td>$800</td>
+									<td>$800</td>
+									<td>$800</td>
+								</tr>
 
-							</div>
-						</div>
+								<tr>
+									<td>$1000</td>
+									<td>$1000</td>
+									<td>$1000</td>
+									<td>$1000</td>
+									<td>$1000</td>
+									<td>$1000</td>
+								</tr>
+								
 
-						<!-- End player stats -->
+							</tbody>
+						</table>
 					</div>
+					<!-- End Table Area -->
+
+					
 				</div>
 
 			</div>
@@ -252,6 +206,7 @@
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="js/materialize.min.js"></script>
+		<script src="js/DOMStuff.js"></script>
 		<script src="js/Game.js"></script>
 		<script src="js/Chat.js"></script>
 	</body>

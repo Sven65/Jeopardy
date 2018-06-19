@@ -6,12 +6,6 @@ function sendMessage(message, roomID, user){
 	socket.emit("chat", {message, roomID, user, timeStamp: Date.now()})
 }
 
-function htmlToElement(html) {
-	let template = document.createElement('template');
-	html = html.trim(); // Never return a text node of whitespace as the result
-	template.innerHTML = html;
-	return template.content.firstChild;
-}
 
 chatButton.addEventListener("click", e => {
 	e.preventDefault()
@@ -44,6 +38,22 @@ socket.on('chat', data => {
 })
 
 socket.on('USER_JOIN', data => {
+	messageContainer.appendChild(
+		htmlToElement(`
+			<li class="chat-message" data-sender="SYSTEM" data-timestamp="${data.timeStamp}">
+				<!--<img src="http://placehold.it/128x128" class="chat-image"/>-->
+				<div class="message-wrap">
+					<!--<span class="chat-sender">${data.user.username}</span>-->
+					<span class="chat-message">User ${data.user.username} Joined!</span>
+				</div>
+			</li>
+		`)
+	)
+
+	document.querySelector(`.chat-message[data-timestamp='${data.timeStamp}']`).scrollIntoView()
+})
+
+socket.on('USER_LEAVE', data => {
 	messageContainer.appendChild(
 		htmlToElement(`
 			<li class="chat-message" data-sender="SYSTEM" data-timestamp="${data.timeStamp}">

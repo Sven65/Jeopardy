@@ -1,6 +1,7 @@
 const app = require('./app')
 //const http = require("http").Server(app)
 
+let roomData = {}
 
 const port = (process.env.PORT || 3000)
 const host = (process.env.HOST || undefined)
@@ -21,6 +22,12 @@ io.on("connection", socket => {
 	})
 
 	socket.on("JOIN", data => {
+		if(roomData[data.gameCode] === undefined){
+			roomData[data.gameCode] = {
+				users: []
+			}
+		}
+
 		socket.join(data.gameCode)
 
 		data.timeStamp = Date.now()
@@ -30,6 +37,12 @@ io.on("connection", socket => {
 			id: Date.now().toString(36)
 		}
 
+		roomData[data.gameCode].users.push(data)
+
+		roomData[data.gameCode].users.forEach(user => {
+			socket.emit("USER_JOIN", user)
+		})
+		
 		io.to(data.gameCode).emit("USER_JOIN", data)
 	})
 
