@@ -6,10 +6,6 @@
 	display: none;
 }
 
-#chat{
-	border-left: 1px solid;
-}
-
 html, body{
 	height: 100%;
 }
@@ -20,4 +16,58 @@ html, body{
 
 .no-overflow{
 	overflow: hidden;
+}
+
+/**
+ * Chat styles
+ */
+#chat{
+	border-left: 1px solid;
+	border-right: 1px solid;
+}
+
+#chat-input{
+	z-index: 1000;
+	bottom: 0%;
+	position: fixed;
+}
+
+.chat-message{
+	display: flex;
+	align-items:center;
+
+}
+
+.chat-message::before{
+	content: "\A";
+	white-space: pre;
+}
+
+#chat-container{
+	/*margin-left: 5px;*/
+	width: 100%;
+}
+
+.chat-image{
+	width: 64px;
+}
+
+.chat-sender{
+	font-weight: bold;
+}
+
+#chat-messages{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow-y: scroll;
+	height: calc(90vh - 100px);
+}
+
+#chat-messages li{
+	padding: 5px 10px;
+}
+
+#chat-messages li:nth-child(odd){
+	background: #eee;
 }

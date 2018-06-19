@@ -126,13 +126,54 @@
 					</div>
 					<div class="col s4 right" id="chat">
 						<div class="row">
-							<form id="chat-input" class="col s12">
+							<div class="container" id="chat-container">
+								<ul id="chat-messages">
+									<li class="chat-message" data-sender="Big Dong" data-timestamp="1">
+										<img src="http://placehold.it/128x128" class="chat-image"/>
+										<div class="message-wrap">
+											<span class="chat-sender">Big Dong</span>
+											<span class="chat-message">Big dong</span>
+										</div>
+									</li>
+
+									<li class="chat-message" data-sender="Small Dong" data-timestamp="2">
+										<img src="http://placehold.it/128x128" class="chat-image"/>
+										<div class="message-wrap">
+											<span class="chat-sender">Small Dong</span>
+											<span class="chat-message">Small dong</span>
+										</div>
+									</li>
+
+									<li class="chat-message" data-sender="Medium Dong" data-timestamp="3">
+										<img src="http://placehold.it/128x128" class="chat-image"/>
+										<div class="message-wrap">
+											<span class="chat-sender">Medium Dong</span>
+											<span class="chat-message">Medium dong</span>
+										</div>
+									</li>
+
+									<li class="chat-message" data-sender="Lorem Ipsum Dong" data-timestamp="4">
+										<img src="http://placehold.it/128x128" class="chat-image"/>
+										<div class="message-wrap">
+											<span class="chat-sender">Lorem Ipsum</span>
+											<span class="chat-message">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+											tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+											quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+											consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+											cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+											proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
+										</div>
+									</li>
+								</ul>
+							</div>
+
+							<form id="chat-input" class="col s7">
 								<div class="col s12">
-									<div class="input-field col s6">
+									<div class="input-field col s3">
 										<input id="message" type="text" class="validate">
 										<label for="message">Type a message!</label>
 									</div>
-									<div class="input-field col s6">
+									<div class="input-field col s9">
 										<button class="btn waves-effect waves-light" type="button" name="send" id="chatButton">
 											Send
 											<i class="material-icons right">send</i>
@@ -147,7 +188,8 @@
 		</div>
 
 		<script src="/socket.io/socket.io.js"></script>
-		<script src="js/materialize.min.js"></script
+		<script src="js/materialize.min.js"></script>
 		<script src="js/Game.js"></script>
+		<script src="js/Chat.js"></script>
 	</body>
 </html>

@@ -19,4 +19,10 @@ io.on("connection", socket => {
 	socket.on("disconnect", () => {
 		console.log("disconnect")
 	})
+
+	socket.on('chat', data => {
+		// TODO: Add logic to check if the sending user is in the room
+
+		io.emit('chat', data)
+	})
 })
