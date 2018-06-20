@@ -4,6 +4,14 @@ const JS = new JService()
 
 //const http = require("http").Server(app)
 
+/** 
+ * @TODO: Make sure nobody but the host  can join a room if the questions are loading
+ * @TODO: Make it so that only one person can use a name per room
+ * @TODO: Add passwords to rooms
+ * @TODO: Add logic to check if the user sending a message is doing it in a room they're in
+ * @TODO: Make sure that only the person that recently joined gets the questions loaded instead of the entire room.
+ */
+
 let roomData = {}
 
 const port = (process.env.PORT || 3000)
@@ -84,31 +92,47 @@ io.on("connection", socket => {
 	})
 
 	socket.on("ACTION_GETQUESTIONS", async data => {
-		let categoryGet = await JS.getCategories(JS._categoryCount, Math.floor(Math.random() * JS._maxOffset) + JS._minOffset)
-		let categories = categoryGet.body
+		// TODO: Make sure nobody other than the host can join a room if the questions are loading
+		if(roomData[data.gameCode].questions !== undefined){
+			data.clues = roomData[data.gameCode].questions.clues
+			io.to(data.gameCode).emit("ACTION_GOTQUESTIONS", data)
+		}else{
 
-		let clues = {}
+			let categoryGet = await JS.getCategories(JS._categoryCount, Math.floor(Math.random() * JS._maxOffset) + JS._minOffset)
+			let categories = categoryGet.body
 
-		const start = async () => {
-			await asyncForEach(categories, async (category) => {
-				if(clues[category.id] === undefined){
-					clues[category.id] = []
+			let clues = {}
+
+			const start = async () => {
+				await asyncForEach(categories, async (category) => {
+					if(clues[category.id] === undefined){
+						clues[category.id] = []
+					}
+
+
+
+					let clueGet = await JS.getClues(category.id)
+
+					clues[category.id] = clueGet.body
+
+					console.log(clues[category.id])
+				})
+
+				data.clues = clues
+
+				io.to(data.gameCode).emit("ACTION_GOTQUESTIONS", data)
+
+				if(roomData[data.gameCode].questions === undefined){
+					roomData[data.gameCode].questions = {}
 				}
 
-
-
-				let clueGet = await JS.getClues(category.id)
-
-				clues[category.id] = clueGet.body
-
-				console.log(clues[category.id])
-			})
-
-			data.clues = clues
-
-			io.to(data.gameCode).emit("ACTION_GOTQUESTIONS", data)
+				roomData[data.gameCode].questions = {
+					loaded: true,
+					clues
+				}
+			}
+			
+			start()
 		}
-		
-		start()
 	})
 })
