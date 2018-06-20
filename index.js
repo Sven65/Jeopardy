@@ -85,28 +85,49 @@ io.on("connection", socket => {
 	})
 
 	socket.on("JOIN", data => {
+
+		let isHost = false
+		let canJoin = false
+
 		if(roomData[data.gameCode] === undefined){
 			roomData[data.gameCode] = {
 				users: []
 			}
 		}
 
-		socket.join(data.gameCode)
-
-		data.timeStamp = Date.now()
-		data.roomCode = data.gameCode
-		data.user = {
-			username: data.username,
-			id: socket.id
+		if(roomData[data.gameCode].questions === undefined && roomData[data.gameCode].users.length <= 0){
+			isHost = true
 		}
 
-		roomData[data.gameCode].users.push(data)
+		if(roomData[data.gameCode].questions !== undefined && roomData[data.gameCode].questions.loaded){
+			canJoin = true
+		}else{
+			if(isHost){
+				canJoin = true
+			}
+		}
 
-		roomData[data.gameCode].users.forEach(user => {
-			socket.emit("USER_JOIN", user)
-		})
-		
-		io.to(data.gameCode).emit("USER_JOIN", data)
+		if(canJoin){
+			socket.join(data.gameCode)
+
+			data.timeStamp = Date.now()
+			data.roomCode = data.gameCode
+			data.user = {
+				username: data.username,
+				id: socket.id,
+				host: isHost
+			}
+
+			roomData[data.gameCode].users.push(data)
+
+			roomData[data.gameCode].users.forEach(user => {
+				socket.emit("USER_JOIN", user)
+			})
+			
+			io.to(data.gameCode).emit("USER_JOIN", data)
+		}else{
+			socket.emit("ERROR_JOIN", {reason: "Game is still loading, please wait."})
+		}
 	})
 
 	socket.on('chat', data => {

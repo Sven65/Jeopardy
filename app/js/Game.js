@@ -4,6 +4,7 @@ let roomID = ""
 let user = {}
 
 let joinedUsers = []
+let questionsLoaded = false
 
 
 function htmlToElement(html) {
@@ -68,23 +69,17 @@ socket.on('USER_JOIN', data => {
 		addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `User ${data.user.username} Joined!`)
 
 		joinedUsers.push(data.user.id)
+
+		if(!questionsLoaded){
+			socket.emit("ACTION_GETQUESTIONS", {
+				gameCode: roomID
+			})
+		}
 	}
 })
 
 socket.on('USER_LEAVE', data => {
 	if(joinedUsers.indexOf(data.user.id) > -1){
-		/*messageContainer.appendChild(
-			htmlToElement(`
-				<li class="chat-message" data-sender="SYSTEM" data-timestamp="${data.timeStamp}">
-					<!--<img src="http://placehold.it/128x128" class="chat-image"/>-->
-					<div class="message-wrap">
-						<!--<span class="chat-sender">${data.user.username}</span>-->
-						<span class="chat-message">User ${data.user.username} Left!</span>
-					</div>
-				</li>
-			`)
-		)*/
-
 		addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `User ${data.user.username} Left!`)
 
 		document.querySelector(`.chat-message[data-timestamp='${data.timeStamp}']`).scrollIntoView()
@@ -95,11 +90,15 @@ socket.on('USER_LEAVE', data => {
 })
 
 socket.on("ACTION_GOTQUESTIONS", data => {
-	console.log("GOT QUESTIONS", data)
+	if(!questionsLoaded){
+		questionsLoaded = true
+	
+		console.log("GOT QUESTIONS", data)
 
-	Object.keys(data.clues).forEach((categoryID, i) => {
-		document.querySelector(`#game-cat${i+1}`).innerHTML = data.clues[categoryID][0].category.title
-	})
+		Object.keys(data.clues).forEach((categoryID, i) => {
+			document.querySelector(`#game-cat${i+1}`).innerHTML = data.clues[categoryID][0].category.title
+		})
 
-	addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `Questions Loaded!`)
+		addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `Questions Loaded!`)
+	}
 })
