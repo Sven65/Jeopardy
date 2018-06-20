@@ -36,16 +36,19 @@ io.on("connection", socket => {
 				return user.id === socket.id
 			}).user
 
-			let data = {
-				timeStamp: Date.now(),
-				roomCode: roomID,
-				user: {
-					id: socket.id,
-					username: user.username
-				}
-			}
+			if(user !== undefined){
 
-			io.to(roomID).emit("USER_LEAVE", data)
+				let data = {
+					timeStamp: Date.now(),
+					roomCode: roomID,
+					user: {
+						id: socket.id,
+						username: user.username
+					}
+				}
+
+				io.to(roomID).emit("USER_LEAVE", data)
+			}
 		}
 	})
 

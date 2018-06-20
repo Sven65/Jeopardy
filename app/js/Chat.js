@@ -1,6 +1,6 @@
 const chatButton = document.querySelector("#chatButton")
 const messageInput = document.querySelector("#message")
-const messageContainer = document.querySelector("#chat-messages")
+//const messageContainer = document.querySelector("#chat-messages")
 
 function sendMessage(message, roomID, user){
 	socket.emit("chat", {message, roomID, user, timeStamp: Date.now()})
