@@ -102,3 +102,9 @@ socket.on("ACTION_GOTQUESTIONS", data => {
 		addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `Questions Loaded!`)
 	}
 })
+
+socket.on("GERROR", data => {
+	if(data.type === "JOIN"){
+		document.querySelector("#headerText").innerHTML = data.reason
+	}
+})

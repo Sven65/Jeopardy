@@ -5,7 +5,6 @@ const JS = new JService()
 //const http = require("http").Server(app)
 
 /** 
- * @TODO: Make sure nobody but the host  can join a room if the questions are loading
  * @TODO: Make it so that only one person can use a name per room
  * @TODO: Add passwords to rooms
  * @TODO: Add logic to check if the user sending a message is doing it in a room they're in
@@ -33,6 +32,10 @@ async function asyncForEach(array, callback) {
 	for (let index = 0; index < array.length; index++) {
 		await callback(array[index], index, array)
 	}
+}
+
+function checkUsernameInRoom(username, room){
+	
 }
 
 Object.defineProperty(String.prototype, "sanitizeHTML", {
@@ -88,12 +91,15 @@ io.on("connection", socket => {
 
 		let isHost = false
 		let canJoin = false
+		let errorMessage = "Game is still loading, please wait."
 
 		if(roomData[data.gameCode] === undefined){
 			roomData[data.gameCode] = {
 				users: []
 			}
 		}
+
+		if(roomData[dtaa.gameCode].users.)
 
 		if(roomData[data.gameCode].questions === undefined && roomData[data.gameCode].users.length <= 0){
 			isHost = true
@@ -126,7 +132,7 @@ io.on("connection", socket => {
 			
 			io.to(data.gameCode).emit("USER_JOIN", data)
 		}else{
-			socket.emit("ERROR_JOIN", {reason: "Game is still loading, please wait."})
+			socket.emit("GERROR", {type: "JOIN", reason: errorMessage})
 		}
 	})
 
