@@ -10,6 +10,10 @@ const JS = new JService()
  * @TODO: Add passwords to rooms
  * @TODO: Add logic to check if the user sending a message is doing it in a room they're in
  * @TODO: Make sure that only the person that recently joined gets the questions loaded instead of the entire room.
+ * @TODO: Move the "roomData" object into redis
+ * @TODO: Make game logic work
+ * @TODO: Make game respond to answers
+ * @TODO: Make game show questions
  */
 
 let roomData = {}
@@ -30,6 +34,26 @@ async function asyncForEach(array, callback) {
 		await callback(array[index], index, array)
 	}
 }
+
+Object.defineProperty(String.prototype, "sanitizeHTML", {
+	enumerable: false,
+	writable: true,
+	value: function(){
+
+		const map = {
+			"&": "&amp;",
+			"<": "&lt;",
+			">": "&gt;",
+			'"': "&quot;",
+			"'": "&#x27;",
+			"/": "&#x2F;"
+		}
+
+		return this.replace(/[&<>]/g, c => {
+			return map[c]
+		})
+	}
+})
 
 io.on("connection", socket => {
 	console.log("connexct")
@@ -88,6 +112,8 @@ io.on("connection", socket => {
 	socket.on('chat', data => {
 		// TODO: Add logic to check if the sending user is in the room
 
+		data.message = data.message.sanitizeHTML()
+
 		io.emit('chat', data)
 	})
 
@@ -109,13 +135,9 @@ io.on("connection", socket => {
 						clues[category.id] = []
 					}
 
-
-
 					let clueGet = await JS.getClues(category.id)
 
 					clues[category.id] = clueGet.body
-
-					console.log(clues[category.id])
 				})
 
 				data.clues = clues
