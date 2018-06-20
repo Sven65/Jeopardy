@@ -27,7 +27,7 @@ socket.on('chat', data => {
 			<li class="chat-message" data-sender="${data.user.id}" data-timestamp="${data.timeStamp}">
 				<img src="http://placehold.it/128x128" class="chat-image"/>
 				<div class="message-wrap">
-					<span class="chat-sender">${data.user.name}</span>
+					<span class="chat-sender">${data.user.username}</span>
 					<span class="chat-message">${data.message}</span>
 				</div>
 			</li>
