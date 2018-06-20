@@ -1,4 +1,7 @@
 const app = require('./app')
+const JService = require('./src/JService')
+const JS = new JService()
+
 //const http = require("http").Server(app)
 
 let roomData = {}
@@ -13,6 +16,12 @@ const server = app.listen(port, host, () => {
 })
 
 const io = require("socket.io")(server)
+
+async function asyncForEach(array, callback) {
+	for (let index = 0; index < array.length; index++) {
+		await callback(array[index], index, array)
+	}
+}
 
 io.on("connection", socket => {
 	console.log("connexct")
@@ -69,5 +78,34 @@ io.on("connection", socket => {
 		// TODO: Add logic to check if the sending user is in the room
 
 		io.emit('chat', data)
+	})
+
+	socket.on("ACTION_GETQUESTIONS", async data => {
+		let categoryGet = await JS.getCategories(JS._categoryCount, Math.floor(Math.random() * JS._maxOffset) + JS._minOffset)
+		let categories = categoryGet.body
+
+		let clues = {}
+
+		const start = async () => {
+			await asyncForEach(categories, async (category) => {
+				if(clues[category.id] === undefined){
+					clues[category.id] = []
+				}
+
+
+
+				let clueGet = await JS.getClues(category.id)
+
+				clues[category.id] = clueGet.body
+
+				console.log(clues[category.id])
+			})
+
+			data.clues = clues
+
+			io.to(data.gameCode).emit("ACTION_GOTQUESTIONS", data)
+		}
+		
+		start()
 	})
 })

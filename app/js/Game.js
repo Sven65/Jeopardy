@@ -88,3 +88,7 @@ socket.on('USER_LEAVE', data => {
 		joinedUsers.splice(joinedUsers.indexOf(data.user.id), 1)
 	}
 })
+
+socket.on("ACTION_GOTQUESTIONS", data => {
+	console.log("GOT QUESTIONS", data)
+})
