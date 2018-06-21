@@ -17,17 +17,17 @@ function htmlToElement(html) {
 function addChatMessage(timeStamp, image, senderID, senderName, message){
 	messageContainer.appendChild(
 		htmlToElement(`
-			<li class="chat-message" data-sender="${senderID}" data-timestamp="${timeStamp}">
+			<li class="chat-message-container" data-sender="${senderID}" data-timestamp="${timeStamp}">
 				${senderID==="SYSTEM"?'<!--':''}<img src="http://placehold.it/128x128" class="chat-image"/>${senderID==="SYSTEM"?"-->":''}
 				<div class="message-wrap">
 					${senderID==="SYSTEM"?'<!--':''}<span class="chat-sender">${senderName}</span>${senderID==="SYSTEM"?'-->':''}
-					<span class="chat-message">${message}</span>
+					<span class="chat-message">${Format.Format(message)}</span>
 				</div>
 			</li>
 		`)
 	)
 
-	document.querySelector(`.chat-message[data-timestamp='${timeStamp}']`).scrollIntoView()
+	document.querySelector(`.chat-message-container[data-timestamp='${timeStamp}']`).scrollIntoView()
 }
 
 document.querySelector("#playButton").addEventListener("click", e => {
@@ -41,7 +41,18 @@ document.querySelector("#playButton").addEventListener("click", e => {
 	})
 })
 
+document.querySelector("#game-button-leave").addEventListener("click", e => {
+	socket.disconnect()
+	DOMStuff("#beforeGame").removeClass("hidden")
+	DOMStuff("#gameArea").addClass("hidden")
+
+	document.querySelector("#headerText").innerHTML = "Please Enter Details"
+	document.querySelector("#gameCodeHeader").innerHTML = ""
+})
+
 socket.on('USER_JOIN', data => {
+
+	console.log("J", data)
 
 	DOMStuff("#beforeGame").addClass("hidden")
 	DOMStuff("#gameArea").removeClass("hidden")
@@ -49,10 +60,10 @@ socket.on('USER_JOIN', data => {
 	document.querySelector("#gameCodeHeader").innerHTML = roomID
 
 
-	if(joinedUsers.indexOf(data.id) <= -1){
+	if(joinedUsers.indexOf(data.userID) <= -1){
 		document.querySelector("#card-container").appendChild(
 			htmlToElement(`
-				<div class="col s3 user-card" data-userid="${data.id}">
+				<div class="col s3 user-card" data-userid="${data.userID}">
 					<div class="card">
 						<div class="card-image">
 							<img src="http://placehold.it/128x128">
@@ -66,15 +77,27 @@ socket.on('USER_JOIN', data => {
 			`)
 		)
 
-		addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `User ${data.username} Joined!`)
+		if(data.userID === socket.id){
+			addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `Joined room **${roomID}** as **${data.username}**!`)
+		}else{
+			addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `User ${data.username} Joined!`)
+		}
 
-		joinedUsers.push(data.id)
+		joinedUsers.push(data.userID)
 
 		if(!questionsLoaded){
 			socket.emit("ACTION_GETQUESTIONS", {
 				gameCode: roomID
 			})
 		}
+
+		DOMStuff("#game-buttons").removeClass("hidden")
+
+		if(data.host && data.userID === socket.id){
+			DOMStuff("#game-button-start").removeClass("hidden")
+		}
+
+		
 	}
 })
 

@@ -15,6 +15,10 @@
 		<nav class="light-blue lighten-1" role="navigation">
 			<div class="nav-wrapper container">
 				<a id="logo-container" href="#" class="brand-logo">Jeopardy - <span id="gameCodeHeader"></span></a>
+				<ul id="game-buttons" class="right hidden">
+					<li><a id="game-button-start" class="hidden">Start Game <i class="material-icons right">play_arrow</i></a></li>
+					<li><a id="game-button-leave">Leave Game <i class="material-icons right">exit_to_app</i></a></li>
+				</ul>
 			</div>
 		</nav>
 		<div class="section no-pad-bot" id="beforeGame">
@@ -75,7 +79,7 @@
 						<div class="row">
 							<div class="container" id="chat-container">
 								<ul id="chat-messages">
-									<li class="chat-message" data-sender="Big Dong" data-timestamp="1">
+									<li class="chat-message-container" data-sender="Big Dong" data-timestamp="1">
 										<img src="http://placehold.it/128x128" class="chat-image"/>
 										<div class="message-wrap">
 											<span class="chat-sender">Big Dong</span>
@@ -83,7 +87,7 @@
 										</div>
 									</li>
 
-									<li class="chat-message" data-sender="Small Dong" data-timestamp="2">
+									<li class="chat-message-container" data-sender="Small Dong" data-timestamp="2">
 										<img src="http://placehold.it/128x128" class="chat-image"/>
 										<div class="message-wrap">
 											<span class="chat-sender">Small Dong</span>
@@ -91,7 +95,7 @@
 										</div>
 									</li>
 
-									<li class="chat-message" data-sender="Medium Dong" data-timestamp="3">
+									<li class="chat-message-container" data-sender="Medium Dong" data-timestamp="3">
 										<img src="http://placehold.it/128x128" class="chat-image"/>
 										<div class="message-wrap">
 											<span class="chat-sender">Medium Dong</span>
@@ -99,7 +103,7 @@
 										</div>
 									</li>
 
-									<li class="chat-message" data-sender="Lorem Ipsum Dong" data-timestamp="4">
+									<li class="chat-message-container" data-sender="Lorem Ipsum Dong" data-timestamp="4">
 										<img src="http://placehold.it/128x128" class="chat-image"/>
 										<div class="message-wrap">
 											<span class="chat-sender">Lorem Ipsum</span>
@@ -207,7 +211,9 @@
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="js/materialize.min.js"></script>
 		<script src="js/DOMStuff.js"></script>
+		<script src="js/Format.js"></script>
 		<script src="js/Game.js"></script>
 		<script src="js/Chat.js"></script>
+
 	</body>
 </html>

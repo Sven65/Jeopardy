@@ -120,12 +120,17 @@ io.on("connection", socket => {
 					return user.id !== socket.id
 				})
 
+				if(roomData[roomID].users.length <= 0){
+					delete roomData[roomID]
+				}
+
+				socket.leave(roomID)
 				io.to(roomID).emit("USER_LEAVE", data)
 			}
 		}
 	})
 
-	socket.on("JOIN", async data => {
+	socket.on("JOIN", data => {
 
 		let isHost = false
 		let canJoin = false
@@ -153,6 +158,11 @@ io.on("connection", socket => {
 		if(checkUsernameInRoom(data.username, data.gameCode)){
 			canJoin = false
 			errorMessage = "Username already in use."
+		}
+
+		if(roomData[data.gameCode].users.length >= 4){
+			canJoin = false
+			errorMessage = "Game is full."
 		}
 
 		if(canJoin){

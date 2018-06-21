@@ -32,7 +32,7 @@ html, body{
 	position: fixed;
 }
 
-.chat-message{
+.chat-message-container{
 	display: flex;
 	align-items:center;
 

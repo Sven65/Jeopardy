@@ -24,15 +24,15 @@ messageInput.addEventListener("keydown", e => {
 socket.on('chat', data => {
 	messageContainer.appendChild(
 		htmlToElement(`
-			<li class="chat-message" data-sender="${data.user.id}" data-timestamp="${data.timeStamp}">
+			<li class="chat-message-container" data-sender="${data.user.id}" data-timestamp="${data.timeStamp}">
 				<img src="http://placehold.it/128x128" class="chat-image"/>
 				<div class="message-wrap">
 					<span class="chat-sender">${data.user.username}</span>
-					<span class="chat-message">${data.message}</span>
+					<span class="chat-message">${Format.Format(data.message)}</span>
 				</div>
 			</li>
 		`)
 	)
 
-	document.querySelector(`.chat-message[data-timestamp='${data.timeStamp}']`).scrollIntoView()
+	document.querySelector(`.chat-message-container[data-timestamp='${data.timeStamp}']`).scrollIntoView()
 })
