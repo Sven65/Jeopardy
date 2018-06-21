@@ -1,14 +1,27 @@
+const config = require("config")
+const redis = require("redis")
+
 const app = require('./app')
 const JService = require('./src/JService')
+const cache = require('./src/Cache')
+
 const JS = new JService()
+
+const redisCli = redis.createClient({
+	host: config.get('redis.host'),
+	port: config.get('redis.port')
+})
+
+redisCli.on("error", err => {
+	throw err
+})
+
+const Cache = new cache(redisCli)
 
 //const http = require("http").Server(app)
 
 /** 
- * @TODO: Make it so that only one person can use a name per room
  * @TODO: Add passwords to rooms
- * @TODO: Add logic to check if the user sending a message is doing it in a room they're in
- * @TODO: Make sure that only the person that recently joined gets the questions loaded instead of the entire room.
  * @TODO: Move the "roomData" object into redis
  * @TODO: Make game logic work
  * @TODO: Make game respond to answers
@@ -35,7 +48,19 @@ async function asyncForEach(array, callback) {
 }
 
 function checkUsernameInRoom(username, room){
-	
+	if(roomData[room] === undefined){
+		return false
+	}
+
+	return roomData[room].users.filter(u => {return u.username === username}).length>0
+}
+
+function checkUserIDInRoom(userID, room){
+	if(roomData[room] === undefined){
+		return false
+	}
+
+	return roomData[room].users.filter(u => {return u.user.id === userID}).length>0
 }
 
 Object.defineProperty(String.prototype, "sanitizeHTML", {
@@ -67,9 +92,8 @@ io.on("connection", socket => {
 		if(roomData[roomID] !== undefined){
 
 			let user = roomData[roomID].users.filter(user => {
-				console.log(user)
-				return user.id === socket.id
-			}).user
+				return user.user.id === socket.id
+			})[0]
 
 			if(user !== undefined){
 
@@ -81,6 +105,10 @@ io.on("connection", socket => {
 						username: user.username
 					}
 				}
+
+				roomData[roomID].users = roomData[roomID].users.filter(user => {
+					return user.user.id !== socket.id
+				})
 
 				io.to(roomID).emit("USER_LEAVE", data)
 			}
@@ -99,7 +127,6 @@ io.on("connection", socket => {
 			}
 		}
 
-		if(roomData[dtaa.gameCode].users.)
 
 		if(roomData[data.gameCode].questions === undefined && roomData[data.gameCode].users.length <= 0){
 			isHost = true
@@ -111,6 +138,11 @@ io.on("connection", socket => {
 			if(isHost){
 				canJoin = true
 			}
+		}
+
+		if(checkUsernameInRoom(data.username, data.gameCode)){
+			canJoin = false
+			errorMessage = "Username already in use."
 		}
 
 		if(canJoin){
@@ -141,7 +173,9 @@ io.on("connection", socket => {
 
 		data.message = data.message.sanitizeHTML()
 
-		io.emit('chat', data)
+		if(checkUserIDInRoom(data.user.id, data.roomID)){
+			io.emit('chat', data)
+		}
 	})
 
 	socket.on("ACTION_GETQUESTIONS", async data => {
@@ -183,5 +217,9 @@ io.on("connection", socket => {
 			
 			start()
 		}
+	})
+
+	socket.on("GET_ROOM", d => {
+		socket.emit("DEBUG", roomData[d.gameCode])
 	})
 })

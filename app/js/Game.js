@@ -80,6 +80,7 @@ socket.on('USER_JOIN', data => {
 
 socket.on('USER_LEAVE', data => {
 	if(joinedUsers.indexOf(data.user.id) > -1){
+		console.log("LEAVE", data.user)
 		addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `User ${data.user.username} Left!`)
 
 		document.querySelector(`.chat-message[data-timestamp='${data.timeStamp}']`).scrollIntoView()
@@ -107,4 +108,8 @@ socket.on("GERROR", data => {
 	if(data.type === "JOIN"){
 		document.querySelector("#headerText").innerHTML = data.reason
 	}
+})
+
+socket.on("DEBUG", d => {
+	console.log("[DEBUG]", d)
 })
