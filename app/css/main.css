@@ -77,3 +77,9 @@ html, body{
 .current-turn{
 	border: 1px solid red;
 }
+
+/** Game Table **/
+
+#gameTable > tbody > tr > td:hover{
+	cursor: pointer;
+}

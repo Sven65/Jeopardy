@@ -73,6 +73,61 @@ function checkUserIDInRoom(userID, room){
 	return roomData[room].users.filter(u => {return u.id === userID}).length>0
 }
 
+function valueFixer(clues){
+	let valueMatch = [200, 400, 600, 800, 1000]
+	let hasValues = []
+
+	clues.forEach((clue, i) => {
+		if(clue.value !== undefined && clue.value !== null && clue.hasOwnProperty("value")){
+			if(clue.value%200 === 100){
+				clue.value *= 2
+			}
+
+			if(hasValues.indexOf(clue.value) > -1){
+				/*clue.value = valueMatch.filter(value => {
+					return hasValues.indexOf(value)<=-1
+				})[0]||0*/
+
+				let found = clues.some(cl => {
+					return clue.value === cl.value 
+				})
+
+				if(found){
+					 console.log("DOUNG", found)
+					/*clue.value = valueMatch.filter(value => {
+						return hasValues.indexOf(value)<=-1
+					})[0]||0*/
+
+					delete clue.value
+				}
+
+				delete clue.value
+			}else{
+				hasValues.push(clue.value)
+			}
+		}else{
+			clue.value = valueMatch.filter(value => {
+				return hasValues.indexOf(value)<=-1
+			})[i-1]
+		}
+	})
+
+	clues.forEach((clue, i) => {
+		if(!clue.hasOwnProperty("value") || clue.value === undefined || clue.value === null){
+			//clue.value = 0
+			let VMG = valueMatch.filter(value => {
+				return hasValues.indexOf(value)<=-1
+			})
+
+			console.log("VMG", VMG, "I", i, "CLUE", clue, "HASVAL", hasValues)
+
+			clue.value = VMG[i-1]||VMG[0]
+		}
+	})
+
+	return clues
+}
+
 Object.defineProperty(String.prototype, "sanitizeHTML", {
 	enumerable: false,
 	writable: true,
@@ -186,8 +241,6 @@ io.on("connection", socket => {
 	})
 
 	socket.on('chat', data => {
-		// TODO: Add logic to check if the sending user is in the room
-
 		data.message = data.message.sanitizeHTML()
 
 		if(checkUserIDInRoom(data.id, data.roomID)){
@@ -196,8 +249,11 @@ io.on("connection", socket => {
 	})
 
 	socket.on("ACTION_GETQUESTIONS", async data => {
-		// TODO: Make sure nobody other than the host can join a room if the questions are loading
-		if(roomData[data.gameCode].questions !== undefined){
+		if(data.force){
+			roomData[data.gameCode].questions = undefined
+		}
+
+		if(roomData[data.gameCode].questions !== undefined && !data.force){
 			data.clues = roomData[data.gameCode].questions.clues
 			io.to(data.gameCode).emit("ACTION_GOTQUESTIONS", data)
 		}else{
@@ -216,6 +272,10 @@ io.on("connection", socket => {
 					let clueGet = await JS.getClues(category.id)
 
 					clues[category.id] = clueGet.body
+
+					clues[category.id] = clues[category.id].slice(0, 5)
+
+					clues[category.id] = valueFixer(clues[category.id])
 				})
 
 				data.clues = clues
@@ -234,6 +294,10 @@ io.on("connection", socket => {
 			
 			start()
 		}
+	})
+
+	socket.on("GAME_ACTION_GET_QUESTION", data => {
+
 	})
 
 	socket.on("GET_ROOM", d => {

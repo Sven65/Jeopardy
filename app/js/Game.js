@@ -114,13 +114,22 @@ socket.on('USER_LEAVE', data => {
 })
 
 socket.on("ACTION_GOTQUESTIONS", data => {
-	if(!questionsLoaded){
+	if(!questionsLoaded || data.force){
 		questionsLoaded = true
 	
 		console.log("GOT QUESTIONS", data)
 
 		Object.keys(data.clues).forEach((categoryID, i) => {
 			document.querySelector(`#game-cat${i+1}`).innerHTML = data.clues[categoryID][0].category.title
+			
+			data.clues[categoryID].forEach(clue => {
+				let trElement = document.querySelector(`#gameTable > tbody > tr[data-value='${clue.value}']`)
+
+				trElement.appendChild(htmlToElement(`
+					<td class="game-clue" data-revealed="false" data-id="${clue.id}">$${clue.value}</td>
+				`))
+			})
+
 		})
 
 		addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `Questions Loaded!`)
