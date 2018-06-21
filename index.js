@@ -1,12 +1,13 @@
-const config = require("config")
-const redis = require("redis")
+// @TODO: Make this redis ORM thing work
+
+/*const config = require("config")
+const redis = require("redis")*/
 
 const app = require('./app')
 const JService = require('./src/JService')
-const cache = require('./src/Cache')
 
 const JS = new JService()
-
+/*
 const redisCli = redis.createClient({
 	host: config.get('redis.host'),
 	port: config.get('redis.port')
@@ -16,13 +17,22 @@ redisCli.on("error", err => {
 	throw err
 })
 
-const Cache = new cache(redisCli)
+redisCli.on("connect", () => {
+	nohm.setClient(redisCli)
+})
+
+
+// START: NOHM START \\
+
+nohm.setPrefix('Jeopardy')
+require('./src/Models')
+
+// END: NOHM SETUP \\
 
 //const http = require("http").Server(app)
 
 /** 
  * @TODO: Add passwords to rooms
- * @TODO: Move the "roomData" object into redis
  * @TODO: Make game logic work
  * @TODO: Make game respond to answers
  * @TODO: Make game show questions
@@ -60,7 +70,7 @@ function checkUserIDInRoom(userID, room){
 		return false
 	}
 
-	return roomData[room].users.filter(u => {return u.user.id === userID}).length>0
+	return roomData[room].users.filter(u => {return u.id === userID}).length>0
 }
 
 Object.defineProperty(String.prototype, "sanitizeHTML", {
@@ -92,7 +102,7 @@ io.on("connection", socket => {
 		if(roomData[roomID] !== undefined){
 
 			let user = roomData[roomID].users.filter(user => {
-				return user.user.id === socket.id
+				return user.id === socket.id
 			})[0]
 
 			if(user !== undefined){
@@ -107,7 +117,7 @@ io.on("connection", socket => {
 				}
 
 				roomData[roomID].users = roomData[roomID].users.filter(user => {
-					return user.user.id !== socket.id
+					return user.id !== socket.id
 				})
 
 				io.to(roomID).emit("USER_LEAVE", data)
@@ -115,7 +125,7 @@ io.on("connection", socket => {
 		}
 	})
 
-	socket.on("JOIN", data => {
+	socket.on("JOIN", async data => {
 
 		let isHost = false
 		let canJoin = false
@@ -150,11 +160,8 @@ io.on("connection", socket => {
 
 			data.timeStamp = Date.now()
 			data.roomCode = data.gameCode
-			data.user = {
-				username: data.username,
-				id: socket.id,
-				host: isHost
-			}
+			data.userID = socket.id
+			data.host = isHost
 
 			roomData[data.gameCode].users.push(data)
 
@@ -173,7 +180,7 @@ io.on("connection", socket => {
 
 		data.message = data.message.sanitizeHTML()
 
-		if(checkUserIDInRoom(data.user.id, data.roomID)){
+		if(checkUserIDInRoom(data.id, data.roomID)){
 			io.emit('chat', data)
 		}
 	})

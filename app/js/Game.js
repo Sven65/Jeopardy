@@ -49,14 +49,14 @@ socket.on('USER_JOIN', data => {
 	document.querySelector("#gameCodeHeader").innerHTML = roomID
 
 
-	if(joinedUsers.indexOf(data.user.id) <= -1){
+	if(joinedUsers.indexOf(data.id) <= -1){
 		document.querySelector("#card-container").appendChild(
 			htmlToElement(`
-				<div class="col s3 user-card" data-userid="${data.user.id}">
+				<div class="col s3 user-card" data-userid="${data.id}">
 					<div class="card">
 						<div class="card-image">
 							<img src="http://placehold.it/128x128">
-							<span class="card-title">${data.user.username}</span>
+							<span class="card-title">${data.username}</span>
 						</div>
 						<div class="card-content">
 							<p>$0</p>
@@ -66,9 +66,9 @@ socket.on('USER_JOIN', data => {
 			`)
 		)
 
-		addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `User ${data.user.username} Joined!`)
+		addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `User ${data.username} Joined!`)
 
-		joinedUsers.push(data.user.id)
+		joinedUsers.push(data.id)
 
 		if(!questionsLoaded){
 			socket.emit("ACTION_GETQUESTIONS", {
@@ -79,14 +79,14 @@ socket.on('USER_JOIN', data => {
 })
 
 socket.on('USER_LEAVE', data => {
-	if(joinedUsers.indexOf(data.user.id) > -1){
-		console.log("LEAVE", data.user)
-		addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `User ${data.user.username} Left!`)
+	if(joinedUsers.indexOf(data.id) > -1){
+		console.log("LEAVE", data)
+		addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `User ${data.username} Left!`)
 
 		document.querySelector(`.chat-message[data-timestamp='${data.timeStamp}']`).scrollIntoView()
-		document.querySelector(`.user-card[data-userid='${data.user.id}']`).remove()
+		document.querySelector(`.user-card[data-userid='${data.id}']`).remove()
 
-		joinedUsers.splice(joinedUsers.indexOf(data.user.id), 1)
+		joinedUsers.splice(joinedUsers.indexOf(data.id), 1)
 	}
 })
 
@@ -112,4 +112,9 @@ socket.on("GERROR", data => {
 
 socket.on("DEBUG", d => {
 	console.log("[DEBUG]", d)
+})
+
+socket.on("CHANGE_TURN", data => {
+	DOMStuff(`.user-card[data-userid='${data.oldTurn}']`).removeClass("current-turn")
+	DOMStuff(`.user-card[data-userid='${data.newTurn}']`).addClass("current-turn")
 })

@@ -71,3 +71,9 @@ html, body{
 #chat-messages li:nth-child(odd){
 	background: #eee;
 }
+
+/* End chat */
+
+.current-turn{
+	border: 1px solid red;
+}
