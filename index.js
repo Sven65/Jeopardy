@@ -40,6 +40,7 @@ require('./src/Models')
  */
 
 let roomData = {}
+let roomTimers = {}
 
 const port = (process.env.PORT || 3000)
 const host = (process.env.HOST || undefined)
@@ -208,6 +209,9 @@ io.on("connection", socket => {
 		let canJoin = false
 		let errorMessage = "Game is still loading, please wait."
 
+		data.gameCode = data.gameCode.sanitizeHTML()
+		data.username = data.username.sanitizeHTML()
+
 		if(roomData[data.gameCode] === undefined){
 			roomData[data.gameCode] = {
 				users: [],
@@ -247,6 +251,7 @@ io.on("connection", socket => {
 			data.userID = socket.id
 			data.host = isHost
 			data.isTurn = isHost
+			data.balance = 0
 
 			roomData[data.gameCode].users.push(data)
 
@@ -283,15 +288,19 @@ io.on("connection", socket => {
 								timeStamp: Date.now()
 							})
 
+							let newTurnIndex = roomData[data.roomID].users.findIndex(user => {return user.userID===data.user.id})+1
+							let oldTurnIndex = roomData[data.roomID].users.findIndex(user => {return user.userID===data.user.id})
+
+							roomData[data.roomID].users[oldTurnIndex].balance += roomData[data.roomID].currentQuestion.value
+
 							io.to(data.roomID).emit('GAME_EVENT_ANSWERED', {
 								user: data.user,
-								clue: roomData[data.roomID].currentQuestion
-							})
-
-							let newTurnIndex = roomData[data.roomID].users.findIndex(user => user.userID===data.user.id)+1
-							let oldTurnIndex = roomData[data.roomID].users.findIndex(user => user.userID===data.user.id)
+								clue: roomData[data.roomID].currentQuestion,
+								newBalance: roomData[data.roomID].users[oldTurnIndex].balance
+							})							
 
 							roomData[data.roomID].users[oldTurnIndex].isTurn = false
+
 
 							if(roomData[data.roomID].users[newTurnIndex] === undefined){
 								newTurnIndex = 0
@@ -300,11 +309,32 @@ io.on("connection", socket => {
 							roomData[data.roomID].users[newTurnIndex].isTurn = true
 
 							roomData[data.roomID].currentQuestion = null
-							
-							io.to(data.roomID).emit("CHANGE_TURN", {
-								oldTurn: data.user.id,
-								newTurn: roomData[data.roomID].users[newTurnIndex].userID
+
+
+
+							let questionsLeft = 30
+
+							Object.keys(roomData[data.roomID].questions).forEach(category => {
+								console.log(category)
+								roomData[data.roomID].questions[category].forEach(clue => {
+									if(clue.isRevealed){
+										questionsLeft--
+									}
+								})
 							})
+							
+							if(questionsLeft <= 0){
+								io.to(data.roomID).emit("GAME_OVER", {
+									standings: roomData[data.roomID].users.sort((a, b) => {
+										return a.balance - b.balance
+									})
+								})
+							}else{
+								io.to(data.roomID).emit("CHANGE_TURN", {
+									oldTurn: data.user.id,
+									newTurn: roomData[data.roomID].users[newTurnIndex].userID
+								})
+							}
 						}
 					}
 				}
@@ -368,13 +398,16 @@ io.on("connection", socket => {
 	})
 
 	socket.on("GAME_ACTION_START", data => {
-		console.log("GAS", data)
-
 		if(roomData[data.gameCode] !== undefined){
 			roomData[data.gameCode].isStarted = true
 		}
 
 		io.to(data.gameCode).emit("GAME_ACTION_STARTED", {oof: true})
+
+		io.to(data.gameCode).emit("CHANGE_TURN", {
+			oldTurn: data.userID,
+			newTurn: data.userID
+		})
 	})
 
 	socket.on("GAME_ACTION_GET_QUESTION", data => {
@@ -386,13 +419,76 @@ io.on("connection", socket => {
 
 			if(isTurn && roomData[data.gameCode].isStarted){
 				if(roomData[data.gameCode].currentQuestion === null || roomData[data.gameCode].currentQuestion === null){
-					data.questionData = roomData[data.gameCode].questions.clues[parseInt(data.categoryID)].filter(clue => {
+					let questionData = roomData[data.gameCode].questions.clues[parseInt(data.categoryID)].filter(clue => {
 						return clue.id === parseInt(data.clueID)
 					})[0]
 
-					roomData[data.gameCode].currentQuestion = data.questionData
+					if(!questionData.revealed){
 
-					io.to(data.gameCode).emit("GAME_ACTION_GOT_QUESTION", data)
+						data.questionData = questionData
+
+						let questionIndex = roomData[data.gameCode].questions.clues[data.categoryID].findIndex(clue => {
+							return clue.id === parseInt(data.clueID)
+						})
+
+						roomData[data.gameCode].questions.clues[data.categoryID][questionIndex].revealed = true
+
+						roomData[data.gameCode].currentQuestion = data.questionData
+
+						roomTimers[data.gameCode] = setTimeout(() => {
+							clearTimeout(roomTimers[data.gameCode])
+							let timeLeft = 5
+							roomTimers[data.gameCode] = setInterval(() => {
+
+								let currentUser = getUserByID(data.userID, data.gameCode)
+
+								if(timeLeft > 0){
+									io.to(data.gameCode).emit('chat', {
+										message: `User **${currentUser.username}** has **${timeLeft}** seconds to answer`,
+										user: {
+											username: "SYSTEM",
+											id: "SYSTEM"
+										},
+										timeStamp: Date.now()
+									})
+									timeLeft--
+								}else{
+									clearInterval(roomTimers[data.gameCode])
+
+									let newTurnIndex = roomData[data.gameCode].users.findIndex(user => {return user.userID===data.userID})+1
+									let oldTurnIndex = roomData[data.gameCode].users.findIndex(user => {return user.userID===data.userID})
+
+									roomData[data.gameCode].users[oldTurnIndex].isTurn = false
+
+
+									if(roomData[data.gameCode].users[newTurnIndex] === undefined){
+										newTurnIndex = 0
+									}
+
+									roomData[data.gameCode].users[newTurnIndex].isTurn = true
+
+									roomData[data.gameCode].currentQuestion = null
+
+									io.to(data.gameCode).emit('chat', {
+										message: `User **${currentUser}** took too long to answer`,
+										user: {
+											username: "SYSTEM",
+											id: "SYSTEM"
+										},
+										timeStamp: Date.now()
+									})
+
+									io.to(data.gameCode).emit("CHANGE_TURN", {
+										oldTurn: roomData[data.gameCode].users[oldTurnIndex].userID,
+										newTurn: roomData[data.gameCode].users[newTurnIndex].userID
+									})
+								}
+
+							}, 1000)
+						}, 10000)
+
+						io.to(data.gameCode).emit("GAME_ACTION_GOT_QUESTION", data)
+					}
 				}
 			}
 		}

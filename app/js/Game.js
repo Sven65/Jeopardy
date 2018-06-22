@@ -74,6 +74,8 @@ socket.on('USER_JOIN', data => {
 	DOMStuff("#beforeGame").addClass("hidden")
 	DOMStuff("#gameArea").removeClass("hidden")
 
+	roomID = data.gameCode
+
 	document.querySelector("#gameCodeHeader").innerHTML = roomID
 
 
@@ -87,7 +89,7 @@ socket.on('USER_JOIN', data => {
 							<span class="card-title">${data.username}</span>
 						</div>
 						<div class="card-content">
-							<p>$0</p>
+							<p class="balance">$0</p>
 						</div>
 					</div>
 				</div>
@@ -161,10 +163,15 @@ socket.on("GAME_ACTION_GOT_QUESTION", data => {
 	console.log("GETQ", data)
 	document.querySelector("#game-question-title").innerHTML = `${data.questionData.category.title} for $${data.questionData.value}`
 	document.querySelector("#game-question-clue").innerHTML = data.questionData.question
+
+	let clueEl = document.querySelector(`.game-clue[data-id='${data.questionData.id}']`)
+	clueEl.dataset.revealed = true
+	clueEl.innerHTML = "X"
 })
 
 socket.on("GAME_EVENT_ANSWERED", data => {
-	
+	console.log("GEA", data)
+	document.querySelector(`.user-card[data-userid='${data.user.id}'] > .card > .card-content > .balance`).innerHTML = `$${data.newBalance}`
 })
 
 socket.on("GERROR", data => {
