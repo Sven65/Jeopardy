@@ -34,9 +34,21 @@ require('./src/Models')
 /** 
  * @TODO: Add passwords to rooms
  * @TODO: Make game logic work
- * @TODO: Make game send event of when a question is answered to clients
- * @TODO: Make game keep track of player balance
- * @TODO: Make client show user balances
+
+/home/mackan/Documents/DRPG-Git/Jeopardy/index.js:318
+								roomData[data.roomID].questions[category].forEach(clue => {
+								                                          ^
+
+TypeError: roomData[data.roomID].questions[category].forEach is not a function
+    at Object.keys.forEach.category (/home/mackan/Documents/DRPG-Git/Jeopardy/index.js:318:51)
+    at Array.forEach (<anonymous>)
+    at Socket.socket.on.data (/home/mackan/Documents/DRPG-Git/Jeopardy/index.js:317:53)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at /home/mackan/Documents/DRPG-Git/Jeopardy/node_modules/socket.io/lib/socket.js:528:12
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+
  */
 
 let roomData = {}
