@@ -36,6 +36,7 @@ require('./src/Models')
  * @TODO: Make game logic work
  * @TODO: Make game respond to answers
  * @TODO: Make game show questions
+ * @TODO: Make client send request to server for the question a user clicked on
  */
 
 let roomData = {}
@@ -126,6 +127,12 @@ function valueFixer(clues){
 	})
 
 	return clues
+}
+
+function categoryUpperCase(clues){
+	clues.forEach(clue => {
+		clue.category.title = clue.category.title.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+	})
 }
 
 Object.defineProperty(String.prototype, "sanitizeHTML", {
@@ -271,11 +278,13 @@ io.on("connection", socket => {
 
 					let clueGet = await JS.getClues(category.id)
 
-					clues[category.id] = clueGet.body
+					clues[category.id] = clueGet.body					
 
 					clues[category.id] = clues[category.id].slice(0, 5)
 
-					clues[category.id] = valueFixer(clues[category.id])
+					clues[category.id] = valueFixer(valueFixer(clues[category.id]))
+
+					categoryUpperCase(clues[category.id])
 				})
 
 				data.clues = clues
@@ -297,7 +306,16 @@ io.on("connection", socket => {
 	})
 
 	socket.on("GAME_ACTION_GET_QUESTION", data => {
+		console.log("GQ", data)
 
+		if(roomData[data.gameCode] !== undefined){
+
+			data.questionData = roomData[data.gameCode].questions.clues[parseInt(data.categoryID)].filter(clue => {
+				return clue.id === parseInt(data.clueID)
+			})[0]
+
+			io.to(data.gameCode).emit("GAME_ACTION_GOT_QUESTION", data)
+		}
 	})
 
 	socket.on("GET_ROOM", d => {

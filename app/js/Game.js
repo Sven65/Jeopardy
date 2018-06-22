@@ -30,6 +30,16 @@ function addChatMessage(timeStamp, image, senderID, senderName, message){
 	document.querySelector(`.chat-message-container[data-timestamp='${timeStamp}']`).scrollIntoView()
 }
 
+function questionCellClick(e){
+	let target = e.target
+	socket.emit("GAME_ACTION_GET_QUESTION", {
+		clueID: target.dataset.id,
+		gameCode: roomID,
+		userID: socket.id,
+		categoryID: target.dataset.category
+	})
+}
+
 document.querySelector("#playButton").addEventListener("click", e => {
 	roomID = document.querySelector("#gameCode").value
 	user.username = document.querySelector("#username").value
@@ -125,15 +135,25 @@ socket.on("ACTION_GOTQUESTIONS", data => {
 			data.clues[categoryID].forEach(clue => {
 				let trElement = document.querySelector(`#gameTable > tbody > tr[data-value='${clue.value}']`)
 
-				trElement.appendChild(htmlToElement(`
-					<td class="game-clue" data-revealed="false" data-id="${clue.id}">$${clue.value}</td>
-				`))
+				let questionCell = htmlToElement(`
+					<td class="game-clue" data-revealed="false" data-id="${clue.id}" data-category="${categoryID}">$${clue.value}</td>
+				`)
+
+				questionCell.addEventListener("click", questionCellClick)
+
+				trElement.appendChild(questionCell)
 			})
 
 		})
 
 		addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `Questions Loaded!`)
 	}
+})
+
+socket.on("GAME_ACTION_GOT_QUESTION", data => {
+	console.log(data)
+	document.querySelector("#game-question-title").innerHTML = `${data.questionData.category.title} for $${data.questionData.value}`
+	document.querySelector("#game-question-clue").innerHTML = data.questionData.question
 })
 
 socket.on("GERROR", data => {
