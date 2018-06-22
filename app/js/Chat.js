@@ -25,9 +25,9 @@ socket.on('chat', data => {
 	messageContainer.appendChild(
 		htmlToElement(`
 			<li class="chat-message-container" data-sender="${data.user.id}" data-timestamp="${data.timeStamp}">
-				<img src="http://placehold.it/128x128" class="chat-image"/>
+				${data.user.id==="SYSTEM"?'<!--':''}<img src="http://placehold.it/128x128" class="chat-image"/>${data.user.id==="SYSTEM"?"-->":''}
 				<div class="message-wrap">
-					<span class="chat-sender">${data.user.username}</span>
+					${data.user.id==="SYSTEM"?'<!--':''}<span class="chat-sender">${data.user.username}</span>${data.user.id==="SYSTEM"?'-->':''}
 					<span class="chat-message">${Format.Format(data.message)}</span>
 				</div>
 			</li>

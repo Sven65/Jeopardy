@@ -34,9 +34,9 @@ require('./src/Models')
 /** 
  * @TODO: Add passwords to rooms
  * @TODO: Make game logic work
- * @TODO: Make game respond to answers
- * @TODO: Make game show questions
- * @TODO: Make client send request to server for the question a user clicked on
+ * @TODO: Make game send event of when a question is answered to clients
+ * @TODO: Make game keep track of player balance
+ * @TODO: Make client show user balances
  */
 
 let roomData = {}
@@ -71,7 +71,11 @@ function checkUserIDInRoom(userID, room){
 		return false
 	}
 
-	return roomData[room].users.filter(u => {return u.id === userID}).length>0
+	return roomData[room].users.filter(u => {return u.userID === userID}).length>0
+}
+
+function getUserByID(userID, room){
+	return roomData[room].users.filter(u => {return u.userID === userID})[0]||null
 }
 
 function valueFixer(clues){
@@ -94,7 +98,7 @@ function valueFixer(clues){
 				})
 
 				if(found){
-					 console.log("DOUNG", found)
+					 //console.log("DOUNG", found)
 					/*clue.value = valueMatch.filter(value => {
 						return hasValues.indexOf(value)<=-1
 					})[0]||0*/
@@ -120,7 +124,7 @@ function valueFixer(clues){
 				return hasValues.indexOf(value)<=-1
 			})
 
-			console.log("VMG", VMG, "I", i, "CLUE", clue, "HASVAL", hasValues)
+			//console.log("VMG", VMG, "I", i, "CLUE", clue, "HASVAL", hasValues)
 
 			clue.value = VMG[i-1]||VMG[0]
 		}
@@ -132,6 +136,12 @@ function valueFixer(clues){
 function categoryUpperCase(clues){
 	clues.forEach(clue => {
 		clue.category.title = clue.category.title.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+	})
+}
+
+function answerUnescape(clues){
+	clues.forEach(clue => {
+		clue.answer = unescape(clue.answer)
 	})
 }
 
@@ -200,7 +210,9 @@ io.on("connection", socket => {
 
 		if(roomData[data.gameCode] === undefined){
 			roomData[data.gameCode] = {
-				users: []
+				users: [],
+				isStarted: false,
+				currentQuestion: null
 			}
 		}
 
@@ -234,6 +246,7 @@ io.on("connection", socket => {
 			data.roomCode = data.gameCode
 			data.userID = socket.id
 			data.host = isHost
+			data.isTurn = isHost
 
 			roomData[data.gameCode].users.push(data)
 
@@ -248,10 +261,58 @@ io.on("connection", socket => {
 	})
 
 	socket.on('chat', data => {
+		let emitChat = true
+
 		data.message = data.message.sanitizeHTML()
 
-		if(checkUserIDInRoom(data.id, data.roomID)){
-			io.emit('chat', data)
+		if(checkUserIDInRoom(data.user.id, data.roomID)){
+
+			let user = getUserByID(data.user.id, data.roomID)
+
+			if(user !== null){
+				if(roomData[data.roomID].isStarted){
+					if(user.isTurn){
+						if(data.message.toLowerCase() === roomData[data.roomID].currentQuestion.answer.toLowerCase()){
+							emitChat = false
+							io.to(data.roomID).emit('chat', {
+								message: `User **${user.username}** got it right! The answer was **${roomData[data.roomID].currentQuestion.answer}**`,
+								user: {
+									username: "SYSTEM",
+									id: "SYSTEM"
+								},
+								timeStamp: Date.now()
+							})
+
+							io.to(data.roomID).emit('GAME_EVENT_ANSWERED', {
+								user: data.user,
+								clue: roomData[data.roomID].currentQuestion
+							})
+
+							let newTurnIndex = roomData[data.roomID].users.findIndex(user => user.userID===data.user.id)+1
+							let oldTurnIndex = roomData[data.roomID].users.findIndex(user => user.userID===data.user.id)
+
+							roomData[data.roomID].users[oldTurnIndex].isTurn = false
+
+							if(roomData[data.roomID].users[newTurnIndex] === undefined){
+								newTurnIndex = 0
+							}
+
+							roomData[data.roomID].users[newTurnIndex].isTurn = true
+
+							roomData[data.roomID].currentQuestion = null
+							
+							io.to(data.roomID).emit("CHANGE_TURN", {
+								oldTurn: data.user.id,
+								newTurn: roomData[data.roomID].users[newTurnIndex].userID
+							})
+						}
+					}
+				}
+			}
+
+			if(emitChat){
+				io.to(data.roomID).emit('chat', data)
+			}
 		}
 	})
 
@@ -285,6 +346,7 @@ io.on("connection", socket => {
 					clues[category.id] = valueFixer(valueFixer(clues[category.id]))
 
 					categoryUpperCase(clues[category.id])
+					answerUnescape(clues[category.id])
 				})
 
 				data.clues = clues
@@ -305,16 +367,34 @@ io.on("connection", socket => {
 		}
 	})
 
-	socket.on("GAME_ACTION_GET_QUESTION", data => {
-		console.log("GQ", data)
+	socket.on("GAME_ACTION_START", data => {
+		console.log("GAS", data)
 
 		if(roomData[data.gameCode] !== undefined){
+			roomData[data.gameCode].isStarted = true
+		}
 
-			data.questionData = roomData[data.gameCode].questions.clues[parseInt(data.categoryID)].filter(clue => {
-				return clue.id === parseInt(data.clueID)
-			})[0]
+		io.to(data.gameCode).emit("GAME_ACTION_STARTED", {oof: true})
+	})
 
-			io.to(data.gameCode).emit("GAME_ACTION_GOT_QUESTION", data)
+	socket.on("GAME_ACTION_GET_QUESTION", data => {
+		if(roomData[data.gameCode] !== undefined){
+
+			let isTurn = roomData[data.gameCode].users.filter(user => {
+				return user.userID === data.userID && user.isTurn
+			}).length>0
+
+			if(isTurn && roomData[data.gameCode].isStarted){
+				if(roomData[data.gameCode].currentQuestion === null || roomData[data.gameCode].currentQuestion === null){
+					data.questionData = roomData[data.gameCode].questions.clues[parseInt(data.categoryID)].filter(clue => {
+						return clue.id === parseInt(data.clueID)
+					})[0]
+
+					roomData[data.gameCode].currentQuestion = data.questionData
+
+					io.to(data.gameCode).emit("GAME_ACTION_GOT_QUESTION", data)
+				}
+			}
 		}
 	})
 

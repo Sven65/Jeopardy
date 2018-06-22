@@ -60,6 +60,13 @@ document.querySelector("#game-button-leave").addEventListener("click", e => {
 	document.querySelector("#gameCodeHeader").innerHTML = ""
 })
 
+document.querySelector("#game-button-start").addEventListener("click", e => {
+	socket.emit("GAME_ACTION_START", {
+		gameCode: roomID,
+		userID: socket.id
+	})
+})
+
 socket.on('USER_JOIN', data => {
 
 	console.log("J", data)
@@ -151,9 +158,13 @@ socket.on("ACTION_GOTQUESTIONS", data => {
 })
 
 socket.on("GAME_ACTION_GOT_QUESTION", data => {
-	console.log(data)
+	console.log("GETQ", data)
 	document.querySelector("#game-question-title").innerHTML = `${data.questionData.category.title} for $${data.questionData.value}`
 	document.querySelector("#game-question-clue").innerHTML = data.questionData.question
+})
+
+socket.on("GAME_EVENT_ANSWERED", data => {
+	
 })
 
 socket.on("GERROR", data => {
