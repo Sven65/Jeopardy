@@ -5,6 +5,7 @@ const redis = require("redis")*/
 
 const app = require('./app')
 const JService = require('./src/JService')
+const fs = require("fs")
 
 const JS = new JService()
 const FuzzyMatching = require('fuzzy-matching')
@@ -40,6 +41,8 @@ require('./src/Models')
  * @TODO: Make users able to register to keep track of wins and such
  * @TODO: Make registered users able to add custom categories
  */
+
+const access = fs.createWriteStream(__dirname + '/node.access.log', { flags: 'a' });
 
 let roomData = {}
 let roomTimers = {}
@@ -169,6 +172,10 @@ Object.defineProperty(String.prototype, "sanitizeHTML", {
 })
 
 io.on("connection", socket => {
+	//console.log("SOCK", socket.conn.remoteAddress)
+
+	access.write(`Connection from ${socket.conn.remoteAddress}\n`)
+
 	socket.on("disconnecting", () => {
 		let roomID = socket.rooms[Object.keys(socket.rooms)[1]]
 
