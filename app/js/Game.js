@@ -52,12 +52,27 @@ document.querySelector("#playButton").addEventListener("click", e => {
 })
 
 document.querySelector("#game-button-leave").addEventListener("click", e => {
-	socket.disconnect()
+	socket.emit("USER_ACTION_LEAVE", {roomID, userID: socket.id})
+
+	roomID = ""
+	user = {}
+
+	joinedUsers = []
+	questionsLoaded = false
+
 	DOMStuff("#beforeGame").removeClass("hidden")
 	DOMStuff("#gameArea").addClass("hidden")
 
 	document.querySelector("#headerText").innerHTML = "Please Enter Details"
 	document.querySelector("#gameCodeHeader").innerHTML = ""
+	document.querySelector("#chat-messages").innerHTML = ""
+	document.querySelector("#card-container").innerHTML = ""
+	document.querySelectorAll("#gameTable > tbody > tr").forEach(el => {
+		el.innerHTML = ""
+	})
+
+	DOMStuff("#game-button-start").addClass("hidden")
+	DOMStuff("#game-button-leave").addClass("hidden")
 })
 
 document.querySelector("#game-button-start").addEventListener("click", e => {
@@ -121,14 +136,14 @@ socket.on('USER_JOIN', data => {
 })
 
 socket.on('USER_LEAVE', data => {
-	if(joinedUsers.indexOf(data.id) > -1){
+	if(joinedUsers.indexOf(data.user.id) > -1){
 		//console.log("LEAVE", data)
-		addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `User ${data.username} Left!`)
+		addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `User ${data.user.username} Left!`)
 
-		document.querySelector(`.chat-message[data-timestamp='${data.timeStamp}']`).scrollIntoView()
-		document.querySelector(`.user-card[data-userid='${data.id}']`).remove()
+		//document.querySelector(`.chat-message[data-timestamp='${data.timeStamp}']`).scrollIntoView()
+		document.querySelector(`.user-card[data-userid='${data.user.id}']`).remove()
 
-		joinedUsers.splice(joinedUsers.indexOf(data.id), 1)
+		joinedUsers.splice(joinedUsers.indexOf(data.user.id), 1)
 	}
 })
 

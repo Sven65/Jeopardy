@@ -209,6 +209,40 @@ io.on("connection", socket => {
 		}
 	})
 
+	socket.on("USER_ACTION_LEAVE", data => {
+		let roomID = data.roomID
+
+		if(roomData[roomID] !== undefined){
+
+			let user = getUserByID(socket.id, roomID)
+
+			socket.leave(roomID)
+
+			if(user !== undefined){
+
+				roomData[roomID].users = roomData[roomID].users.filter(user => {
+					return user.userID !== socket.id
+				})
+
+
+				if(roomData[roomID].users.length <= 0){
+					delete roomData[roomID]
+				}
+
+				data = {
+					timeStamp: Date.now(),
+					roomCode: roomID,
+					user: {
+						id: socket.id,
+						username: user.username
+					}
+				}
+
+				io.to(roomID).emit("USER_LEAVE", data)
+			}
+		}
+	})
+
 	socket.on("JOIN", data => {
 
 		let isHost = false
