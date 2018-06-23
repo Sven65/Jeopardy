@@ -34,13 +34,15 @@ require('./src/Models')
 
 /** 
  * @TODO: Add passwords to rooms
- * @TODO: Make game logic work
+ * @TODO: Add instructions to main page
+ * @TODO: Fix issue with the "leave game" button not sending events that a user left to the room
+ * @TODO: Make the game layout work on mobile phones
  */
 
 let roomData = {}
 let roomTimers = {}
 
-const port = (process.env.PORT || 3000)
+const port = (process.env.PORT || 3100)
 const host = (process.env.HOST || undefined)
 
 const server = app.listen(port, host, () => {
@@ -246,7 +248,7 @@ io.on("connection", socket => {
 			data.userID = socket.id
 			data.host = isHost
 			data.isTurn = isHost
-			data.balance = isHost?100:0
+			data.balance = 0
 
 			roomData[data.gameCode].users.push(data)
 
