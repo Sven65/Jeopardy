@@ -1,5 +1,5 @@
 /*
-Copyright Mackan <thormax5@gmail.com>
+Copyright Mackan <mackan@discorddungeons.me>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

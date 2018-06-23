@@ -7,6 +7,7 @@ const app = require('./app')
 const JService = require('./src/JService')
 
 const JS = new JService()
+const FuzzyMatching = require('fuzzy-matching')
 /*
 const redisCli = redis.createClient({
 	host: config.get('redis.host'),
@@ -34,21 +35,6 @@ require('./src/Models')
 /** 
  * @TODO: Add passwords to rooms
  * @TODO: Make game logic work
-
-/home/mackan/Documents/DRPG-Git/Jeopardy/index.js:318
-								roomData[data.roomID].questions[category].forEach(clue => {
-								                                          ^
-
-TypeError: roomData[data.roomID].questions[category].forEach is not a function
-    at Object.keys.forEach.category (/home/mackan/Documents/DRPG-Git/Jeopardy/index.js:318:51)
-    at Array.forEach (<anonymous>)
-    at Socket.socket.on.data (/home/mackan/Documents/DRPG-Git/Jeopardy/index.js:317:53)
-    at emitOne (events.js:116:13)
-    at Socket.emit (events.js:211:7)
-    at /home/mackan/Documents/DRPG-Git/Jeopardy/node_modules/socket.io/lib/socket.js:528:12
-    at _combinedTickCallback (internal/process/next_tick.js:131:7)
-    at process._tickCallback (internal/process/next_tick.js:180:9)
-
  */
 
 let roomData = {}
@@ -154,7 +140,7 @@ function categoryUpperCase(clues){
 
 function answerUnescape(clues){
 	clues.forEach(clue => {
-		clue.answer = unescape(clue.answer)
+		clue.answer = unescape(clue.answer).replace(/<(?:.|\n)*?>/gm, '')
 	})
 }
 
@@ -179,16 +165,12 @@ Object.defineProperty(String.prototype, "sanitizeHTML", {
 })
 
 io.on("connection", socket => {
-	console.log("connexct")
-
 	socket.on("disconnecting", () => {
-		let roomID = Object.keys(socket.rooms)[1]
+		let roomID = socket.rooms[Object.keys(socket.rooms)[1]]
 
 		if(roomData[roomID] !== undefined){
 
-			let user = roomData[roomID].users.filter(user => {
-				return user.id === socket.id
-			})[0]
+			let user = getUserByID(socket.id, roomID)
 
 			if(user !== undefined){
 
@@ -202,8 +184,9 @@ io.on("connection", socket => {
 				}
 
 				roomData[roomID].users = roomData[roomID].users.filter(user => {
-					return user.id !== socket.id
+					return user.userID !== socket.id
 				})
+
 
 				if(roomData[roomID].users.length <= 0){
 					delete roomData[roomID]
@@ -263,7 +246,7 @@ io.on("connection", socket => {
 			data.userID = socket.id
 			data.host = isHost
 			data.isTurn = isHost
-			data.balance = 0
+			data.balance = isHost?100:0
 
 			roomData[data.gameCode].users.push(data)
 
@@ -282,6 +265,10 @@ io.on("connection", socket => {
 
 		data.message = data.message.sanitizeHTML()
 
+		if(data.message.length <= 0){
+			return
+		}
+
 		if(checkUserIDInRoom(data.user.id, data.roomID)){
 
 			let user = getUserByID(data.user.id, data.roomID)
@@ -289,7 +276,12 @@ io.on("connection", socket => {
 			if(user !== null){
 				if(roomData[data.roomID].isStarted){
 					if(user.isTurn){
-						if(data.message.toLowerCase() === roomData[data.roomID].currentQuestion.answer.toLowerCase()){
+
+						let answer = roomData[data.roomID].currentQuestion.answer.toLowerCase()
+						let fm = new FuzzyMatching([answer])
+
+
+						if(answer === fm.get(data.message.toLowerCase(), { maxChanges: 1}).value){
 							emitChat = false
 							io.to(data.roomID).emit('chat', {
 								message: `User **${user.username}** got it right! The answer was **${roomData[data.roomID].currentQuestion.answer}**`,
@@ -322,23 +314,27 @@ io.on("connection", socket => {
 
 							roomData[data.roomID].currentQuestion = null
 
+							if(roomTimers[data.roomID] !== null && roomTimers[data.roomID] !== undefined){
+								clearTimeout(roomTimers[data.roomID])
+								clearInterval(roomTimers[data.roomID])
+							}
 
 
 							let questionsLeft = 30
 
-							Object.keys(roomData[data.roomID].questions).forEach(category => {
-								console.log(category)
-								roomData[data.roomID].questions[category].forEach(clue => {
-									if(clue.isRevealed){
+							Object.keys(roomData[data.roomID].questions.clues).forEach(category => {
+								roomData[data.roomID].questions.clues[category].forEach(clue => {
+									if(clue.revealed){
 										questionsLeft--
 									}
 								})
 							})
 							
 							if(questionsLeft <= 0){
+								roomData[data.roomID].gameOver = true
 								io.to(data.roomID).emit("GAME_OVER", {
 									standings: roomData[data.roomID].users.sort((a, b) => {
-										return a.balance - b.balance
+										return b.balance - a.balance
 									})
 								})
 							}else{
@@ -410,20 +406,45 @@ io.on("connection", socket => {
 	})
 
 	socket.on("GAME_ACTION_START", data => {
-		if(roomData[data.gameCode] !== undefined){
-			roomData[data.gameCode].isStarted = true
+		if(roomData[data.gameCode].users.length > 1){
+
+			if(roomData[data.gameCode] !== undefined){
+				roomData[data.gameCode].isStarted = true
+			}
+
+			io.to(data.gameCode).emit("GAME_ACTION_STARTED", {timeStamp: Date.now()})
+
+			io.to(data.gameCode).emit('chat', {
+				message: `User ${getUserByID(data.userID, data.gameCode).username} started the game!`,
+				user: {
+					username: "SYSTEM",
+					id: "SYSTEM"
+				},
+				timeStamp: Date.now()
+			})
+
+			io.to(data.gameCode).emit("CHANGE_TURN", {
+				oldTurn: data.userID,
+				newTurn: data.userID
+			})
+		}else{
+			socket.emit('chat', {
+				message: `Not enough users to start game!`,
+				user: {
+					username: "SYSTEM",
+					id: "SYSTEM"
+				},
+				timeStamp: Date.now()
+			})
 		}
-
-		io.to(data.gameCode).emit("GAME_ACTION_STARTED", {oof: true})
-
-		io.to(data.gameCode).emit("CHANGE_TURN", {
-			oldTurn: data.userID,
-			newTurn: data.userID
-		})
 	})
 
 	socket.on("GAME_ACTION_GET_QUESTION", data => {
 		if(roomData[data.gameCode] !== undefined){
+
+			if(roomData[data.gameCode].gameOver){
+				return
+			}
 
 			let isTurn = roomData[data.gameCode].users.filter(user => {
 				return user.userID === data.userID && user.isTurn
@@ -482,7 +503,7 @@ io.on("connection", socket => {
 									roomData[data.gameCode].currentQuestion = null
 
 									io.to(data.gameCode).emit('chat', {
-										message: `User **${currentUser}** took too long to answer`,
+										message: `User **${currentUser.username}** took too long to answer`,
 										user: {
 											username: "SYSTEM",
 											id: "SYSTEM"
@@ -490,10 +511,29 @@ io.on("connection", socket => {
 										timeStamp: Date.now()
 									})
 
-									io.to(data.gameCode).emit("CHANGE_TURN", {
-										oldTurn: roomData[data.gameCode].users[oldTurnIndex].userID,
-										newTurn: roomData[data.gameCode].users[newTurnIndex].userID
+									let questionsLeft = 30
+
+									Object.keys(roomData[data.gameCode].questions.clues).forEach(category => {
+										roomData[data.gameCode].questions.clues[category].forEach(clue => {
+											if(clue.revealed){
+												questionsLeft--
+											}
+										})
 									})
+									
+									if(questionsLeft <= 0){
+										roomData[data.gameCode].gameOver = true
+										io.to(data.gameCode).emit("GAME_OVER", {
+											standings: roomData[data.gameCode].users.sort((a, b) => {
+												return a.balance - b.balance
+											})
+										})
+									}else{
+										io.to(data.gameCode).emit("CHANGE_TURN", {
+											oldTurn: roomData[data.gameCode].users[oldTurnIndex].userID,
+											newTurn: roomData[data.gameCode].users[newTurnIndex].userID
+										})
+									}
 								}
 
 							}, 1000)
@@ -508,5 +548,9 @@ io.on("connection", socket => {
 
 	socket.on("GET_ROOM", d => {
 		socket.emit("DEBUG", roomData[d.gameCode])
+	})
+
+	socket.on("SET_BAL", data => {
+		roomData[data.gameCode]
 	})
 })

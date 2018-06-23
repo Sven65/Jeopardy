@@ -69,7 +69,7 @@ document.querySelector("#game-button-start").addEventListener("click", e => {
 
 socket.on('USER_JOIN', data => {
 
-	console.log("J", data)
+	//console.log("J", data)
 
 	DOMStuff("#beforeGame").addClass("hidden")
 	DOMStuff("#gameArea").removeClass("hidden")
@@ -89,7 +89,7 @@ socket.on('USER_JOIN', data => {
 							<span class="card-title">${data.username}</span>
 						</div>
 						<div class="card-content">
-							<p class="balance">$0</p>
+							<p class="balance">$${data.balance}</p>
 						</div>
 					</div>
 				</div>
@@ -122,7 +122,7 @@ socket.on('USER_JOIN', data => {
 
 socket.on('USER_LEAVE', data => {
 	if(joinedUsers.indexOf(data.id) > -1){
-		console.log("LEAVE", data)
+		//console.log("LEAVE", data)
 		addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `User ${data.username} Left!`)
 
 		document.querySelector(`.chat-message[data-timestamp='${data.timeStamp}']`).scrollIntoView()
@@ -136,7 +136,7 @@ socket.on("ACTION_GOTQUESTIONS", data => {
 	if(!questionsLoaded || data.force){
 		questionsLoaded = true
 	
-		console.log("GOT QUESTIONS", data)
+		//console.log("GOT QUESTIONS", data)
 
 		Object.keys(data.clues).forEach((categoryID, i) => {
 			document.querySelector(`#game-cat${i+1}`).innerHTML = data.clues[categoryID][0].category.title
@@ -160,7 +160,7 @@ socket.on("ACTION_GOTQUESTIONS", data => {
 })
 
 socket.on("GAME_ACTION_GOT_QUESTION", data => {
-	console.log("GETQ", data)
+	//console.log("GETQ", data)
 	document.querySelector("#game-question-title").innerHTML = `${data.questionData.category.title} for $${data.questionData.value}`
 	document.querySelector("#game-question-clue").innerHTML = data.questionData.question
 
@@ -170,7 +170,7 @@ socket.on("GAME_ACTION_GOT_QUESTION", data => {
 })
 
 socket.on("GAME_EVENT_ANSWERED", data => {
-	console.log("GEA", data)
+	//console.log("GEA", data)
 	document.querySelector(`.user-card[data-userid='${data.user.id}'] > .card > .card-content > .balance`).innerHTML = `$${data.newBalance}`
 })
 
@@ -187,4 +187,42 @@ socket.on("DEBUG", d => {
 socket.on("CHANGE_TURN", data => {
 	DOMStuff(`.user-card[data-userid='${data.oldTurn}']`).removeClass("current-turn")
 	DOMStuff(`.user-card[data-userid='${data.newTurn}']`).addClass("current-turn")
+})
+
+socket.on("GAME_ACTION_STARTED", data => {
+	DOMStuff("#game-button-start").addClass("hidden")
+})
+
+socket.on("GAME_OVER", data => {
+	document.querySelector("#game-question-title").innerHTML = `Game Over!`
+	document.querySelector("#game-question-clue").innerHTML = ""
+
+	document.querySelector("#card-container").innerHTML = ""
+
+	let placeString = [
+		"1st",
+		"2nd",
+		"3rd",
+		"4th"
+	]
+
+	data.standings.forEach((user, i) => {
+		document.querySelector("#game-question-clue").innerHTML += `<p>${placeString[i]} - ${user.username}</p>`
+
+		document.querySelector("#card-container").appendChild(
+			htmlToElement(`
+				<div class="col s3 user-card" data-userid="${user.userID}">
+					<div class="card">
+						<div class="card-image">
+							<img src="http://placehold.it/128x128">
+							<span class="card-title">${user.username}</span>
+						</div>
+						<div class="card-content">
+							<p class="balance">$${user.balance}</p>
+						</div>
+					</div>
+				</div>
+			`)
+		)
+	})
 })
