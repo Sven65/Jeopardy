@@ -36,10 +36,11 @@ require('./src/Models')
 /** 
  * @TODO: Add passwords to rooms
  * @TODO: Add instructions to main page
- * @TODO: Fix issue with the "leave game" button not sending events that a user left to the room
  * @TODO: Make the game layout work on mobile phones
  * @TODO: Make users able to register to keep track of wins and such
  * @TODO: Make registered users able to add custom categories
+ * @TODO: Move roomData into redis or something
+ * @TODO: Cleanup
  */
 
 const access = fs.createWriteStream(__dirname + '/node.access.log', { flags: 'a' });
