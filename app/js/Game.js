@@ -97,7 +97,7 @@ socket.on('USER_JOIN', data => {
 	if(joinedUsers.indexOf(data.userID) <= -1){
 		document.querySelector("#card-container").appendChild(
 			htmlToElement(`
-				<div class="col s3 user-card" data-userid="${data.userID}">
+				<div class="col l3 s4 user-card" data-userid="${data.userID}">
 					<div class="card">
 						<div class="card-image">
 							<img src="http://placehold.it/128x128">
