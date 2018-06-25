@@ -27,20 +27,6 @@ html, body{
 	
 }
 
-@media only screen and (min-width: 1024px) {
-	#chat{
-		z-index: 1000;
-		margin-top: -80vh;
-	}
-}
-
-/*
-#chat-input{
-	z-index: 1000;
-	bottom: 0%;
-	position: fixed;
-}*/
-
 .chat-message-container{
 	display: flex;
 	align-items:center;
@@ -91,4 +77,21 @@ html, body{
 
 #gameTable > tbody > tr > td:hover{
 	cursor: pointer;
+}
+
+/** Media queries **/
+
+@media only screen and (min-width: 1024px) {
+	#chat{
+		z-index: 1000;
+		margin-top: -80vh;
+	}
+}
+
+@media only screen and (max-width: 992px) {
+	#logo-container{
+	    left: unset;
+	    -webkit-transform: unset;
+	    transform: unset;
+	}
 }

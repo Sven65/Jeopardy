@@ -49,7 +49,7 @@
 		<nav class="light-blue lighten-1" role="navigation">
 			<div class="nav-wrapper container">
 				<a id="logo-container" href="#" class="brand-logo">TriviaParty - <span id="gameCodeHeader"></span></a>
-				
+
 				<ul id="game-buttons" class="right hidden">
 					<li><a id="game-button-start" class="hidden">Start Game <i class="material-icons right">play_arrow</i></a></li>
 					<li><a id="game-button-leave">Leave Game <i class="material-icons right">exit_to_app</i></a></li>
@@ -61,9 +61,9 @@
 				<h1 class="header center orange-text" id="headerText">Please enter details</h1>
 				<div class="container">
 					<div class="row">
-						<form class="col s12">
+						<form class="col s12 l12">
 							<div class="row">
-								<div class="col s6 offset-s3">
+								<div class="col s12 l12">
 									<div class="row">
 										<div class="input-field col s12">
 											<input id="username" type="text" class="validate">
@@ -90,6 +90,26 @@
 											</div>-->
 										</div>
 									</div>
+									
+									<!-- Start Instructions -->
+									<div class="row">
+										<div class="col s12">
+											<h3 class="header center">Instructions</h3>
+											<div class="row">
+												<div class="col s12">
+													<p class="center">Playing</p>
+													<p class="light center">
+														Enter a username and a room code that you can share with your friends or get from your friends as this acts as the game identifier, keep in mind that it's case sensitive!
+
+														<p class="light center">The first player that joins a room is designated as the host, and can start the game by clicking the "start game" button when a game has two to four players.</p>
+
+														<p class="light center">When it's a players turn, indicated by a red box around their status card, they can click a question in the table and they then have 15 seconds to answer the question by typing the answer in the chat and sending it, either by clicking the "send" button, or by hitting the enter key.</p>
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- End Instructions -->
 								</div>
 							</div>
 						</form>
@@ -129,7 +149,7 @@
 					<!-- End question area -->
 
 					<!-- Start table area -->
-					<div class="col s8" id="game-table-area">
+					<div class="col l8 s12" id="game-table-area">
 						<table id="gameTable">
 							<thead>
 								<tr>
@@ -198,11 +218,13 @@
 		</div>
 
 		<script src="/socket.io/socket.io.js"></script>
-		<script src="js/materialize.min.js"></script>
+		<script src="js/bundle.js"></script>
+		<!--<script src="js/materialize.min.js"></script>
 		<script src="js/DOMStuff.js"></script>
 		<script src="js/Format.js"></script>
 
 		<script src="js/all.min.js"></script>
-
+		<script src="js/Game.js"></script>
+		<script src="js/Chat.js"></script>-->
 	</body>
 </html>

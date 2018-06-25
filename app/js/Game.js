@@ -1,17 +1,51 @@
+/*
+ * Copyright Mackan <mackan@discorddungeons.me>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 const messageContainer = document.querySelector("#chat-messages")
-let socket = io()
-let roomID = ""
-let user = {}
 
-let joinedUsers = []
-let questionsLoaded = false
+variables.joinedUsers = []
+variables.questionsLoaded = false
+window.socket = io()
+variables.roomID = ""
+variables.user = {}
 
+console.log("GAME", socket.id)
 
 function htmlToElement(html) {
 	let template = document.createElement('template');
 	html = html.trim(); // Never return a text node of whitespace as the result
 	template.innerHTML = html;
 	return template.content.firstChild;
+}
+
+function scrollChat(chatContainer, scrollTo){
+	let rect = chatContainer.getBoundingClientRect()
+	let containerOffset = {
+		top: rect.top + document.body.scrollTop,
+		left: rect.left + document.body.scrollLeft
+	}
+
+	rect = scrollTo.getBoundingClientRect()
+	let scrollToOffset = {
+		top: rect.top + document.body.scrollTop,
+		left: rect.left + document.body.scrollLeft
+	}
+
+	chatContainer.scrollTop = scrollToOffset.top - containerOffset.top + chatContainer.scrollTop
 }
 
 function addChatMessage(timeStamp, image, senderID, senderName, message){
@@ -27,23 +61,23 @@ function addChatMessage(timeStamp, image, senderID, senderName, message){
 		`)
 	)
 
-	document.querySelector(`.chat-message-container[data-timestamp='${timeStamp}']`).scrollIntoView()
+	scrollChat(messageContainer, document.querySelector(`.chat-message-container[data-timestamp='${timeStamp}']`))
 }
 
 function questionCellClick(e){
 	let target = e.target
 	socket.emit("GAME_ACTION_GET_QUESTION", {
 		clueID: target.dataset.id,
-		gameCode: roomID,
+		gameCode: variables.roomID,
 		userID: socket.id,
 		categoryID: target.dataset.category
 	})
 }
 
 document.querySelector("#playButton").addEventListener("click", e => {
-	roomID = document.querySelector("#gameCode").value
-	user.username = document.querySelector("#username").value
-	user.id = socket.id
+	variables.roomID = document.querySelector("#gameCode").value
+	variables.user.username = document.querySelector("#username").value
+	variables.user.id = socket.id
 
 	socket.emit("JOIN", {
 		gameCode: document.querySelector("#gameCode").value,
@@ -52,13 +86,13 @@ document.querySelector("#playButton").addEventListener("click", e => {
 })
 
 document.querySelector("#game-button-leave").addEventListener("click", e => {
-	socket.emit("USER_ACTION_LEAVE", {roomID, userID: socket.id})
+	socket.emit("USER_ACTION_LEAVE", {roomID: variables.roomID, userID: socket.id})
 
-	roomID = ""
-	user = {}
+	variables.roomID = ""
+	variables.user = {}
 
-	joinedUsers = []
-	questionsLoaded = false
+	variables.joinedUsers = []
+	variables.questionsLoaded = false
 
 	DOMStuff("#beforeGame").removeClass("hidden")
 	DOMStuff("#gameArea").addClass("hidden")
@@ -77,7 +111,7 @@ document.querySelector("#game-button-leave").addEventListener("click", e => {
 
 document.querySelector("#game-button-start").addEventListener("click", e => {
 	socket.emit("GAME_ACTION_START", {
-		gameCode: roomID,
+		gameCode: variables.roomID,
 		userID: socket.id
 	})
 })
@@ -89,12 +123,12 @@ socket.on('USER_JOIN', data => {
 	DOMStuff("#beforeGame").addClass("hidden")
 	DOMStuff("#gameArea").removeClass("hidden")
 
-	roomID = data.gameCode
+	variables.roomID = data.gameCode
 
-	document.querySelector("#gameCodeHeader").innerHTML = roomID
+	document.querySelector("#gameCodeHeader").innerHTML = variables.roomID
 
 
-	if(joinedUsers.indexOf(data.userID) <= -1){
+	if(variables.joinedUsers.indexOf(data.userID) <= -1){
 		document.querySelector("#card-container").appendChild(
 			htmlToElement(`
 				<div class="col l3 s4 user-card" data-userid="${data.userID}">
@@ -112,16 +146,16 @@ socket.on('USER_JOIN', data => {
 		)
 
 		if(data.userID === socket.id){
-			addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `Joined room **${roomID}** as **${data.username}**!`)
+			addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `Joined room **${variables.roomID}** as **${data.username}**!`)
 		}else{
 			addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `User ${data.username} Joined!`)
 		}
 
-		joinedUsers.push(data.userID)
+		variables.joinedUsers.push(data.userID)
 
-		if(!questionsLoaded){
+		if(!variables.questionsLoaded){
 			socket.emit("ACTION_GETQUESTIONS", {
-				gameCode: roomID
+				gameCode: variables.roomID
 			})
 		}
 
@@ -136,20 +170,20 @@ socket.on('USER_JOIN', data => {
 })
 
 socket.on('USER_LEAVE', data => {
-	if(joinedUsers.indexOf(data.user.id) > -1){
+	if(variables.joinedUsers.indexOf(data.user.id) > -1){
 		//console.log("LEAVE", data)
 		addChatMessage(data.timeStamp, null, "SYSTEM", "SYSTEM", `User ${data.user.username} Left!`)
 
 		//document.querySelector(`.chat-message[data-timestamp='${data.timeStamp}']`).scrollIntoView()
 		document.querySelector(`.user-card[data-userid='${data.user.id}']`).remove()
 
-		joinedUsers.splice(joinedUsers.indexOf(data.user.id), 1)
+		variables.joinedUsers.splice(variables.joinedUsers.indexOf(data.user.id), 1)
 	}
 })
 
 socket.on("ACTION_GOTQUESTIONS", data => {
-	if(!questionsLoaded || data.force){
-		questionsLoaded = true
+	if(!variables.questionsLoaded || data.force){
+		variables.questionsLoaded = true
 	
 		//console.log("GOT QUESTIONS", data)
 
