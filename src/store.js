@@ -25,11 +25,16 @@ function reducer(state, action){
 
 	switch(action.type.replace("s/", "")){
 		case 'USER_JOIN':
+		// TODO: Make this add to the users table in state and make it show game area
 			return Object.assign({}, state, {
 				roomID: action.data.gameCode,
 				user: {
 					username: action.data.username,
-					userID: action.data.userID
+					userID: action.data.userID,
+					balance: action.data.balance,
+					host: action.data.host,
+					isTurn: action.data.isTurn,
+					timeStamp: action.data.timeStamp
 				}
 			})
 		break
@@ -43,7 +48,7 @@ function reducer(state, action){
 
 
 socket.on("*", data => {
-	console.log("*", data)
+	//console.log("*", data)
 	store.dispatch({type: data.data[0], data: data.data[1]})
 })
 
