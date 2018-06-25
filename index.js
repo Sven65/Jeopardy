@@ -173,11 +173,16 @@ Object.defineProperty(String.prototype, "sanitizeHTML", {
 })
 
 io.on("connection", socket => {
-	//console.log("SOCK", socket.conn.remoteAddress)
+	console.log("SOCK", socket.conn.remoteAddress)
+
+	socket.on('action', (action) => {
+		console.log("ACT", action)
+	});
 
 	access.write(`Connection from ${socket.conn.remoteAddress}\n`)
 
 	socket.on("disconnecting", () => {
+		console.log("DISC")
 		let roomID = socket.rooms[Object.keys(socket.rooms)[1]]
 
 		if(roomData[roomID] !== undefined){
@@ -596,7 +601,9 @@ io.on("connection", socket => {
 		socket.emit("DEBUG", roomData[d.gameCode])
 	})
 
+	
 	socket.on("DEBUG", d => {
+		console.log("DEBUG", d)
 		socket.emit("DEBUG", d)
 	})
 
