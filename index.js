@@ -4,7 +4,7 @@
 const redis = require("redis")*/
 
 const app = require('./app')
-const JService = require('./src/JService')
+const JService = require('./util/JService')
 const fs = require("fs")
 
 const JS = new JService()
@@ -27,7 +27,7 @@ redisCli.on("connect", () => {
 // START: NOHM START \\
 
 nohm.setPrefix('Jeopardy')
-require('./src/Models')
+require('./util/Models')
 
 // END: NOHM SETUP \\
 
@@ -594,6 +594,10 @@ io.on("connection", socket => {
 
 	socket.on("GET_ROOM", d => {
 		socket.emit("DEBUG", roomData[d.gameCode])
+	})
+
+	socket.on("DEBUG", d => {
+		socket.emit("DEBUG", d)
 	})
 
 	socket.on("SET_BAL", data => {

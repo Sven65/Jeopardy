@@ -1,21 +1,32 @@
 module.exports = {
-	entry: "./app/js/app.js",
+	entry: "./src/index.js",
 	output: {
-		path: __dirname+'/app/js',
+		path: __dirname+'/dist',
+		publicPath: '/',
 		filename: "bundle.js"
+	},
+	devServer: {
+		contentBase: './dist'
 	},
 	module: {
 		rules: [
 			{
-				test: /\.js$/,
+				test: /\.(js|jsx)$/,
 				exclude: /(node_modules|bower_components)/,
 				use: {
-					loader: 'babel-loader'/*,
-					options: {
-						presets: ["es2015"]
-					}*/
+					loader: 'babel-loader'
 				}
+			},
+			{
+				test: /\.css$/,
+				use: [
+					'style-loader',
+					'css-loader'
+				]
 			}
 		]
+	},
+	resolve: {
+		extensions: ['.js', '.jsx']
 	}
 }
