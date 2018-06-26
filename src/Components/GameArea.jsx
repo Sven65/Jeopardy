@@ -6,6 +6,7 @@ import QuestionCard from './Common/QuestionCard'
 import QuestionTable from './Common/QuestionTable'
 import Chat from './Chat'
 import Loader from './Common/Loader'
+import Standings from './Common/Standings'
 
 import store from './../store'
 
@@ -16,7 +17,8 @@ class GameArea extends Component {
 		this.state = {
 			users: [],
 			currentQuestion: {},
-			clues: {}
+			clues: {},
+			standings: {}
 		}
 	}
 
@@ -27,7 +29,7 @@ class GameArea extends Component {
 	}
 
 	render(){
-		if(Object.keys(this.state.clues).length<=0){
+		if(Object.keys(this.state.clues).length<=0 || this.state.gameDone){
 			document.body.style.overflow = "hidden";
 		}else{
 			document.body.style.overflow = "scroll";
@@ -40,6 +42,11 @@ class GameArea extends Component {
 						<Loader />
 					</div>
 				}
+
+				{this.state.gameDone &&
+					<Standings standings={this.state.standings}/>
+				}
+
 				<div className="container">
 					<div className="row">
 						{/* Start User Stats */}

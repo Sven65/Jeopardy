@@ -29,7 +29,9 @@ class App extends Component {
 			error: {
 
 			},
-			gameStarted: false
+			gameStarted: false,
+			gameDone: false,
+			standings: []
 		}
 	}
 

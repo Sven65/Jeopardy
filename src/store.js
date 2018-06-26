@@ -8,6 +8,7 @@ import io from 'socket.io-client'
 
 let socket = io('http://localhost:3100')
 
+const debug = false
 const patch = require('socketio-wildcard')(io.Manager);
 patch(socket)
 
@@ -35,7 +36,9 @@ function updateObjectInArray(array, action) {
 }
 
 function reducer(state, action){
-	console.log("ACT", action)
+	if(debug){
+		console.log("ACT", action)
+	}
 
 	if(!state) return {}
 
@@ -181,8 +184,17 @@ function reducer(state, action){
 				users: state.users
 			})
 		break
+		case "GAME_OVER":
+			return Object.assign({}, state, {
+				gameDone: true,
+				standings: action.data.standings
+			})
+		break
 		default:
-			console.log("OOF", action)
+			if(debug){
+				console.log("OOF", action)
+			}
+			return state
 		break
 	
 	}
@@ -216,7 +228,9 @@ socket.on("*", data => {
 let store = applyMiddleware(socketIoMiddleware, asyncDispatchMiddleware)(createStore)(rootReducer)
 
 store.subscribe(()=>{
-	console.log('new client state', store.getState())
+	if(debug){
+		console.log('new client state', store.getState())
+	}
 })
 
 store.dispatch({

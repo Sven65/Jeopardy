@@ -6,7 +6,6 @@ class UserCard extends Component {
 	}
 
 	render(){
-		console.log("USERP", this.props)
 		return (
 			<div className={"col l3 s4 user-card "+(this.props.isTurn?'isTurn':'')} data-userid={this.props.userID}>
 				<div className="card">
@@ -16,6 +15,7 @@ class UserCard extends Component {
 					</div>
 					<div className="card-content">
 						<p className="balance">${this.props.balance}</p>
+						{this.props.extraContent}
 					</div>
 				</div>
 			</div>

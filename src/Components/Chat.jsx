@@ -27,9 +27,6 @@ class Chat extends Component {
 	componentDidMount() {
 		store.subscribe(() => {
 			this.setState(store.getState())
-
-			console.log("MESSAGE", this.state.messages)
-
 			this.scrollToBottom()
 		})
 

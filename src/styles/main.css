@@ -94,9 +94,9 @@ html, body{
 
 @media only screen and (max-width: 992px) {
 	#logo-container{
-	    left: unset;
-	    -webkit-transform: unset;
-	    transform: unset;
+		left: unset;
+		-webkit-transform: unset;
+		transform: unset;
 	}
 }
 
@@ -106,8 +106,8 @@ html, body{
 	left: 50%;
 	/* bring your own prefixes */
 	-webkit-transform: translate(-50%, -50%);
-	    -ms-transform: translate(-50%, -50%);
-	        transform: translate(-50%, -50%);
+		-ms-transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%);
 }
 
 .loader-holder {
@@ -129,4 +129,30 @@ html, body{
 
 .isTurn{
 	border: 1px solid red;
+}
+
+.standings{
+	display: flex;
+	flex-direction: column;
+}
+
+.standings-holder{
+	display: flex;
+	flex-direction: row;
+}
+
+.standings-holder > .user-card{
+	margin-left: 5px;
+	margin-right: 5px;
+	width: 50%;
+}
+
+.standings > h2{
+	color: #fff;
+	text-align: center;
+}
+
+.standings-holder > .user-card > .card {
+	min-height: 256px;
+	width: 192px;
 }

@@ -51,6 +51,10 @@ let roomTimers = {}
 const port = (process.env.PORT || 3100)
 const host = (process.env.HOST || undefined)
 
+const questionAmount = 30
+const minPlayers = 1
+const maxPlayers = 4
+
 const server = app.listen(port, host, () => {
 	// ask server for the actual address and port its listening on
 	const listenAddress = server.address()
@@ -299,7 +303,7 @@ io.on("connection", socket => {
 			errorMessage = "Username already in use."
 		}
 
-		if(roomData[data.gameCode].users.length >= 4){
+		if(roomData[data.gameCode].users.length >= maxPlayers){
 			canJoin = false
 			errorMessage = "Game is full."
 		}
@@ -386,7 +390,7 @@ io.on("connection", socket => {
 							}
 
 
-							let questionsLeft = 30
+							let questionsLeft = questionAmount
 
 							Object.keys(roomData[data.roomID].questions.clues).forEach(category => {
 								roomData[data.roomID].questions.clues[category].forEach(clue => {
@@ -475,7 +479,7 @@ io.on("connection", socket => {
 	})
 
 	socket.on("GAME_ACTION_START", data => {
-		if(roomData[data.gameCode].users.length > 1){
+		if(roomData[data.gameCode].users.length >= minPlayers){
 
 			if(roomData[data.gameCode] !== undefined){
 				roomData[data.gameCode].isStarted = true
@@ -575,15 +579,16 @@ io.on("connection", socket => {
 										roomData[data.gameCode].currentQuestion = null
 
 										io.to(data.gameCode).emit('EVENT_CHAT', {
-											message: `User **${currentUser.username}** took too long to answer`,
+											message: `User **${currentUser.username}** took too long to answer! The answer was **${roomData[data.gameCode].questions.clues[data.categoryID][questionIndex].answer}**!`,
 											user: {
 												username: "SYSTEM",
 												userID: "SYSTEM"
 											},
-											timeStamp: Date.now()
+											timeStamp: Date.now(),
+											q: roomData[data.gameCode].questions.clues[data.categoryID][questionIndex]
 										})
 
-										let questionsLeft = 30
+										let questionsLeft = questionAmount
 
 										Object.keys(roomData[data.gameCode].questions.clues).forEach(category => {
 											roomData[data.gameCode].questions.clues[category].forEach(clue => {
