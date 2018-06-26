@@ -8,20 +8,23 @@ class Navbar extends Component {
 
 		this.state = {}
 	
-		this.startGame = this.startGame.bind(this)
-		this.leaveGame = this.leaveGame.bind(this)
+		//this.startGame = this.startGame.bind(this)
+		//this.leaveGame = this.leaveGame.bind(this)
 	}
 
 	componentDidMount() {
 		store.subscribe(() => {
 			this.setState(store.getState())
 
-			console.log("MESSAGE", this.state.messages)
+			//console.log("MESSAGE", this.state.messages)
 		})
 	}
 
 	startGame(){
-		
+		store.dispatch({type: "s/GAME_ACTION_START", data: {
+			gameCode: this.state.roomID,
+			userID: this.state.user.userID
+		}})
 	}
 
 	leaveGame(){
@@ -40,8 +43,12 @@ class Navbar extends Component {
 					<a id="logo-container" href="#" className="brand-logo">TriviaParty - <span id="gameCodeHeader">{this.props.gameCode}</span></a>
 
 					<ul id="game-buttons" className={"right "+(this.props.hideButtons?'hidden':'')}>
-						<li><a id="game-button-start" className={this.props.hideStartButton?"hidden":''} onClick={this.startGame}>Start Game <i className="material-icons right">play_arrow</i></a></li>
-						<li><a id="game-button-leave" onClick={this.leaveGame}>Leave Game <i className="material-icons right">exit_to_app</i></a></li>
+						{!this.props.hideStartButton &&
+							<li>
+								<a id="game-button-start" onClick={this.startGame.bind(this)}>Start Game <i className="material-icons right">play_arrow</i></a>
+							</li>
+						}
+						<li><a id="game-button-leave" onClick={this.leaveGame.bind(this)}>Leave Game <i className="material-icons right">exit_to_app</i></a></li>
 					</ul>
 				</div>
 			</nav>

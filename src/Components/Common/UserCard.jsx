@@ -6,8 +6,9 @@ class UserCard extends Component {
 	}
 
 	render(){
+		console.log("USERP", this.props)
 		return (
-			<div className="col l3 s4 user-card" data-userid={this.props.userID}>
+			<div className={"col l3 s4 user-card "+(this.props.isTurn?'isTurn':'')} data-userid={this.props.userID}>
 				<div className="card">
 					<div className="card-image">
 						<img src={this.props.image}/>

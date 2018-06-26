@@ -126,3 +126,7 @@ html, body{
 .loader-holder ~ body{
 	overflow: none;
 }
+
+.isTurn{
+	border: 1px solid red;
+}

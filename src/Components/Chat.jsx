@@ -19,6 +19,9 @@ class Chat extends Component {
 		this.onKeyDown = this.onKeyDown.bind(this)
 
 		this.messageInput = React.createRef()
+
+		this.chatContainer = React.createRef()
+		this.chatBottom = React.createRef()
 	}
 
 	componentDidMount() {
@@ -26,7 +29,11 @@ class Chat extends Component {
 			this.setState(store.getState())
 
 			console.log("MESSAGE", this.state.messages)
+
+			this.scrollToBottom()
 		})
+
+		
 	}
 
 	sendMessage(){
@@ -42,6 +49,22 @@ class Chat extends Component {
 		}
 	}
 
+	scrollToBottom(){
+		let rect = this.chatContainer.getBoundingClientRect()
+		let containerOffset = {
+			top: rect.top + document.body.scrollTop,
+			left: rect.left + document.body.scrollLeft
+		}
+
+		rect = this.chatBottom.getBoundingClientRect()
+		let scrollToOffset = {
+			top: rect.top + document.body.scrollTop,
+			left: rect.left + document.body.scrollLeft
+		}
+
+		this.chatContainer.scrollTop = scrollToOffset.top - containerOffset.top + this.chatContainer.scrollTop
+	}
+
 	onKeyDown(e){
 		if(e.keyCode === 13){
 			this.sendMessage()
@@ -54,10 +77,11 @@ class Chat extends Component {
 				<div className="col s12 l4 right" id="chat">
 					<div className="row">
 						<div className="container" id="chat-container">
-							<ul id="chat-messages">
+							<ul id="chat-messages" ref={el => this.chatContainer = el}>
 								{this.state.messages.map(message => {
 									return (<Message user={message.user} timeStamp={message.timeStamp} message={message.message} key={message.timeStamp}/>)
 								})}
+								<li style={{background: "#fff"}} ref={el => this.chatBottom = el}></li>
 							</ul>
 						</div>
 						<div className="col s12 m12 l12">

@@ -82,6 +82,10 @@ function checkUserIDInRoom(userID, room){
 }
 
 function getUserByID(userID, room){
+	if(roomData[room] === undefined){
+		return null
+	}
+
 	return roomData[room].users.filter(u => {return u.userID === userID})[0]||null
 }
 
@@ -207,6 +211,11 @@ io.on("connection", socket => {
 
 				if(roomData[roomID].users.length <= 0){
 					delete roomData[roomID]
+
+					clearTimeout(roomTimers[roomID])
+					clearInterval(roomTimers[roomID])
+
+					delete roomTimers[roomID]
 				}
 
 				socket.leave(roomID)
@@ -235,6 +244,10 @@ io.on("connection", socket => {
 
 				if(roomData[roomID].users.length <= 0){
 					delete roomData[roomID]
+					clearTimeout(roomTimers[roomID])
+					clearInterval(roomTimers[roomID])
+
+					delete roomTimers[roomID]
 				}
 
 				data = {
@@ -392,8 +405,9 @@ io.on("connection", socket => {
 								})
 							}else{
 								io.to(data.roomID).emit("CHANGE_TURN", {
-									oldTurn: data.user.id,
-									newTurn: roomData[data.roomID].users[newTurnIndex].userID
+									oldTurn: data.user.userID,
+									newTurn: roomData[data.roomID].users[newTurnIndex].userID,
+									ID: 1
 								})
 							}
 						}
@@ -480,7 +494,8 @@ io.on("connection", socket => {
 
 			io.to(data.gameCode).emit("CHANGE_TURN", {
 				oldTurn: data.userID,
-				newTurn: data.userID
+				newTurn: data.userID,
+				ID: 2
 			})
 		}else{
 			socket.emit('EVENT_CHAT', {
@@ -530,65 +545,70 @@ io.on("connection", socket => {
 
 								let currentUser = getUserByID(data.userID, data.gameCode)
 
-								if(timeLeft > 0){
-									io.to(data.gameCode).emit('EVENT_CHAT', {
-										message: `User **${currentUser.username}** has **${timeLeft}** seconds to answer`,
-										user: {
-											username: "SYSTEM",
-											userID: "SYSTEM"
-										},
-										timeStamp: Date.now()
-									})
-									timeLeft--
-								}else{
-									clearInterval(roomTimers[data.gameCode])
+								if(currentUser !== null){
 
-									let newTurnIndex = roomData[data.gameCode].users.findIndex(user => {return user.userID===data.userID})+1
-									let oldTurnIndex = roomData[data.gameCode].users.findIndex(user => {return user.userID===data.userID})
-
-									roomData[data.gameCode].users[oldTurnIndex].isTurn = false
-
-
-									if(roomData[data.gameCode].users[newTurnIndex] === undefined){
-										newTurnIndex = 0
-									}
-
-									roomData[data.gameCode].users[newTurnIndex].isTurn = true
-
-									roomData[data.gameCode].currentQuestion = null
-
-									io.to(data.gameCode).emit('EVENT_CHAT', {
-										message: `User **${currentUser.username}** took too long to answer`,
-										user: {
-											username: "SYSTEM",
-											userID: "SYSTEM"
-										},
-										timeStamp: Date.now()
-									})
-
-									let questionsLeft = 30
-
-									Object.keys(roomData[data.gameCode].questions.clues).forEach(category => {
-										roomData[data.gameCode].questions.clues[category].forEach(clue => {
-											if(clue.revealed){
-												questionsLeft--
-											}
+									if(timeLeft > 0){
+										io.to(data.gameCode).emit('EVENT_CHAT', {
+											message: `User **${currentUser.username}** has **${timeLeft}** seconds to answer`,
+											user: {
+												username: "SYSTEM",
+												userID: "SYSTEM"
+											},
+											timeStamp: Date.now()
 										})
-									})
-									
-									if(questionsLeft <= 0){
-										roomData[data.gameCode].gameOver = true
-										io.to(data.gameCode).emit("GAME_OVER", {
-											standings: roomData[data.gameCode].users.sort((a, b) => {
-												return a.balance - b.balance
+										timeLeft--
+									}else{
+										clearInterval(roomTimers[data.gameCode])
+
+										let newTurnIndex = roomData[data.gameCode].users.findIndex(user => {return user.userID===data.userID})+1
+										let oldTurnIndex = roomData[data.gameCode].users.findIndex(user => {return user.userID===data.userID})
+
+										roomData[data.gameCode].users[oldTurnIndex].isTurn = false
+
+
+										if(roomData[data.gameCode].users[newTurnIndex] === undefined){
+											newTurnIndex = 0
+										}
+
+										roomData[data.gameCode].users[newTurnIndex].isTurn = true
+
+										roomData[data.gameCode].currentQuestion = null
+
+										io.to(data.gameCode).emit('EVENT_CHAT', {
+											message: `User **${currentUser.username}** took too long to answer`,
+											user: {
+												username: "SYSTEM",
+												userID: "SYSTEM"
+											},
+											timeStamp: Date.now()
+										})
+
+										let questionsLeft = 30
+
+										Object.keys(roomData[data.gameCode].questions.clues).forEach(category => {
+											roomData[data.gameCode].questions.clues[category].forEach(clue => {
+												if(clue.revealed){
+													questionsLeft--
+												}
 											})
 										})
-									}else{
-										io.to(data.gameCode).emit("CHANGE_TURN", {
-											oldTurn: roomData[data.gameCode].users[oldTurnIndex].userID,
-											newTurn: roomData[data.gameCode].users[newTurnIndex].userID
-										})
+										
+										if(questionsLeft <= 0){
+											roomData[data.gameCode].gameOver = true
+											io.to(data.gameCode).emit("GAME_OVER", {
+												standings: roomData[data.gameCode].users.sort((a, b) => {
+													return a.balance - b.balance
+												})
+											})
+										}else{
+											io.to(data.gameCode).emit("CHANGE_TURN", {
+												oldTurn: roomData[data.gameCode].users[oldTurnIndex].userID,
+												newTurn: roomData[data.gameCode].users[newTurnIndex].userID,
+												ID: 3
+											})
+										}
 									}
+
 								}
 
 							}, 1000)

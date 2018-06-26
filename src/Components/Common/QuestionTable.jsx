@@ -1,21 +1,44 @@
 import React, { Component } from 'react'
 
+import store from './../../store'
+
 class QuestionTable extends Component {
 	constructor(props){
 		super(props)
+
+		this.state = {
+			clues: {}
+		}
+
+		this.onClick = this.onClick.bind(this)
+	}
+
+	componentDidMount() {
+		store.subscribe(() => {
+			this.setState(store.getState())
+		})
+	}
+
+	onClick(e){
+		store.dispatch({type: "s/GAME_ACTION_GET_QUESTION", data: {
+			clueID: e.target.dataset.id,
+			categoryID: e.target.dataset.category,
+			gameCode: this.state.roomID,
+			userID: this.state.user.userID
+		}})
 	}
 
 	getBody(){
 		let rows = {}
 
-		Object.keys(this.props.clues).map(categoryID => {
+		Object.keys(this.state.clues).map(categoryID => {
 							
 			this.props.values.map(value => {
 				if(rows[value] === undefined){
 					rows[value] = []
 				}
 
-				rows[value].push(this.props.clues[categoryID].filter(clue => {
+				rows[value].push(this.state.clues[categoryID].filter(clue => {
 					return clue.value === value
 				})[0])
 			})
@@ -25,7 +48,7 @@ class QuestionTable extends Component {
 			let rowEl = []
 
 			rows[value].map((clue, i) => {
-				rowEl.push(<td key={i} data-key={i} className="game-clue" data-revealed={clue.revealed||false} data-id={clue.id} data-category={clue.category.id}>${value}</td>)
+				rowEl.push(<td key={i} data-key={i} className="game-clue" data-revealed={clue.revealed||false} data-id={clue.id} data-category={clue.category.id} onClick={this.onClick}>{clue.revealed?'X':'$'+value}</td>)
 			})
 
 			return (
@@ -42,8 +65,8 @@ class QuestionTable extends Component {
 				<table id="gameTable">
 					<thead>
 						<tr>
-							{Object.keys(this.props.clues).map((categoryID, i) => {
-								return (<th key={i}>{this.props.clues[categoryID][0].category.title}</th>)
+							{Object.keys(this.state.clues).map((categoryID, i) => {
+								return (<th key={i}>{this.state.clues[categoryID][0].category.title}</th>)
 							})}
 						</tr>
 					</thead>

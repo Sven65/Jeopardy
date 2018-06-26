@@ -15,6 +15,7 @@ class GameArea extends Component {
 
 		this.state = {
 			users: [],
+			currentQuestion: {},
 			clues: {}
 		}
 	}
@@ -45,7 +46,7 @@ class GameArea extends Component {
 						<div className="col l8 s12 left" id="stat-container">
 							<div className="row" id="card-container">
 								{this.props.users.map((user, i) => {
-									return (<UserCard userID={user.userID} image="http://placehold.it/128x128" username={user.username} balance={user.balance}/>)
+									return (<UserCard userID={user.userID} image="http://placehold.it/128x128" username={user.username} balance={user.balance} isTurn={user.isTurn&&this.state.gameStarted} />)
 								})}
 								
 							</div>
@@ -54,13 +55,13 @@ class GameArea extends Component {
 
 						{/* Start question area */}
 
-						<QuestionCard title="Question" clue="This is the clue"/>
+						<QuestionCard question={this.state.currentQuestion}/>
 
 						{/* End question area */}
 
 						{/* Start table area */}
 
-						<QuestionTable clues={this.state.clues} values={this.props.values}/>
+						<QuestionTable values={this.props.values}/>
 
 						{/* End table area */}
 					</div>

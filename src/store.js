@@ -19,6 +19,21 @@ function optimisticExecute(action, emit, next, dispatch) {
 
 let socketIoMiddleware = createSocketIoMiddleware(socket, "s/", {execute: optimisticExecute})
 
+function updateObjectInArray(array, action) {
+	return array.map( (item, index) => {
+		if(index !== action.index) {
+			// This isn't the item we care about - keep it as-is
+			return item;
+		}
+		
+		// Otherwise, this is the one we want - return an updated value
+		return {
+			...item,
+			...action.item
+		};
+	});
+}
+
 function reducer(state, action){
 	console.log("ACT", action)
 
@@ -122,6 +137,48 @@ function reducer(state, action){
 
 			return Object.assign({}, state, {
 				users: state.users.filter(user => user.userID !== action.data.user.userID)
+			})
+		break
+		case "GAME_ACTION_GOT_QUESTION":
+
+			let clues = state.clues
+
+			let clueIndex = clues[action.data.categoryID].findIndex(clue => ""+clue.id === action.data.clueID)
+
+			clues[action.data.categoryID][clueIndex].revealed = true
+
+			return Object.assign({}, state, {
+				currentQuestion: action.data,
+				clues
+			})
+		break
+		case "CHANGE_TURN":
+			let users = state.users
+
+			let newUser = users.findIndex(user => user.userID === action.data.newTurn)
+			let oldUser = users.findIndex(user => user.userID === action.data.oldTurn)
+
+			users[oldUser].isTurn = false
+			users[newUser].isTurn = true
+
+			return Object.assign({}, state, {
+				users: users
+			})
+		break
+		case "GAME_ACTION_STARTED":
+			return Object.assign({}, state, {
+				gameStarted: true
+			})
+		break
+		case "GAME_EVENT_ANSWERED":
+			//let users = state.users
+
+			let userIndex = state.users.findIndex(user => user.userID === action.data.user.userID)
+
+			state.users[userIndex].balance = action.data.newBalance
+
+			return Object.assign({}, state, {
+				users: state.users
 			})
 		break
 		default:
