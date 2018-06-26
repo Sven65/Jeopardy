@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import UserCard from './Common/UserCard'
 import QuestionCard from './Common/QuestionCard'
 import QuestionTable from './Common/QuestionTable'
+import Chat from './Chat'
 
 import store from './../store'
 
@@ -14,7 +15,7 @@ class GameArea extends Component {
 			users: []
 		}
 	}
-	
+
 	render(){
 		return (
 			<div className={"section no-pad-bot " + (this.props.hidden?'hidden':'')} id="gameArea">
@@ -43,6 +44,13 @@ class GameArea extends Component {
 
 						{/* End table area */}
 					</div>
+
+					{/* Start Chat Area */}
+
+					<Chat/>
+
+					{/* End Chat Area */}
+
 				</div>
 			</div>
 		)

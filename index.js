@@ -312,6 +312,8 @@ io.on("connection", socket => {
 	})
 
 	socket.on('chat', data => {
+		console.log("chat", data)
+
 		let emitChat = true
 
 		data.message = data.message.sanitizeHTML()

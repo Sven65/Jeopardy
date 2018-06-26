@@ -53,7 +53,13 @@ function reducer(state, action){
 				error: action.data
 			})
 		break
+		case "chat":
+			return Object.assign({}, state, {
+				messages: [...state.messages||[], action.data]
+			})
+		break
 		default:
+			console.log("OOF", action)
 		break
 	
 	}

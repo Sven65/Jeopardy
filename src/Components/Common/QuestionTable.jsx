@@ -20,7 +20,9 @@ class QuestionTable extends Component {
 						{this.props.values.map((value, i) => {
 							return (
 								<tr key={i} data-value={value}>
-									
+									{Array(6).fill("dong").map((v, x) => {
+										return <td key={x} className="game-clue" data-revealed="false" data-id="${clue.id}" data-category="${categoryID}">${value}</td>
+									})}
 								</tr>
 							)
 						})}
