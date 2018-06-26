@@ -12,8 +12,15 @@ class GameArea extends Component {
 		super(props)
 
 		this.state = {
-			users: []
+			users: [],
+			clues: {}
 		}
+	}
+
+	componentDidMount() {
+		store.subscribe(() => {
+			this.setState(store.getState())
+		})
 	}
 
 	render(){
@@ -40,7 +47,7 @@ class GameArea extends Component {
 
 						{/* Start table area */}
 
-						<QuestionTable categories={this.props.categories} values={this.props.values}/>
+						<QuestionTable clues={this.state.clues} values={this.props.values}/>
 
 						{/* End table area */}
 					</div>

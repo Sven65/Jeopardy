@@ -312,8 +312,6 @@ io.on("connection", socket => {
 	})
 
 	socket.on('chat', data => {
-		console.log("chat", data)
-
 		let emitChat = true
 
 		data.message = data.message.sanitizeHTML()
@@ -322,9 +320,9 @@ io.on("connection", socket => {
 			return
 		}
 
-		if(checkUserIDInRoom(data.user.id, data.roomID)){
+		if(checkUserIDInRoom(data.user.userID, data.roomID)){
 
-			let user = getUserByID(data.user.id, data.roomID)
+			let user = getUserByID(data.user.userID, data.roomID)
 
 			if(user !== null){
 				if(roomData[data.roomID].isStarted){
@@ -336,17 +334,17 @@ io.on("connection", socket => {
 
 						if(answer === fm.get(data.message.toLowerCase(), { maxChanges: 1}).value){
 							emitChat = false
-							io.to(data.roomID).emit('chat', {
+							io.to(data.roomID).emit('EVENT_CHAT', {
 								message: `User **${user.username}** got it right! The answer was **${roomData[data.roomID].currentQuestion.answer}**`,
 								user: {
 									username: "SYSTEM",
-									id: "SYSTEM"
+									userID: "SYSTEM"
 								},
 								timeStamp: Date.now()
 							})
 
-							let newTurnIndex = roomData[data.roomID].users.findIndex(user => {return user.userID===data.user.id})+1
-							let oldTurnIndex = roomData[data.roomID].users.findIndex(user => {return user.userID===data.user.id})
+							let newTurnIndex = roomData[data.roomID].users.findIndex(user => {return user.userID===data.user.userID})+1
+							let oldTurnIndex = roomData[data.roomID].users.findIndex(user => {return user.userID===data.user.userID})
 
 							roomData[data.roomID].users[oldTurnIndex].balance += roomData[data.roomID].currentQuestion.value
 
@@ -402,12 +400,14 @@ io.on("connection", socket => {
 			}
 
 			if(emitChat){
-				io.to(data.roomID).emit('chat', data)
+				io.to(data.roomID).emit('EVENT_CHAT', data)
 			}
 		}
 	})
 
 	socket.on("ACTION_GETQUESTIONS", async data => {
+		console.log("ACT_GQ", data)
+
 		if(data.force){
 			roomData[data.gameCode].questions = undefined
 		}
@@ -467,11 +467,11 @@ io.on("connection", socket => {
 
 			io.to(data.gameCode).emit("GAME_ACTION_STARTED", {timeStamp: Date.now()})
 
-			io.to(data.gameCode).emit('chat', {
+			io.to(data.gameCode).emit('EVENT_CHAT', {
 				message: `User ${getUserByID(data.userID, data.gameCode).username} started the game!`,
 				user: {
 					username: "SYSTEM",
-					id: "SYSTEM"
+					userID: "SYSTEM"
 				},
 				timeStamp: Date.now()
 			})
@@ -481,11 +481,11 @@ io.on("connection", socket => {
 				newTurn: data.userID
 			})
 		}else{
-			socket.emit('chat', {
+			socket.emit('EVENT_CHAT', {
 				message: `Not enough users to start game!`,
 				user: {
 					username: "SYSTEM",
-					id: "SYSTEM"
+					userID: "SYSTEM"
 				},
 				timeStamp: Date.now()
 			})
@@ -529,11 +529,11 @@ io.on("connection", socket => {
 								let currentUser = getUserByID(data.userID, data.gameCode)
 
 								if(timeLeft > 0){
-									io.to(data.gameCode).emit('chat', {
+									io.to(data.gameCode).emit('EVENT_CHAT', {
 										message: `User **${currentUser.username}** has **${timeLeft}** seconds to answer`,
 										user: {
 											username: "SYSTEM",
-											id: "SYSTEM"
+											userID: "SYSTEM"
 										},
 										timeStamp: Date.now()
 									})
@@ -555,11 +555,11 @@ io.on("connection", socket => {
 
 									roomData[data.gameCode].currentQuestion = null
 
-									io.to(data.gameCode).emit('chat', {
+									io.to(data.gameCode).emit('EVENT_CHAT', {
 										message: `User **${currentUser.username}** took too long to answer`,
 										user: {
 											username: "SYSTEM",
-											id: "SYSTEM"
+											userID: "SYSTEM"
 										},
 										timeStamp: Date.now()
 									})

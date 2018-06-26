@@ -4,7 +4,6 @@ import InputField from './Common/InputField'
 import Button from './Common/Button'
 import Message from './Common/Message'
 
-
 import store from './../store'
 
 
@@ -25,6 +24,8 @@ class Chat extends Component {
 	componentDidMount() {
 		store.subscribe(() => {
 			this.setState(store.getState())
+
+			console.log("MESSAGE", this.state.messages)
 		})
 	}
 
@@ -55,7 +56,7 @@ class Chat extends Component {
 						<div className="container" id="chat-container">
 							<ul id="chat-messages">
 								{this.state.messages.map(message => {
-									return (<Message user={message.user} timeStamp={message.timeStamp} message={message.message} />)
+									return (<Message user={message.user} timeStamp={message.timeStamp} message={message.message} key={message.timeStamp}/>)
 								})}
 							</ul>
 						</div>

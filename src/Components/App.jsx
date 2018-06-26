@@ -26,12 +26,6 @@ class App extends Component {
 			questionsLoaded: false,
 			roomID: "",
 			user: {},
-			beforeGame: {
-				hide: false
-			},
-			gameArea: {
-				hide: true
-			},
 			error: {
 
 			}
@@ -47,8 +41,8 @@ class App extends Component {
 	render(){
 		return (
 			<div className="App">
-				<Navbar gameCode={this.state.roomID} />
-				<BeforeGame hidden={this.state.roomID!==""} headerText={this.state.error.reason||"Please enter details"} /*socket={this.socket}*//>
+				<Navbar gameCode={this.state.roomID} hideButtons={this.state.roomID===""} hideStartButton={this.state.user.isHost}/>
+				<BeforeGame hidden={this.state.roomID!==""} headerText={this.state.error.reason||"Please enter details"} />
 				<GameArea hidden={this.state.roomID===""} categories={[
 					"Category 1",
 					"Category 2",
