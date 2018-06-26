@@ -222,6 +222,8 @@ io.on("connection", socket => {
 
 			let user = getUserByID(socket.id, roomID)
 
+			console.log("LEAVE", user)
+
 			socket.leave(roomID)
 
 			if(user !== undefined){
@@ -239,7 +241,7 @@ io.on("connection", socket => {
 					timeStamp: Date.now(),
 					roomCode: roomID,
 					user: {
-						id: socket.id,
+						userID: socket.id,
 						username: user.username
 					}
 				}

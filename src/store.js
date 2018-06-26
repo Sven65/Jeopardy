@@ -50,12 +50,30 @@ function reducer(state, action){
 				}})
 
 				if(user.userID === socket.id){
+					action.asyncDispatch({type: "EVENT_CHAT", data: {
+						message: `Joined room **${action.data.gameCode}** as **${action.data.username}**!`,
+						user: {
+							username: "SYSTEM",
+							userID: "SYSTEM"
+						},
+						timeStamp: Date.now()
+					}})
+
 					return Object.assign({}, state, {
 						roomID: action.data.gameCode,
 						user: user,
 						users: [...state.users||[], user]
 					})
 				}else{
+					action.asyncDispatch({type: "EVENT_CHAT", data: {
+						message: `User **${action.data.username}** joined!`,
+						user: {
+							username: "SYSTEM",
+							userID: "SYSTEM"
+						},
+						timeStamp: Date.now()
+					}})
+
 					return Object.assign({}, state, {
 						roomID: action.data.gameCode,
 						users: [...state.users||[], user]
@@ -70,8 +88,6 @@ function reducer(state, action){
 			})
 		break
 		case "EVENT_CHAT":
-			console.log("CHAT", action.data)
-
 			return Object.assign({}, state, {
 				messages: [...state.messages||[], action.data]
 			})
@@ -84,6 +100,20 @@ function reducer(state, action){
 				})
 			}
 		break
+		case "USER_LEAVE":
+			action.asyncDispatch({type: "EVENT_CHAT", data: {
+				message: `User ${action.data.user.username} left!`,
+				user: {
+					username: "SYSTEM",
+					userID: "SYSTEM"
+				},
+				timeStamp: Date.now()
+			}})
+
+			return Object.assign({}, state, {
+				users: state.users.filter(user => user.userID !== action.data.user.userID)
+			})
+		break
 		default:
 			console.log("OOF", action)
 		break
@@ -93,13 +123,30 @@ function reducer(state, action){
 	return state;
 }
 
+const rootReducer = (state, action) => {
+	if (action.type === 'LEAVE') {
+		state = {
+			joinedUsers: [],
+			users: [],
+			questionsLoaded: false,
+			roomID: "",
+			user: {},
+			error: {
+
+			}
+		}
+	}
+
+	return reducer(state, action);
+}
+
 
 socket.on("*", data => {
 	//console.log("*", data)
 	store.dispatch({type: data.data[0], data: data.data[1]})
 })
 
-let store = applyMiddleware(socketIoMiddleware, asyncDispatchMiddleware)(createStore)(reducer)
+let store = applyMiddleware(socketIoMiddleware, asyncDispatchMiddleware)(createStore)(rootReducer)
 
 store.subscribe(()=>{
 	console.log('new client state', store.getState())
