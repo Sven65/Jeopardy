@@ -11,15 +11,15 @@ class QuestionTable extends Component {
 				<table id="gameTable">
 					<thead>
 						<tr>
-							{this.props.categories.map(category => {
-								return <th>{category}</th>
+							{this.props.categories.map((category, i) => {
+								return <th key={i}>{category}</th>
 							})}
 						</tr>
 					</thead>
 					<tbody>
-						{this.props.values.map(value => {
+						{this.props.values.map((value, i) => {
 							return (
-								<tr data-value={value}>
+								<tr key={i} data-value={value}>
 									
 								</tr>
 							)

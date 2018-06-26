@@ -22,6 +22,7 @@ class App extends Component {
 		this.state = {
 			joinedUsers: [],
 			users: [],
+			byUserID: [],
 			questionsLoaded: false,
 			roomID: "",
 			user: {},
@@ -30,22 +31,11 @@ class App extends Component {
 			},
 			gameArea: {
 				hide: true
+			},
+			error: {
+
 			}
 		}
-
-		//this.socket = io('http://localhost:3100');
-
-		/*this.socket.on("USER_JOIN", data => {
-			console.log("JOINDATA", data)
-
-			this.setState(prevState => ({
-				roomID: data.roomID,
-				joinedUsers: [...prevState.joinedUsers, data.userID],
-				users: [...prevState.users, {userID: data.userID, username: data.username}]
-			}))
-
-			console.log("JOINSTATE", this.state)
-		})*/
 	}
 
 	componentDidMount() {
@@ -58,8 +48,8 @@ class App extends Component {
 		return (
 			<div className="App">
 				<Navbar gameCode={this.state.roomID} />
-				<BeforeGame hidden={this.state.beforeGame.hide} headerText="Please enter details" /*socket={this.socket}*//>
-				<GameArea hidden={this.state.gameArea.hide} categories={[
+				<BeforeGame hidden={this.state.roomID!==""} headerText={this.state.error.reason||"Please enter details"} /*socket={this.socket}*//>
+				<GameArea hidden={this.state.roomID===""} categories={[
 					"Category 1",
 					"Category 2",
 					"Category 3",

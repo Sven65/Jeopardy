@@ -10,6 +10,7 @@ class BeforeGame extends Component {
 		super(props)
 
 		this.joinGame = this.joinGame.bind(this)
+		this.onKeyDown = this.onKeyDown.bind(this)
 
 		this.gameCodeInput = React.createRef()
 		this.usernameInput = React.createRef()
@@ -22,21 +23,16 @@ class BeforeGame extends Component {
 	}
 
 	joinGame(){
-		//store.dispatch(joinGame(this.gameCodeInput.value, this.usernameInput.value))
-		//this.props.socket.emit("DEBUG", "Benis")
-		//store.dispatch({type: "DEBUG", socket: {message: "PENIS"}})*/
-
-
-
-		/*this.props.socket.emit("JOIN", {
-			gameCode: this.gameCodeInput.value,
-			username: this.usernameInput.value
-		})*/
-
 		store.dispatch({type: "s/JOIN", data: {
 			gameCode: this.gameCodeInput.value,
 			username: this.usernameInput.value
 		}})
+	}
+
+	onKeyDown(e){
+		if(e.keyCode === 13){
+			this.joinGame()
+		}
 	}
 
 	render(){
@@ -50,9 +46,9 @@ class BeforeGame extends Component {
 								<div className="row">
 									<div className="col s12 l12">
 										<div className="row">
-											<InputField grid="col s12 " id="username" type="text" label="Username" inputRef={el => this.usernameInput = el}/>
+											<InputField grid="col s12 " id="username" type="text" label="Username" inputRef={el => this.usernameInput = el} onKeyDown={this.onKeyDown}/>
 											
-											<InputField grid="col s12" id="gameCode" type="text" label="Game Code" inputRef={el => this.gameCodeInput = el}/>
+											<InputField grid="col s12" id="gameCode" type="text" label="Game Code" inputRef={el => this.gameCodeInput = el} onKeyDown={this.onKeyDown}/>
 										</div>
 										<div className="row">
 											<div className="col s12">

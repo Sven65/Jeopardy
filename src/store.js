@@ -25,17 +25,32 @@ function reducer(state, action){
 
 	switch(action.type.replace("s/", "")){
 		case 'USER_JOIN':
-		// TODO: Make this add to the users table in state and make it show game area
-			return Object.assign({}, state, {
-				roomID: action.data.gameCode,
-				user: {
-					username: action.data.username,
-					userID: action.data.userID,
-					balance: action.data.balance,
-					host: action.data.host,
-					isTurn: action.data.isTurn,
-					timeStamp: action.data.timeStamp
+			let user = {
+				username: action.data.username,
+				userID: action.data.userID,
+				balance: action.data.balance,
+				host: action.data.host,
+				isTurn: action.data.isTurn,
+				timeStamp: action.data.timeStamp
+			}
+
+			if(state.roomID === "" || state.roomID === undefined || state.roomID === null){
+				return Object.assign({}, state, {
+					roomID: action.data.gameCode,
+					user: user,
+					users: [...state.users||[], user]
+				})
+			}else{
+				if(user.userID !== state.user.userID){
+					return Object.assign({}, state, {
+						users: [...state.users||[], user]
+					})
 				}
+			}
+		break
+		case "GERROR":
+			return Object.assign({}, state, {
+				error: action.data
 			})
 		break
 		default:
