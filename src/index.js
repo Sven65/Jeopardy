@@ -24,4 +24,5 @@ const Application = ReactDOM.render(
  * @TODO: Add AFK timer
  * @TODO: Add a message saying whos turn it is in chat
  * @TODO: Make turn indicator more clear, maybe highlight the user box
+ * @TODO: Fix bug where winner is last
  */
