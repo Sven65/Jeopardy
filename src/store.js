@@ -94,6 +94,16 @@ function reducer(state, action){
 		break
 		case "ACTION_GOTQUESTIONS":
 			if(!state.questionsLoaded){
+
+				action.asyncDispatch({type: "EVENT_CHAT", data: {
+					message: `Questions Loaded!`,
+					user: {
+						username: "SYSTEM",
+						userID: "SYSTEM"
+					},
+					timeStamp: Date.now()
+				}})
+
 				return Object.assign({}, state, {
 					questionsLoaded: true,
 					clues: action.data.clues

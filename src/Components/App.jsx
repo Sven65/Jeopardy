@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 
 import './../styles/materialize.min.css'
 import './../styles/main.css'
+import './../styles/loaders.min.css'
 
 import './../General/materialize.min.js'
 

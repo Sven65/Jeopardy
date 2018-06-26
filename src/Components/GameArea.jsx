@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 
+
 import UserCard from './Common/UserCard'
 import QuestionCard from './Common/QuestionCard'
 import QuestionTable from './Common/QuestionTable'
 import Chat from './Chat'
+import Loader from './Common/Loader'
 
 import store from './../store'
 
@@ -24,8 +26,19 @@ class GameArea extends Component {
 	}
 
 	render(){
+		if(Object.keys(this.state.clues).length<=0){
+			document.body.style.overflow = "hidden";
+		}else{
+			document.body.style.overflow = "scroll";
+		}
+
 		return (
 			<div className={"section no-pad-bot " + (this.props.hidden?'hidden':'')} id="gameArea">
+				{Object.keys(this.state.clues).length<=0 &&
+					<div className="loader-holder">
+						<Loader />
+					</div>
+				}
 				<div className="container">
 					<div className="row">
 						{/* Start User Stats */}
