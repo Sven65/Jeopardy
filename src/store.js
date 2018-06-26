@@ -1,3 +1,5 @@
+const debug = false
+
 import reducers from './Reducers'
 
 import { createStore, applyMiddleware, combineReducers } from 'redux'
@@ -6,9 +8,8 @@ import createSocketIoMiddleware from 'redux-socket.io'
 import asyncDispatchMiddleware from './Middlewares/AsyncDispatchMiddleware'
 import io from 'socket.io-client'
 
-let socket = io('http://localhost:3100')
+let socket = io(debug?'http://localhost:3100':'https://triviaparty.club')
 
-const debug = false
 const patch = require('socketio-wildcard')(io.Manager);
 patch(socket)
 
