@@ -1,11 +1,10 @@
 // @TODO: Make this redis ORM thing work
 
-/*const config = require("config")
-const redis = require("redis")*/
+const config = require("config")
+/*const redis = require("redis")*/
 
 const app = require('./app')
 const JService = require('./util/JService')
-const fs = require("fs")
 
 const JS = new JService()
 const FuzzyMatching = require('fuzzy-matching')
@@ -43,17 +42,16 @@ require('./util/Models')
  * @TODO: Cleanup
  */
 
-const access = fs.createWriteStream(__dirname + '/node.access.log', { flags: 'a' });
 
 let roomData = {}
 let roomTimers = {}
 
-const port = (process.env.PORT || 3100)
-const host = (process.env.HOST || undefined)
+const port = (config.get("Server.port") || 3100)
+const host = (config.get("Server.host") || undefined)
 
-const questionAmount = 30
-const minPlayers = 1
-const maxPlayers = 4
+const questionAmount = config.get("Game.questionAmount")
+const minPlayers = config.get("Game.minPlayers")
+const maxPlayers = config.get("Game.maxPlayers")
 
 const server = app.listen(port, host, () => {
 	// ask server for the actual address and port its listening on
@@ -186,8 +184,6 @@ io.on("connection", socket => {
 	socket.on('action', (action) => {
 		console.log("ACT", action)
 	});
-
-	access.write(`Connection from ${socket.conn.remoteAddress}\n`)
 
 	socket.on("disconnecting", () => {
 		console.log("DISC")

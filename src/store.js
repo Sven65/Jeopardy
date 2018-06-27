@@ -1,5 +1,3 @@
-const debug = false
-
 import reducers from './Reducers'
 
 import { createStore, applyMiddleware, combineReducers } from 'redux'
@@ -8,7 +6,7 @@ import createSocketIoMiddleware from 'redux-socket.io'
 import asyncDispatchMiddleware from './Middlewares/AsyncDispatchMiddleware'
 import io from 'socket.io-client'
 
-let socket = io(debug?'http://localhost:3100':'https://triviaparty.club')
+let socket = io(`${CONFIG.Client.socket.host}`)
 
 const patch = require('socketio-wildcard')(io.Manager);
 patch(socket)
@@ -37,7 +35,7 @@ function updateObjectInArray(array, action) {
 }
 
 function reducer(state, action){
-	if(debug){
+	if(CONFIG.DEV){
 		console.log("ACT", action)
 	}
 
@@ -192,7 +190,7 @@ function reducer(state, action){
 			})
 		break
 		default:
-			if(debug){
+			if(CONFIG.DEV){
 				console.log("OOF", action)
 			}
 			return state
@@ -229,7 +227,7 @@ socket.on("*", data => {
 let store = applyMiddleware(socketIoMiddleware, asyncDispatchMiddleware)(createStore)(rootReducer)
 
 store.subscribe(()=>{
-	if(debug){
+	if(CONFIG.DEV){
 		console.log('new client state', store.getState())
 	}
 })

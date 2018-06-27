@@ -1,3 +1,5 @@
+const ConfigWebpackPlugin = require("config-webpack");
+
 module.exports = {
 	entry: "./src/index.js",
 	output: {
@@ -28,5 +30,8 @@ module.exports = {
 	},
 	resolve: {
 		extensions: ['.js', '.jsx']
-	}
+	},
+	plugins: [
+		new ConfigWebpackPlugin()
+	]
 }

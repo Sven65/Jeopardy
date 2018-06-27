@@ -1,7 +1,17 @@
-{
-	"redis": {
-		"host": "127.0.0.1",
-		"port": "6379"
+{	
+	"DEV": true,
+	"Server": {
+		"port": 3100,
+		"host": "0.0.0.0"
 	},
-	"debug": false
+	"Game": {
+		"questionAmount": 30,
+		"minPlayers": 1,
+		"maxPlayers": 4
+	},
+	"Client": {
+		"socket": {
+			"host": "http://localhost:3100"
+		}
+	}
 }
