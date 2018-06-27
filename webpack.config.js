@@ -1,4 +1,5 @@
 const ConfigWebpackPlugin = require("config-webpack");
+const webpack = require('webpack');
 
 module.exports = {
 	entry: "./src/index.js",
@@ -32,6 +33,9 @@ module.exports = {
 		extensions: ['.js', '.jsx']
 	},
 	plugins: [
-		new ConfigWebpackPlugin()
+		new ConfigWebpackPlugin(),
+		new webpack.DefinePlugin({
+			VERSION: JSON.stringify(require("./package.json").version)
+		})
 	]
 }

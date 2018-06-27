@@ -34,16 +34,25 @@ class Chat extends Component {
 	}
 
 	sendMessage(){
-		if(this.messageInput.value !== ""){
+		if(this.messageInput.value === ""){
+			return
+		}
+
+		if(this.messageInput.value.toLowerCase() === "/version"){
+			store.dispatch({type: "LOCAL_COMMAND", data: {
+				command: "VERSION"
+			}})
+		}else{
+
 			store.dispatch({type: "s/chat", data: {
 				roomID: this.state.roomID,
 				user: this.state.user,
 				message: this.messageInput.value,
 				timeStamp: Date.now()
 			}})
-
-			this.messageInput.value = ""
 		}
+
+		this.messageInput.value = ""
 	}
 
 	scrollToBottom(){

@@ -12,9 +12,9 @@ import Navbar from './Navbar'
 import BeforeGame from './BeforeGame'
 import GameArea from './GameArea'
 
+import Footer from './Common/Footer'
+
 import store from '../store'
-
-
 
 class App extends Component {
 	constructor(props){

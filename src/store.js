@@ -109,6 +109,24 @@ function reducer(state, action){
 				messages: [...state.messages||[], action.data]
 			})
 		break
+		case "LOCAL_COMMAND":
+			let response = ""
+
+			switch(action.data.command){
+				case "VERSION":
+					response = `TriviaParty Version **${VERSION}**`
+				break
+			}
+
+			action.asyncDispatch({type: "EVENT_CHAT", data: {
+				message: response,
+				user: {
+					username: "SYSTEM",
+					userID: "SYSTEM"
+				},
+				timeStamp: Date.now()
+			}})
+		break
 		case "ACTION_GOTQUESTIONS":
 			if(!state.questionsLoaded){
 

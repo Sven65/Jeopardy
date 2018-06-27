@@ -29,10 +29,10 @@ class GameArea extends Component {
 	}
 
 	render(){
-		if(Object.keys(this.state.clues).length<=0 || this.state.gameDone){
+		if(Object.keys(this.state.clues).length<=0 && this.state.roomID !== undefined || this.state.gameDone){
 			document.body.style.overflow = "hidden";
 		}else{
-			document.body.style.overflow = "scroll";
+			document.body.style.overflow = "auto";
 		}
 
 		return (

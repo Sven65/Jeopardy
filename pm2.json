@@ -1,0 +1,9 @@
+{
+	"apps": [
+		{
+			"name": "TriviaParty.club",
+			"script": "npm",
+			"args": "run server"
+		}
+	]
+}

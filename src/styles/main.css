@@ -156,3 +156,8 @@ html, body{
 	min-height: 256px;
 	width: 192px;
 }
+
+.footer{
+	line-height: 5px;
+	text-align: center;
+}
