@@ -19,5 +19,12 @@
 		"socket": {
 			"host": "http://localhost:3100"
 		}
+	},
+	"Database": {
+		"host": "",
+		"user": "",
+		"password": "",
+		"port": 0,
+		"database": ""
 	}
 }

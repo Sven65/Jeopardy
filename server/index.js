@@ -3,6 +3,9 @@
 const config = require("config")
 /*const redis = require("redis")*/
 
+const { Client } = require('pg')
+const client = new Client(config.get("Database"))
+
 const app = require('./app')
 const JService = require('./util/JService')
 
@@ -34,14 +37,25 @@ require('./util/Models')
 
 /** 
  * @TODO: Add passwords to rooms
- * @TODO: Add instructions to main page
- * @TODO: Make the game layout work on mobile phones
  * @TODO: Make users able to register to keep track of wins and such
  * @TODO: Make registered users able to add custom categories
- * @TODO: Move roomData into redis or something
+ * @TODO: Move roomData into postgres
+ * @TODO: Make the clues actually get inserted into the game.questions column in postgres
  * @TODO: Cleanup
  */
 
+
+client.connect()
+
+const Query = require('pg').Query;
+const submit = Query.prototype.submit;
+Query.prototype.submit = function() {
+  const text = this.text;
+  const values = this.values;
+  const query = values.reduce((q, v, i) => q.replace(`$${i + 1}`, v), text);
+  console.log(query);
+  submit.apply(this, arguments);
+};
 
 let roomData = {}
 let roomTimers = {}
@@ -195,7 +209,7 @@ io.on("connection", socket => {
 	/**
 	 * Handles user joining
 	 */
-	socket.on("JOIN", data => {
+	socket.on("JOIN", async data => {
 
 		let isHost = false
 		let canJoin = false
@@ -205,11 +219,23 @@ io.on("connection", socket => {
 		data.username = data.username.sanitizeHTML()
 
 		if(roomData[data.roomID] === undefined){
-			roomData[data.roomID] = new Game({
+			/*roomData[data.roomID] = new Game({
 				users: [],
 				isStarted: false,
 				currentQuestion: null
-			})
+			})*/
+
+			client.query(`INSERT INTO games ("roomID", "currentQuestion", "isStarted", questions, users) VALUES ($1, $2, $3, $4, $5) RETURNING *`, [
+				data.roomID,
+				null,
+				false,
+				null,
+				[]
+			])
+
+
+			let pData = await client.query(`SELECT * FROM games WHERE "roomID" = $1`, [data.roomID])
+			roomData[data.roomID] = new Game(pData.rows[0])
 		}
 
 
@@ -248,6 +274,14 @@ io.on("connection", socket => {
 			let user = new User(data)
 
 			roomData[data.roomID].users.push(data)
+
+			client.query(`
+				UPDATE games
+				SET users = array_append(users, $1)
+				WHERE "roomID" = $2
+			`,
+				[user.toJSON(), data.roomID]
+			)
 
 			roomData[data.roomID].users.forEach(user => {
 				socket.emit("USER_JOIN", user)
@@ -387,6 +421,14 @@ io.on("connection", socket => {
 				if(!isset(room.questions)){
 					room.questions = {}
 				}
+
+				await client.query(`
+					UPDATE games
+					SET questions = '${JSON.stringify(data.clues).replace(/(\\)?'/gm, "`")}'
+					WHERE "roomID" = $1
+				`,
+					[data.roomID]
+				)
 
 				room.questions = {
 					loaded: true,
