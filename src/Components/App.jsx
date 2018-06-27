@@ -44,7 +44,7 @@ class App extends Component {
 	render(){
 		return (
 			<div className="App">
-				<Navbar gameCode={this.state.roomID} hideButtons={this.state.roomID===""} hideStartButton={(this.state.gameStarted || !this.state.user.host)}/>
+				<Navbar roomID={this.state.roomID} hideButtons={this.state.roomID===""} hideStartButton={(this.state.gameStarted || !this.state.user.host)}/>
 				<BeforeGame hidden={this.state.roomID!==""} headerText={this.state.error.reason||"Please enter details"} />
 				<GameArea hidden={this.state.roomID===""} categories={[
 					"Category 1",

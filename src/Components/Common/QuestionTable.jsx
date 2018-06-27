@@ -23,7 +23,7 @@ class QuestionTable extends Component {
 		store.dispatch({type: "s/GAME_ACTION_GET_QUESTION", data: {
 			clueID: e.target.dataset.id,
 			categoryID: e.target.dataset.category,
-			gameCode: this.state.roomID,
+			roomID: this.state.roomID,
 			userID: this.state.user.userID
 		}})
 	}

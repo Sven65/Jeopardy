@@ -7,7 +7,13 @@
 	"Game": {
 		"questionAmount": 30,
 		"minPlayers": 1,
-		"maxPlayers": 4
+		"maxPlayers": 4,
+		"timers": {
+			"answerTime": {
+				"countdown": 5,
+				"beforeCountdown": 10
+			}
+		}
 	},
 	"Client": {
 		"socket": {

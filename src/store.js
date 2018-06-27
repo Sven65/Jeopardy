@@ -63,12 +63,12 @@ function reducer(state, action){
 			if(!isJoined){
 
 				action.asyncDispatch({type: "s/ACTION_GETQUESTIONS", data: {
-					gameCode: action.data.gameCode
+					roomID: action.data.roomID
 				}})
 
 				if(user.userID === socket.id){
 					action.asyncDispatch({type: "EVENT_CHAT", data: {
-						message: `Joined room **${action.data.gameCode}** as **${action.data.username}**!`,
+						message: `Joined room **${action.data.roomID}** as **${action.data.username}**!`,
 						user: {
 							username: "SYSTEM",
 							userID: "SYSTEM"
@@ -77,7 +77,7 @@ function reducer(state, action){
 					}})
 
 					return Object.assign({}, state, {
-						roomID: action.data.gameCode,
+						roomID: action.data.roomID,
 						user: user,
 						users: [...state.users||[], user]
 					})
@@ -92,7 +92,7 @@ function reducer(state, action){
 					}})
 
 					return Object.assign({}, state, {
-						roomID: action.data.gameCode,
+						roomID: action.data.roomID,
 						users: [...state.users||[], user]
 					})
 				}

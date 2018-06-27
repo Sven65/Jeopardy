@@ -12,7 +12,7 @@ class BeforeGame extends Component {
 		this.joinGame = this.joinGame.bind(this)
 		this.onKeyDown = this.onKeyDown.bind(this)
 
-		this.gameCodeInput = React.createRef()
+		this.roomIDInput = React.createRef()
 		this.usernameInput = React.createRef()
 	}
 
@@ -24,7 +24,7 @@ class BeforeGame extends Component {
 
 	joinGame(){
 		store.dispatch({type: "s/JOIN", data: {
-			gameCode: this.gameCodeInput.value,
+			roomID: this.roomIDInput.value,
 			username: this.usernameInput.value
 		}})
 	}
@@ -48,7 +48,7 @@ class BeforeGame extends Component {
 										<div className="row">
 											<InputField grid="col s12 " id="username" type="text" label="Username" inputRef={el => this.usernameInput = el} onKeyDown={this.onKeyDown}/>
 											
-											<InputField grid="col s12" id="gameCode" type="text" label="Game Code" inputRef={el => this.gameCodeInput = el} onKeyDown={this.onKeyDown}/>
+											<InputField grid="col s12" id="roomIDInput" type="text" label="Game Code" inputRef={el => this.roomIDInput = el} onKeyDown={this.onKeyDown}/>
 										</div>
 										<div className="row">
 											<div className="col s12">

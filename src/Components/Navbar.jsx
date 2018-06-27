@@ -22,7 +22,7 @@ class Navbar extends Component {
 
 	startGame(){
 		store.dispatch({type: "s/GAME_ACTION_START", data: {
-			gameCode: this.state.roomID,
+			roomID: this.state.roomID,
 			userID: this.state.user.userID
 		}})
 	}
@@ -40,7 +40,7 @@ class Navbar extends Component {
 		return (
 			<nav className="light-blue lighten-1" role="navigation">
 				<div className="nav-wrapper container">
-					<a id="logo-container" href="#" className="brand-logo">TriviaParty - <span id="gameCodeHeader">{this.props.gameCode}</span></a>
+					<a id="logo-container" href="#" className="brand-logo">TriviaParty - <span id="gameCodeHeader">{this.props.roomID}</span></a>
 
 					<ul id="game-buttons" className={"right "+(this.props.hideButtons?'hidden':'')}>
 						{!this.props.hideStartButton &&
