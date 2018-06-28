@@ -231,9 +231,7 @@ io.on("connection", socket => {
 
 			room = await getRoomByID(data.roomID)
 		}
-
-		console.log("ROOM", room)
-
+		
 		if(Object.keys(room.questions) <= 0 && room.users.length <= 0){
 			isHost = true
 		}
