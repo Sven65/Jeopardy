@@ -1,7 +1,5 @@
-// @TODO: Make this redis ORM thing work
-
 const config = require("config")
-/*const redis = require("redis")*/
+const fs = require("fs")
 
 const { Client } = require('pg')
 const client = new Client(config.get("Database"))
@@ -11,29 +9,6 @@ const JService = require('./util/JService')
 
 const JS = new JService()
 const FuzzyMatching = require('fuzzy-matching')
-/*
-const redisCli = redis.createClient({
-	host: config.get('redis.host'),
-	port: config.get('redis.port')
-})
-
-redisCli.on("error", err => {
-	throw err
-})
-
-redisCli.on("connect", () => {
-	nohm.setClient(redisCli)
-})
-
-
-// START: NOHM START \\
-
-nohm.setPrefix('Jeopardy')
-require('./util/Models')
-
-// END: NOHM SETUP \\
-
-//const http = require("http").Server(app)
 
 /** 
  * @TODO: Add passwords to rooms
@@ -44,18 +19,17 @@ require('./util/Models')
  * @TODO: Cleanup
  */
 
-
-client.connect()
-
-const Query = require('pg').Query;
+/*const Query = require('pg').Query;
 const submit = Query.prototype.submit;
 Query.prototype.submit = function() {
-  const text = this.text;
-  const values = this.values;
-  const query = values.reduce((q, v, i) => q.replace(`$${i + 1}`, v), text);
-  console.log(query);
-  submit.apply(this, arguments);
-};
+	const text = this.text;
+	const values = this.values;
+	const query = values.reduce((q, v, i) => q.replace(`$${i + 1}`, v), text);
+	console.log(query);
+	submit.apply(this, arguments);
+};*/
+
+client.connect()
 
 let roomData = {}
 let roomTimers = {}
@@ -121,56 +95,79 @@ function sendSystemMessage(roomID, message){
 	})
 }
 
+async function getRoomByID(roomID){
+	let roomData = await client.query(`SELECT * FROM games WHERE "roomID" = $1`, [roomID])
+
+	if(!isset(roomData.rows[0])){
+		return null
+	}
+
+	roomData.rows[0].db = client
+	return new Game(roomData.rows[0])
+}
+
 io.on("connection", socket => {
 
 	/**
 	 * Handles events emitted before a user is disconnected, such as by a refresh of the page
 	 */
-	socket.on("disconnecting", () => {
-		let roomID = socket.rooms[Object.keys(socket.rooms)[1]]
-		room = roomData[roomID]
+	socket.on("disconnecting", async () => {
+	    let rooms = Object.keys(socket.rooms);
 
-		if(!isset(room)){
-			return
+		const start = async () => {
+			await asyncForEach(rooms, async (roomID) => {
+				if(!isset(roomID)){
+					return
+				}
+
+				let room = await getRoomByID(roomID)
+
+				if(!isset(room)){
+					return
+				}
+
+				let user = room.getUserByID(socket.id)
+
+				if(!isset(user)){
+					return
+				}
+
+				let data = {
+					timeStamp: Date.now(),
+					roomCode: roomID,
+					user: {
+						id: socket.id,
+						username: user.username
+					}
+				}
+
+				await room.removeUser(user)
+
+				if(room.playerCount <= 0){
+
+					clearTimeout(roomTimers[roomID])
+					clearInterval(roomTimers[roomID])
+
+					delete roomTimers[roomID]
+
+					room.delete()
+				}
+
+				io.to(roomID).emit("USER_LEAVE", data)
+				socket.leave(roomID)
+			})
 		}
-
-		let user = room.getUserByID(socket.id)
-
-		if(!isset(user)){
-			return
-		}
-
-		let data = {
-			timeStamp: Date.now(),
-			roomCode: roomID,
-			user: {
-				id: socket.id,
-				username: user.username
-			}
-		}
-
-		room.removeUser(user)
-
-		if(room.playerCount <= 0){
-			delete roomData[roomID]
-
-			clearTimeout(roomTimers[roomID])
-			clearInterval(roomTimers[roomID])
-
-			delete roomTimers[roomID]
-		}
-
-		socket.leave(roomID)
-		io.to(roomID).emit("USER_LEAVE", data)
+		
+		start()
 	})
 
 	/**
 	 * Handles when a user clicks the "Leave Game" button
 	 */
-	socket.on("USER_ACTION_LEAVE", data => {
+	socket.on("USER_ACTION_LEAVE", async data => {
 		let roomID = data.roomID
 
-		room = roomData[roomID]
+		room = await getRoomByID(roomID)
 
 		if(!isset(room)){
 			return
@@ -191,19 +188,20 @@ io.on("connection", socket => {
 			}
 		})
 
-		room.removeUser(user)
+		await room.removeUser(user)
 
 		if(room.playerCount <= 0){
-			delete roomData[roomID]
 
 			clearTimeout(roomTimers[roomID])
 			clearInterval(roomTimers[roomID])
 
 			delete roomTimers[roomID]
+
+			room.delete()
 		}
 
-		socket.leave(roomID)
 		io.to(roomID).emit("USER_LEAVE", data)
+		socket.leave(roomID)
 	})
 
 	/**
@@ -214,36 +212,33 @@ io.on("connection", socket => {
 		let isHost = false
 		let canJoin = false
 		let errorMessage = "Game is still loading, please wait."
+		
 
 		data.roomID = data.roomID.sanitizeHTML()
 		data.username = data.username.sanitizeHTML()
 
-		if(roomData[data.roomID] === undefined){
-			/*roomData[data.roomID] = new Game({
-				users: [],
-				isStarted: false,
-				currentQuestion: null
-			})*/
+		let room = await getRoomByID(data.roomID)
 
-			client.query(`INSERT INTO games ("roomID", "currentQuestion", "isStarted", questions, users) VALUES ($1, $2, $3, $4, $5) RETURNING *`, [
+		if(!isset(room)){
+
+			await client.query(`INSERT INTO games ("roomID", "currentQuestion", "isStarted", questions, users) VALUES ($1, $2, $3, $4, $5) RETURNING *`, [
 				data.roomID,
 				null,
 				false,
-				null,
+				{},
 				[]
-			])
+			])	
 
-
-			let pData = await client.query(`SELECT * FROM games WHERE "roomID" = $1`, [data.roomID])
-			roomData[data.roomID] = new Game(pData.rows[0])
+			room = await getRoomByID(data.roomID)
 		}
 
+		console.log("ROOM", room)
 
-		if(!isset(roomData[data.roomID].questions) && roomData[data.roomID].users.length <= 0){
+		if(Object.keys(room.questions) <= 0 && room.users.length <= 0){
 			isHost = true
 		}
 
-		if(isset(roomData[data.roomID].questions) && roomData[data.roomID].questions.loaded){
+		if(isset(room.questions) && room.questions.loaded){
 			canJoin = true
 		}else{
 			if(isHost){
@@ -251,12 +246,12 @@ io.on("connection", socket => {
 			}
 		}
 
-		if(roomData[data.roomID].checkUsernameInRoom(data.username)){
+		if(room.checkUsernameInRoom(data.username)){
 			canJoin = false
 			errorMessage = "Username already in use."
 		}
 
-		if(roomData[data.roomID].users.length >= maxPlayers){
+		if(room.users.length >= maxPlayers){
 			canJoin = false
 			errorMessage = "Game is full."
 		}
@@ -265,7 +260,7 @@ io.on("connection", socket => {
 			socket.join(data.roomID)
 
 			data.timeStamp = Date.now()
-			data.roomCode = data.roomID
+			data.roomID = data.roomID
 			data.userID = socket.id
 			data.host = isHost
 			data.isTurn = isHost
@@ -273,20 +268,13 @@ io.on("connection", socket => {
 
 			let user = new User(data)
 
-			roomData[data.roomID].users.push(data)
+			await room.addUser(user)
 
-			client.query(`
-				UPDATE games
-				SET users = array_append(users, $1)
-				WHERE "roomID" = $2
-			`,
-				[user.toJSON(), data.roomID]
-			)
-
-			roomData[data.roomID].users.forEach(user => {
+			room.users.forEach(user => {
 				socket.emit("USER_JOIN", user)
 			})
-			
+
+
 			io.to(data.roomID).emit("USER_JOIN", data)
 		}else{
 			socket.emit("GERROR", {type: "JOIN", reason: errorMessage})
@@ -296,10 +284,10 @@ io.on("connection", socket => {
 	/**
 	 * Handles all chat messages along with answering in the chat
 	 */
-	socket.on('chat', data => {
+	socket.on('chat', async data => {
 		let emitChat = true
 
-		let room = roomData[data.roomID]
+		let room = await getRoomByID(data.roomID)
 
 		if(!isset(room)){
 			return
@@ -329,9 +317,11 @@ io.on("connection", socket => {
 				emitChat = false
 				sendSystemMessage(data.roomID, `User **${user.username}** got it right! The answer was **${room.currentQuestion.answer}**`)
 				
-				let turnData = room.changeTurn(user)
+				let turnData = await room.changeTurn(user)
 
-				user.balance += room.currentQuestion.value
+				//user.balance += room.currentQuestion.value
+
+				await room.addUserBalance(user.userID, room.currentQuestion.value)
 
 				io.to(data.roomID).emit('GAME_EVENT_ANSWERED', {
 					user: user,
@@ -339,7 +329,7 @@ io.on("connection", socket => {
 					newBalance: user.balance
 				})
 
-				room.currentQuestion = null
+				await room.setCurrentQuestion(null)
 
 				if(isset(roomTimers[data.roomID])){
 					clearTimeout(roomTimers[data.roomID])
@@ -347,7 +337,7 @@ io.on("connection", socket => {
 				}
 
 				if(room.checkQuestionsLeft(questionAmount) <= 0){
-					room.gameOver = true
+					await room.setGameOver(true)
 
 					io.to(data.roomID).emit("GAME_OVER", {
 						standings: room.users.sort((a, b) => {
@@ -376,7 +366,7 @@ io.on("connection", socket => {
 	socket.on("ACTION_GETQUESTIONS", async data => {
 		console.log("ACT_GQ", data)
 
-		let room = roomData[data.roomID]
+		let room = await getRoomByID(data.roomID)
 
 		if(!isset(room)){
 			return
@@ -386,7 +376,7 @@ io.on("connection", socket => {
 			room.questions = null
 		}
 
-		if(isset(roomData[data.roomID].questions) && !data.force){
+		if(Object.keys(room.questions).length > 0 && !data.force){
 			data.clues = room.questions.clues
 			io.to(data.roomID).emit("ACTION_GOTQUESTIONS", data)
 		}else{
@@ -422,18 +412,10 @@ io.on("connection", socket => {
 					room.questions = {}
 				}
 
-				await client.query(`
-					UPDATE games
-					SET questions = '${JSON.stringify(data.clues).replace(/(\\)?'/gm, "`")}'
-					WHERE "roomID" = $1
-				`,
-					[data.roomID]
-				)
-
-				room.questions = {
+				await room.setQuestions({
 					loaded: true,
 					clues
-				}
+				})
 			}
 			
 			start()
@@ -443,8 +425,8 @@ io.on("connection", socket => {
 	/**
 	 * Starts the game if there's enough users
 	 */
-	socket.on("GAME_ACTION_START", data => {
-		let room = roomData[data.roomID]
+	socket.on("GAME_ACTION_START", async data => {
+		let room = await getRoomByID(data.roomID)
 
 		if(!isset(room)){
 			return
@@ -452,7 +434,8 @@ io.on("connection", socket => {
 
 		if(room.playerCount >= minPlayers){
 
-			room.isStarted = true
+			//room.isStarted = true
+			await room.setStarted(true)
 
 			io.to(data.roomID).emit("GAME_ACTION_STARTED", {timeStamp: Date.now()})
 
@@ -478,10 +461,10 @@ io.on("connection", socket => {
 	/**
 	 * Gets and sends clue data to the client and rooms when requested
 	 */
-	socket.on("GAME_ACTION_GET_QUESTION", data => {
+	socket.on("GAME_ACTION_GET_QUESTION", async data => {
 		console.log("GETQ", data)
 
-		let room = roomData[data.roomID]
+		let room = await getRoomByID(data.roomID)
 
 		if(!isset(room)){
 			return
@@ -521,16 +504,16 @@ io.on("connection", socket => {
 
 		data.questionData = clueData
 
-		room.setClueRevealed(data.categoryID, parseInt(data.clueID))
+		await room.setClueRevealed(data.categoryID, parseInt(data.clueID))
 
-		room.currentQuestion = clueData
+		await room.setCurrentQuestion(clueData)
 
 		roomTimers[data.roomID] = setTimeout(() => {
 			clearTimeout(roomTimers[data.roomID])
 
 			let timeLeft = config.get("Game.timers.answerTime.countdown")
 
-			roomTimers[data.roomID] = setInterval(() => {
+			roomTimers[data.roomID] = setInterval(async () => {
 				if(timeLeft > 0){
 					sendSystemMessage(data.roomID, `User **${user.username}** has **${timeLeft}** seconds to answer`)
 					timeLeft--
@@ -542,11 +525,11 @@ io.on("connection", socket => {
 				
 				sendSystemMessage(data.roomID, `User **${user.username}** took too long to answer correctly! The answer was **${room.currentQuestion.answer}**!`)
 				
-				room.currentQuestion = null
+				await room.setCurrentQuestion(null)
 
 				if(room.checkQuestionsLeft(questionAmount) > 0){
 
-					let turnData = room.changeTurn(user)
+					let turnData = await room.changeTurn(user)
 					io.to(data.roomID).emit("CHANGE_TURN", {
 						oldTurn: user.userID,
 						newTurn: room.users[turnData.newTurnIndex].userID,
@@ -556,7 +539,7 @@ io.on("connection", socket => {
 					return
 				}
 
-				room.gameOver = true
+				await room.setGameOver(true)
 
 				io.to(data.roomID).emit("GAME_OVER", {
 					standings: room.users.sort((a, b) => {

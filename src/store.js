@@ -155,8 +155,13 @@ function reducer(state, action){
 				timeStamp: Date.now()
 			}})
 
+			let newUsers = state.users.filter(user => {
+				console.log("USER", user, action.data.user.id)
+				return user.userID !== action.data.user.id
+			})
+
 			return Object.assign({}, state, {
-				users: state.users.filter(user => user.userID !== action.data.user.userID)
+				users: newUsers
 			})
 		break
 		case "GAME_ACTION_GOT_QUESTION":

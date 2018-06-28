@@ -1,5 +1,5 @@
 class User{
-	constructor({balance=0, gameCode="", host=false, isTurn=false, timeStamp=0, userID="", username=""}){
+	constructor({balance=0, gameCode="", host=false, isTurn=false, timeStamp=0, userID="", username="", roomID=""}){
 		this.balance = balance
 		this.gameCode = gameCode
 		this.host = host
@@ -7,6 +7,7 @@ class User{
 		this.timeStamp = timeStamp
 		this.userID = userID
 		this.username = username
+		this.roomID = roomID
 	}
 
 	toJSON(){
@@ -17,7 +18,8 @@ class User{
 			isTurn: this.isTurn,
 			timeStamp: this.timeStamp,
 			userID: this.userID,
-			username: this.username
+			username: this.username,
+			roomID: this.roomID
 		}
 	}
 }
