@@ -26,5 +26,6 @@
 		"password": "",
 		"port": 0,
 		"database": ""
-	}
+	},
+	"Domain": ""
 }

@@ -9,6 +9,11 @@ const JService = require('./util/JService')
 
 const JS = new JService()
 const FuzzyMatching = require('fuzzy-matching')
+const CryptoJS = require("crypto-js")
+const crypto = require("crypto")
+
+const DatabaseUtils = require("./util/DBUtils")
+
 
 /** 
  * @TODO: Add passwords to rooms
@@ -45,6 +50,7 @@ const GameUtils = require("./util/GameUtils")
 
 const User = require("./Structs/User")
 const Game = require("./Structs/Game")
+const DBUtils = new DatabaseUtils(client)
 
 const server = app.listen(port, host, () => {
 	// ask server for the actual address and port its listening on
@@ -564,6 +570,48 @@ io.on("connection", socket => {
 	socket.on("DEBUG", d => {
 		console.log("DEBUG", d)
 		socket.emit("DEBUG", d)
+	})
+
+	/**
+	 * Handles user registration
+	 */
+	socket.on("USER_REGISTER", async data => {
+		if(data.password !== data.cpassword){
+			socket.emit("USER_REGISTER_ERROR", {reason: "Passwords don't match"})
+			return
+		}
+
+		let usernameExists = await DBUtils.usernameExists(data.username)
+
+		if(usernameExists){
+			socket.emit("USER_REGISTER_ERROR", {reason: "Username Already Registered."})
+			return
+		}
+
+		let emailExists = await DBUtils.emailExists(data.email)
+
+		if(emailExists){
+			socket.emit("USER_REGISTER_ERROR", {reason: "Email Already Registered."})
+			return
+		}
+
+		data.salt = crypto.randomBytes(32).toString("hex")
+
+		data.cpassword = ""
+
+		data.password = CryptoJS.SHA512(`${data.password} + ${config.get("Domain")} + ${data.salt}`)
+
+		data.password = CryptoJS.enc.Base64.stringify(data.password)
+
+		data.password = data.password.replace(/\=+$/, "")
+		data.password = data.password.replace(/\+/g, "-")
+		data.password = data.password.replace(/\//g, "_")
+
+		data.password = data.password.trim()
+
+		await DBUtils.registerUser(data)
+
+		socket.emit("USER_REGISTERED", data)
 	})
 })
 

@@ -41,6 +41,8 @@ $(document).ready(function() {
 
 	$('#usermodal-holder').hide()
 
+	$('.user-modal-form-group-error').addClass("hidden")
+
 	$("#usermodal-trigger").on('click', e => {
 		e.preventDefault()
 		$("#usermodal-holder").show()

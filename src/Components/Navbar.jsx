@@ -47,14 +47,14 @@ class Navbar extends Component {
 					</li>
 				</ul>
 				<div className="nav-wrapper container">
-					<a className="brand-logo" href="#" id="logo-container">TriviaParty - <span id="gameCodeHeader">succ</span></a>
-					<ul className="right" id="game-buttons">
-						<li>
-							<a id="game-button-start">Start Game <i className="material-icons right">play_arrow</i></a>
-						</li>
-						<li>
-							<a id="game-button-leave">Leave Game <i className="material-icons right">exit_to_app</i></a>
-						</li>
+					<a className="brand-logo" href="#" id="logo-container">TriviaParty - <span id="gameCodeHeader">{this.props.roomID}</span></a>
+					<ul id="game-buttons" className={"right "+(this.props.hideButtons?'hidden':'')}>
+						{!this.props.hideStartButton &&
+							<li>
+								<a id="game-button-start" onClick={this.startGame.bind(this)}>Start Game <i className="material-icons right">play_arrow</i></a>
+							</li>
+						}
+						<li><a id="game-button-leave" onClick={this.leaveGame.bind(this)}>Leave Game <i className="material-icons right">exit_to_app</i></a></li>
 					</ul>
 					<ul className="right">
 						<li>

@@ -212,6 +212,16 @@ function reducer(state, action){
 				standings: action.data.standings
 			})
 		break
+		case "USER_REGISTER_ERROR":
+			return Object.assign({}, state, {
+				registerError: action.data
+			})
+		break
+		case "USER_REGISTERED":
+			return Object.assign({}, state, {
+				userRegistered: true
+			})
+		break
 		default:
 			if(CONFIG.DEV){
 				console.log("OOF", action)

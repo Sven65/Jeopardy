@@ -7,15 +7,81 @@ import store from './../../store'
 class UserForm extends Component {
 	constructor(props){
 		super(props)
-		this.state = {}
+		this.state = {
+			"register-username": "",
+			"register-email": "",
+			"register-password": "",
+			"register-cpassword": "",
+			"registerError": {}
+		}
+
+		this.handleInput = this.handleInput.bind(this)
+		this.onRegisterKeyDown = this.onRegisterKeyDown.bind(this)
+		this.onLoginKeyDown = this.onLoginKeyDown.bind(this)
+	}
+
+	componentDidMount() {
+		store.subscribe(() => {
+			this.setState(store.getState())
+		})
+	}
+	
+	handleInput(event){
+		this.setState({
+			[event.target.name]: event.target.value
+		});
+
+		if(event.target.name === "register-email"){
+			if(!this.validateEmail(event.target.value)){
+				event.target.style["border-bottom"] = "1px solid #ff0000"
+				event.target.parentNode.querySelector('.user-modal-form-group-error').classList.remove("hidden")
+			}else{
+				event.target.removeAttribute("style")
+				event.target.parentNode.querySelector('.user-modal-form-group-error').classList.add("hidden")
+			}
+		}
+	}
+
+	validateEmail(email){
+		// regex from http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
+		let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		return re.test(email)
 	}
 
 	register(){
+		if(this.state['register-username'] !== "" && this.state['register-email'] !== "" && this.state['register-password'] !== "" && this.state['register-cpassword'] !== ""){
+			if(this.validateEmail(this.state['register-email'])){
+				store.dispatch({type: "s/USER_REGISTER", data: {
+					username: this.state['register-username'],
+					email: this.state['register-email'],
+					password: this.state['register-password'],
+					cpassword: this.state['register-cpassword']
+				}})
 
+			}
+		}else{
+			this.setState({
+				registerError: {
+					reason: "Please fill in all fields."
+				}
+			})
+		}
 	}
 
 	login(){
 
+	}
+
+	onRegisterKeyDown(e){
+		if(e.keyCode === 13){
+			this.register()
+		}
+	}
+
+	onLoginKeyDown(e){
+		if(e.keyCode === 13){
+			this.login()
+		}
 	}
 
 	render(){
@@ -31,16 +97,16 @@ class UserForm extends Component {
 							<div className="user-modal-form-content">
 								<form>
 									<div className="user-modal-form-group">
-										<label htmlFor="username">Username</label>
-										<input id="username" name="username" required="required" type="text"/>
+										<label htmlFor="login-username">Username</label>
+										<input id="username" name="username" required="required" type="text" onKeyDown={this.onLoginKeyDown}/>
 									</div>
 									<div className="user-modal-form-group">
-										<label htmlFor="password">Password</label>
-										<input id="password" name="password" required="required" type="password"/>
+										<label htmlFor="login-password">Password</label>
+										<input id="password" name="password" required="required" type="password" onKeyDown={this.onLoginKeyDown}/>
 									</div>
 									<div className="user-modal-form-group">
 										<label className="user-modal-form-remember">
-											<input type="checkbox"/>Remember Me
+											<input type="checkbox" name="login-checkbox"/>Remember Me
 										</label>
 										<a className="user-modal-form-recovery" href="#">Forgot Password?</a>
 									</div>
@@ -53,27 +119,29 @@ class UserForm extends Component {
 						<div className="user-modal-form-panel two">
 							<div className="user-modal-form-header">
 								<h1>Register Account</h1>
+								<h6>{this.state.registerError.reason||this.state.userRegistered&&"Registered!"}</h6>
 							</div>
 							<div className="user-modal-form-content">
 								<form>
 									<div className="user-modal-form-group">
 										<label htmlFor="username">Username</label>
-										<input id="username" name="username" required="required" type="text"/>
+										<input id="username" name="register-username" required="required" type="text" onChange={this.handleInput} onKeyDown={this.onRegisterKeyDown}/>
 									</div>
 									<div className="user-modal-form-group">
 										<label htmlFor="password">Password</label>
-										<input id="password" name="password" required="required" type="password"/>
+										<input id="password" name="register-password" required="required" type="password" onChange={this.handleInput} onKeyDown={this.onRegisterKeyDown}/>
 									</div>
 									<div className="user-modal-form-group">
 										<label htmlFor="cpassword">Confirm Password</label>
-										<input id="cpassword" name="cpassword" required="required" type="password"/>
+										<input id="cpassword" name="register-cpassword" required="required" type="password" onChange={this.handleInput} onKeyDown={this.onRegisterKeyDown} />
 									</div>
 									<div className="user-modal-form-group">
 										<label htmlFor="email">Email Address</label>
-										<input id="email" name="email" required="required" type="email"/>
+										<input id="email" name="register-email" required="required" type="email" onChange={this.handleInput} onKeyDown={this.onRegisterKeyDown}/>
+										<span className="user-modal-form-group-error">Please enter a valid email</span>
 									</div>
 									<div className="user-modal-form-group">
-										<button type="submit">Register</button>
+										<button type="submit" onClick={this.register.bind(this)}>Register</button>
 									</div>
 								</form>
 							</div>
