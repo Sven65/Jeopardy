@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
 import io from 'socket.io-client';
+import $ from "jquery";
+
+window.$ = $;
 
 import './../styles/materialize.min.css'
 import './../styles/main.css'
 import './../styles/loaders.min.css'
 
 import './../General/materialize.min.js'
+import './../General/init.js'
 
 //import {socket, socketDebug, getQuestions } from '../api'
 import Navbar from './Navbar'
