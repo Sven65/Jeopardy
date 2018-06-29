@@ -232,7 +232,8 @@ function reducer(state, action){
 		case "USER_LOGGED_IN":
 			return Object.assign({}, state, {
 				loginError: {},
-				userLoggedIn: true
+				userLoggedIn: true,
+				userData: action.data
 			})
 		break
 
