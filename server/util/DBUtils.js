@@ -6,7 +6,7 @@ class DBUtils{
 	async usernameExists(username){
 		let results = await this.client.query(`
 			SELECT * FROM users
-			WHERE username = $1
+			WHERE LOWER(username) = LOWER($1)
 		`, [username])
 
 		return results.rows.length>0
@@ -15,20 +15,29 @@ class DBUtils{
 	async emailExists(email){
 		let results = await this.client.query(`
 			SELECT * FROM users
-			WHERE email = $1
+			WHERE LOWER(email) = LOWER($1)
 		`, [email])
 
 		return results.rows.length>0
 	}
 
-	async registerUser({username, email, password, salt}){
+	async registerUser({username, email, password, salt, token}){
 		return await this.client.query(`
 			INSERT INTO users
-			(username, email, password, salt)
-			VALUES ($1, $2, $3, $4)
+			(username, email, password, salt, token)
+			VALUES ($1, $2, $3, $4, $5)
 		`,
-			[username, email, password, salt]
+			[username, email, password, salt, token]
 		)
+	}
+
+	async getUserByName(username){
+		let results = await this.client.query(`
+			SELECT * FROM users
+			WHERE LOWER(username) = LOWER($1)
+		`, [username])
+
+		return results.rows[0]
 	}
 }
 

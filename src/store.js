@@ -219,9 +219,23 @@ function reducer(state, action){
 		break
 		case "USER_REGISTERED":
 			return Object.assign({}, state, {
+				registerError: {},
 				userRegistered: true
 			})
 		break
+
+		case "USER_LOGIN_ERROR":
+			return Object.assign({}, state, {
+				loginError: action.data
+			})
+		break
+		case "USER_LOGGED_IN":
+			return Object.assign({}, state, {
+				loginError: {},
+				userLoggedIn: true
+			})
+		break
+
 		default:
 			if(CONFIG.DEV){
 				console.log("OOF", action)

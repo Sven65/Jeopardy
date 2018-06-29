@@ -12,7 +12,11 @@ class UserForm extends Component {
 			"register-email": "",
 			"register-password": "",
 			"register-cpassword": "",
-			"registerError": {}
+			"registerError": {},
+			"loginError": {},
+
+			"login-username": "",
+			"login-password": ""
 		}
 
 		this.handleInput = this.handleInput.bind(this)
@@ -49,6 +53,10 @@ class UserForm extends Component {
 	}
 
 	register(){
+		if(this.state.userRegistered){
+			return
+		}
+
 		if(this.state['register-username'] !== "" && this.state['register-email'] !== "" && this.state['register-password'] !== "" && this.state['register-cpassword'] !== ""){
 			if(this.validateEmail(this.state['register-email'])){
 				store.dispatch({type: "s/USER_REGISTER", data: {
@@ -70,6 +78,28 @@ class UserForm extends Component {
 
 	login(){
 
+		this.setState({
+			loginError: {}
+		})
+
+		console.log(this.state)
+		if(this.state.userLoggedIn){
+			return
+		}
+
+		if(this.state['login-username'] === "" || this.state["login-password"] === ""){
+			this.setState({
+				loginError: {
+					reason: "Please fill in all fields."
+				}
+			})
+			return
+		}
+
+		store.dispatch({type: "s/USER_LOGIN", data: {
+			username: this.state['login-username'],
+			password: this.state['login-password']
+		}})
 	}
 
 	onRegisterKeyDown(e){
@@ -93,16 +123,17 @@ class UserForm extends Component {
 						<div className="user-modal-form-panel one">
 							<div className="user-modal-form-header">
 								<h1>Account Login</h1>
+								<h6 className={this.state.loginError.reason!==""?'user-modal-error':''}>{this.state.loginError.reason||this.state.userLoggedIn&&"Logged In!"}</h6>
 							</div>
 							<div className="user-modal-form-content">
 								<form>
 									<div className="user-modal-form-group">
 										<label htmlFor="login-username">Username</label>
-										<input id="username" name="username" required="required" type="text" onKeyDown={this.onLoginKeyDown}/>
+										<input id="username" name="login-username" required="required" type="text" onChange={this.handleInput} onKeyDown={this.onLoginKeyDown}/>
 									</div>
 									<div className="user-modal-form-group">
 										<label htmlFor="login-password">Password</label>
-										<input id="password" name="password" required="required" type="password" onKeyDown={this.onLoginKeyDown}/>
+										<input id="password" name="login-password" required="required" type="password" onChange={this.handleInput} onKeyDown={this.onLoginKeyDown}/>
 									</div>
 									<div className="user-modal-form-group">
 										<label className="user-modal-form-remember">
@@ -111,7 +142,7 @@ class UserForm extends Component {
 										<a className="user-modal-form-recovery" href="#">Forgot Password?</a>
 									</div>
 									<div className="user-modal-form-group">
-										<button type="submit">Log In</button>
+										<button type="button" onClick={this.login.bind(this)}>Log In</button>
 									</div>
 								</form>
 							</div>

@@ -609,9 +609,49 @@ io.on("connection", socket => {
 
 		data.password = data.password.trim()
 
+		let userToken = CryptoJS.enc.Utf8.parse('_' + Math.random().toString(36).substr(2, 9))
+
+		console.log("userToken", userToken)
+
+		data.token = CryptoJS.enc.Base64.stringify(userToken)
+
 		await DBUtils.registerUser(data)
 
 		socket.emit("USER_REGISTERED", data)
+	})
+
+	/**
+	 * Handles user logins
+	 */
+	socket.on("USER_LOGIN", async data => {
+		let usernameExists = await DBUtils.usernameExists(data.username)
+
+		if(!usernameExists){
+			socket.emit("USER_LOGIN_ERROR", {reason: "Username and Password doesn't match."})
+			return
+		}
+
+		let userData = await DBUtils.getUserByName(data.username)
+
+		data.password = CryptoJS.SHA512(`${data.password} + ${config.get("Domain")} + ${userData.salt}`)
+
+		data.password = CryptoJS.enc.Base64.stringify(data.password)
+
+		data.password = data.password.replace(/\=+$/, "")
+		data.password = data.password.replace(/\+/g, "-")
+		data.password = data.password.replace(/\//g, "_")
+
+		data.password = data.password.trim()
+
+		if(userData.password !== data.password){
+			socket.emit("USER_LOGIN_ERROR", {reason: "Username and Password doesn't match."})
+			return
+		}else{
+			socket.emit("USER_LOGGED_IN", {
+				username: data.username,
+				token: userData.token
+			})
+		}
 	})
 })
 
