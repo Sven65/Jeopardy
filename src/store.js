@@ -247,6 +247,16 @@ function reducer(state, action){
 				userFormLoad: true
 			})
 		break
+		case "INIT_GET_USER_DATA":
+			let userData = JSON.parse(atob(localStorage.getItem( 'userData' ))) || {}
+
+			console.log(userData)
+
+			return Object.assign({}, state, {
+				userData: userData,
+				userLoggedIn: Object.keys(userData).length>0
+			})
+		break
 
 		default:
 			if(CONFIG.DEV){

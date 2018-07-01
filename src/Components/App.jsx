@@ -37,12 +37,37 @@ class App extends Component {
 			gameDone: false,
 			standings: []
 		}
+
+
+		this.setUserData = this.setUserData.bind(this)
+	}
+
+	setUserData(){
+		console.log(this.state)
+
+		let data = {
+			username: this.state.userData.username,
+			token: this.state.userData.token,
+			setAt: Date.now()
+		}
+
+		localStorage.setItem('userData', btoa(JSON.stringify(data)));
 	}
 
 	componentDidMount() {
 		store.subscribe(() => {
 			this.setState(store.getState())
+
+			// TODO: Make this have an expiry
+
+			if(this.state.userData !== undefined){
+
+				this.setUserData()
+
+			}
 		})
+
+		store.dispatch({type: "INIT_GET_USER_DATA"})
 	}
 
 	render(){
