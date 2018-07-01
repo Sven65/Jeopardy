@@ -214,26 +214,37 @@ function reducer(state, action){
 		break
 		case "USER_REGISTER_ERROR":
 			return Object.assign({}, state, {
-				registerError: action.data
+				registerError: action.data,
+				userFormLoad: false
 			})
 		break
 		case "USER_REGISTERED":
 			return Object.assign({}, state, {
 				registerError: {},
-				userRegistered: true
+				userRegistered: true,
+				userFormLoad: false,
+				userData: action.data,
+				userLoggedIn: true
 			})
 		break
 
 		case "USER_LOGIN_ERROR":
 			return Object.assign({}, state, {
-				loginError: action.data
+				loginError: action.data,
+				userFormLoad: false
 			})
 		break
 		case "USER_LOGGED_IN":
 			return Object.assign({}, state, {
 				loginError: {},
 				userLoggedIn: true,
+				userFormLoad: false,
 				userData: action.data
+			})
+		break
+		case "USER_FORM_LOAD":
+			return Object.assign({}, state, {
+				userFormLoad: true
 			})
 		break
 

@@ -59,6 +59,8 @@ class UserForm extends Component {
 
 		if(this.state['register-username'] !== "" && this.state['register-email'] !== "" && this.state['register-password'] !== "" && this.state['register-cpassword'] !== ""){
 			if(this.validateEmail(this.state['register-email'])){
+				store.dispatch({type: "USER_FORM_LOAD"})
+
 				store.dispatch({type: "s/USER_REGISTER", data: {
 					username: this.state['register-username'],
 					email: this.state['register-email'],
@@ -95,6 +97,8 @@ class UserForm extends Component {
 			})
 			return
 		}
+
+		store.dispatch({type: "USER_FORM_LOAD"})
 
 		store.dispatch({type: "s/USER_LOGIN", data: {
 			username: this.state['login-username'],

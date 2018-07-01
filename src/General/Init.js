@@ -45,12 +45,27 @@ $(document).ready(function() {
 
 	$("#usermodal-trigger").on('click', e => {
 		e.preventDefault()
-		$("#usermodal-holder").show()
+		let isActive = $("#usermodal-holder").data("isActive")
+
+		if(isActive === undefined){
+			isActive = true
+		}
+
+		if(isActive){
+			$("#usermodal-holder").show()
+		}
 	})
 
 	$(document).mouseup(e => {
 		if(e.target.classList.contains("loader-holder") || e.target.classList.contains("modal-content")){
 			$("#usermodal-holder").hide()
 		}
+	})
+
+	$('#usermodal-holder').on("USER_FORM_DONE", e => {
+		setTimeout(() => {
+			$("#usermodal-holder").hide()
+			$("#usermodal-holder").data("isActive", false)
+		}, 1000)
 	})
 })

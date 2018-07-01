@@ -611,11 +611,14 @@ io.on("connection", socket => {
 
 		let userToken = CryptoJS.enc.Utf8.parse('_' + Math.random().toString(36).substr(2, 9))
 
-		console.log("userToken", userToken)
-
 		data.token = CryptoJS.enc.Base64.stringify(userToken)
 
 		await DBUtils.registerUser(data)
+
+		let emitData = {
+			username: data.username,
+			token: userToken
+		}
 
 		socket.emit("USER_REGISTERED", data)
 	})
