@@ -40,6 +40,7 @@ $(document).ready(function() {
 	$('.user-modal-form-toggle').click()
 
 	$('#usermodal-holder').hide()
+	//$('#usermodal-holder').hide()
 
 	$('.user-modal-form-group-error').addClass("hidden")
 
@@ -67,5 +68,9 @@ $(document).ready(function() {
 			$("#usermodal-holder").hide()
 			$("#usermodal-holder").data("isActive", false)
 		}, 1000)
+	})
+
+	$('#usermodal-holder').on("USER_FORM_UNDONE", e => {
+		$("#usermodal-holder").data("isActive", true)
 	})
 })

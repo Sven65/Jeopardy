@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import UserForm from './Common/UserForm'
 import Loader from './Common/Loader'
+import UserProfile from './Common/UserProfile'
 
 import store from './../store'
 
@@ -12,7 +13,8 @@ class Navbar extends Component {
 		this.state = {
 			userData: {},
 			userLoggedIn: false,
-			userFormLoad: false
+			userFormLoad: false,
+			showProfile: false
 		}
 	
 		//this.startGame = this.startGame.bind(this)
@@ -25,7 +27,6 @@ class Navbar extends Component {
 
 			//console.log("MESSAGE", this.state.messages)
 		})
-		console.log("STATE", this.state)
 	}
 
 	startGame(){
@@ -44,10 +45,38 @@ class Navbar extends Component {
 		store.dispatch({type: "LEAVE", data: {a: "oof"}})
 	}
 
+	logout(){
+		this.setState({
+			showProfile: false
+		})
+
+		var event = new Event("USER_FORM_UNDONE")
+		//event.initEvent("login", true, true);
+		var target = document.querySelector('#usermodal-holder');
+		if(target !== null){
+			target.dispatchEvent(event);
+		}
+
+		store.dispatch({type: "USER_LOGOUT"})
+	}
+
+	toggleProfile(e){
+		this.setState({
+			showProfile: true
+		})
+
+		if(e.target.classList.contains("loader-holder")){
+			if(this.state.showProfile){
+				this.setState({
+					showProfile: false
+				})
+			}
+		}
+	}
+
 	render(){
 		const isLoggedIn = this.state.userLoggedIn
-
-		console.log("ILI", isLoggedIn)
+		const showProfile = (this.state.userLoggedIn && this.state.showProfile)
 
 		return (
 			<nav className="light-blue lighten-1" role="navigation">
@@ -60,10 +89,10 @@ class Navbar extends Component {
 					) : (
 						<ul id="user-dropdown" className="dropdown-content">
 							<li>
-								<a className="modal-trigger" href="#userprofile-modal-holder" id="userprofile-modal-trigger">Profile</a>
+								<a className="modal-trigger" href="#userprofile-holder" id="userprofile-trigger" onClick={this.toggleProfile.bind(this)}>Profile</a>
 							</li>
 							<li>
-								<a className="logout" id="user-logout">Logout<i className="material-icons right">exit_to_app</i></a>
+								<a className="logout" id="user-logout" onClick={this.logout.bind(this)}>Logout<i className="material-icons right">exit_to_app</i></a>
 							</li>
 						</ul>
 					)
@@ -100,11 +129,22 @@ class Navbar extends Component {
 					</div>
 				}
 
+				{showProfile &&
+					<div className="loader-holder" id="userprofile-holder" onClick={this.toggleProfile.bind(this)}>
+						<UserProfile
+							username={this.state.userData.username}
+							image={this.state.userData.image}
+							wins={this.state.userData.wins}
+							losses={this.state.userData.losses}
+							logoutFunc={this.logout.bind(this)}
+						/>
+					</div>
+				}
+
 				{(() => {
 					if(isLoggedIn || this.state.userRegistered){
-						var event = new Event("USER_FORM_DONE")
-						//event.initEvent("login", true, true);
-						var target = document.querySelector('#usermodal-holder');
+						let event = new Event("USER_FORM_DONE")
+						let target = document.querySelector('#usermodal-holder');
 						target.dispatchEvent(event);
 					}
 				})()}

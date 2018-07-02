@@ -35,7 +35,8 @@ class App extends Component {
 			},
 			gameStarted: false,
 			gameDone: false,
-			standings: []
+			standings: [],
+			userData: {}
 		}
 
 
@@ -43,8 +44,6 @@ class App extends Component {
 	}
 
 	setUserData(){
-		console.log(this.state)
-
 		let data = {
 			username: this.state.userData.username,
 			token: this.state.userData.token,
@@ -56,18 +55,20 @@ class App extends Component {
 
 	componentDidMount() {
 		store.subscribe(() => {
-			this.setState(store.getState())
+			this.setState(store.getState(), () => {
+				if(this.state.userData !== undefined && this.state.userData !== null && Object.keys(this.state.userData).length>0 && this.state.userLoggedIn){
+					this.setUserData()
+				}
+			})
 
 			// TODO: Make this have an expiry
 
-			if(this.state.userData !== undefined){
-
-				this.setUserData()
-
-			}
+			
 		})
 
-		store.dispatch({type: "INIT_GET_USER_DATA"})
+		if(Object.keys(this.state.userData).length <= 0){
+			store.dispatch({type: "INIT_GET_USER_DATA"})
+		}
 	}
 
 	render(){

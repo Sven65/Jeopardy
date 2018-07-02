@@ -78,7 +78,6 @@ class GameArea extends Component {
 					<Chat/>
 
 					{/* End Chat Area */}
-
 				</div>
 			</div>
 		)

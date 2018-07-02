@@ -156,7 +156,6 @@ function reducer(state, action){
 			}})
 
 			let newUsers = state.users.filter(user => {
-				console.log("USER", user, action.data.user.id)
 				return user.userID !== action.data.user.id
 			})
 
@@ -248,13 +247,33 @@ function reducer(state, action){
 			})
 		break
 		case "INIT_GET_USER_DATA":
-			let userData = JSON.parse(atob(localStorage.getItem( 'userData' ))) || {}
+			let loadedData = localStorage.getItem( 'userData' )
 
-			console.log(userData)
+			let userData = {}
+
+			if(loadedData !== undefined && loadedData !== null){
+				userData = JSON.parse(atob(loadedData))
+			}
+
+			if(userData.token !== undefined){
+				action.asyncDispatch({type: "s/GET_USER_BY_TOKEN", data: {
+					token: userData.token
+				}})
+			}
 
 			return Object.assign({}, state, {
 				userData: userData,
 				userLoggedIn: Object.keys(userData).length>0
+			})
+		break
+		case "USER_LOGOUT":
+
+			localStorage.removeItem("userData")
+
+			return Object.assign({}, state, {
+				userData: {},
+				userLoggedIn: false,
+				showProfile: false
 			})
 		break
 

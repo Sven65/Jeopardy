@@ -652,9 +652,30 @@ io.on("connection", socket => {
 		}else{
 			socket.emit("USER_LOGGED_IN", {
 				username: data.username,
-				token: userData.token
+				token: userData.token,
+				wins: userData.wins||0,
+				losses: userData.losses||0,
+				image: userData.image||`https://placehold.it/128x128?text=${data.username}`
 			})
 		}
+	})
+
+	socket.on("GET_USER_BY_TOKEN", async data => {
+		let userData = await DBUtils.getUserByToken(data.token)
+
+		if(!isset(userData)){
+			return
+		}
+
+		let returnData = {
+			username: userData.username,
+			token: data.token,
+			wins: userData.wins||0,
+			losses: userData.losses||0,
+			image: userData.image||`https://placehold.it/128x128?text=${userData.username}`
+		}
+
+		socket.emit("USER_LOGGED_IN", returnData)
 	})
 })
 

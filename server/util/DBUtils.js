@@ -39,6 +39,15 @@ class DBUtils{
 
 		return results.rows[0]
 	}
+
+	async getUserByToken(token){
+		let results = await this.client.query(`
+			SELECT * FROM users
+			WHERE token = $1
+		`, [token])
+
+		return results.rows[0]
+	}
 }
 
 module.exports = DBUtils
