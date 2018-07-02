@@ -288,7 +288,6 @@ io.on("connection", socket => {
 		}
 
 		if(canJoin){
-			console.log("JOIN", data)
 
 			socket.join(data.roomID)
 

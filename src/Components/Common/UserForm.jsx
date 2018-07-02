@@ -83,8 +83,7 @@ class UserForm extends Component {
 		this.setState({
 			loginError: {}
 		})
-
-		console.log(this.state)
+		
 		if(this.state.userLoggedIn){
 			return
 		}
