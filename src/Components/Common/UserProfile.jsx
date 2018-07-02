@@ -4,11 +4,43 @@ import store from '../../store'
 class UserProfile extends Component {
 	constructor(props){
 		super(props)
+
+		this.fileChangedHandler = this.fileChangedHandler.bind(this)
+		this.triggerUpload = this.triggerUpload.bind(this)
+		this.fileInput = React.createRef()
+		
+		this.state = {
+			image: this.props.image
+		}
 	}
 
 	logout(){
 		localStorage.removeItem(localStorage.userData)
 		store.dispatch({type: "USER_LOGOUT"})
+	}
+
+	fileChangedHandler(e){
+		console.log("CHANGE", e.target.files[0])
+
+		let file = e.target.files[0]
+		let self = this
+
+		var reader = new FileReader()
+
+		reader.addEventListener("load", function () {
+			self.setState({
+				image: reader.result
+			})
+		}, false)
+
+		if (file) {
+			reader.readAsDataURL(file);
+		}
+	}
+
+	triggerUpload(e){
+		e.preventDefault()
+		this.fileInput.click()
 	}
 
 	render(){
@@ -19,14 +51,16 @@ class UserProfile extends Component {
 						<div className="pic-sec">
 							<div className="pic">
 								<div className="user-image" style={{
-									backgroundImage: "url("+this.props.image+")"
-								}}>
+									backgroundImage: "url("+this.state.image+")"
+								}} onClick={this.triggerUpload}>
 									<div className="image-overlay">
 										<a href="#" id="picture-overlay" className="">
 											<i className="material-icons">photo_camera</i>
 										</a>
 									</div>
 								</div>
+
+								<input type="file" className="hidden" ref={input => this.fileInput = input} onChange={this.fileChangedHandler}/>
 								
 							</div>
 							<div className="pic-info">
