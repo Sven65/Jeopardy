@@ -3,11 +3,28 @@ import React, { Component } from 'react'
 class UserCard extends Component {
 	constructor(props){
 		super(props)
+	
+		this.getClassName = this.getClassName.bind(this)
+	}
+
+	getClassName(){
+		let className = ""
+
+		if(this.props.isTurn){
+			className += " isTurn"
+		}
+
+		if(this.props.isRegistered){
+			className += " isRegistered"
+		}
+
+		return className
 	}
 
 	render(){
+
 		return (
-			<div className={"col l3 s4 user-card "+(this.props.isTurn?'isTurn':'')} data-userid={this.props.userID}>
+			<div className={"col l3 s4 user-card "+(this.getClassName())} data-userid={this.props.userID}>
 				<div className="card">
 					<div className="card-image">
 						<img src={this.props.image}/>

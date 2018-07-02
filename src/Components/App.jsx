@@ -36,7 +36,7 @@ class App extends Component {
 			gameStarted: false,
 			gameDone: false,
 			standings: [],
-			userData: {}
+			userData: {},
 		}
 
 

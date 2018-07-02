@@ -53,7 +53,8 @@ class GameArea extends Component {
 						<div className="col l8 s12 left" id="stat-container">
 							<div className="row" id="card-container">
 								{this.props.users.map((user, i) => {
-									return (<UserCard userID={user.userID} image="http://placehold.it/128x128" username={user.username} balance={user.balance} isTurn={user.isTurn&&this.state.gameStarted} />)
+									console.log(user)
+									return (<UserCard userID={user.userID} image={user.image} username={user.username} balance={user.balance} isTurn={user.isTurn&&this.state.gameStarted} />)
 								})}
 								
 							</div>

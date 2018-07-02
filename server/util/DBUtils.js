@@ -65,6 +65,31 @@ class DBUtils{
 			WHERE token = $2
 		`, [imageID, token])
 	}
+
+	async addWins(token, amount){
+		return await this.client.query(`
+			UPDATE users
+			SET wins = wins + $1
+			WHERE token = $2
+		`, [amount, token])
+	}
+
+	async addLosses(token, amount){
+		// is this loss?
+		return await this.client.query(`
+			UPDATE users
+			SET losses = losses + $1
+			WHERE token = $2
+		`, [amount, token])
+	}
+
+	async addPlayedGames(token, amount){
+		return await this.client.query(`
+			UPDATE users
+			SET "playedGames" = "playedGames" + $1
+			WHERE token = $2
+		`, [amount, token])
+	}
 }
 
 module.exports = DBUtils

@@ -43,13 +43,16 @@ function reducer(state, action){
 
 	switch(action.type.replace("s/", "")){
 		case 'USER_JOIN':
+			console.log("JOIN", action.data)
+
 			let user = {
 				username: action.data.username,
 				userID: action.data.userID,
 				balance: action.data.balance,
 				host: action.data.host,
 				isTurn: action.data.isTurn,
-				timeStamp: action.data.timeStamp
+				timeStamp: action.data.timeStamp,
+				image: action.data.user.image
 			}
 
 			if(state.users === undefined){

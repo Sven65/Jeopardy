@@ -247,7 +247,8 @@ io.on("connection", socket => {
 		
 
 		data.roomID = data.roomID.sanitizeHTML()
-		data.username = data.username.sanitizeHTML()
+
+		data.username = data.user.username.sanitizeHTML()
 
 		let room = await getRoomByID(data.roomID)
 
@@ -287,6 +288,8 @@ io.on("connection", socket => {
 		}
 
 		if(canJoin){
+			console.log("JOIN", data)
+
 			socket.join(data.roomID)
 
 			data.timeStamp = Date.now()
@@ -295,6 +298,13 @@ io.on("connection", socket => {
 			data.host = isHost
 			data.isTurn = isHost
 			data.balance = 0
+			data.isRegistered = isset(data.user.token)
+			data.token = data.user.token||""
+			data.image = data.user.image||`https://placehold.it/128x128?text=${data.username}`
+
+			if(!isset(data.user.image)){
+				data.user.image = `https://placehold.it/128x128?text=${data.username}`
+			}
 
 			let user = new User(data)
 
@@ -369,10 +379,30 @@ io.on("connection", socket => {
 				if(room.checkQuestionsLeft(questionAmount) <= 0){
 					await room.setGameOver(true)
 
-					io.to(data.roomID).emit("GAME_OVER", {
-						standings: room.users.sort((a, b) => {
-							return b.balance - a.balance
+					let standings = room.users.sort((a, b) => {
+						return b.balance - a.balance
+					})
+
+					const start = async () => {
+						await asyncForEach(standings, async (user) => {
+							if(user.isRegistered){
+								await DBUtils.addPlayedGames(user.token, 1)
+								await DBUtils.addLosses(user.token, 1)
+							}
 						})
+					}
+					
+					start()
+
+					
+
+					if(standings[0].isRegistered){
+						await DBUtils.addWins(standings[0].token, 1)
+						await DBUtils.addLosses(standings[0].token, -1)
+					}
+
+					io.to(data.roomID).emit("GAME_OVER", {
+						standings
 					})
 				}else{
 					io.to(data.roomID).emit("CHANGE_TURN", {
@@ -571,10 +601,30 @@ io.on("connection", socket => {
 
 				await room.setGameOver(true)
 
-				io.to(data.roomID).emit("GAME_OVER", {
-					standings: room.users.sort((a, b) => {
-						return b.balance - a.balance
+				let standings = room.users.sort((a, b) => {
+					return b.balance - a.balance
+				})
+
+				const start = async () => {
+					await asyncForEach(standings, async (user) => {
+						if(user.isRegistered){
+							await DBUtils.addPlayedGames(user.token, 1)
+							await DBUtils.addLosses(user.token, 1)
+						}
 					})
+				}
+				
+				start()
+
+				
+
+				if(standings[0].isRegistered){
+					await DBUtils.addWins(standings[0].token, 1)
+					await DBUtils.addLosses(standings[0].token, -1)
+				}
+
+				io.to(data.roomID).emit("GAME_OVER", {
+					standings
 				})
 
 			}, 1000)

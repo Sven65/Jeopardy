@@ -15,6 +15,11 @@ class UserProfile extends Component {
 			unsavedChanges: false,
 			isLoading: false
 		}
+
+		this._acceptedMimes = [
+			"image/jpeg",
+			"image/png"
+		]
 	}
 
 	componentDidMount() {
@@ -29,9 +34,12 @@ class UserProfile extends Component {
 	}
 
 	fileChangedHandler(e){
-		console.log("CHANGE", e.target.files[0])
-
 		let file = e.target.files[0]
+
+		if(this._acceptedMimes.indexOf(file.type) <= -1){
+			return
+		}
+
 		let self = this
 
 		var reader = new FileReader()
@@ -50,10 +58,6 @@ class UserProfile extends Component {
 	}
 
 	saveProfile(){
-		console.log("STATE", this.state)
-
-		console.log("formData", this.state.selectedImage)
-
 		store.dispatch({type: "s/ACTION_USER_EDIT", data: {
 			file: this.state.selectedImage,
 			fileData: {
@@ -95,7 +99,7 @@ class UserProfile extends Component {
 									</div>
 								</div>
 
-								<input type="file" className="hidden" ref={input => this.fileInput = input} onChange={this.fileChangedHandler.bind(this)}/>
+								<input type="file" className="hidden" ref={input => this.fileInput = input} onChange={this.fileChangedHandler.bind(this)} accept=".jpg,.png"/>
 								
 							</div>
 							<div className="pic-info">

@@ -14,6 +14,10 @@ class BeforeGame extends Component {
 
 		this.roomIDInput = React.createRef()
 		this.usernameInput = React.createRef()
+
+		this.state = {
+			userData: {}
+		}
 	}
 
 	componentDidMount() {
@@ -25,7 +29,9 @@ class BeforeGame extends Component {
 	joinGame(){
 		store.dispatch({type: "s/JOIN", data: {
 			roomID: this.roomIDInput.value,
-			username: this.usernameInput.value
+			user: Object.keys(this.state.userData).length>0?this.state.userData:{
+				username: this.usernameInput.value
+			}
 		}})
 	}
 
@@ -46,7 +52,7 @@ class BeforeGame extends Component {
 								<div className="row">
 									<div className="col s12 l12">
 										<div className="row">
-											<InputField grid="col s12 " id="username" type="text" label="Username" inputRef={el => this.usernameInput = el} onKeyDown={this.onKeyDown}/>
+											<InputField grid={"col s12 "+(this.state.userData.username!==undefined?'hidden':'')} id="username" type="text" label="Username" inputRef={el => this.usernameInput = el} onKeyDown={this.onKeyDown}/>
 											
 											<InputField grid="col s12" id="roomIDInput" type="text" label="Game Code" inputRef={el => this.roomIDInput = el} onKeyDown={this.onKeyDown}/>
 										</div>
