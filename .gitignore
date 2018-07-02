@@ -61,3 +61,4 @@ typings/
 
 config/default.json
 config/production.json
+dist/images/*

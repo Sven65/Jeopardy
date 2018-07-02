@@ -453,6 +453,8 @@ html, body{
 	max-height: 128px;
 	min-width: 128px;
 	min-height: 128px;
+	background-size: contain;
+	background-position: center;
 }
 
 .media {
@@ -537,4 +539,8 @@ html, body{
 .pic:hover .image-overlay {
 	opacity: 1;
 	cursor: pointer;
+}
+
+#save-profile-button{
+	width: 60%;
 }

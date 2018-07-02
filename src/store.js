@@ -276,6 +276,17 @@ function reducer(state, action){
 				showProfile: false
 			})
 		break
+		case "ACTION_USER_EDIT":
+			return Object.assign({}, state, {
+				isLoading: true
+			})
+		break
+		case "USER_EDIT_SAVED":
+			return Object.assign({}, state, {
+				isLoading: false,
+				unsavedChanges: false
+			})
+		break
 
 		default:
 			if(CONFIG.DEV){

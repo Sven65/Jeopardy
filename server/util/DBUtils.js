@@ -21,13 +21,13 @@ class DBUtils{
 		return results.rows.length>0
 	}
 
-	async registerUser({username, email, password, salt, token}){
+	async registerUser({userID, username, email, password, salt, token}){
 		return await this.client.query(`
 			INSERT INTO users
-			(username, email, password, salt, token)
-			VALUES ($1, $2, $3, $4, $5)
+			("ID", username, email, password, salt, token)
+			VALUES ($1, $2, $3, $4, $5, $6)
 		`,
-			[username, email, password, salt, token]
+			[userID, username, email, password, salt, token]
 		)
 	}
 
@@ -47,6 +47,23 @@ class DBUtils{
 		`, [token])
 
 		return results.rows[0]
+	}
+
+	async getUserByID(id){
+		let results = await this.client.query(`
+			SELECT * FROM users
+			WHERE "ID" = $1
+		`, [id])
+
+		return results.rows[0]
+	}
+
+	async setUserImage(token, imageID){
+		return await this.client.query(`
+			UPDATE users
+			SET "imageID" = $1
+			WHERE token = $2
+		`, [imageID, token])
 	}
 }
 

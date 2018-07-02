@@ -1,17 +1,26 @@
 import React, { Component } from 'react'
+
+import Loader from './Loader'
 import store from '../../store'
 
 class UserProfile extends Component {
 	constructor(props){
 		super(props)
 
-		this.fileChangedHandler = this.fileChangedHandler.bind(this)
-		this.triggerUpload = this.triggerUpload.bind(this)
 		this.fileInput = React.createRef()
-		
+
 		this.state = {
-			image: this.props.image
+			imagePreview: this.props.image,
+			selectedImage: null,
+			unsavedChanges: false,
+			isLoading: false
 		}
+	}
+
+	componentDidMount() {
+		store.subscribe(() => {
+			this.setState(store.getState())
+		})
 	}
 
 	logout(){
@@ -29,13 +38,32 @@ class UserProfile extends Component {
 
 		reader.addEventListener("load", function () {
 			self.setState({
-				image: reader.result
+				imagePreview: reader.result,
+				selectedImage: file,
+				unsavedChanges: true
 			})
 		}, false)
 
 		if (file) {
 			reader.readAsDataURL(file);
 		}
+	}
+
+	saveProfile(){
+		console.log("STATE", this.state)
+
+		console.log("formData", this.state.selectedImage)
+
+		store.dispatch({type: "s/ACTION_USER_EDIT", data: {
+			file: this.state.selectedImage,
+			fileData: {
+				lastModified: this.state.selectedImage.lastModified,
+				name: this.state.selectedImage.name,
+				size: this.state.selectedImage.size,
+				type: this.state.selectedImage.type
+			},
+			userToken: this.props.userToken
+		}})
 	}
 
 	triggerUpload(e){
@@ -45,14 +73,21 @@ class UserProfile extends Component {
 
 	render(){
 		return (
+			
+
 			<div className="content absolute-center">
+				{this.state.isLoading &&
+					<div className="loader-holder">
+						<Loader />
+					</div>
+				}
 				<div className="profile">
 					<div className="profile-top">
 						<div className="pic-sec">
 							<div className="pic">
 								<div className="user-image" style={{
-									backgroundImage: "url("+this.state.image+")"
-								}} onClick={this.triggerUpload}>
+									backgroundImage: "url("+this.state.imagePreview+")"
+								}} onClick={this.triggerUpload.bind(this)}>
 									<div className="image-overlay">
 										<a href="#" id="picture-overlay" className="">
 											<i className="material-icons">photo_camera</i>
@@ -60,12 +95,18 @@ class UserProfile extends Component {
 									</div>
 								</div>
 
-								<input type="file" className="hidden" ref={input => this.fileInput = input} onChange={this.fileChangedHandler}/>
+								<input type="file" className="hidden" ref={input => this.fileInput = input} onChange={this.fileChangedHandler.bind(this)}/>
 								
 							</div>
 							<div className="pic-info">
 								<h2>{this.props.username}</h2>
-								<h3>&nbsp;</h3>
+								{
+									this.state.unsavedChanges?(
+										<button className="btn waves-effect waves-light" id="save-profile-button" onClick={this.saveProfile.bind(this)}>Save!</button>
+									):(
+										<h3>&nbsp;</h3>
+									)
+								}
 							</div>
 							<div className="clear"></div>
 						</div>

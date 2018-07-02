@@ -5,6 +5,7 @@ const { Client } = require('pg')
 const client = new Client(config.get("Database"))
 
 const app = require('./app')
+
 const JService = require('./util/JService')
 
 const JS = new JService()
@@ -13,6 +14,11 @@ const CryptoJS = require("crypto-js")
 const crypto = require("crypto")
 
 const DatabaseUtils = require("./util/DBUtils")
+
+const FlakeId63 = require('flake-idgen-63')
+const sharp = require('sharp')
+
+//const storage = require('filestorage').create('./server/data/avatars')
 
 
 /** 
@@ -51,6 +57,26 @@ const GameUtils = require("./util/GameUtils")
 const User = require("./Structs/User")
 const Game = require("./Structs/Game")
 const DBUtils = new DatabaseUtils(client)
+
+const flake = new FlakeId63()
+
+/*
+app.get('/user/:userID/image', async (req, res) => {
+	if(!isset(req.params.userID)){
+		res.status(400).json({error: "Invalid user ID."})
+	}else{
+		let userData = await DBUtils.getUserByID(req.params.userID)
+
+		if(!isset(userData)){
+			res.status(404).json({error: "User not found."})
+		}else{
+			storage.read(userData.imageID, async (err, stream, stat) => {
+				//res.send(stream)
+				stream.pipe(res)
+			})
+		}
+	}
+})*/
 
 const server = app.listen(port, host, () => {
 	// ask server for the actual address and port its listening on
@@ -613,6 +639,10 @@ io.on("connection", socket => {
 
 		data.token = CryptoJS.enc.Base64.stringify(userToken)
 
+		data.userID = parseInt(flake.next().toString('hex'), 16).toString()
+
+		data.image = `https://placehold.it/128x128?text=${data.username}`
+
 		await DBUtils.registerUser(data)
 
 		let emitData = {
@@ -655,7 +685,7 @@ io.on("connection", socket => {
 				token: userData.token,
 				wins: userData.wins||0,
 				losses: userData.losses||0,
-				image: userData.image||`https://placehold.it/128x128?text=${data.username}`
+				image: isset(userData.imageID)?`images/${userData.imageID}`:`https://placehold.it/128x128?text=${data.username}`
 			})
 		}
 	})
@@ -672,10 +702,59 @@ io.on("connection", socket => {
 			token: data.token,
 			wins: userData.wins||0,
 			losses: userData.losses||0,
-			image: userData.image||`https://placehold.it/128x128?text=${userData.username}`
+			image: isset(userData.imageID)?`images/${userData.imageID}`:`https://placehold.it/128x128?text=${data.username}`
 		}
 
 		socket.emit("USER_LOGGED_IN", returnData)
+	})
+
+	/*socket.on("ACTION_USER_EDIT", async data => {
+
+		console.log("EDIT", data)
+		console.log("FILE", data.file)
+
+		let userData = await DBUtils.getUserByToken(data.userToken)
+
+		if(!isset(userData)){
+			return // Return socket emit of issue
+		}
+
+		if(!isset(userData.imageID)){
+			let imageID = storage.insert(data.fileData.name, data.file, data.fileData)
+
+			await DBUtils.setUserImage(data.userToken, imageID)
+		
+			return
+		}
+
+		storage.stat(userData.imageID, async (err, stat) => {
+			if(stat === null){
+				let imageID = storage.insert(data.fileData.name, data.file, data.fileData)
+
+				await DBUtils.setUserImage(data.userToken, imageID)
+				return
+			}else{
+				storage.update(userData.imageID, data.fileData.name, data.file, data.fileData)
+			}
+		})		
+	})*/
+
+	socket.on("ACTION_USER_EDIT", async data => {
+		let userData = await DBUtils.getUserByToken(data.userToken)
+
+		if(!isset(userData)){
+			return // Return socket emit of issue
+		}
+
+		let fileName = data.fileData.name
+
+		let imageID = `${userData.ID}.webp`
+
+		sharp(data.file).toFile(`dist/images/${imageID}`)
+
+		await DBUtils.setUserImage(data.userToken, imageID)
+
+		socket.emit("USER_EDIT_SAVED", {timeStamp: Date.now()})
 	})
 })
 

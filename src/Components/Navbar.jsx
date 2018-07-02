@@ -137,6 +137,7 @@ class Navbar extends Component {
 							wins={this.state.userData.wins}
 							losses={this.state.userData.losses}
 							logoutFunc={this.logout.bind(this)}
+							userToken={this.state.userData.token}
 						/>
 					</div>
 				}
