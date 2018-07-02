@@ -18,7 +18,16 @@ class UserProfile extends Component {
 					<div className="profile-top">
 						<div className="pic-sec">
 							<div className="pic">
-								<img src={this.props.image} alt="user"/>
+								<div className="user-image" style={{
+									backgroundImage: "url("+this.props.image+")"
+								}}>
+									<div className="image-overlay">
+										<a href="#" id="picture-overlay" className="">
+											<i className="material-icons">photo_camera</i>
+										</a>
+									</div>
+								</div>
+								
 							</div>
 							<div className="pic-info">
 								<h2>{this.props.username}</h2>

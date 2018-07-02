@@ -447,12 +447,13 @@ html, body{
 	width: 25%;
 }
 
-.pic img {
-	width: 100%;
+.pic .user-image {
 	border-radius: 50%;
-	border: 5px solid #fff;
+	max-width: 128px;
+	max-height: 128px;
+	min-width: 128px;
+	min-height: 128px;
 }
-
 
 .media {
 	margin-top: 1em;
@@ -510,4 +511,30 @@ html, body{
 .profile-bottom ul li a:hover{
 	color:#fff;
 	background: #1a2c4d;
+}
+
+.image-overlay {
+	opacity: 0;
+	height: 128px;
+	width: 128px;
+	border-radius: 50%;
+	text-align: center;
+	min-width: 128px;
+	min-height: 128px;
+	transition: .3s ease;
+	background: rgba(0, 0, 0, 0.5);
+	margin: 0 auto;
+}
+
+#picture-overlay{
+	display: inline-block;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+/* When you mouse over the container, fade in the overlay icon*/
+.pic:hover .image-overlay {
+	opacity: 1;
+	cursor: pointer;
 }
