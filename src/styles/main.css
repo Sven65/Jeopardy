@@ -18,6 +18,10 @@ html, body{
 	overflow: hidden;
 }
 
+#logo-container > img{
+	max-width: 250px;
+}
+
 /**
  * Chat styles
  */

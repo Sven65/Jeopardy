@@ -4,6 +4,8 @@ import UserForm from './Common/UserForm'
 import Loader from './Common/Loader'
 import UserProfile from './Common/UserProfile'
 
+import mainLogo from'../Assets/TriviaPartyWhite.svg'
+
 import store from './../store'
 
 class Navbar extends Component {
@@ -98,7 +100,12 @@ class Navbar extends Component {
 					)
 				}
 				<div className="nav-wrapper container">
-					<a className="brand-logo" href="#" id="logo-container">TriviaParty - <span id="gameCodeHeader">{this.props.roomID}</span></a>
+					<a className="brand-logo" href="#" id="logo-container">
+						<img src={mainLogo} alt="TriviaParty"/>
+						{this.props.roomID!=="" &&
+							<span id="gameCodeHeader">Game: {this.props.roomID}</span>
+						}
+					</a>
 					<ul id="game-buttons" className={"right "+(this.props.hideButtons?'hidden':'')}>
 						{!this.props.hideStartButton &&
 							<li>

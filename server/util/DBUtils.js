@@ -37,13 +37,13 @@ class DBUtils{
 		return results.rows.length>0
 	}
 
-	async registerUser({userID, username, email, password, salt, token}){
+	async registerUser({userID, username, email, password, salt, token, verificationCode}){
 		return await this.client.query(`
 			INSERT INTO users
-			("ID", username, email, password, salt, token)
-			VALUES ($1, $2, $3, $4, $5, $6)
+			("ID", username, email, password, salt, token, "verificationCode")
+			VALUES ($1, $2, $3, $4, $5, $6, $7)
 		`,
-			[userID, username, email, password, salt, token]
+			[userID, username, email, password, salt, token, verificationCode]
 		)
 	}
 
@@ -116,6 +116,14 @@ class DBUtils{
 
 		roomData.rows[0].db = this.client
 		return new Game(roomData.rows[0])
+	}
+
+	async setUserEmailVerified(userID, verified){
+		return await this.client.query(`
+			UPDATE users
+			SET "isVerified" = $1
+			WHERE "ID" = $2
+		`, [verified, userID])
 	}
 }
 

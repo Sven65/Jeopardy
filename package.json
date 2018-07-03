@@ -1,6 +1,6 @@
 {
   "name": "jeopardy",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A browser-based version of Jeopardy for one to four players",
   "main": "index.js",
   "scripts": {
@@ -51,7 +51,9 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "css-loader": "^0.28.11",
+    "file-loader": "^1.1.11",
     "style-loader": "^0.21.0",
+    "webp-loader": "^0.4.0",
     "webpack": "^4.12.1",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.4"

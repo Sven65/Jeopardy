@@ -2,16 +2,69 @@ const config = require("config")
 const crypto = require("crypto")
 const CryptoJS = require("crypto-js")
 const FlakeId63 = require('flake-idgen-63')
+const nodemailer = require('nodemailer');
 
 const flake = new FlakeId63()
+
+
 
 class SocketHandler{
 	constructor({dbUtils = null}){
 		this._dbUtils = dbUtils
+
+		this._mailTransporter = nodemailer.createTransport(config.get("Email.Transport"))
 	}
 
 	_isset(variable){
 		return (variable !== null && variable !== undefined)
+	}
+
+	async _sendVerificationEmail(to, userID, username, verificationCode){
+		let verificationLink = `${config.get('Email.Options.verifyDomain')}/user/${userID}/verify/${verificationCode}`
+
+		let mailOptions = {
+			from: config.get("Email.Options.from"),
+			to,
+			subject: "Please Verify Your Email For TriviaParty!",
+			html: `Hi ${username}! You're receiving this email because you just signed up for TriviaParty.club.<br/>To verify your email, please click this link: <a href="${verificationLink}">${verificationLink}</a>`
+		}
+
+		this._mailTransporter.sendMail(mailOptions, (error, info) => {
+			return info
+		})
+	}
+
+	_getVerificationCode(userID){
+		const crc32 = (function() {
+			let c, crcTable = []; // generate crc table
+
+			for (let n = 0; n < 256; n++) {
+				c = n;
+
+				for (let k = 0; k < 8; k++) {
+					c = ((c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1));
+				}
+
+				crcTable[n] = c;
+			}
+
+			return function(str) {
+				let crc = 0 ^ (-1); // calculate actual crc
+
+				for (let i = 0; i < str.length; i++) {
+					crc = (crc >>> 8) ^ crcTable[(crc ^ str.charCodeAt(i)) & 0xFF];
+				}
+
+				return (crc ^ (-1)) >>> 0;
+			}
+		})();
+
+		let crcPattern = "00000000"
+
+		var nextCode = crc32(userID.toString()).toString(16).toUpperCase();
+		nextCode = crcPattern.substr(0, crcPattern.length - nextCode.length) + nextCode;
+
+		return nextCode
 	}
 
 	async Execute({socket = null, io = null, data = {} }){
@@ -29,10 +82,10 @@ class SocketHandler{
 
 		let emailExists = await this._dbUtils.emailExists(data.email)
 
-		if(emailExists){
+		/*if(emailExists){
 			socket.emit("USER_REGISTER_ERROR", {reason: "Email Already Registered."})
 			return
-		}
+		}*/
 
 		data.salt = crypto.randomBytes(32).toString("hex")
 
@@ -56,7 +109,11 @@ class SocketHandler{
 
 		data.image = `https://placehold.it/128x128?text=${data.username}`
 
+		data.verificationCode = this._getVerificationCode(data.userID)
+
 		await this._dbUtils.registerUser(data)
+
+		await this._sendVerificationEmail(data.email, data.userID, data.username, data.verificationCode)
 
 		let emitData = {
 			username: data.username,
