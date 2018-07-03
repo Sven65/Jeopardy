@@ -163,6 +163,13 @@ html, body{
 	text-align: center;
 }
 
+.user-card > .card > .card-image > img{
+	max-width: 128px;
+	max-height: 128px;
+	min-height: 128px;
+	min-width: 128px;
+}
+
 /**
  * User form
  */

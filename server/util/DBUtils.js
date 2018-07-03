@@ -1,6 +1,22 @@
+let Game = require("../Structs/Game")
+
 class DBUtils{
 	constructor(client){
 		this.client = client
+	}
+
+	_isset(variable){
+		return (variable !== null && variable !== undefined)
+	}
+
+	async addGame(roomID){
+		return await this.client.query(`INSERT INTO games ("roomID", "currentQuestion", "isStarted", questions, users) VALUES ($1, $2, $3, $4, $5)`, [
+			roomID,
+			null,
+			false,
+			{},
+			[]
+		])
 	}
 
 	async usernameExists(username){
@@ -89,6 +105,17 @@ class DBUtils{
 			SET "playedGames" = "playedGames" + $1
 			WHERE token = $2
 		`, [amount, token])
+	}
+
+	async getRoomByID(roomID){
+		let roomData = await this.client.query(`SELECT * FROM games WHERE "roomID" = $1`, [roomID])
+
+		if(!this._isset(roomData.rows[0])){
+			return null
+		}
+
+		roomData.rows[0].db = this.client
+		return new Game(roomData.rows[0])
 	}
 }
 
