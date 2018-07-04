@@ -31,7 +31,7 @@ app.get("/:userID/verify/:verificationCode", async (req, res) => {
 	}
 
 	if(userData.verificationCode === req.params.verificationCode){
-		res.sendFile(path.join(__dirname, `../Static/Pages/EmailValidation.html.html`))
+		res.sendFile(path.join(__dirname, `../Static/Pages/EmailValidation.html`))
 	}else{
 		res.status(400).json({error: "Invalid Verification Code."})
 	}

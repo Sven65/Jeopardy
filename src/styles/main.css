@@ -644,3 +644,8 @@ label[for="privacyAgree"]{
 #privacyLink:hover{
 	color: #BBDEFB;
 }
+
+#register-trigger-holder{
+	text-align: right;
+	justify-content: flex-end;
+}

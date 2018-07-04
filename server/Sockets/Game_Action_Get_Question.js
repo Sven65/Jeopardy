@@ -5,6 +5,7 @@ class SocketHandler{
 		this._dbUtils = dbUtils
 
 		this._minPlayers = config.get("Game.minPlayers")
+		this._questionAmount = config.get("Game.questionAmount")
 	}
 
 	_isset(variable){
@@ -86,7 +87,7 @@ class SocketHandler{
 				
 				await room.setCurrentQuestion(null)
 
-				if(room.checkQuestionsLeft(questionAmount) > 0){
+				if(room.checkQuestionsLeft(this._questionAmount) > 0){
 
 					let turnData = await room.changeTurn(user)
 					io.to(data.roomID).emit("CHANGE_TURN", {

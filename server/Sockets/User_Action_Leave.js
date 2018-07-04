@@ -12,7 +12,7 @@ class SocketHandler{
 
 		let room = await this._dbUtils.getRoomByID(roomID)
 
-		if(!isset(room)){
+		if(!this.isset(room)){
 			return
 		}
 

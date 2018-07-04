@@ -231,6 +231,9 @@ class UserForm extends Component {
 										</label>
 										<a className="user-modal-form-recovery" href="#" onClick={this.forgotPassword}>Forgot Password?</a>
 									</div>
+									<div className="user-modal-form-group" id="register-trigger-holder">
+										<a className="user-modal-form-recovery right" href="#" id="register-trigger">New User?</a>
+									</div>
 									<div className="user-modal-form-group">
 										<button type="button" onClick={this.login.bind(this)}>Log In</button>
 									</div>
