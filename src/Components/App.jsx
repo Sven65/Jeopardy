@@ -61,7 +61,6 @@ class App extends Component {
 	componentDidMount() {
 		store.subscribe(() => {
 			this.setState(store.getState(), () => {
-				console.log("APP", this.state)
 
 				if(this.state.userData !== undefined && this.state.userData !== null && Object.keys(this.state.userData).length>0 && this.state.userLoggedIn){
 					this.setUserData()

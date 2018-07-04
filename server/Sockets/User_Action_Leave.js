@@ -18,7 +18,7 @@ class SocketHandler{
 
 		let user = room.getUserByID(socket.id)
 
-		if(!isset(user)){
+		if(!this.isset(user)){
 			return
 		}
 
