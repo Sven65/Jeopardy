@@ -71,11 +71,13 @@ class GameArea extends Component {
 						<QuestionTable values={this.props.values}/>
 
 						{/* End table area */}
+
+						<Chat/>
 					</div>
 
 					{/* Start Chat Area */}
 
-					<Chat/>
+					
 
 					{/* End Chat Area */}
 				</div>

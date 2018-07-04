@@ -28,7 +28,6 @@ html, body{
 #chat{
 	border-left: 1px solid;
 	border-right: 1px solid;
-	
 }
 
 .chat-message-container{
@@ -88,7 +87,7 @@ html, body{
 @media only screen and (min-width: 1024px) {
 	#chat{
 		z-index: 1000;
-		margin-top: -80vh;
+		margin-top: -44vh;
 	}
 
 	#game-table-area{
@@ -168,10 +167,10 @@ html, body{
 }
 
 .user-card > .card > .card-image > img{
-	max-width: 128px;
-	max-height: 128px;
-	min-height: 128px;
-	min-width: 128px;
+	max-width: 192px;
+	max-height: 192px;
+	min-height: 192px;
+	min-width: 192px;
 }
 
 /**
