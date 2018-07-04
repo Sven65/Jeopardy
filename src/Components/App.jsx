@@ -67,7 +67,7 @@ class App extends Component {
 					this.setUserData()
 				}
 
-				if(this.state.appEmailSent && !this.state.appLoading){
+				if(this.state.appEmailSent && !this.state.appLoading && Object.keys(this.state.userData).length>0){
 					swal("Email sent!", "Please check your inbox for further instructions!", "success");
 				}
 			})
@@ -89,6 +89,8 @@ class App extends Component {
 	}
 
 	render(){
+		const showVerifyBanner = Object.keys(this.state.userData).length>0&&!this.state.userData.emailVerified
+
 		return (
 			<div className="App">
 
@@ -98,7 +100,7 @@ class App extends Component {
 					</div>
 				}
 
-				{!this.state.userData.emailVerified &&
+				{showVerifyBanner &&
 					<Alert message={
 						<span>
 							Hey you! You haven't verified your email yet! Please do so by clicking anywhere on this message!
