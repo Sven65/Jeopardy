@@ -40,7 +40,8 @@
 		},
 		"Options": {
 			"from": "",
-			"verifyDomain": ""
+			"verifyDomain": "",
+			"assetURL": ""
 		}
 	},
 	"recaptchaSecret": ""

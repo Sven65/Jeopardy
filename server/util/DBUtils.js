@@ -125,6 +125,14 @@ class DBUtils{
 			WHERE "ID" = $2
 		`, [verified, userID])
 	}
+
+	async setUserEmailVerificationCode(userID, verificationCode){
+		return await this.client.query(`
+			UPDATE users
+			SET "verificationCode" = $1
+			WHERE "ID" = $2
+		`, [verificationCode, userID])
+	}
 }
 
 module.exports = DBUtils

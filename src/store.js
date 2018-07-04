@@ -290,6 +290,17 @@ function reducer(state, action){
 				unsavedChanges: false
 			})
 		break
+		case "SEND_VERIFICATION_EMAIL":
+			return Object.assign({}, state, {
+				appLoading: true
+			})
+		break
+		case "SENT_VERIFICATION_EMAIL":
+			return Object.assign({}, state, {
+				appLoading: false,
+				appEmailSent: true
+			})
+		break
 
 		default:
 			if(CONFIG.DEV){

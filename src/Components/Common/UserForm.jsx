@@ -153,7 +153,7 @@ class UserForm extends Component {
 						<div className="user-modal-form-panel two">
 							<div className="user-modal-form-header">
 								<h1>Register Account</h1>
-								<h6>{this.state.registerError.reason||this.state.userRegistered&&"Registered!"}</h6>
+								<h6>{this.state.registerError.reason||this.state.userRegistered&&"Registered! Check your emails to verify your email!"}</h6>
 							</div>
 							<div className="user-modal-form-content">
 								<form>

@@ -2,17 +2,15 @@ const config = require("config")
 const crypto = require("crypto")
 const CryptoJS = require("crypto-js")
 const FlakeId63 = require('flake-idgen-63')
-const nodemailer = require('nodemailer');
 
+const EmailUtils = require(`${__dirname}/../util/EmailUtils`)
+
+const Email = new EmailUtils()
 const flake = new FlakeId63()
-
-
 
 class SocketHandler{
 	constructor({dbUtils = null}){
 		this._dbUtils = dbUtils
-
-		this._mailTransporter = nodemailer.createTransport(config.get("Email.Transport"))
 	}
 
 	_isset(variable){
@@ -22,15 +20,16 @@ class SocketHandler{
 	async _sendVerificationEmail(to, userID, username, verificationCode){
 		let verificationLink = `${config.get('Email.Options.verifyDomain')}/user/${userID}/verify/${verificationCode}`
 
-		let mailOptions = {
-			from: config.get("Email.Options.from"),
+		return await Email.sendEmail({
 			to,
 			subject: "Please Verify Your Email For TriviaParty!",
-			html: `Hi ${username}! You're receiving this email because you just signed up for TriviaParty.club.<br/>To verify your email, please click this link: <a href="${verificationLink}">${verificationLink}</a>`
-		}
-
-		this._mailTransporter.sendMail(mailOptions, (error, info) => {
-			return info
+			template: "ValidationEmail",
+			context: {
+				username,
+				account: to,
+				verificationLink,
+				assetURL: config.get('Email.Options.assetURL')
+			}
 		})
 	}
 
@@ -61,11 +60,12 @@ class SocketHandler{
 
 		let crcPattern = "00000000"
 
-		var nextCode = crc32(userID.toString()).toString(16).toUpperCase();
+		let nextCode = crc32(userID.toString() + Date.now().toString()).toString(16).toUpperCase();
 		nextCode = crcPattern.substr(0, crcPattern.length - nextCode.length) + nextCode;
 
 		return nextCode
 	}
+
 
 	async Execute({socket = null, io = null, data = {} }){
 		if(data.password !== data.cpassword){
@@ -82,10 +82,10 @@ class SocketHandler{
 
 		let emailExists = await this._dbUtils.emailExists(data.email)
 
-		/*if(emailExists){
+		if(emailExists){
 			socket.emit("USER_REGISTER_ERROR", {reason: "Email Already Registered."})
 			return
-		}*/
+		}
 
 		data.salt = crypto.randomBytes(32).toString("hex")
 
