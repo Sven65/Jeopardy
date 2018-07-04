@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import swal from 'sweetalert'
 import store from './../../store'
 /**
  * Userform
@@ -16,17 +17,38 @@ class UserForm extends Component {
 			"loginError": {},
 
 			"login-username": "",
-			"login-password": ""
+			"login-password": "",
+			forgotPasswordSent: false,
+			passwordResetError: null
 		}
 
 		this.handleInput = this.handleInput.bind(this)
 		this.onRegisterKeyDown = this.onRegisterKeyDown.bind(this)
 		this.onLoginKeyDown = this.onLoginKeyDown.bind(this)
+		this.forgotPassword = this.forgotPassword.bind(this)
 	}
 
 	componentDidMount() {
 		store.subscribe(() => {
-			this.setState(store.getState())
+			this.setState(store.getState(), () => {
+				if(this.state.forgotPasswordSent){
+					swal({
+						title: "Success!",
+						text: "Check your email for further instructions!",
+						icon: "success",
+						button: "Okay!"
+					})
+				}else if(this.state.passwordResetError !== null){
+					swal({
+						title: "Error!",
+						text: this.state.passwordResetError,
+						icon: "error",
+						button: "Try Again"
+					}).then(e => {
+						this.forgotPassword()
+					})
+				}
+			})
 		})
 	}
 	
@@ -117,6 +139,67 @@ class UserForm extends Component {
 		}
 	}
 
+	forgotPassword(){
+		let swalField = document.createElement('input');
+		swalField.setAttribute("placeholder", "me@example.com");
+		swalField.setAttribute("type", "email");
+		swalField.setAttribute("required", "true");
+
+		swal({
+			title: 'Please enter the email of your account',
+			content: swalField,
+			buttons: {
+				cancel: "Cancel",
+				go: {
+					text: "Go!",
+					closeModal: false,
+					value: 1
+				}
+			}
+		}).then(val => {
+			if (!val){
+				swal.stopLoading();
+				swal.close();
+				return
+			}
+
+			let email = swalField.value
+
+			if(!email) throw null
+
+
+			if(!this.validateEmail(email)){
+				swal({
+					title: "Error.",
+					text: "Invalid email entered.",
+					icon: "error",
+					button: "Try again"
+				}).then(e => {
+					this.forgotPassword()
+				})
+				return
+			}
+
+			store.dispatch({type: "s/FORGOT_PASSWORD", data: {
+				email
+			}})
+
+		}).catch(err => {
+			if (err) {
+				swal("Oh noes!", "The AJAX request failed!", "error");
+			} else {
+				swal({
+					title: "Error.",
+					text: "No email entered.",
+					icon: "error",
+					button: "Try again"
+				}).then(e => {
+					this.forgotPassword()
+				})
+			}
+		});
+	}
+
 	render(){
 		return (
 			<div id="user-modal">
@@ -142,7 +225,7 @@ class UserForm extends Component {
 										<label className="user-modal-form-remember">
 											<input type="checkbox" name="login-checkbox"/>Remember Me
 										</label>
-										<a className="user-modal-form-recovery" href="#">Forgot Password?</a>
+										<a className="user-modal-form-recovery" href="#" onClick={this.forgotPassword}>Forgot Password?</a>
 									</div>
 									<div className="user-modal-form-group">
 										<button type="button" onClick={this.login.bind(this)}>Log In</button>

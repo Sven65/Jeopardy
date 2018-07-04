@@ -26,8 +26,16 @@ document.querySelector("#submit-button").addEventListener("click", e => {
 		return
 	}
 
+	let password = document.querySelector("input[name=newPass]").value
+	let cpassword = document.querySelector("input[name=newPassConfirm]").value
+
+	if(password !== cpassword){
+		document.querySelector("#form-error").innerHTML = "Passwords don't match."
+		return
+	}
+
 	let xhr = new XMLHttpRequest();
-	xhr.open('POST', '/user/verify/email');
+	xhr.open('POST', '/user/verify/password');
 	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.onload = function() {
 		if (xhr.status === 200) {
@@ -36,8 +44,10 @@ document.querySelector("#submit-button").addEventListener("click", e => {
 			document.querySelector("#loader-holder").classList.add("hidden")
 
 			if(response.success){
-				document.querySelector("#header").innerHTML = "Email Verified! You may now close this page."
+				document.querySelector("#header").innerHTML = "Password reset! You may now close this page."
 				document.querySelector("#submit-button").disabled = true
+			}else{
+				document.querySelector("#form-error").innerHTML = response.error
 			}
 
 		}
@@ -45,7 +55,9 @@ document.querySelector("#submit-button").addEventListener("click", e => {
 	xhr.send(JSON.stringify({
 		userID: document.querySelector("input[name=userID]").value,
 		verificationCode: document.querySelector("input[name=verificationCode]").value,
-		captchaResponse: captchaResponse
+		captchaResponse: captchaResponse,
+		password,
+		cpassword
 	}));
 
 	document.querySelector("#loader-holder").classList.remove("hidden")

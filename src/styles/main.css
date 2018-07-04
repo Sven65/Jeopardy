@@ -556,3 +556,11 @@ html, body{
 #save-profile-button{
 	width: 60%;
 }
+
+.z-index-10000000{
+	z-index: 10000000;
+}
+
+.swal-overlay.swal-overlay--show-modal{
+	z-index: 10000000;
+}

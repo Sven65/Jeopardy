@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta name="theme-color" content="#29b6f6" class="themecolor">
+		<meta name="msapplication-navbutton-color" content="#29b6f6" class="themecolor">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="blue-translucent">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="Mackan">
+			
+		<meta name="description" content="An online trivia game for two to four players!">
+		<meta name="title" content="TriviaParty">
+
+		<meta content="An online trivia game for two to four players!" property="og:description">
+		<meta content="TriviaParty" property="og:title">
+		<meta content="logo.png" property="og:image">
+		<meta content="image/png" property="og:image:type">
+		<meta content="292" property="og:image:width">
+		<meta content="256" property="og:image:heigth">
+		<meta content="https://triviaparty.club" property="og:url">
+		<meta content="TriviaParty" property="og:site_name">
+		<meta content="en_GB" property="og:locale">
+
+
+		<meta name="twitter:card" content="summary">
+		<meta name="twitter:url" content="https://triviaparty.club">
+		<meta name="twitter:title" content="TriviaParty">
+		<meta name="twitter:description" content="An online trivia game for two to four players!">
+		<meta name="twitter:image" content="logo.png">
+		<meta name="twitter:image:type" content="image/png">
+		<meta name="twitter:image:width" content="292">
+		<meta name="twitter:image:height" content="256">
+		<meta name="twitter:creator" content="@Mackan90096">
+		<meta name="twitter:site" content="@Mackan90096">
+
+		<title>TriviaParty - Reset Password</title>
+		 <!--Import Google Icon Font-->
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link href="/Assets/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+		<link href="/Assets/css/Validation.css" rel="stylesheet">
+		<link href="/Assets/css/Loaders.min.css" rel="stylesheet">
+
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<script src='https://www.google.com/recaptcha/api.js' async></script>
+	</head>
+	<body>
+		<div class="loader-holder hidden" id="loader-holder">
+			<div class="absolute-center loader-inner line-scale">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+		<nav class="light-blue lighten-1" role="navigation">
+			<div class="nav-wrapper container">
+				<a id="logo-container" href="#" class="brand-logo">
+					<img src="/Assets/TriviaPartyWhite.svg" alt="TriviaParty"/>
+				</a>
+			</div>
+		</nav>
+		<div class="section no-pad-bot">
+			<div class="container">
+				<div class="row center">
+					<div class="col s6 m6 l6 offset-s3 offset-m3 offset-l3">
+						<div class="row">
+							<div class="card blue-grey darken-1">
+								<div class="card-content white-text">
+									<h1 class="header card-title" id="header">Reset Password</h1>
+									<p id="form-error"></p>
+									<div class="row">
+										<form class="col s6 offset-s3" id="validation-form">
+											<div class="input-field col s12">
+												<input id="userID" type="text" name="userID" class="validate">
+												<label for="userID">User ID</label>
+											</div>
+											<div class="input-field col s12">
+												<input id="verificationCode" type="text" name="verificationCode" class="validate">
+												<label for="verificationCode">Verification Code</label>
+											</div>
+
+											<div class="input-field col s12">
+												<input id="newPass" type="password" name="newPass" class="validate">
+												<label for="newPass">New Password</label>
+											</div>
+											<div class="input-field col s12">
+												<input id="newPassConfirm" type="password" name="newPassConfirm" class="validate">
+												<label for="newPassConfirm">Confirm new password</label>
+											</div>
+											
+											<div class="g-recaptcha" data-callback="verifyCallback" data-sitekey="6LfdAGIUAAAAAHfUL4mVfwL8V7ctKTnWr1uVerV9"></div>
+										</form>
+									</div>
+								</div>
+								<div class="card-action">
+									<button class="btn waves-effect waves-light btn-large" type="button" name="action" id="submit-button">Submit
+										<i class="material-icons right">send</i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			function verifyCallback(){}
+		</script>
+		<script src="/Assets/js/materialize.min.js"></script>
+		<script src="/Assets/js/Reset.js"></script>
+	</body>
+</html>

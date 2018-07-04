@@ -74,6 +74,15 @@ class DBUtils{
 		return results.rows[0]
 	}
 
+	async getUserByEmail(email){
+		let results = await this.client.query(`
+			SELECT * FROM users
+			WHERE "email" = $1
+		`, [email])
+
+		return results.rows[0]
+	}
+
 	async setUserImage(token, imageID){
 		return await this.client.query(`
 			UPDATE users
@@ -132,6 +141,22 @@ class DBUtils{
 			SET "verificationCode" = $1
 			WHERE "ID" = $2
 		`, [verificationCode, userID])
+	}
+
+	async setPasswordResetToken(userID, verificationCode){
+		return await this.client.query(`
+			UPDATE users
+			SET "passwordResetToken" = $1
+			WHERE "ID" = $2
+		`, [verificationCode, userID])
+	}
+
+	async setUserLogin(userID, password, salt){
+		return await this.client.query(`
+			UPDATE users
+			SET "password" = $1, "salt" = $2
+			WHERE "ID" = $3
+		`, [password, salt, userID])
 	}
 }
 
