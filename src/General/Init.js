@@ -15,17 +15,25 @@ $(document).ready(function() {
 		panelTwo = $('.user-modal-form-panel.two')[0].scrollHeight
 
 	$('.user-modal-form-panel.two').not('.user-modal-form-panel.two.active').on('click', e => {
-		e.preventDefault()
+		console.log("one")
 
-		$('.user-modal-form-toggle').addClass('visible')
-		$('.user-modal-form-panel.one').addClass('hidden')
-		$('.user-modal-form-panel.two').addClass('active')
-		$('.user-modal-form').animate({
-			'height': panelTwo
-		}, 200)
+		console.log("NODE", e.target.nodeName)
+
+		if(e.target.nodeName !== "INPUT" && e.target.nodeName !== "INPUT" && e.target.nodeName !== "A" && e.target.nodeName !== "LABEL"){
+			e.preventDefault()
+			$('.user-modal-form-toggle').addClass('visible')
+			$('.user-modal-form-panel.one').addClass('hidden')
+			$('.user-modal-form-panel.two').addClass('active')
+			$('.user-modal-form').animate({
+				'height': panelTwo
+			}, 200)
+		}
+
+		
 	})
 
 	$('.user-modal-form-toggle').on('click', function(e) {
+		console.log("2")
 		e.preventDefault()
 		$(this).removeClass('visible')
 		$('.user-modal-form-panel.one').removeClass('hidden')

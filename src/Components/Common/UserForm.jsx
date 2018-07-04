@@ -53,6 +53,10 @@ class UserForm extends Component {
 	}
 	
 	handleInput(event){
+		if(event.target.name === "privacyAgree"){
+			event.target.value = event.target.checked
+		}
+
 		this.setState({
 			[event.target.name]: event.target.value
 		});
@@ -79,7 +83,7 @@ class UserForm extends Component {
 			return
 		}
 
-		if(this.state['register-username'] !== "" && this.state['register-email'] !== "" && this.state['register-password'] !== "" && this.state['register-cpassword'] !== ""){
+		if(this.state['register-username'] !== "" && this.state['register-email'] !== "" && this.state['register-password'] !== "" && this.state['register-cpassword'] !== "" && this.state.privacyAgree){
 			if(this.validateEmail(this.state['register-email'])){
 				store.dispatch({type: "USER_FORM_LOAD"})
 
@@ -256,6 +260,12 @@ class UserForm extends Component {
 										<label htmlFor="email">Email Address</label>
 										<input id="email" name="register-email" required="required" type="email" onChange={this.handleInput} onKeyDown={this.onRegisterKeyDown}/>
 										<span className="user-modal-form-group-error">Please enter a valid email</span>
+									</div>
+									<div className="user-modal-form-group privacyAgreementHolder">
+										<div className="md-checkbox">
+											<input id="privacyAgree" name="privacyAgree" required="required" type="checkbox" onClick={this.handleInput}/>
+											<label htmlFor="privacyAgree">I have read and agree to the <a href="Privacy" id="privacyLink" target="_blank">Privacy Policy</a></label>
+										</div>
 									</div>
 									<div className="user-modal-form-group">
 										<button type="submit" onClick={this.register.bind(this)}>Register</button>
