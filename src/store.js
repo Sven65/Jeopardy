@@ -36,7 +36,7 @@ function updateObjectInArray(array, action) {
 
 function reducer(state, action){
 	if(CONFIG.DEV){
-		console.log("ACT", action)
+		console.log("ACTION", action.type, " ", action)
 	}
 
 	if(!state) return {}
@@ -51,7 +51,7 @@ function reducer(state, action){
 				host: action.data.host,
 				isTurn: action.data.isTurn,
 				timeStamp: action.data.timeStamp,
-				image: action.data.user.image,
+				image: action.data.user.image||action.data.image,
 				isRegistered: action.data.isRegistered||false
 			}
 
@@ -93,6 +93,7 @@ function reducer(state, action){
 						},
 						timeStamp: Date.now()
 					}})
+
 
 					return Object.assign({}, state, {
 						roomID: action.data.roomID,
@@ -313,7 +314,6 @@ function reducer(state, action){
 				passwordResetError: null
 			})
 		break
-
 		default:
 			if(CONFIG.DEV){
 				console.log("OOF", action)

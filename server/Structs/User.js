@@ -1,5 +1,5 @@
 class User{
-	constructor({balance=0, gameCode="", host=false, isTurn=false, timeStamp=0, userID="", username="", roomID="", isRegistered=false, token=""}){
+	constructor({balance=0, gameCode="", host=false, isTurn=false, timeStamp=0, userID="", username="", roomID="", isRegistered=false, token="", image=""}){
 		this.balance = balance
 		this.gameCode = gameCode
 		this.host = host
@@ -10,6 +10,7 @@ class User{
 		this.roomID = roomID
 		this.isRegistered = isRegistered
 		this.token = token
+		this.image = image
 	}
 
 	toJSON(){
@@ -23,7 +24,8 @@ class User{
 			username: this.username,
 			roomID: this.roomID,
 			isRegistered: this.isRegistered,
-			token: this.token
+			token: this.token,
+			image: this.image
 		}
 	}
 }

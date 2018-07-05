@@ -12,6 +12,12 @@ class SocketHandler{
 		return (variable !== null && variable !== undefined)
 	}
 
+	async asyncForEach(array, callback) {
+		for (let index = 0; index < array.length; index++) {
+			await callback(array[index], index, array)
+		}
+	}
+
 	async Execute({socket = null, io = null, data = {} }){
 		let isHost = false
 		let canJoin = false
@@ -67,6 +73,10 @@ class SocketHandler{
 		data.token = data.user.token||""
 		data.image = data.user.image||`https://placehold.it/128x128?text=${data.username}`
 
+		if(!this._isset(data.user)){
+			this.user = {}
+		}
+
 		if(!this._isset(data.user.image)){
 			data.user.image = `https://placehold.it/128x128?text=${data.username}`
 		}
@@ -75,10 +85,26 @@ class SocketHandler{
 
 		await room.addUser(user)
 
-		room.users.forEach(user => {
-			socket.emit("USER_JOIN", user)
-		})
+		/*const start = async () => {
+			await this.asyncForEach(room.users, async (user) => {
+				console.log("EMIT USER", user)
+				console.log("instance", user)
+				socket.emit("USER_JOIN", user)
+			})
+		}
+		
+ 		start()*/
 
+		room.users.forEach(user => {
+			if(!(user instanceof User)){
+				user = new User(user)
+			}
+
+			console.log("USEREMIT", user)
+
+			socket.emit("USER_JOIN", user)
+			socket.emit("DEBUG", user)
+		})
 
 		io.to(data.roomID).emit("USER_JOIN", data)
 	}

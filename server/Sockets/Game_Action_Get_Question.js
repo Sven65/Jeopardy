@@ -23,6 +23,12 @@ class SocketHandler{
 		})
 	}
 
+	async asyncForEach(array, callback) {
+		for (let index = 0; index < array.length; index++) {
+			await callback(array[index], index, array)
+		}
+	}
+
 	async Execute({socket = null, io = null, data = {}, roomTimers = {}}){
 		let room = await this._dbUtils.getRoomByID(data.roomID)
 
@@ -106,7 +112,7 @@ class SocketHandler{
 				})
 
 				const start = async () => {
-					await asyncForEach(standings, async (user) => {
+					await this.asyncForEach(standings, async (user) => {
 						if(user.isRegistered){
 							await this._dbUtils.addPlayedGames(user.token, 1)
 							await this._dbUtils.addLosses(user.token, 1)
