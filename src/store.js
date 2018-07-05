@@ -51,7 +51,7 @@ function reducer(state, action){
 				host: action.data.host,
 				isTurn: action.data.isTurn,
 				timeStamp: action.data.timeStamp,
-				image: action.data.user.image||action.data.image,
+				image: action.data.image,
 				isRegistered: action.data.isRegistered||false
 			}
 
@@ -312,6 +312,15 @@ function reducer(state, action){
 			return Object.assign({}, state, {
 				forgotPasswordSent: true,
 				passwordResetError: null
+			})
+		break
+		case "ANSWER_TIME_LEFT":
+			userIndex = state.users.findIndex(user => user.userID === action.data.user.userID)
+
+			state.users[userIndex].timeLeft = action.data.timeLeft
+
+			return Object.assign({}, state, {
+				users: state.users
 			})
 		break
 		default:

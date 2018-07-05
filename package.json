@@ -31,6 +31,7 @@
     "pg": "^7.4.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-progressbar.js": "^0.2.0",
     "redux": "^4.0.0",
     "redux-socket.io": "^1.4.0",
     "redux-sockets": "^1.1.1",

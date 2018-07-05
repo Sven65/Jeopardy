@@ -74,6 +74,18 @@ class SocketHandler{
 
 		await room.setCurrentQuestion(clueData)
 
+		let cTimeLeft = config.get("Game.timers.answerTime.beforeCountdown")+config.get("Game.timers.answerTime.countdown")
+
+		roomTimers[data.roomID] = setInterval(async () => {
+			if(cTimeLeft > config.get("Game.timers.answerTime.countdown")){
+				io.to(data.roomID).emit("ANSWER_TIME_LEFT", {
+					user,
+					timeLeft: cTimeLeft
+				})
+				cTimeLeft--
+			}
+		}, 1000)
+
 		roomTimers[data.roomID] = setTimeout(() => {
 			clearTimeout(roomTimers[data.roomID])
 
@@ -82,6 +94,10 @@ class SocketHandler{
 			roomTimers[data.roomID] = setInterval(async () => {
 				if(timeLeft > 0){
 					this._sendSystemMessage(io, data.roomID, `User **${user.username}** has **${timeLeft}** seconds to answer`)
+					io.to(data.roomID).emit("ANSWER_TIME_LEFT", {
+						user,
+						timeLeft
+					})
 					timeLeft--
 					return
 				}
@@ -91,6 +107,11 @@ class SocketHandler{
 				
 				this._sendSystemMessage(io, data.roomID, `User **${user.username}** took too long to answer correctly! The answer was **${room.currentQuestion.answer}**!`)
 				
+				io.to(data.roomID).emit("ANSWER_TIME_LEFT", {
+					user,
+					timeLeft: 0
+				})
+
 				await room.setCurrentQuestion(null)
 
 				if(room.checkQuestionsLeft(this._questionAmount) > 0){

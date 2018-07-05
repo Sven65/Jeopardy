@@ -28,6 +28,14 @@ class GameArea extends Component {
 		})
 	}
 
+	getBadges(user){
+		return (
+			<div className="badges">
+				{user.isRegistered&&<span class="hover" title="Registered User!">🌟</span>}
+			</div>
+		)
+	}
+
 	render(){
 		if(Object.keys(this.state.clues).length<=0 && this.state.roomID !== undefined || this.state.gameDone){
 			document.body.style.overflow = "hidden";
@@ -53,7 +61,17 @@ class GameArea extends Component {
 						<div className="col l8 s12 left" id="stat-container">
 							<div className="row" id="card-container">
 								{this.props.users.map((user, i) => {
-									return (<UserCard userID={user.userID} image={user.image} username={user.username} extraContent={user.isRegistered&&<span class="hover" title="Registered User!">🌟</span>} balance={user.balance} isTurn={user.isTurn&&this.state.gameStarted} />)
+									return (
+										<UserCard
+											userID={user.userID}
+											image={user.image}
+											username={user.username}
+											extraContent={this.getBadges(user)}
+											balance={user.balance}
+											isTurn={user.isTurn&&this.state.gameStarted}
+											timeLeft={user.timeLeft}
+											maxTime={15}
+										/>)
 								})}
 								
 							</div>

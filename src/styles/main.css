@@ -48,6 +48,7 @@ html, body{
 
 .chat-image{
 	width: 64px;
+	border-radius: 50%;
 }
 
 .chat-sender{
@@ -69,6 +70,11 @@ html, body{
 #chat-messages li:nth-child(odd){
 	background: #eee;
 }
+
+.message-wrap[data-system='false']{
+	padding-left: 3%;
+}
+
 
 /* End chat */
 
@@ -171,6 +177,11 @@ html, body{
 	max-height: 192px;
 	min-height: 192px;
 	min-width: 192px;
+}
+
+.user-card > .card > .card-content{
+	min-height: 96px;
+	max-height: 96px;
 }
 
 /**

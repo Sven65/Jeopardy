@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import TimerLine from './TimerLine'
 
 class UserCard extends Component {
 	constructor(props){
@@ -28,10 +29,10 @@ class UserCard extends Component {
 				<div className="card">
 					<div className="card-image">
 						<img src={this.props.image}/>
-						<span className="card-title">{this.props.username}</span>
+						<TimerLine timeLeft={this.props.timeLeft} maxTime={this.props.maxTime}/>
 					</div>
 					<div className="card-content">
-						<p className="balance">${this.props.balance}</p>
+						<span className="card-title">{this.props.username} - ${this.props.balance}</span>
 						{this.props.extraContent}
 					</div>
 				</div>

@@ -85,25 +85,8 @@ class SocketHandler{
 
 		await room.addUser(user)
 
-		/*const start = async () => {
-			await this.asyncForEach(room.users, async (user) => {
-				console.log("EMIT USER", user)
-				console.log("instance", user)
-				socket.emit("USER_JOIN", user)
-			})
-		}
-		
- 		start()*/
-
 		room.users.forEach(user => {
-			if(!(user instanceof User)){
-				user = new User(user)
-			}
-
-			console.log("USEREMIT", user)
-
 			socket.emit("USER_JOIN", user)
-			socket.emit("DEBUG", user)
 		})
 
 		io.to(data.roomID).emit("USER_JOIN", data)
