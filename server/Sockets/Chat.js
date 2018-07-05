@@ -59,9 +59,17 @@ class SocketHandler{
 			let fm = new FuzzyMatching([answer])
 
 			if(answer === fm.get(data.message.toLowerCase(), {maxChanges: 2}).value){
+
+				if(this._isset(roomTimers[data.roomID])){
+					clearTimeout(roomTimers[data.roomID])
+					clearInterval(roomTimers[data.roomID])
+
+					delete roomTimers[data.roomID]
+				}
+
 				emitChat = false
 				this._sendSystemMessage(io, data.roomID, `User **${user.username}** got it right! The answer was **${room.currentQuestion.answer}**`)
-				
+
 				let turnData = await room.changeTurn(user)
 
 				//user.balance += room.currentQuestion.value
@@ -81,10 +89,6 @@ class SocketHandler{
 
 				await room.setCurrentQuestion(null)
 
-				if(this._isset(roomTimers[data.roomID])){
-					clearTimeout(roomTimers[data.roomID])
-					clearInterval(roomTimers[data.roomID])
-				}
 
 				if(room.checkQuestionsLeft(this._questionAmount) <= 0){
 					await room.setGameOver(true)

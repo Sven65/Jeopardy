@@ -36,6 +36,10 @@ html, body{
 
 }
 
+.chat-message{
+	word-break: break-all;
+}
+
 .chat-message::before{
 	content: "\A";
 	white-space: pre;
@@ -94,7 +98,7 @@ html, body{
 @media only screen and (min-width: 1024px) {
 	#chat{
 		z-index: 1000;
-		margin-top: -44vh;
+		margin-top: -55vh;
 	}
 
 	#game-table-area{
@@ -182,8 +186,10 @@ html, body{
 }
 
 .user-card > .card > .card-content{
-	min-height: 96px;
-	max-height: 96px;
+	min-height: 150px;
+	max-height: 150px;
+	display: flex;
+	flex-direction: column;
 }
 
 /**

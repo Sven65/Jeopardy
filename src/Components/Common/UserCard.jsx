@@ -32,7 +32,8 @@ class UserCard extends Component {
 						<TimerLine timeLeft={this.props.timeLeft} maxTime={this.props.maxTime}/>
 					</div>
 					<div className="card-content">
-						<span className="card-title">{this.props.username} - ${this.props.balance}</span>
+						<span className="card-title">{this.props.username}</span>
+						<p className="balance">${this.props.balance}</p>
 						{this.props.extraContent}
 					</div>
 				</div>

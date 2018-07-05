@@ -22,7 +22,7 @@ class Standings extends Component {
 					<h2>Game Over!</h2>
 					<div className="standings-holder">
 						{this.props.standings.map((user, i) => {
-							return (<UserCard userID={user.userID} image="http://placehold.it/128x128" username={user.username} balance={user.balance} extraContent={
+							return (<UserCard userID={user.userID} image={user.image} username={user.username} balance={user.balance} extraContent={
 								<p className="position">Position: {this.getPlaceString(i)}</p>
 							}/>)
 						})}
