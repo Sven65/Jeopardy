@@ -13,7 +13,8 @@ class UserProfile extends Component {
 			imagePreview: this.props.image,
 			selectedImage: null,
 			unsavedChanges: false,
-			isLoading: false
+			isLoading: false,
+			editError: ""
 		}
 
 		this._acceptedMimes = [
@@ -108,9 +109,14 @@ class UserProfile extends Component {
 									this.state.unsavedChanges?(
 										<button className="btn waves-effect waves-light" id="save-profile-button" onClick={this.saveProfile.bind(this)}>Save!</button>
 									):(
-										<h3>&nbsp;</h3>
+										this.state.editError!==""?(
+											<span className="edit-error">{this.state.editError}</span>
+										):(
+											<h3>&nbsp;</h3>
+										)
 									)
 								}
+
 							</div>
 							<div className="clear"></div>
 						</div>
@@ -122,6 +128,10 @@ class UserProfile extends Component {
 							<div className="losses">
 								<h4>{this.props.losses}</h4>
 								<h5>Losses</h5>
+							</div>
+							<div className="balance">
+								<h4>${this.props.balance}</h4>
+								<h5>Balance</h5>
 							</div>
 							<div className="clear"></div>
 						</div>

@@ -68,6 +68,11 @@ class SocketHandler{
 
 				await room.addUserBalance(user.userID, room.currentQuestion.value)
 
+				io.to(data.roomID).emit("ANSWER_TIME_LEFT", {
+					user,
+					timeLeft: 0
+				})
+
 				io.to(data.roomID).emit('GAME_EVENT_ANSWERED', {
 					user: user,
 					clue: room.currentQuestion,
@@ -89,10 +94,12 @@ class SocketHandler{
 					})
 
 					const start = async () => {
-						await this._asyncForEach(standings, async (user) => {
+						await this.asyncForEach(standings, async (user) => {
 							if(user.isRegistered){
 								await this._dbUtils.addPlayedGames(user.token, 1)
 								await this._dbUtils.addLosses(user.token, 1)
+
+								await this._dbUtils.addBalance(user.token, user.balance)
 							}
 						})
 					}

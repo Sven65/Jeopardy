@@ -20,7 +20,8 @@ class SocketHandler{
 			wins: userData.wins||0,
 			losses: userData.losses||0,
 			image: this._isset(userData.imageID)?`images/${userData.imageID}`:`https://placehold.it/128x128?text=${data.username}`,
-			emailVerified: userData.isVerified
+			emailVerified: userData.isVerified,
+			balance: userData.balance||0,
 		}
 
 		socket.emit("USER_LOGGED_IN", returnData)

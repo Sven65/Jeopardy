@@ -143,6 +143,7 @@ class Navbar extends Component {
 							image={this.state.userData.image}
 							wins={this.state.userData.wins}
 							losses={this.state.userData.losses}
+							balance={this.state.userData.balance}
 							logoutFunc={this.logout.bind(this)}
 							userToken={this.state.userData.token}
 						/>

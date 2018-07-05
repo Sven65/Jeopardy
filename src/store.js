@@ -288,7 +288,15 @@ function reducer(state, action){
 		case "USER_EDIT_SAVED":
 			return Object.assign({}, state, {
 				isLoading: false,
-				unsavedChanges: false
+				unsavedChanges: false,
+				editError: ""
+			})
+		break
+		case "USER_EDIT_ERROR":
+			return Object.assign({}, state, {
+				isLoading: false,
+				unsavedChanges: false,
+				editError: action.data.error
 			})
 		break
 		case "SEND_VERIFICATION_EMAIL":
@@ -343,6 +351,10 @@ const rootReducer = (state, action) => {
 			questionsLoaded: false,
 			roomID: "",
 			user: {},
+			clues: {},
+			currentQuestion: {},
+			gameStarted: false,
+			messages: [],
 			error: {
 
 			}

@@ -39,7 +39,9 @@ class SocketHandler{
 				token: userData.token,
 				wins: userData.wins||0,
 				losses: userData.losses||0,
-				image: this._isset(userData.imageID)?`images/${userData.imageID}`:`https://placehold.it/128x128?text=${data.username}`
+				balance: userData.balance||0,
+				image: this._isset(userData.imageID)?`images/${userData.imageID}`:`https://placehold.it/128x128?text=${data.username}`,
+				emailVerified: userData.isVerified
 			})
 		}
 	}

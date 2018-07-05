@@ -44,5 +44,8 @@
 			"assetURL": ""
 		}
 	},
-	"recaptchaSecret": ""
+	"recaptchaSecret": "",
+	"Upload": {
+		"maxAvatarSize": 0
+	}
 }

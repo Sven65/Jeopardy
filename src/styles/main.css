@@ -49,6 +49,7 @@ html, body{
 .chat-image{
 	width: 64px;
 	border-radius: 50%;
+	background-repeat: no-repeat;
 }
 
 .chat-sender{
@@ -177,6 +178,7 @@ html, body{
 	max-height: 192px;
 	min-height: 192px;
 	min-width: 192px;
+	background-repeat: no-repeat;
 }
 
 .user-card > .card > .card-content{
@@ -477,6 +479,7 @@ html, body{
 	min-height: 128px;
 	background-size: contain;
 	background-position: center;
+	background-repeat: no-repeat;
 }
 
 .media {
@@ -486,22 +489,27 @@ html, body{
 }
 
 .wins {
-	width: 50%;
+	width: 33%;
 	float: left;
 }
 
 .losses {
-	width: 50%;
+	width: 33%;
 	float: left;
 }
 
-.wins h4, .losses h4 {
+.balance {
+	width: 33%;
+	float: left;
+}
+
+.wins h4, .losses h4, .balance h4 {
 	color: #fff;
 	font-size: 1.4em;
 	font-weight: 600;
 }
 
-.wins h5, .losses h5 {
+.wins h5, .losses h5, .balance h5 {
 	color: #fff;
 	font-size: 1.1em;
 	text-transform: uppercase;

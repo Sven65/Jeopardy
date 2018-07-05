@@ -76,8 +76,8 @@ class SocketHandler{
 
 		let cTimeLeft = config.get("Game.timers.answerTime.beforeCountdown")+config.get("Game.timers.answerTime.countdown")
 
-		roomTimers[data.roomID] = setInterval(async () => {
-			if(cTimeLeft > config.get("Game.timers.answerTime.countdown")){
+		roomTimers[data.roomID] = setInterval(() => {
+			if(cTimeLeft > config.get("Game.timers.answerTime.countdown") && this._isset(roomTimers[data.roomID])){
 				io.to(data.roomID).emit("ANSWER_TIME_LEFT", {
 					user,
 					timeLeft: cTimeLeft
@@ -137,6 +137,8 @@ class SocketHandler{
 						if(user.isRegistered){
 							await this._dbUtils.addPlayedGames(user.token, 1)
 							await this._dbUtils.addLosses(user.token, 1)
+
+							await this._dbUtils.addBalance(user.token, user.balance)
 						}
 					})
 				}
