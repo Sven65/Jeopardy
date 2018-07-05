@@ -70,14 +70,32 @@ class SocketHandler{
 
 		let userData = await this._dbUtils.getUserByEmail(data.email)
 
-		let verificationCode = this._getVerificationCode(data.email)
-		
-		await this._dbUtils.setPasswordResetToken(userData.ID, verificationCode)
-		await this._sendResetEmail(userData.email, userData.ID, userData.username, verificationCode)
+		const emailTimeout = config.get("Email.maxVerification.minutes")* 60 * 1000
 
-		socket.emit("SENT_FORGOT_PASSWORD_EMAIL", {
-			timeStamp: Date.now()
-		})
+		let now = new Date()
+
+		let elapsedTime = now - new Date(userData.lastPasswordResetRequest)
+
+		if(elapsedTime < emailTimeout){
+			// Don't send email
+
+			socket.emit("PASSWORD_RESET_ERROR", {reason: `Email limit reached, please try again later.`})
+
+			return
+		}else{
+
+			let userData = await this._dbUtils.getUserByEmail(data.email)
+
+			let verificationCode = this._getVerificationCode(data.email)
+			
+			await this._dbUtils.setPasswordResetToken(userData.ID, verificationCode)
+			await this._sendResetEmail(userData.email, userData.ID, userData.username, verificationCode)
+			await this._dbUtils.setLastPasswordResetRequest(userData.ID, Date.now() / 1000)
+
+			socket.emit("SENT_FORGOT_PASSWORD_EMAIL", {
+				timeStamp: Date.now()
+			})
+		}
 	}
 }
 

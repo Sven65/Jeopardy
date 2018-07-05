@@ -310,6 +310,13 @@ function reducer(state, action){
 				appEmailSent: true
 			})
 		break
+		case "SENT_VERIFICATION_EMAIL_ERROR":
+			return Object.assign({}, state, {
+				appLoading: false,
+				appEmailSent: false,
+				verifyEmailError: action.data.error
+			})
+		break
 		case "PASSWORD_RESET_ERROR":
 			return Object.assign({}, state, {
 				forgotPasswordSent: false,

@@ -151,6 +151,22 @@ class DBUtils{
 		`, [verificationCode, userID])
 	}
 
+	async setLastVerificationRequest(userID, time){
+		return await this.client.query(`
+			UPDATE users
+			SET "lastVerificationRequest" = to_timestamp($1)
+			WHERE "ID" = $2
+		`, [time, userID])
+	}
+
+	async setLastPasswordResetRequest(userID, time){
+		return await this.client.query(`
+			UPDATE users
+			SET "lastPasswordResetRequest" = to_timestamp($1)
+			WHERE "ID" = $2
+		`, [time, userID])
+	}
+
 	async setPasswordResetToken(userID, verificationCode){
 		return await this.client.query(`
 			UPDATE users

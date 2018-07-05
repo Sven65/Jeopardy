@@ -65,13 +65,29 @@ class SocketHandler{
 	async Execute({socket = null, io = null, data = {} }){
 		let userData = await this._dbUtils.getUserByToken(data.token)
 
-		let verificationCode = this._getVerificationCode(userData.ID)
-	
-		await this._dbUtils.setUserEmailVerificationCode(userData.ID, verificationCode)
+		const emailTimeout = config.get("Email.maxVerification.minutes")* 60 * 1000
 
-		await this._sendVerificationEmail(userData.email, userData.ID, userData.username, verificationCode)
+		let now = new Date()
 
-		socket.emit("SENT_VERIFICATION_EMAIL", {timeStamp: Date.now()})
+		let elapsedTime = now - new Date(userData.lastVerificationRequest)
+
+		if(elapsedTime < emailTimeout){
+			// Don't send email
+
+			socket.emit("SENT_VERIFICATION_EMAIL_ERROR", {error: `Email limit reached, please try again later.`})
+
+			return
+		}else{
+
+			let verificationCode = this._getVerificationCode(userData.ID)
+		
+			await this._dbUtils.setUserEmailVerificationCode(userData.ID, verificationCode)
+
+			await this._sendVerificationEmail(userData.email, userData.ID, userData.username, verificationCode)
+			await this._dbUtils.setLastVerificationRequest(userData.ID, Date.now()/ 1000)
+
+			socket.emit("SENT_VERIFICATION_EMAIL", {timeStamp: Date.now()})
+		}
 	}
 }
 

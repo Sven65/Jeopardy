@@ -42,6 +42,10 @@
 			"from": "",
 			"verifyDomain": "",
 			"assetURL": ""
+		},
+		"maxVerification": {
+			"minutes": 0,
+			"amount": 0
 		}
 	},
 	"recaptchaSecret": "",

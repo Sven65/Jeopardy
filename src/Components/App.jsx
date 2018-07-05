@@ -41,7 +41,8 @@ class App extends Component {
 			gameDone: false,
 			standings: [],
 			userData: {},
-			appLoading: false
+			appLoading: false,
+			verifyEmailError: ""
 		}
 
 
@@ -68,6 +69,8 @@ class App extends Component {
 
 				if(this.state.appEmailSent && !this.state.appLoading && Object.keys(this.state.userData).length>0){
 					swal("Email sent!", "Please check your inbox for further instructions!", "success");
+				}else if(!this.state.appEmailSent && !this.state.appLoading && this.state.verifyEmailError !== "" && Object.keys(this.state.userData).length>0){
+					swal("Error!", this.state.verifyEmailError, "error");
 				}
 			})
 
