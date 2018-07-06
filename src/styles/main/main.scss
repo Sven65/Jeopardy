@@ -1,5 +1,19 @@
 @import 'variables';
 
+.alert{
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.alert.alert-danger{
+	background-color: $alert-danger;
+	color: #fff;
+}
+
+.hidden {
+	display: none;
+}
+
 .navbar {
 	background: $primary-color;
 	

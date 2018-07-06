@@ -100,8 +100,8 @@ class Navbar extends Component {
 					<div className="navbar-end">
 
 						{/* Game Buttons */}
-						<a id="game-button-start" onClick={this.startGame.bind(this)} className={"navbar-item "+(this.props.hideButtons?'hidden':'')}>Start Game <i className="material-icons right">play_arrow</i></a>
-						<a id="game-button-leave" onClick={this.leaveGame.bind(this)} className={"navbar-item "+(this.props.hideButtons?'hidden':'')}>Leave Game <i className="material-icons right">exit_to_app</i></a>
+						<a id="game-button-start" onClick={this.startGame.bind(this)} className={"navbar-item "+(this.props.hideStartButton?'hidden':'')}>Start Game <i className="material-icons right">play_arrow</i></a>
+						<a id="game-button-leave" onClick={this.leaveGame.bind(this)} className={"navbar-item "+(this.props.hideLeaveButton?'hidden':'')}>Leave Game <i className="material-icons right">exit_to_app</i></a>
 						{/* End Game Buttons */}
 
 						<hr class="navbar-divider"/>
