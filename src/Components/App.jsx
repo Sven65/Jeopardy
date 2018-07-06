@@ -7,6 +7,7 @@ window.$ = $;
 //import './../styles/materialize.min.css'
 
 import 'bulma/css/bulma.css'
+//import './../styles/bulma-material-form.css'
 import './../styles/main/main.scss'
 
 import './../styles/loaders.min.css'
