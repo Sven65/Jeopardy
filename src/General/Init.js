@@ -1,13 +1,27 @@
 import $ from "jquery";
 
 document.addEventListener('DOMContentLoaded', function() { 
-	let instances = M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'), {coverTrigger: false, constrainWidth: false})
-	//M.Modal.init(document.querySelectorAll('.modal'))
-	M.Tabs.init(document.querySelectorAll('.tabs'))
+	// Get all "navbar-burger" elements
+	let $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0)
 
-	/*document.querySelector("#usermodal-trigger").addEventListener("click", e => {
-		document.querySelector("#usermodal-holder").classList.remove("hidden")
-	})*/
+	// Check if there are any navbar burgers
+	if ($navbarBurgers.length > 0) {
+
+		// Add a click event on each of them
+		$navbarBurgers.forEach(function ($el) {
+			$el.addEventListener('click', function () {
+
+				// Get the target from the "data-target" attribute
+				var target = $el.dataset.target
+				var $target = document.getElementById(target)
+
+				// Toggle the class on both the "navbar-burger" and the "navbar-menu"
+				$el.classList.toggle('is-active')
+				$target.classList.toggle('is-active')
+
+			})
+		})
+	}
 })
 
 $(document).ready(function() {

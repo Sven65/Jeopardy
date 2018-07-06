@@ -1,0 +1,53 @@
+@import 'variables';
+
+.navbar {
+	background: $primary-color;
+	
+	
+
+	.navbar-link::after{
+		border-color: $navbar-text;
+	}
+
+	.navbar-link:hover::after{
+		border-color: $navbar-text;
+	}
+
+	.navbar-item{
+		font-size: 1rem;
+	}
+}
+
+.navbar-burger{
+	span {
+		color: $navbar-text;
+	}
+}
+
+@media screen and (min-width: 1088px){
+	.navbar-item.has-dropdown:hover .navbar-link, .navbar-item.has-dropdown.is-active .navbar-link {
+		background-color: $primary-color-dark;
+	}
+
+	.navbar {
+		.user-link {
+			color: $navbar-text;
+		}
+
+		a.navbar-item{
+			color: $navbar-text;
+		}
+
+		a.navbar-item:hover{
+			background-color: $primary-color-dark;
+		}
+	}
+}
+
+@media screen and (max-width: 1088px){
+	.navbar-item {
+		a {
+			color: unset;
+		}
+	}
+}

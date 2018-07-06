@@ -4,11 +4,14 @@ import $ from "jquery";
 
 window.$ = $;
 
-import './../styles/materialize.min.css'
-import './../styles/main.css'
+//import './../styles/materialize.min.css'
+
+import 'bulma/css/bulma.css'
+import './../styles/main/main.scss'
+
 import './../styles/loaders.min.css'
 
-import './../General/materialize.min.js'
+//import './../General/materialize.min.js'
 import './../General/init.js'
 
 //import {socket, socketDebug, getQuestions } from '../api'
