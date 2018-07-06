@@ -1,10 +1,10 @@
 // VARIABLES // ============================== //
 $bg-color: #424242;
-$hl-color: #2196F3;
+$title-color: #000;
+$hl-color: #4CAF50; // Button etc
 $muted-color: mix(white, $bg-color, 70%);
 $trans-time: 300ms;
-$width: 50%;
-
+$width: 90%;
 
 // FORM // ============================== //
 
@@ -24,7 +24,7 @@ form.mdl-form{
 		font-size: 3em;
 		font-weight: 300;
 		text-align: center;
-		color: $hl-color;
+		color: $title-color;
 	}
 	h5 {
 		text-align: center;
