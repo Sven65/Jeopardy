@@ -1,11 +1,14 @@
 const FuzzyMatching = require('fuzzy-matching')
 const config = require("config")
 
+const GameUtils = require("../util/GameUtils")
+
 class SocketHandler{
 	constructor({dbUtils = null}){
 		this._dbUtils = dbUtils
 
 		this._questionAmount = config.get("Game.questionAmount")
+		this._distanceThreshold = config.get("Game.distanceThreshold")
 	}
 
 	_isset(variable){
@@ -55,10 +58,11 @@ class SocketHandler{
 		}
 
 		if(room.isStarted && user.isTurn && this._isset(room.currentQuestion)){
-			let answer = room.currentQuestion.answer.toLowerCase()
-			let fm = new FuzzyMatching([answer])
+			let answers = GameUtils.answerResolver(room.currentQuestion.answer.toLowerCase())
 
-			if(answer === fm.get(data.message.toLowerCase(), {maxChanges: 2}).value){
+			let fm = new FuzzyMatching(answers)
+
+			if(fm.get(data.message.toLowerCase()).distance >= this._distanceThreshold){
 
 				if(this._isset(roomTimers[data.roomID])){
 					clearTimeout(roomTimers[data.roomID])

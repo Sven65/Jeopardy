@@ -13,7 +13,8 @@
 				"countdown": 5,
 				"beforeCountdown": 10
 			}
-		}
+		},
+		"distanceThreshold": 1
 	},
 	"Client": {
 		"socket": {
