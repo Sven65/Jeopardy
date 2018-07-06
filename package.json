@@ -28,6 +28,7 @@
     "jquery": "^3.3.1",
     "nodemailer": "^4.6.7",
     "nodemailer-express-handlebars": "^3.0.0",
+    "number-to-words": "^1.2.3",
     "pg": "^7.4.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
@@ -40,7 +41,8 @@
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1",
     "socketio-wildcard": "^2.0.0",
-    "sweetalert": "^2.1.0"
+    "sweetalert": "^2.1.0",
+    "words-to-numbers": "^1.5.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
