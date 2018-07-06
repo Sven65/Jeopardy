@@ -1,5 +1,10 @@
 @import 'variables';
 
+html, body{
+	width: 100%;
+	heigth: 100%;
+}
+
 .alert{
 	padding-top: 5px;
 	padding-bottom: 5px;
@@ -17,8 +22,6 @@
 .navbar {
 	background: $primary-color;
 	
-	
-
 	.navbar-link::after{
 		border-color: $navbar-text;
 	}
@@ -39,7 +42,7 @@
 }
 
 @media screen and (min-width: 1088px){
-	.navbar-item.has-dropdown:hover .navbar-link, .navbar-item.has-dropdown.is-active .navbar-link {
+	.navbar-item.has-dropdown:hover .navbar-link, .navbar-item.has-dropdown.is-active{
 		background-color: $primary-color-dark;
 	}
 
@@ -52,7 +55,7 @@
 			color: $navbar-text;
 		}
 
-		a.navbar-item:hover{
+		a.navbar-item.dark-background:hover{
 			background-color: $primary-color-dark;
 		}
 	}

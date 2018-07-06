@@ -100,16 +100,14 @@ class Navbar extends Component {
 					<div className="navbar-end">
 
 						{/* Game Buttons */}
-						<a id="game-button-start" onClick={this.startGame.bind(this)} className={"navbar-item "+(this.props.hideStartButton?'hidden':'')}>Start Game <i className="material-icons right">play_arrow</i></a>
-						<a id="game-button-leave" onClick={this.leaveGame.bind(this)} className={"navbar-item "+(this.props.hideLeaveButton?'hidden':'')}>Leave Game <i className="material-icons right">exit_to_app</i></a>
+						<a id="game-button-start" onClick={this.startGame.bind(this)} className={"navbar-item dark-background "+(this.props.hideStartButton?'hidden':'')}>Start Game <i className="mdi">play_arrow</i></a>
+						<a id="game-button-leave" onClick={this.leaveGame.bind(this)} className={"navbar-item dark-background "+(this.props.hideLeaveButton?'hidden':'')}>Leave Game <i className="mdi">exit_to_app</i></a>
 						{/* End Game Buttons */}
-
-						<hr class="navbar-divider"/>
 
 						<div className="navbar-item has-dropdown is-hoverable">
 							{/* User stuff */}
 							<a className="navbar-link user-link">
-								<i className="material-icons left">person</i>{!isLoggedIn?"User":this.state.userData.username}
+								<i className="mdi mdi-account"></i>{!isLoggedIn?"User":this.state.userData.username}
 							</a>
 
 							{!isLoggedIn?(
@@ -124,7 +122,14 @@ class Navbar extends Component {
 										<a className="modal-trigger" href="#userprofile-holder" id="userprofile-trigger" onClick={this.toggleProfile.bind(this)}>Profile</a>
 									</a>
 									<a className="navbar-item">
-										<a className="logout" id="user-logout" onClick={this.logout.bind(this)}>Logout<i className="material-icons right">exit_to_app</i></a>
+
+										<a className="logout" id="user-logout" onClick={this.logout.bind(this)}>
+											<span className="icon is-left">
+												<i className="mdi mdi mdi-18px mdi-exit-to-app"></i>
+											</span>
+											Logout
+											
+										</a>
 									</a>
 								</div>
 							)}

@@ -40,7 +40,7 @@ class GameArea extends Component {
 		if(Object.keys(this.state.clues).length<=0 && this.state.roomID !== undefined || this.state.gameDone){
 			document.body.style.overflow = "hidden";
 		}else{
-			document.body.style.overflow = "auto";
+			document.body.style.overflow = "";
 		}
 
 		return (
