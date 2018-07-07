@@ -1,11 +1,13 @@
 @import 'variables';
 @import 'mdlInput';
 @import 'profile';
+@import 'userForm';
 
 html, body{
 	width: 100%;
 	height: 100%;
 	overflow-y: auto !important;
+	overflow-x: hidden;
 }
 
 .alert{
@@ -115,4 +117,8 @@ html, body{
 	position: absolute;
 	background: rgba(0, 0, 0, 0.6);
 	top: 0;
+
+	&.is-fixed{
+		position: fixed;
+	}
 }

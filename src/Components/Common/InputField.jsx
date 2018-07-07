@@ -23,8 +23,8 @@ class InputField extends Component {
 
 		return (
 			<div className="group">
-				<input id={this.props.id} autocomplete={this.props.autoComplete} type={this.props.type} className="validate" value={this.props.value} ref={this.props.inputRef} onKeyDown={this.props.onKeyDown} required="required"/>
-				<span class="highlight"></span><span class="bar"></span>
+				<input id={this.props.id} autoComplete={this.props.autoComplete} type={this.props.type} className="validate" value={this.props.value} ref={this.props.inputRef} onKeyDown={this.props.onKeyDown} required="required"/>
+				<span className="highlight"></span><span class="bar"></span>
 				<label>{this.props.label}</label>
 			</div>
 		)

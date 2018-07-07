@@ -72,3 +72,11 @@
 #save-profile-button{
 	width: 100%;
 }
+
+@media screen and (max-width: 1088px){
+	#user-profile{
+		.modal-card{
+			overflow-y: auto;
+		}
+	}
+}

@@ -25,12 +25,15 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 $(document).ready(function() {
+	//$('#usermodal-holder').hide()
+
 	let panelOne = $('.user-modal-form-panel.two').height(),
 		panelTwo = $('.user-modal-form-panel.two')[0].scrollHeight
 
 	$('.user-modal-form-panel.two').not('.user-modal-form-panel.two.active').on('click', e => {
 		if(e.target.nodeName !== "INPUT" && e.target.nodeName !== "INPUT" && e.target.nodeName !== "A" && e.target.nodeName !== "LABEL"){
 			e.preventDefault()
+
 			$('.user-modal-form-toggle').addClass('visible')
 			$('.user-modal-form-panel.one').addClass('hidden')
 			$('.user-modal-form-panel.two').addClass('active')
@@ -38,12 +41,11 @@ $(document).ready(function() {
 				'height': panelTwo
 			}, 200)
 		}
-
-		
 	})
 
 	$('.user-modal-form-toggle').on('click', function(e) {
 		e.preventDefault()
+
 		$(this).removeClass('visible')
 		$('.user-modal-form-panel.one').removeClass('hidden')
 		$('.user-modal-form-panel.two').removeClass('active')
@@ -51,13 +53,6 @@ $(document).ready(function() {
 			'height': panelOne
 		}, 200)
 	})
-
-	$('.user-modal-form-panel.two').not('.user-modal-form-panel.two.active').click()
-	$('.user-modal-form-toggle').click()
-	$('.user-modal-form-toggle').click()
-
-	$('#usermodal-holder').hide()
-	//$('#usermodal-holder').hide()
 
 	$('.user-modal-form-group-error').addClass("hidden")
 
@@ -78,6 +73,20 @@ $(document).ready(function() {
 		if(e.target.classList.contains("loader-holder") || e.target.classList.contains("modal-content")){
 			$("#usermodal-holder").hide()
 		}
+	})
+
+	$('#usermodal-holder').on("SET_HEIGHT", e => {
+		$('#usermodal-holder').show()
+		panelOne = $('.user-modal-form-panel.two').height(),
+		panelTwo = $('.user-modal-form-panel.two')[0].scrollHeight
+
+		$('.user-modal-form').css({
+			'height': panelTwo
+		})
+
+		$('.user-modal-form').css({
+			'height': panelOne
+		})
 	})
 
 	$('#usermodal-holder').on("USER_FORM_DONE", e => {

@@ -16,7 +16,8 @@ class Navbar extends Component {
 			userData: {},
 			userLoggedIn: false,
 			userFormLoad: false,
-			showProfile: false
+			showProfile: false,
+			showLoginForm: false
 		}
 	
 		//this.startGame = this.startGame.bind(this)
@@ -49,7 +50,8 @@ class Navbar extends Component {
 
 	logout(){
 		this.setState({
-			showProfile: false
+			showProfile: false,
+			showLoginForm: false
 		})
 
 		var event = new Event("USER_FORM_UNDONE")
@@ -66,19 +68,18 @@ class Navbar extends Component {
 		this.setState({
 			showProfile: !this.state.showProfile
 		})
+	}
 
-		/*if(e.target.classList.contains("loader-holder")){
-			if(this.state.showProfile){
-				this.setState({
-					showProfile: false
-				})
-			}
-		}*/
+	toggleLoginForm(e){
+		this.setState({
+			showLoginForm: !this.state.showLoginForm
+		})
 	}
 
 	render(){
 		const isLoggedIn = this.state.userLoggedIn
 		const showProfile = (this.state.userLoggedIn && this.state.showProfile)
+		const showLoginForm = (this.state.showLoginForm)
 
 		return (
 			<nav className="navbar" role="navigation" aria-label="main navigation">
@@ -113,7 +114,7 @@ class Navbar extends Component {
 							{!isLoggedIn?(
 								<div className="navbar-dropdown">
 									<a className="navbar-item">
-										<a className="modal-trigger" href="#user-modal-holder" id="usermodal-trigger">Login</a>
+										<a className="modal-trigger" href="#user-modal-holder" id="usermodal-trigger" onClick={this.toggleLoginForm.bind(this)}>Login</a>
 									</a>
 								</div>
 							) : (
@@ -137,9 +138,17 @@ class Navbar extends Component {
 					</div>
 				</div>
 
-				<div className="loader-holder" id="usermodal-holder">
+				<div className="loader-holder is-fixed" id="usermodal-holder" style={{display: (showLoginForm?'':"none")}}>
 					<UserForm />
 				</div>
+
+				{(() => {
+					if(showLoginForm){
+						let event = new Event("SET_HEIGHT")
+						let target = document.querySelector('#usermodal-holder');
+						target.dispatchEvent(event);
+					}
+				})()}
 
 				{this.state.userFormLoad &&
 					<div className="loader-holder">

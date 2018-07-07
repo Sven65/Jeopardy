@@ -131,7 +131,7 @@ class UserProfile extends Component {
 										</div>
 										<div className="column">
 											<h1 className="title has-text-weight-light">{this.props.username}</h1>
-											<div className="columns">
+											<div className="columns is-multiline">
 												<div className="column" id="profile-wins">
 													<h4 className="is-size-4 has-text-weight-light">{this.props.wins}</h4>
 													<h5 className="is-size-5 has-text-weight-light">Wins</h5>
