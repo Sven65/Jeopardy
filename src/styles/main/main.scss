@@ -1,5 +1,6 @@
 @import 'variables';
 @import 'mdlInput';
+@import 'profile';
 
 html, body{
 	width: 100%;
@@ -91,4 +92,27 @@ html, body{
 #playButton{
 	width: 100%;
 	cursor: pointer;
+}
+
+.loader-holder ~ body{
+	overflow: none;
+}
+
+.absolute-center{
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	/* bring your own prefixes */
+	-webkit-transform: translate(-50%, -50%);
+		-ms-transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%);
+}
+
+.loader-holder {
+	z-index: 10000000;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background: rgba(0, 0, 0, 0.6);
+	top: 0;
 }

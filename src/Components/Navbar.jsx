@@ -64,16 +64,16 @@ class Navbar extends Component {
 
 	toggleProfile(e){
 		this.setState({
-			showProfile: true
+			showProfile: !this.state.showProfile
 		})
 
-		if(e.target.classList.contains("loader-holder")){
+		/*if(e.target.classList.contains("loader-holder")){
 			if(this.state.showProfile){
 				this.setState({
 					showProfile: false
 				})
 			}
-		}
+		}*/
 	}
 
 	render(){
@@ -118,12 +118,12 @@ class Navbar extends Component {
 								</div>
 							) : (
 								<div className="navbar-dropdown">
-									<a className="navbar-item">
-										<a className="modal-trigger" href="#userprofile-holder" id="userprofile-trigger" onClick={this.toggleProfile.bind(this)}>Profile</a>
+									<a className="navbar-item" onClick={this.toggleProfile.bind(this)}>
+										<a className="modal-trigger" href="#userprofile-holder" id="userprofile-trigger">Profile</a>
 									</a>
-									<a className="navbar-item">
+									<a className="navbar-item" onClick={this.logout.bind(this)}>
 
-										<a className="logout" id="user-logout" onClick={this.logout.bind(this)}>
+										<a className="logout" id="user-logout">
 											<span className="icon is-left">
 												<i className="mdi mdi-18px mdi-exit-to-app"></i>
 											</span>
@@ -148,17 +148,19 @@ class Navbar extends Component {
 				}
 
 				{showProfile &&
-					<div className="loader-holder" id="userprofile-holder" onClick={this.toggleProfile.bind(this)}>
-						<UserProfile
-							username={this.state.userData.username}
-							image={this.state.userData.image}
-							wins={this.state.userData.wins}
-							losses={this.state.userData.losses}
-							balance={this.state.userData.balance}
-							logoutFunc={this.logout.bind(this)}
-							userToken={this.state.userData.token}
-						/>
-					</div>
+					<UserProfile
+						username={this.state.userData.username}
+						image={this.state.userData.image}
+						wins={this.state.userData.wins}
+						losses={this.state.userData.losses}
+						balance={this.state.userData.balance}
+						logoutFunc={this.logout.bind(this)}
+						userToken={this.state.userData.token}
+						closeButtonFunction={this.toggleProfile.bind(this)}
+					/>
+
+						
+					
 				}
 
 				{(() => {

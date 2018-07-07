@@ -10,7 +10,9 @@ class Button extends Component {
 			<button className={"btn "+this.props.className} type={this.props.type} name={this.props.name||""} id={this.props.id} onClick={this.props.onClick}>
 				{this.props.text}
 				{this.props.icon !== undefined &&
-					<i className={"mdi mdi-"+(this.props.icon)}></i>
+					<span className="icon is-right">
+						<i className={"mdi mdi-"+(this.props.icon)}></i>
+					</span>
 				}
 			</button>
 		)
