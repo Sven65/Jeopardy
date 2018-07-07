@@ -57,7 +57,7 @@ form.mdl-form{
 			color: $hl-color;
 		}
 		&:focus ~ .bar:before {
-			width: $width;
+			width: 100%;
 		}
 	}
 
@@ -79,7 +79,7 @@ form.mdl-form{
 	.bar {
 		position: relative;
 		display: block;
-		width: $width;
+		width: 100%;
 		&:before {
 			content: '';
 			height: 2px;
