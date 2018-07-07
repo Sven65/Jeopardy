@@ -1,3 +1,5 @@
+@import 'variables';
+
 .user-modal-overlay, .user-modal-form-panel.one:before {
 	position: absolute;
 	top: 0;
@@ -11,8 +13,8 @@
 .user-modal-form {
 	z-index: 15;
 	position: relative;
-	background: #FFFFFF;
-	width: 600px;
+	background: $user-modal-background;
+	max-width: 600px;
 	border-radius: 4px;
 	box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
 	box-sizing: border-box;
@@ -20,12 +22,22 @@
 	overflow: hidden;
 }
 
+@media screen and (max-width: 1088px){
+	#user-modal {
+		.modal-content {
+			width: unset;
+		}
+	}
+}
+
+//width: 0;
+
 .user-modal-form-toggle {
 	z-index: 10;
 	position: absolute;
 	top: 60px;
 	right: 60px;
-	background: #FFFFFF;
+	background: $user-modal-background;
 	width: 60px;
 	height: 60px;
 	border-radius: 100%;
@@ -240,12 +252,25 @@
 		font-weight: 700;
 		text-transform: uppercase;
 	}
+
+	.user-modal-error{
+		color: #F44336;
+	}
+
+	.user-modal-success{
+		color: #4CAF50;
+	}
 }
 
-.two .user-modal-form-header h1 {
-	position: relative;
-	z-index: 40;
-	color: #FFFFFF;
+.two .user-modal-form-header {
+	h1, h6{
+		color: #FFFFFF;
+	}
+
+	h1 {
+		position: relative;
+		z-index: 40;
+	}
 }
 
 .user-modal-cp-fab {
@@ -262,6 +287,96 @@
 	z-index: 20000000;
 }
 
-.user-modal-error {
-	color: #f44336;
+.user-modal-error, .user-modal-form-group-error {
+	color: #FFF;
+}
+
+/**
+ * Userform checkbox
+ */
+
+#privacyAgree {
+	opacity: unset;
+	pointer-events: auto;
+	width: unset;
+}
+
+[type="checkbox"] {
+	&:not(:checked), &:checked {
+		left: 0px;
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+	}
+}
+
+label[for="privacyAgree"] {
+	margin-left: 10%;
+}
+
+.privacyAgreementHolder {
+	justify-content: unset;
+}
+
+.md-checkbox {
+	position: relative;
+	text-align: left;
+	label {
+		&:before, &:after {
+			content: "";
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+		&:before {
+			width: 20px;
+			height: 20px;
+			background: #fff;
+			border: 2px solid rgba(0, 0, 0, 0.54);
+			border-radius: 2px;
+			cursor: pointer;
+			transition: background .3s;
+		}
+	}
+	input[type="checkbox"] {
+		outline: 0;
+		margin-right: 10px;
+		visibility: hidden;
+		&:checked + label {
+			&:before {
+				background: #8BC34A;
+				border: none;
+			}
+			&:after {
+				transform: rotate(-45deg);
+				top: 5px;
+				left: 4px;
+				width: 12px;
+				height: 6px;
+				border: 2px solid #fff;
+				border-top-style: none;
+				border-right-style: none;
+			}
+		}
+		&:disabled {
+			+ label:before {
+				border-color: rgba(0, 0, 0, 0.26);
+			}
+			&:checked + label:before {
+				background: rgba(0, 0, 0, 0.26);
+			}
+		}
+	}
+}
+
+#privacyLink {
+	color: #FFF;
+	&:hover{
+		color: #BBDEFB;
+	}
+}
+
+#register-trigger-holder {
+	text-align: right;
+	justify-content: flex-end;
 }

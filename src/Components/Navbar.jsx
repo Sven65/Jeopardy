@@ -113,8 +113,8 @@ class Navbar extends Component {
 
 							{!isLoggedIn?(
 								<div className="navbar-dropdown">
-									<a className="navbar-item">
-										<a className="modal-trigger" href="#user-modal-holder" id="usermodal-trigger" onClick={this.toggleLoginForm.bind(this)}>Login</a>
+									<a className="navbar-item" onClick={this.toggleLoginForm.bind(this)}>
+										<a className="modal-trigger" href="#user-modal-holder" id="usermodal-trigger">Login</a>
 									</a>
 								</div>
 							) : (
@@ -129,7 +129,6 @@ class Navbar extends Component {
 												<i className="mdi mdi-18px mdi-exit-to-app"></i>
 											</span>
 											Logout
-											
 										</a>
 									</a>
 								</div>
@@ -139,7 +138,7 @@ class Navbar extends Component {
 				</div>
 
 				<div className="loader-holder is-fixed" id="usermodal-holder" style={{display: (showLoginForm?'':"none")}}>
-					<UserForm />
+					<UserForm closeButtonFunction={this.toggleLoginForm.bind(this)}/>
 				</div>
 
 				{(() => {

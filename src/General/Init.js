@@ -38,7 +38,7 @@ $(document).ready(function() {
 			$('.user-modal-form-panel.one').addClass('hidden')
 			$('.user-modal-form-panel.two').addClass('active')
 			$('.user-modal-form').animate({
-				'height': panelTwo
+				'height': panelTwo+50
 			}, 200)
 		}
 	})
@@ -50,8 +50,8 @@ $(document).ready(function() {
 		$('.user-modal-form-panel.one').removeClass('hidden')
 		$('.user-modal-form-panel.two').removeClass('active')
 		$('.user-modal-form').animate({
-			'height': panelOne
-		}, 200)
+			'height': panelOne+50
+		}, 100)
 	})
 
 	$('.user-modal-form-group-error').addClass("hidden")
@@ -81,11 +81,11 @@ $(document).ready(function() {
 		panelTwo = $('.user-modal-form-panel.two')[0].scrollHeight
 
 		$('.user-modal-form').css({
-			'height': panelTwo
+			'height': panelTwo+50
 		})
 
 		$('.user-modal-form').css({
-			'height': panelOne
+			'height': panelOne+50
 		})
 	})
 

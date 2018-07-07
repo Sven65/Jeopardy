@@ -239,7 +239,7 @@ function reducer(state, action){
 		break
 		case "USER_LOGGED_IN":
 			return Object.assign({}, state, {
-				loginError: {},
+				loginError: {reason: ""},
 				userLoggedIn: true,
 				userFormLoad: false,
 				userData: action.data
