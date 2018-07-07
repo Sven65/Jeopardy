@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 
 import Loader from './Loader'
+import Alert from './Alert'
+
 import store from '../../store'
 
 class UserProfile extends Component {
@@ -12,9 +14,9 @@ class UserProfile extends Component {
 		this.state = {
 			imagePreview: this.props.image,
 			selectedImage: null,
-			unsavedChanges: true,
+			unsavedChanges: false,
 			isLoading: false,
-			editError: "you fucked up"
+			editError: ""
 		}
 
 		this._acceptedMimes = [
@@ -80,6 +82,8 @@ class UserProfile extends Component {
 	render(){
 		// Probably want to do something to change the color of the loader
 
+		let showError = !this.state.unsavedChanges&&this.state.editError!==""
+
 		return (
 			<div>
 				{this.state.isLoading &&
@@ -92,6 +96,13 @@ class UserProfile extends Component {
 					<div className="modal-card">
 						<section className="">
 							<section className="profile-top hero">
+								{showError&& (
+									<Alert message={
+										<span>
+											{this.state.editError}
+										</span>
+									} type="danger"/>
+								)}
 								<div className="hero-body">
 									<div className="columns">
 										<div className="column">
@@ -112,14 +123,8 @@ class UserProfile extends Component {
 											</div>
 											<div className="column">
 												{
-													this.state.unsavedChanges?(
+													this.state.unsavedChanges&&(
 														<button className="mdl-btn" id="save-profile-button" onClick={this.saveProfile.bind(this)}>Save!</button>
-													):(
-														this.state.editError!==""?(
-															<span className="edit-error">{this.state.editError}</span>
-														):(
-															<h3>&nbsp;</h3>
-														)
 													)
 												}
 											</div>
