@@ -33,6 +33,11 @@ class SocketHandler{
 
 		await room.removeUser(user)
 
+		let hostData = await room.changeHost(user)
+		io.to(data.roomID).emit("CHANGE_HOST", {
+			newHost: room.users[hostData.newHostIndex].userID
+		})
+
 		if(room.playerCount <= 0){
 
 			clearTimeout(roomTimers[roomID])

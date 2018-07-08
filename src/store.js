@@ -345,6 +345,16 @@ function reducer(state, action){
 				users: state.users
 			})
 		break
+		case "CHANGE_HOST":
+			users = state.users
+
+			newUser = users.findIndex(user => user.userID === action.data.newHost)
+			users[newUser].host = true
+
+			return Object.assign({}, state, {
+				users: users
+			})
+		break
 		default:
 			if(CONFIG.DEV){
 				console.log("OOF", action)

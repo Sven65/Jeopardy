@@ -39,8 +39,6 @@ class BeforeGame extends Component {
 				}
 			})
 		})
-
-		//console.log("queryData", queryData.game)
 	}
 
 	joinGame(){

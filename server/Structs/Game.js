@@ -123,6 +123,28 @@ class Game{
 		return {newTurnIndex, oldTurnIndex}
 	}
 
+	async changeHost(fromUser){
+		let newHostIndex = this.users.findIndex(user => {return user.userID===fromUser.userID})+1
+		//let oldHostIndex = this.users.findIndex(user => {return user.userID===fromUser.userID})
+
+		if(this.users[newHostIndex] === undefined){
+			newHostIndex = 0
+		}
+
+		//this.users[oldHostIndex].isHost = false
+		this.users[newHostIndex].host = true
+
+		await this._client.query(`
+			UPDATE games
+			SET users = $1
+			WHERE "roomID" = $2
+			`,
+			[this.users, this.roomID]
+		)
+
+		return {newHostIndex}
+	}
+
 	async setClueRevealed(categoryID, clueID){
 		let clueIndex = this.questions.clues[categoryID].findIndex(clue => {
 			return clue.id === clueID
