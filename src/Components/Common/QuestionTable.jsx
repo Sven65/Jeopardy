@@ -48,6 +48,10 @@ class QuestionTable extends Component {
 			let rowEl = []
 
 			rows[value].map((clue, i) => {
+				if(clue.category === undefined){
+					clue.category = {}
+				}
+
 				rowEl.push(<td data-label={clue.category.title} key={i} data-key={i} className="game-clue" data-revealed={clue.revealed||false} data-id={clue.id} data-category={clue.category.id} onClick={this.onClick}>{clue.revealed?'X':'$'+value}</td>)
 			})
 

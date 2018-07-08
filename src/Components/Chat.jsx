@@ -90,19 +90,20 @@ class Chat extends Component {
 								<li style={{background: "#fff"}} ref={el => this.chatBottom = el}></li>
 							</ul>
 						</div>
-						<div className="col s12 m12 l12">
+						<div className="chat-input">
 							{/* Chat Input */}
 
-							<div className="file-field input-field">
-								<button className="waves-effect waves-light btn-large right" type="button" name="send" id="chatButton" onClick={this.sendMessage}>
-									Send!
-									<i className="material-icons right">send</i>
-								</button>
-								<div className="file-path-wrapper">
-									<div className="file-path-wrapper">
-										<input id="message" type="text" className="validate" ref={el => this.messageInput = el} onKeyDown={this.onKeyDown}/>
-										<label htmlFor="message">Type a message!</label>
-									</div>
+							<div className="field has-addons">
+								<div className="control">
+									<input className="input" type="text" autoComplete="off" placeholder="Type a message!" id="message" ref={el => this.messageInput = el} onKeyDown={this.onKeyDown}/>
+								</div>
+								<div className="control">
+									<a className="button is-primary" id="chatButton" onClick={this.sendMessage}>
+										Send
+										<span class="icon">
+											<i className="mdi mdi-send"></i>
+										</span>
+									</a>
 								</div>
 							</div>
 						</div>

@@ -5,8 +5,7 @@
  */
 
 #chat {
-	border-left: 1px solid;
-	border-right: 1px solid;
+	
 }
 
 .chat-message-container {
@@ -41,8 +40,8 @@
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
-	overflow-y: scroll;
-	height: calc(90vh - 25vh);
+	overflow-y: auto;
+	height: calc(100vh - 30vh);
 	li {
 		padding: 5px 10px;
 		&:nth-child(odd) {
@@ -53,4 +52,53 @@
 
 .message-wrap[data-system='false'] {
 	padding-left: 3%;
+}
+
+.chat-input{
+	.field{
+		.control{
+			&:first-of-type{
+				width: 100%;
+			}
+
+			.button .icon:first-child:last-child {
+			     margin-left: 0;
+			     margin-right: 0;
+			}
+
+			.input{
+				box-shadow: 0 1px 2px rgba(10, 10, 10, 0.1);
+			}
+		}
+	}
+
+	.button, .input {
+		border-radius: 0px;
+		outline: none;
+	}
+
+	.button{
+		background-color: #8BC34A;
+		border-color: transparent;
+		color: #fff;
+
+		&:hover{
+			background-color: #7CB342;
+		}
+
+		&:active{
+			background-color: #689F38;
+		}
+	}
+
+	.input{
+
+		&:active{
+			border-color: unset;
+		}
+
+		&:focus{
+			box-shadow: unset;
+		}
+	}
 }

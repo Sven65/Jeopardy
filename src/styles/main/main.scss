@@ -141,3 +141,10 @@ html, body{
 		flex-grow: 0;
 	}
 }
+
+.image{
+	&.is-192x192{
+		width: 192px;
+		height: 192px;
+	}
+}

@@ -104,7 +104,7 @@ class GameArea extends Component {
 					</div>
 					<div className="tile is-parent">
 						<article className="tile is-child">
-							<div className="content">
+							<div className="card">
 								<Chat/>
 							</div>
 						</article>
