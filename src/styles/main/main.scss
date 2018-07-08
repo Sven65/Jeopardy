@@ -2,6 +2,8 @@
 @import 'mdlInput';
 @import 'profile';
 @import 'userForm';
+@import 'questionTable';
+@import 'chat';
 
 html, body{
 	width: 100%;
@@ -89,6 +91,14 @@ html, body{
 			color: unset;
 		}
 	}
+
+	.navbar-brand {
+		.navbar-item {
+			img {
+				max-height: 0.9rem;
+			}
+		}
+	}
 }
 
 #playButton{
@@ -117,8 +127,17 @@ html, body{
 	position: absolute;
 	background: rgba(0, 0, 0, 0.6);
 	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
 
 	&.is-fixed{
 		position: fixed;
+	}
+}
+
+.column {
+	&.user-card{
+		flex-grow: 0;
 	}
 }

@@ -91,6 +91,10 @@ $(document).ready(function() {
 
 	$('#usermodal-holder').on("USER_FORM_DONE", e => {
 		setTimeout(() => {
+			let event = new Event('closeUserForm', { bubbles: true });
+			document.querySelector("#main-nav").dispatchEvent(event);
+
+			//$("#main-nav").hide()
 			$("#usermodal-holder").hide()
 			$("#usermodal-holder").data("isActive", false)
 		}, 1000)

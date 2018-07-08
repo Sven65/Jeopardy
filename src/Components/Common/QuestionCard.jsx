@@ -23,12 +23,12 @@ class QuestionCard extends Component {
 
 	render(){
 		return (
-			<div className="col l8 s12 left" id="game-question-area">
+			<div className="tile is-child is-12" id="game-question-area">
 				<div className="row">
 					<div className="col s12">
 						<div className="card blue-grey darken-1">
 							<div className="card-content white-text">
-								<span className="card-title" id="game-question-title">{this.getTitle()}</span>
+								<span className="card-title title" id="game-question-title">{this.getTitle()}</span>
 								<p id="game-question-clue">
 									{this.getClue()}
 								</p>

@@ -55,50 +55,62 @@ class GameArea extends Component {
 					<Standings standings={this.state.standings}/>
 				}
 
-				<div className="container">
-					<div className="row">
-						{/* Start User Stats */}
-						<div className="col l8 s12 left" id="stat-container">
-							<div className="row" id="card-container">
-								{this.props.users.map((user, i) => {
-									return (
-										<UserCard
-											userID={user.userID}
-											image={user.image}
-											username={user.username}
-											extraContent={this.getBadges(user)}
-											balance={user.balance}
-											isTurn={user.isTurn&&this.state.gameStarted}
-											timeLeft={user.timeLeft}
-											maxTime={15}
-										/>)
-								})}
-								
-							</div>
+				{/*
+					Start layout here
+				 */}
+				 <div className="container">
+				 <div className="tile is-ancestor">
+					<div className="tile is-vertical is-8">
+						<div className="tile is-parent">
+							<article className="tile is-child">
+								{/* Start User Stats */}
+								<div className="columns">
+									{this.props.users.map((user, i) => {
+										return (
+											<UserCard
+												userID={user.userID}
+												image={user.image}
+												username={user.username}
+												extraContent={this.getBadges(user)}
+												balance={user.balance}
+												isTurn={user.isTurn&&this.state.gameStarted}
+												timeLeft={user.timeLeft}
+												maxTime={15}
+											/>)
+									})}
+								</div>
+								{/* End User Stats */}
+							</article>
 						</div>
-						{/* End User Stats */}
+						<div className="tile">
+							<div className="tile is-parent is-vertical">
+								<article className="tile is-child">
+									{/* Start question area */}
 
-						{/* Start question area */}
+									<QuestionCard question={this.state.currentQuestion}/>
+									{/* End question area */}
+								</article>
+								<article className="tile is-child">
+									{/* Start table area */}
 
-						<QuestionCard question={this.state.currentQuestion}/>
+									<QuestionTable values={this.props.values}/>
 
-						{/* End question area */}
-
-						{/* Start table area */}
-
-						<QuestionTable values={this.props.values}/>
-
-						{/* End table area */}
-
-						<Chat/>
+									{/* End table area */}
+								</article>
+							</div>
+							
+						</div>
+						
 					</div>
-
-					{/* Start Chat Area */}
-
-					
-
-					{/* End Chat Area */}
+					<div className="tile is-parent">
+						<article className="tile is-child">
+							<div className="content">
+								<Chat/>
+							</div>
+						</article>
+					</div>
 				</div>
+			</div>
 			</div>
 		)
 	}

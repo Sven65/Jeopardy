@@ -227,7 +227,8 @@ function reducer(state, action){
 				userRegistered: true,
 				userFormLoad: false,
 				userData: action.data,
-				userLoggedIn: true
+				userLoggedIn: true,
+				//showLoginForm: false
 			})
 		break
 
@@ -242,6 +243,7 @@ function reducer(state, action){
 				loginError: {reason: ""},
 				userLoggedIn: true,
 				userFormLoad: false,
+				//showLoginForm: false,
 				userData: action.data
 			})
 		break

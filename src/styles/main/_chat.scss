@@ -1,0 +1,56 @@
+@import "variables";
+
+/**
+ * Chat styles
+ */
+
+#chat {
+	border-left: 1px solid;
+	border-right: 1px solid;
+}
+
+.chat-message-container {
+	display: flex;
+	align-items: center;
+}
+
+.chat-message {
+	word-break: break-all;
+	&::before {
+		content: "\A";
+		white-space: pre;
+	}
+}
+
+#chat-container {
+	/*margin-left: 5px;*/
+	width: 100%;
+}
+
+.chat-image {
+	width: 64px;
+	border-radius: 50%;
+	background-repeat: no-repeat;
+}
+
+.chat-sender {
+	font-weight: bold;
+}
+
+#chat-messages {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow-y: scroll;
+	height: calc(90vh - 25vh);
+	li {
+		padding: 5px 10px;
+		&:nth-child(odd) {
+			background: #eee;
+		}
+	}
+}
+
+.message-wrap[data-system='false'] {
+	padding-left: 3%;
+}

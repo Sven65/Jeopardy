@@ -25,15 +25,22 @@ class UserCard extends Component {
 	render(){
 
 		return (
-			<div className={"col l3 s4 user-card "+(this.getClassName())} data-userid={this.props.userID}>
+			<div className={"column user-card "+(this.getClassName())} data-userid={this.props.userID}>
 				<div className="card">
 					<div className="card-image">
-						<img src={this.props.image}/>
-						<TimerLine timeLeft={this.props.timeLeft} maxTime={this.props.maxTime}/>
+						<figure class="image is-128x128">
+							<img src={this.props.image}/>
+							<TimerLine timeLeft={this.props.timeLeft} maxTime={this.props.maxTime}/>
+						</figure>
+						
 					</div>
-					<div className="card-content">
-						<span className="card-title">{this.props.username}</span>
-						<p className="balance">${this.props.balance}</p>
+					<div className="media">
+						<div className="media-content">
+							<p className="title is-4">{this.props.username}</p>
+							<p className="subtitle is-8">${this.props.balance}</p>
+						</div>
+					</div>
+					<div className="content">
 						{this.props.extraContent}
 					</div>
 				</div>

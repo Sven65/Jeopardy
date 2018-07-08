@@ -30,6 +30,12 @@ class Navbar extends Component {
 
 			//console.log("MESSAGE", this.state.messages)
 		})
+
+		document.addEventListener('closeUserForm', e => {
+			this.setState({
+				showLoginForm: false
+			})
+		})
 	}
 
 	startGame(){
@@ -82,7 +88,7 @@ class Navbar extends Component {
 		const showLoginForm = (this.state.showLoginForm)
 
 		return (
-			<nav className="navbar" role="navigation" aria-label="main navigation">
+			<nav className="navbar" role="navigation" aria-label="main navigation" id="main-nav">
 				<div className="navbar-brand">
 					<a className="navbar-item">
 						<img src={mainLogo} alt="TriviaParty"/>
