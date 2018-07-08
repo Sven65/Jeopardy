@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 
 import Loader from './Loader'
+import Alert from './Alert'
+
 import store from '../../store'
 
 class UserProfile extends Component {
@@ -76,76 +78,101 @@ class UserProfile extends Component {
 		this.fileInput.click()
 	}
 
-	render(){
-		return (
-			
 
-			<div className="content absolute-center">
+	render(){
+		// Probably want to do something to change the color of the loader
+
+		let showError = !this.state.unsavedChanges&&this.state.editError!==""
+
+		return (
+			<div>
 				{this.state.isLoading &&
 					<div className="loader-holder">
 						<Loader />
 					</div>
 				}
-				<div className="profile">
-					<div className="profile-top">
-						<div className="pic-sec">
-							<div className="pic">
-								<div className="user-image" style={{
-									backgroundImage: "url("+this.state.imagePreview+")"
-								}} onClick={this.triggerUpload.bind(this)}>
-									<div className="image-overlay">
-										<a href="#" id="picture-overlay" className="">
-											<i className="material-icons">photo_camera</i>
-										</a>
+				<div className="modal is-active" id="user-profile">
+					<div className="modal-background"></div>
+					<div className="modal-card">
+						<section className="">
+							<section className="profile-top hero">
+								{showError&& (
+									<Alert message={
+										<span>
+											{this.state.editError}
+										</span>
+									} type="danger"/>
+								)}
+								<div className="hero-body">
+									<div className="columns">
+										<div className="column">
+											<div className="user-pic">
+												<div className="user-image" style={{
+													backgroundImage: "url("+this.state.imagePreview+")"
+												}} onClick={this.triggerUpload.bind(this)}>
+													<div className="image-overlay">
+														<span id="picture-overlay">
+															<span className="icon has-text-white">
+																<i className="mdi mdi-24px mdi-camera"></i>
+															</span>
+														</span>
+													</div>
+												</div>
+
+												<input type="file" className="hidden" ref={input => this.fileInput = input} onChange={this.fileChangedHandler.bind(this)} accept=".jpg,.png"/>
+											</div>
+											<div className="column">
+												{
+													this.state.unsavedChanges&&(
+														<button className="mdl-btn" id="save-profile-button" onClick={this.saveProfile.bind(this)}>Save!</button>
+													)
+												}
+											</div>
+										</div>
+										<div className="column">
+											<h1 className="title has-text-weight-light">{this.props.username}</h1>
+											<div className="columns is-multiline">
+												<div className="column" id="profile-wins">
+													<h4 className="is-size-4 has-text-weight-light">{this.props.wins}</h4>
+													<h5 className="is-size-5 has-text-weight-light">Wins</h5>
+												</div>
+
+												<div className="column" id="profile-losses">
+													<h4 className="is-size-4 has-text-weight-light">{this.props.losses}</h4>
+													<h5 className="is-size-5 has-text-weight-light">Losses</h5>
+												</div>
+
+												<div className="column" id="profile-balance">
+													<h4 className="is-size-4 has-text-weight-light">${this.props.balance}</h4>
+													<h5 className="is-size-5 has-text-weight-light">Balance</h5>
+												</div>
+											</div>
+										</div>
+
 									</div>
 								</div>
-
-								<input type="file" className="hidden" ref={input => this.fileInput = input} onChange={this.fileChangedHandler.bind(this)} accept=".jpg,.png"/>
-								
-							</div>
-							<div className="pic-info">
-								<h2>{this.props.username}</h2>
-								{
-									this.state.unsavedChanges?(
-										<button className="btn waves-effect waves-light" id="save-profile-button" onClick={this.saveProfile.bind(this)}>Save!</button>
-									):(
-										this.state.editError!==""?(
-											<span className="edit-error">{this.state.editError}</span>
-										):(
-											<h3>&nbsp;</h3>
-										)
-									)
-								}
-
-							</div>
-							<div className="clear"></div>
-						</div>
-						<div className="media">
-							<div className="wins">
-								<h4>{this.props.wins}</h4>
-								<h5>Wins</h5>
-							</div>
-							<div className="losses">
-								<h4>{this.props.losses}</h4>
-								<h5>Losses</h5>
-							</div>
-							<div className="balance">
-								<h4>${this.props.balance}</h4>
-								<h5>Balance</h5>
-							</div>
-							<div className="clear"></div>
-						</div>
+							</section>
+							<section className="profile-bottom">
+								<div className="columns is-multiline">
+									<div className="column is-12">
+										<span>My Settings
+											<span className="icon is-left">
+												<i className="mdi mdi-18px mdi-settings"></i>
+											</span>
+										</span>
+									</div>
+									<div className="column is-12">
+										<span onClick={this.props.logoutFunc}>Logout
+											<span className="icon is-left">
+												<i className="mdi mdi-18px mdi-exit-to-app"></i>
+											</span>
+										</span>
+									</div>
+								</div>
+							</section>
+						</section>
 					</div>
-					<div className="profile-bottom">
-						<ul>
-							<li>
-								<a href="#">My Settings <i className="material-icons right">settings</i></a>
-							</li>
-							<li>
-								<a href="#" onClick={this.props.logoutFunc}>Logout<i className="material-icons right">exit_to_app</i></a>
-							</li>
-						</ul>
-					</div>
+					<button className="modal-close is-large" aria-label="close" onClick={this.props.closeButtonFunction}></button>
 				</div>
 			</div>
 		)

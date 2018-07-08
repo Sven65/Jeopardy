@@ -1,4 +1,5 @@
 const ConfigWebpackPlugin = require("config-webpack");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require('webpack');
 
 module.exports = {
@@ -23,7 +24,7 @@ module.exports = {
 			{
 				test: /\.css$/,
 				use: [
-					'style-loader',
+					process.env.NODE_ENV !== 'production' ? 'style-loader' : MiniCssExtractPlugin.loader,
 					'css-loader'
 				]
 			},
@@ -32,6 +33,14 @@ module.exports = {
 				 use: [
 				 	'file-loader'
 				 ]
+			},
+			{
+				test: /\.scss$/,
+				use: [
+					process.env.NODE_ENV !== 'production' ? 'style-loader' : MiniCssExtractPlugin.loader,
+					'css-loader',
+					'sass-loader'
+				]
 			}
 		]
 	},
@@ -42,6 +51,12 @@ module.exports = {
 		new ConfigWebpackPlugin(),
 		new webpack.DefinePlugin({
 			VERSION: JSON.stringify(require("./package.json").version)
+		}),
+
+		new MiniCssExtractPlugin({
+			path: __dirname+'/dist',
+			publicPath: '/',
+			filename: "bundle.css"
 		})
 	]
 }

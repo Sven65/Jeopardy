@@ -4,11 +4,15 @@ import $ from "jquery";
 
 window.$ = $;
 
-import './../styles/materialize.min.css'
-import './../styles/main.css'
+//import './../styles/materialize.min.css'
+
+import 'bulma/css/bulma.css'
+//import './../styles/bulma-material-form.css'
+import './../styles/main/main.scss'
+
 import './../styles/loaders.min.css'
 
-import './../General/materialize.min.js'
+//import './../General/materialize.min.js'
 import './../General/init.js'
 
 //import {socket, socketDebug, getQuestions } from '../api'
@@ -107,10 +111,10 @@ class App extends Component {
 						<span>
 							Hey you! You haven't verified your email yet! Please do so by clicking anywhere on this message!
 						</span>
-					} onClick={this.sendVerificationEmail.bind(this)}/>
+					} onClick={this.sendVerificationEmail.bind(this)} type="danger"/>
 				}
 
-				<Navbar roomID={this.state.roomID} hideButtons={this.state.roomID===""} hideStartButton={(this.state.gameStarted || !this.state.user.host)}/>
+				<Navbar roomID={this.state.roomID} hideLeaveButton={this.state.roomID===""} hideStartButton={(this.state.gameStarted || !this.state.user.host)}/>
 				<BeforeGame hidden={this.state.roomID!==""} headerText={this.state.error.reason||"Please enter details"} />
 				<GameArea hidden={this.state.roomID===""} categories={[
 					"Category 1",

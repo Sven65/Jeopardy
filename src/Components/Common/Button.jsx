@@ -7,10 +7,12 @@ class Button extends Component {
 
 	render(){
 		return (
-			<button className={"btn waves-effect waves-light fw-button "+this.props.className} type={this.props.type} name={this.props.name||""} id={this.props.id} onClick={this.props.onClick}>
+			<button className={"btn "+this.props.className} type={this.props.type} name={this.props.name||""} id={this.props.id} onClick={this.props.onClick}>
 				{this.props.text}
 				{this.props.icon !== undefined &&
-					<i className="material-icons right">{this.props.icon}</i>
+					<span className="icon is-right">
+						<i className={"mdi mdi-"+(this.props.icon)}></i>
+					</span>
 				}
 			</button>
 		)
