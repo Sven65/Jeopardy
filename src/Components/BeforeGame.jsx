@@ -26,11 +26,7 @@ class BeforeGame extends Component {
 	componentDidMount() {
 		store.subscribe(() => {
 			this.setState(store.getState(), () => {
-				console.log(history.location)
-
-				//let queryData = parseQueryString(history.location.search)
-
-				let gameCode = history.location.hash.replace(/#/, "")
+				let gameCode = history.location.hash.replace(/#/, "").replace(/\%20/g, " ")
 
 				if(gameCode !== undefined && gameCode !== ""){
 					this.roomIDInput.value = gameCode

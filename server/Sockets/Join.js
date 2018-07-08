@@ -18,6 +18,22 @@ class SocketHandler{
 		}
 	}
 
+	async _getUserImage(data){
+		if(this._isset(data.user.image)){
+			return data.user.image
+		}
+
+		if(this._isset(data.user.token)){
+			let user = await this._dbUtils.getUserByToken(data.user.token)
+
+			if(this._isset(user)){
+				return `images/${user.imageID}`
+			}
+		}
+
+		return `https://placehold.it/128x128?text=${data.username}`
+	}
+
 	async Execute({socket = null, io = null, data = {} }){
 		let isHost = false
 		let canJoin = false
@@ -63,6 +79,8 @@ class SocketHandler{
 
 		socket.join(data.roomID)
 
+		console.log("JOIN", data)
+
 		data.timeStamp = Date.now()
 		data.roomID = data.roomID
 		data.userID = socket.id
@@ -71,7 +89,7 @@ class SocketHandler{
 		data.balance = 0
 		data.isRegistered = this._isset(data.user.token)
 		data.token = data.user.token||""
-		data.image = data.user.image||`https://placehold.it/128x128?text=${data.username}`
+		data.image = await this._getUserImage(data)
 
 		if(!this._isset(data.user)){
 			this.user = {}
