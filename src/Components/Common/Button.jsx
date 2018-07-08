@@ -7,7 +7,7 @@ class Button extends Component {
 
 	render(){
 		return (
-			<button className={"btn "+this.props.className} type={this.props.type} name={this.props.name||""} id={this.props.id} onClick={this.props.onClick}>
+			<button className={"btn "+this.props.className} type={this.props.type} name={this.props.name||""} id={this.props.id} onClick={this.props.onClick} ref={this.props.Ref}>
 				{this.props.text}
 				{this.props.icon !== undefined &&
 					<span className="icon is-right">

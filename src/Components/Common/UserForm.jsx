@@ -226,11 +226,11 @@ class UserForm extends Component {
 										<form>
 											<div className="user-modal-form-group">
 												<label htmlFor="login-username">Username</label>
-												<input id="username" name="login-username" required="required" type="text" onChange={this.handleInput} onKeyDown={this.onLoginKeyDown}/>
+												<input id="login-username" name="login-username" required="required" type="text" onChange={this.handleInput} onKeyDown={this.onLoginKeyDown}/>
 											</div>
 											<div className="user-modal-form-group">
 												<label htmlFor="login-password">Password</label>
-												<input id="password" name="login-password" required="required" type="password" onChange={this.handleInput} onKeyDown={this.onLoginKeyDown}/>
+												<input id="login-password" name="login-password" required="required" type="password" onChange={this.handleInput} onKeyDown={this.onLoginKeyDown}/>
 											</div>
 											<div className="user-modal-form-group">
 												<label className="user-modal-form-remember">

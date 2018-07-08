@@ -161,8 +161,8 @@ class UserProfile extends Component {
 											</span>
 										</span>
 									</div>
-									<div className="column is-12">
-										<span onClick={this.props.logoutFunc}>Logout
+									<div className="column is-12" onClick={this.props.logoutFunc}>Logout
+										<span>
 											<span className="icon is-left">
 												<i className="mdi mdi-18px mdi-exit-to-app"></i>
 											</span>

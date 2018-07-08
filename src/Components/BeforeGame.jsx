@@ -4,6 +4,7 @@ import InputField from './Common/InputField'
 import Button from './Common/Button'
 
 import store from './../store'
+import history, {parseQueryString} from './../history'
 
 class BeforeGame extends Component {
 	constructor(props){
@@ -14,16 +15,36 @@ class BeforeGame extends Component {
 
 		this.roomIDInput = React.createRef()
 		this.usernameInput = React.createRef()
+		this.joinButton = React.createRef()
 
 		this.state = {
-			userData: {}
+			userData: {},
+			joinClick: false
 		}
 	}
 
 	componentDidMount() {
 		store.subscribe(() => {
-			this.setState(store.getState())
+			this.setState(store.getState(), () => {
+				console.log(history.location)
+
+				//let queryData = parseQueryString(history.location.search)
+
+				let gameCode = history.location.hash.replace(/#/, "")
+
+				if(gameCode !== undefined && gameCode !== ""){
+					this.roomIDInput.value = gameCode
+					if(Object.keys(this.state.userData).length>0){
+						if(!this.state.joinClick){
+							this.joinButton.click()
+							this.setState({joinClick: true})
+						}
+					}
+				}
+			})
 		})
+
+		//console.log("queryData", queryData.game)
 	}
 
 	joinGame(){
@@ -50,9 +71,9 @@ class BeforeGame extends Component {
 
 							<form className="mdl-form">
 								<h1 className="title">{this.props.headerText}</h1>
-								<InputField autoComplete="off" hidden={(this.state.userData.username!==undefined)} id="username" type="text" label="Username" inputRef={el => this.usernameInput = el} onKeyDown={this.onKeyDown}/>
+								<InputField autoComplete="off" hidden={(this.state.userData.username!==undefined)} id="bfg-username" type="text" label="Username" inputRef={el => this.usernameInput = el} onKeyDown={this.onKeyDown}/>
 								<InputField autoComplete="off" grid="col s12" id="roomIDInput" type="text" label="Game Code" inputRef={el => this.roomIDInput = el} onKeyDown={this.onKeyDown}/>
-								<Button type="button" name="play" id="playButton" text="Play" icon="send" onClick={this.joinGame} className="btn-submit"/>
+								<Button type="button" name="play" id="playButton" text="Play" icon="send" onClick={this.joinGame} className="btn-submit" Ref={el => this.joinButton = el}/>
 							</form>
 						</div>
 					</div>

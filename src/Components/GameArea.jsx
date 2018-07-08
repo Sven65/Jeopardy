@@ -31,7 +31,7 @@ class GameArea extends Component {
 	getBadges(user){
 		return (
 			<div className="badges">
-				{user.isRegistered&&<span class="hover" title="Registered User!">🌟</span>}
+				{user.isRegistered&&<span className="hover" title="Registered User!">🌟</span>}
 			</div>
 		)
 	}
@@ -59,58 +59,59 @@ class GameArea extends Component {
 					Start layout here
 				 */}
 				 <div className="container">
-				 <div className="tile is-ancestor">
-					<div className="tile is-vertical is-8">
-						<div className="tile is-parent">
-							<article className="tile is-child">
-								{/* Start User Stats */}
-								<div className="columns">
-									{this.props.users.map((user, i) => {
-										return (
-											<UserCard
-												userID={user.userID}
-												image={user.image}
-												username={user.username}
-												extraContent={this.getBadges(user)}
-												balance={user.balance}
-												isTurn={user.isTurn&&this.state.gameStarted}
-												timeLeft={user.timeLeft}
-												maxTime={15}
-											/>)
-									})}
+					 <div className="tile is-ancestor">
+						<div className="tile is-vertical is-8">
+							<div className="tile is-parent">
+								<article className="tile is-child">
+									{/* Start User Stats */}
+									<div className="columns">
+										{this.props.users.map((user, i) => {
+											return (
+												<UserCard
+													userID={user.userID}
+													image={user.image}
+													username={user.username}
+													extraContent={this.getBadges(user)}
+													balance={user.balance}
+													isTurn={user.isTurn&&this.state.gameStarted}
+													timeLeft={user.timeLeft}
+													maxTime={15}
+													key={user.userID}
+												/>)
+										})}
+									</div>
+									{/* End User Stats */}
+								</article>
+							</div>
+							<div className="tile">
+								<div className="tile is-parent is-vertical">
+									<article className="tile is-child">
+										{/* Start question area */}
+
+										<QuestionCard question={this.state.currentQuestion}/>
+										{/* End question area */}
+									</article>
+									<article className="tile is-child">
+										{/* Start table area */}
+
+										<QuestionTable values={this.props.values}/>
+
+										{/* End table area */}
+									</article>
 								</div>
-								{/* End User Stats */}
-							</article>
-						</div>
-						<div className="tile">
-							<div className="tile is-parent is-vertical">
-								<article className="tile is-child">
-									{/* Start question area */}
-
-									<QuestionCard question={this.state.currentQuestion}/>
-									{/* End question area */}
-								</article>
-								<article className="tile is-child">
-									{/* Start table area */}
-
-									<QuestionTable values={this.props.values}/>
-
-									{/* End table area */}
-								</article>
+								
 							</div>
 							
 						</div>
-						
-					</div>
-					<div className="tile is-parent">
-						<article className="tile is-child">
-							<div className="card">
-								<Chat/>
-							</div>
-						</article>
+						<div className="tile is-parent">
+							<article className="tile is-child">
+								<div className="card">
+									<Chat/>
+								</div>
+							</article>
+						</div>
 					</div>
 				</div>
-			</div>
 			</div>
 		)
 	}

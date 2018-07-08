@@ -1,4 +1,5 @@
 import reducers from './Reducers'
+import history from './history'
 
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 
@@ -64,6 +65,10 @@ function reducer(state, action){
 			}).length>0
 
 			if(!isJoined){
+
+				history.push({
+					hash: `#${action.data.roomID}`
+				})
 
 				action.asyncDispatch({type: "s/ACTION_GETQUESTIONS", data: {
 					roomID: action.data.roomID
@@ -354,6 +359,11 @@ function reducer(state, action){
 
 const rootReducer = (state, action) => {
 	if (action.type === 'LEAVE') {
+
+		history.push({
+			hash: ""
+		})
+
 		state = {
 			joinedUsers: [],
 			users: [],

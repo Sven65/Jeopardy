@@ -126,7 +126,7 @@ class Navbar extends Component {
 							) : (
 								<div className="navbar-dropdown">
 									<a className="navbar-item" onClick={this.toggleProfile.bind(this)}>
-										<a className="modal-trigger" href="#userprofile-holder" id="userprofile-trigger">Profile</a>
+										<a className="modal-trigger" id="userprofile-trigger">Profile</a>
 									</a>
 									<a className="navbar-item" onClick={this.logout.bind(this)}>
 

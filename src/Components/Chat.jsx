@@ -100,7 +100,7 @@ class Chat extends Component {
 								<div className="control">
 									<a className="button is-primary" id="chatButton" onClick={this.sendMessage}>
 										Send
-										<span class="icon">
+										<span className="icon">
 											<i className="mdi mdi-send"></i>
 										</span>
 									</a>

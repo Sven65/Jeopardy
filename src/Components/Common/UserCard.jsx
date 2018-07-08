@@ -28,7 +28,7 @@ class UserCard extends Component {
 			<div className={"column user-card "+(this.getClassName())} data-userid={this.props.userID}>
 				<div className="card">
 					<div className="card-image">
-						<figure class="image is-192x192">
+						<figure className="image is-192x192">
 							<img src={this.props.image}/>
 							<TimerLine timeLeft={this.props.timeLeft} maxTime={this.props.maxTime}/>
 						</figure>
