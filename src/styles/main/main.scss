@@ -10,6 +10,7 @@ html, body{
 	height: 100%;
 	overflow-y: auto !important;
 	overflow-x: hidden;
+	background: $background-color;
 }
 
 .alert{
@@ -19,7 +20,7 @@ html, body{
 
 .alert.alert-danger{
 	background-color: $alert-danger;
-	color: #fff;
+	color: $alert-danger-text;
 }
 
 .hidden {
@@ -150,5 +151,5 @@ html, body{
 }
 
 #gameCodeHeader{
-	color: #FFF;
+	color: $gameCodeHeader-text;
 }

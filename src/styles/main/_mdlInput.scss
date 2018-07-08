@@ -1,7 +1,9 @@
+@import "variables";
+
 // VARIABLES // ============================== //
-$bg-color: #424242;
-$title-color: #000;
-$hl-color: #4CAF50; // Button etc
+$bg-color: $mdl-input-bg-color;
+$title-color: $mdl-input-title-color;
+$hl-color: $mdl-input-hl-color; // Button etc
 $muted-color: mix(white, $bg-color, 70%);
 $trans-time: 300ms;
 $width: 90%;

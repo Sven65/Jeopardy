@@ -56,7 +56,7 @@
 		left: 50%;
 		width: 30px;
 		height: 4px;
-		background: #4285F4;
+		background: $user-modal-toggle-background-bafter;
 		-webkit-transform: translate(-50%, -50%);
 		transform: translate(-50%, -50%);
 	}
@@ -95,7 +95,7 @@
 }
 
 .two .user-modal-form-group label {
-	color: #FFFFFF;
+	color: $user-modal-label-color;
 }
 
 .user-modal-form-group input {
@@ -119,20 +119,20 @@
 }
 
 .two .user-modal-form-group input {
-	color: #FFFFFF;
+	color: $user-modal-form-input-color;
 	&:focus {
-		color: #FFFFFF;
+		color: $user-modal-form-input-color;
 	}
 }
 
 .user-modal-form-group button {
 	outline: none;
-	background: #4285F4;
+	background: $user-modal-form-button-background;
 	width: 100%;
 	border: 0;
 	border-radius: 4px;
 	padding: 12px 20px;
-	color: #FFFFFF;
+	color: $user-modal-form-button-color;
 	font-family: inherit;
 	font-size: inherit;
 	font-weight: 500;
@@ -142,8 +142,8 @@
 }
 
 .two .user-modal-form-group button {
-	background: #FFFFFF;
-	color: #4285F4;
+	background: $user-modal-form-button-color;
+	color: $user-modal-form-button-background;
 }
 
 .user-modal-form-group {
@@ -159,7 +159,7 @@
 		}
 	}
 	.user-modal-form-recovery {
-		color: #4285F4;
+		color: $user-modal-recovery-color;
 		font-size: 12px;
 		text-decoration: none;
 	}
@@ -187,7 +187,7 @@
 		position: absolute;
 		top: 0;
 		left: 95%;
-		background: #4285F4;
+		background: $user-modal-panel-two-background;
 		width: 100%;
 		min-height: 100%;
 		padding: 60px calc(10% + 60px) 60px 60px;
@@ -247,35 +247,30 @@
 	margin: 0 0 40px;
 	h1 {
 		padding: 4px 0;
-		color: #4285F4;
+		color: $user-modal-form-header-color;
 		font-size: 24px;
 		font-weight: 700;
 		text-transform: uppercase;
 	}
 
 	.user-modal-error{
-		color: #F44336;
+		color: $user-modal-error-color;
 	}
 
 	.user-modal-success{
-		color: #4CAF50;
+		color: $user-modal-success-color;
 	}
 }
 
 .two .user-modal-form-header {
 	h1, h6{
-		color: #FFFFFF;
+		color: $user-modal-panel-two-header-color;
 	}
 
 	h1 {
 		position: relative;
 		z-index: 40;
 	}
-}
-
-.user-modal-cp-fab {
-	background: #FFFFFF !important;
-	color: #4285F4 !important;
 }
 
 .user-modal-form-remember > input {
@@ -285,10 +280,6 @@
 
 #user-modal {
 	z-index: 20000000;
-}
-
-.user-modal-error, .user-modal-form-group-error {
-	color: #FFF;
 }
 
 /**
@@ -331,7 +322,7 @@ label[for="privacyAgree"] {
 		&:before {
 			width: 20px;
 			height: 20px;
-			background: #fff;
+			background: $md-checkbox-background;
 			border: 2px solid rgba(0, 0, 0, 0.54);
 			border-radius: 2px;
 			cursor: pointer;
@@ -344,7 +335,7 @@ label[for="privacyAgree"] {
 		visibility: hidden;
 		&:checked + label {
 			&:before {
-				background: #8BC34A;
+				background: $md-checkbox-checked-label-before-bg;
 				border: none;
 			}
 			&:after {
@@ -353,7 +344,7 @@ label[for="privacyAgree"] {
 				left: 4px;
 				width: 12px;
 				height: 6px;
-				border: 2px solid #fff;
+				border: 2px solid $md-checkbox-checked-label-border-color;
 				border-top-style: none;
 				border-right-style: none;
 			}
@@ -370,9 +361,9 @@ label[for="privacyAgree"] {
 }
 
 #privacyLink {
-	color: #FFF;
+	color: $md-privacyLink-color;
 	&:hover{
-		color: #BBDEFB;
+		color: $md-privacyLink-hover-color;
 	}
 }
 
