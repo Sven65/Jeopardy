@@ -65,8 +65,8 @@ class QuestionTable extends Component {
 
 	render(){
 		return (
-			<div id="game-table-area">
-				<table id="gameTable" className="table is-bordered">
+			<div id="game-table-area" className="card">
+				<table id="gameTable" className="table">
 					<thead>
 						<tr>
 							{Object.keys(this.state.clues).map((categoryID, i) => {

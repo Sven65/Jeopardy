@@ -36,8 +36,7 @@ class UserCard extends Component {
 					</div>
 					<div className="media">
 						<div className="media-content">
-							<p className="title is-4">{this.props.username}</p>
-							<p className="subtitle is-8">${this.props.balance}</p>
+							<p className="title is-4">{this.props.username} - ${this.props.balance}</p>
 						</div>
 					</div>
 					<div className="content">

@@ -6,12 +6,37 @@
 	tbody {
 		tr {
 			td {
-				
-
+				border: 0;
 				&:hover{
 					cursor: pointer;
 					background-color: $gameTable-hover-color;
+					color: #FFF;
+					//transition: all 0.3s;
 				}
+
+				&:active{
+					background-color: $gameTable-active-color;
+					color: #FFF;
+				}
+
+				transition: all 0.3s;
+
+				&[data-revealed="true"]{
+					background-color: $gameTable-hover-color;
+					color: #FFF;
+				}
+			}
+		}
+	}
+
+
+	thead {
+		tr {
+			th {
+				border: 0;
+				background-color: #f44336;
+				color: #FFF;
+				font-weight: 400;
 			}
 		}
 	}
