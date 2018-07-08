@@ -2,6 +2,11 @@
 	max-width: 250px;
 }
 
+.container > .card{
+	width: 50%;
+	margin: auto;
+	text-align: center;
+}
 
 .g-recaptcha{
 	text-align: center;
@@ -22,6 +27,7 @@
 
 html, body{
 	height: 100%;
+	overflow: auto;
 }
 
 .absolute-center{
@@ -41,4 +47,37 @@ html, body{
 	position: absolute;
 	background: rgba(0, 0, 0, 0.6);
 	top: 0;
+}
+
+
+.navbar {
+	background: #FF9800;
+}
+
+.navbar-item{
+	font-size: 1rem;
+}
+
+.navbar-link::after{
+	border-color: #FFF;
+}
+
+.navbar-link:hover::after{
+	border-color: #FFF;
+}
+
+
+.card-content, #header{
+	color: #fff;
+	background: #8BC34A;
+	font-weight: 300;
+}
+
+.mdl-form .group input{
+	color: #fff;
+	font-weight: 300;
+}
+
+label{
+	color: #fff !important;
 }

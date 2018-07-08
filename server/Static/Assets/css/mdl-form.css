@@ -1,0 +1,162 @@
+.group {
+  position: relative;
+  margin: 45px 0;
+}
+
+form.mdl-form {
+  width: 90%;
+  margin: 45px auto;
+}
+form.mdl-form h1 {
+  font-size: 3em;
+  font-weight: 300;
+  text-align: center;
+  color: #000;
+}
+form.mdl-form h5 {
+  text-align: center;
+  text-transform: uppercase;
+  color: #c6c6c6;
+}
+form.mdl-form textarea {
+  resize: none;
+}
+form.mdl-form input,
+form.mdl-form textarea {
+  background: none;
+  font-size: 18px;
+  padding: 10px 10px 10px 5px;
+  display: block;
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid #c6c6c6;
+}
+form.mdl-form input:focus,
+form.mdl-form textarea:focus {
+  outline: none;
+}
+form.mdl-form input:focus ~ label, form.mdl-form input:valid ~ label,
+form.mdl-form textarea:focus ~ label,
+form.mdl-form textarea:valid ~ label {
+  top: -14px;
+  font-size: 12px;
+  color: #4CAF50;
+}
+form.mdl-form input:focus ~ .bar:before,
+form.mdl-form textarea:focus ~ .bar:before {
+  width: 100%;
+}
+form.mdl-form input[type="password"] {
+  letter-spacing: 0.3em;
+}
+form.mdl-form label {
+  color: #c6c6c6;
+  font-size: 16px;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 5px;
+  top: 10px;
+  transition: 300ms ease all;
+}
+form.mdl-form .bar {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+form.mdl-form .bar:before {
+  content: '';
+  height: 2px;
+  width: 0;
+  bottom: 0px;
+  position: absolute;
+  background: #4CAF50;
+  transition: 300ms ease all;
+  left: 0%;
+}
+form.mdl-form .btn {
+  background: #fff;
+  color: #959595;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 3px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  outline: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+form.mdl-form .btn:hover {
+  color: #8b8b8b;
+  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
+}
+form.mdl-form .btn.btn-link {
+  background: #4CAF50;
+  color: #dbefdc;
+}
+form.mdl-form .btn.btn-link:hover {
+  background: #449d48;
+  color: #e4f3e5;
+}
+form.mdl-form .btn.btn-submit {
+  background: #4CAF50;
+  color: #c9e7cb;
+}
+form.mdl-form .btn.btn-submit:hover {
+  background: #449d48;
+  color: #e4f3e5;
+}
+form.mdl-form .btn.btn-cancel {
+  background: #eee;
+}
+form.mdl-form .btn.btn-cancel:hover {
+  background: #e1e1e1;
+  color: #8b8b8b;
+}
+form.mdl-form .btn-box {
+  text-align: center;
+  margin: 50px 0;
+}
+
+.mdl-btn {
+  background: #fff;
+  color: #959595;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 3px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  outline: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.mdl-btn:hover {
+  color: #8b8b8b;
+  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
+}
+.mdl-btn.btn-link {
+  background: #4CAF50;
+  color: #dbefdc;
+}
+.mdl-btn.btn-link:hover {
+  background: #449d48;
+  color: #e4f3e5;
+}
+.mdl-btn.btn-submit {
+  background: #4CAF50;
+  color: #c9e7cb;
+}
+.mdl-btn.btn-submit:hover {
+  background: #449d48;
+  color: #e4f3e5;
+}
+.mdl-btn.btn-cancel {
+  background: #eee;
+}
+.mdl-btn.btn-cancel:hover {
+  background: #e1e1e1;
+  color: #8b8b8b;
+}

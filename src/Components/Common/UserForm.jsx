@@ -150,6 +150,7 @@ class UserForm extends Component {
 		swalField.setAttribute("placeholder", "me@example.com");
 		swalField.setAttribute("type", "email");
 		swalField.setAttribute("required", "true");
+		swalField.classList.add("swal-content__input");
 
 		swal({
 			title: 'Please enter the email of your account',
