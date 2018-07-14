@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import io from 'socket.io-client';
-import $ from "jquery";
+//import io from 'socket.io-client';
+//import $ from "jquery";
 
-window.$ = $;
+//window.$ = $;
 
 //import './../styles/materialize.min.css'
 

@@ -94,6 +94,7 @@ body.theme-dark{
 			background-color: $theme-dark-chat-button-background;
 			border-color: transparent;
 			color: $theme-dark-chat-button-text;
+			transition: all 0.3s ease;
 
 			&:hover{
 				background-color: $theme-dark-chat-button-background-hover;
@@ -115,4 +116,80 @@ body.theme-dark{
 			}
 		}
 	}
+
+	#emoji-picker-toggle{
+		pointer-events: all;
+
+		&:hover{
+			cursor: pointer;
+			background-color: $theme-dark-chat-button-background;
+			color: $theme-dark-chat-button-text;
+			transition: all 0.3s ease;
+		}
+		transition: all 0.3s ease;
+	}
+
+	.emoji-mart{
+		position: absolute !important;
+		bottom: 35px;
+		color: $theme-dark-emoji-picker-color;
+		background: $theme-dark-emoji-picker-background;
+		border: 0;
+		border-radius: 0;
+
+		.emoji-mart-bar{
+			border-bottom-width: 0px;
+		}
+
+		.emoji-mart-search{
+			margin-top: 6px;
+			padding: 0 6px;
+			margin-bottom: 6px;
+
+			input{
+				-moz-appearance: none;
+				-webkit-appearance: none;
+				align-items: center;
+				border: 1px solid transparent;
+				box-shadow: none;
+				display: inline-flex;
+				font-size: 1rem;
+				height: 2.25em;
+				justify-content: flex-start;
+				line-height: 1.5;
+				padding-bottom: calc(0.375em - 1px);
+				padding-left: calc(0.625em - 1px);
+				padding-right: calc(0.625em - 1px);
+				padding-top: calc(0.375em - 1px);
+				position: relative;
+				vertical-align: top;
+				border-radius: 0px;
+
+				&:active, &:focus {
+					border-color: unset;
+					border-color: #3273dc;
+					box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
+				}
+			}
+		}
+
+		.emoji-mart-category-label{
+			span {
+				background-color: $theme-dark-emoji-picker-category-background;
+			}
+		}
+
+		.emoji-mart-emoji{
+			&:hover{
+				&:before {
+					background-color: $theme-dark-emoji-picker-emoji-hover-background;
+				}
+			}
+		}
+	}
+
+	.emoji{
+		width: 32px;
+	}
 }
+

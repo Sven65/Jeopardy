@@ -4,7 +4,7 @@ import InputField from './Common/InputField'
 import Button from './Common/Button'
 
 import store from './../store'
-import history, {parseQueryString} from './../history'
+import history from './../history'
 
 class BeforeGame extends Component {
 	constructor(props){

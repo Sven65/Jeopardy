@@ -153,6 +153,15 @@ html, body{
 	}
 }
 
+.user-card{
+	.card{
+		background-color: $user-card-background;
+		* {
+			color: $user-card-color;
+		}
+	}
+}
+
 #gameCodeHeader{
 	color: $gameCodeHeader-text;
 }

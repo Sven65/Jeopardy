@@ -157,13 +157,13 @@ body{
 		#gameCodeHeader{
 			color: $theme-dark-gameCodeHeader-text;
 		}
-	}
 
-	.user-card{
-		.card{
-			background-color: $theme-dark-user-card-background;
-			* {
-				color: $theme-dark-user-card-color;
+		.user-card{
+			.card{
+				background-color: $theme-dark-user-card-background;
+				* {
+					color: $theme-dark-user-card-color;
+				}
 			}
 		}
 	}

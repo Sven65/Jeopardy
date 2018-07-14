@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 
+import 'emoji-mart/css/emoji-mart.css'
+import { Picker } from 'emoji-mart'
+
 import InputField from './Common/InputField'
 import Button from './Common/Button'
 import Message from './Common/Message'
+import HideBox from './Common/HideBox'
 
 import store from './../store'
 
@@ -12,11 +16,15 @@ class Chat extends Component {
 		super(props)
 
 		this.state = {
-			messages: []
+			messages: [],
+			showEmojiPicker: false
 		}
 
 		this.sendMessage = this.sendMessage.bind(this)
 		this.onKeyDown = this.onKeyDown.bind(this)
+
+		this.toggleEmojiPicker = this.toggleEmojiPicker.bind(this)
+		this.emojiClicked = this.emojiClicked.bind(this)
 
 		this.messageInput = React.createRef()
 
@@ -77,6 +85,38 @@ class Chat extends Component {
 		}
 	}
 
+	toggleEmojiPicker(e){
+		this.setState({
+			showEmojiPicker: !this.state.showEmojiPicker
+		})
+	}
+
+	_insertAtCursor(field, value){
+		if (document.selection) {
+			field.focus()
+			sel = document.selection.createRange()
+			sel.text = value
+		}else if (field.selectionStart || field.selectionStart === 0) {
+			let startPos = field.selectionStart
+			let endPos = field.selectionEnd
+			field.value = `${field.value.substring(0, startPos)}${value}${field.value.substring(endPos, field.value.length)}`
+		} else {
+			field.value += myValue
+		}
+	}
+
+	emojiClicked(emoji){
+		//this.messageInput.value += `:${emojiData.name}:`
+
+		this._insertAtCursor(this.messageInput, emoji.colons)
+
+		console.log("DATA", emoji)
+
+		this.setState({
+			showEmojiPicker: false
+		})
+	}
+
 	render(){
 		return (
 			<div className="row no-pad-bot">
@@ -90,12 +130,20 @@ class Chat extends Component {
 								<li className="chatBottom" ref={el => this.chatBottom = el}></li>
 							</ul>
 						</div>
+
 						<div className="chat-input">
 							{/* Chat Input */}
+							<HideBox hidden={!this.state.showEmojiPicker}>
+								<Picker set='twitter' sheetSize={64} onSelect={this.emojiClicked} title="" showPreview={false} showSkinTones={true} emojiTooltip={true} style={{width: "100%"}}/>
+							</HideBox>
 
 							<div className="field has-addons">
-								<div className="control">
+								<div className="control has-icons-left">
 									<input className="input" type="text" autoComplete="off" placeholder="Type a message!" id="message" ref={el => this.messageInput = el} onKeyDown={this.onKeyDown}/>
+									
+									<span className="icon is-left" id="emoji-picker-toggle" onClick={this.toggleEmojiPicker}>
+										<i className="mdi mdi-emoticon"></i>
+									</span>
 								</div>
 								<div className="control">
 									<a className="button is-primary" id="chatButton" onClick={this.sendMessage}>
