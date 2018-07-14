@@ -189,8 +189,18 @@ class UserProfile extends Component {
 									</div>
 								):(
 									<div className="columns is-multiline" id="user-settings">
-										<div className="column is-12">Theme: {this.props.theme}
-											<div className="select">
+
+										<div className="column is-12" onClick={this.toggleSettings}>
+											<span>
+												<span className="icon is-left">
+													<i className="mdi mdi-18px mdi-arrow-left"></i>
+												</span>
+												Go Back
+											</span>
+										</div>
+
+										<div className="column is-12">Theme:
+											<div className="select is-fullwidth">
 												<select onChange={this.themeChange} defaultValue={this.props.selectedTheme}>
 													<option value="light">Light</option>
 													<option value="dark">Dark</option>
