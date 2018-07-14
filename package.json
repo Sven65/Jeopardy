@@ -1,11 +1,11 @@
 {
   "name": "jeopardy",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "description": "A browser-based version of Jeopardy for one to four players",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --display-error-details --config ./webpack.config.js --mode development",
+    "start": "export NODE_ENV=dev|| set NODE_ENV=dev&&webpack-dev-server --display-error-details --config ./webpack.config.js --mode development",
     "build": "export NODE_ENV=production|| set NODE_ENV=production&&webpack -p",
     "server": "export NODE_ENV=production|| set NODE_ENV=production&&node index.js",
     "server:dev": "nodemon --harmony index.js",

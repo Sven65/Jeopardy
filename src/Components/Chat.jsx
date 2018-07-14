@@ -30,6 +30,11 @@ class Chat extends Component {
 
 		this.chatContainer = React.createRef()
 		this.chatBottom = React.createRef()
+
+		this._localCommands = [
+			"VERSION",
+			"SUDO"
+		]
 	}
 
 	componentDidMount() {
@@ -46,9 +51,9 @@ class Chat extends Component {
 			return
 		}
 
-		if(this.messageInput.value.toLowerCase() === "/version"){
+		if(this.messageInput.value.startsWith("/") && this._localCommands.indexOf(this.messageInput.value.toUpperCase().replace("/", "")) > -1){
 			store.dispatch({type: "LOCAL_COMMAND", data: {
-				command: "VERSION"
+				command: this.messageInput.value.toUpperCase().replace("/", "")
 			}})
 		}else{
 

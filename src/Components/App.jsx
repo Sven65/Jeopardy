@@ -1,18 +1,14 @@
 import React, { Component } from 'react'
-//import io from 'socket.io-client';
-//import $ from "jquery";
+import io from 'socket.io-client';
+import $ from "jquery";
 
-//window.$ = $;
-
-//import './../styles/materialize.min.css'
+window.$ = $;
 
 import 'bulma/css/bulma.css'
-//import './../styles/bulma-material-form.css'
 import './../styles/main/main.scss'
 
 import './../styles/loaders.min.css'
 
-//import './../General/materialize.min.js'
 import './../General/init.js'
 
 //import {socket, socketDebug, getQuestions } from '../api'

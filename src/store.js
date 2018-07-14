@@ -1,5 +1,5 @@
-import reducers from './Reducers'
 import history from './history'
+import { localCommand } from './Reducers/Commands.js'
 
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 
@@ -119,22 +119,7 @@ function reducer(state, action){
 			})
 		break
 		case "LOCAL_COMMAND":
-			let response = ""
-
-			switch(action.data.command){
-				case "VERSION":
-					response = `TriviaParty Version **${VERSION}**`
-				break
-			}
-
-			action.asyncDispatch({type: "EVENT_CHAT", data: {
-				message: response,
-				user: {
-					username: "SYSTEM",
-					userID: "SYSTEM"
-				},
-				timeStamp: Date.now()
-			}})
+			localCommand(state, action)
 		break
 		case "ACTION_GOTQUESTIONS":
 			if(!state.questionsLoaded){
