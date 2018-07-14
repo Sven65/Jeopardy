@@ -87,7 +87,7 @@ class Chat extends Component {
 								{this.state.messages.map(message => {
 									return (<Message user={message.user} timeStamp={message.timeStamp} message={message.message} key={message.timeStamp}/>)
 								})}
-								<li style={{background: "#fff"}} ref={el => this.chatBottom = el}></li>
+								<li className="chatBottom" ref={el => this.chatBottom = el}></li>
 							</ul>
 						</div>
 						<div className="chat-input">

@@ -120,7 +120,7 @@ class Navbar extends Component {
 							{!isLoggedIn?(
 								<div className="navbar-dropdown">
 									<a className="navbar-item" onClick={this.toggleLoginForm.bind(this)}>
-										<a className="modal-trigger" href="#user-modal-holder" id="usermodal-trigger">Login</a>
+										<a className="modal-trigger" id="usermodal-trigger">Login</a>
 									</a>
 								</div>
 							) : (
