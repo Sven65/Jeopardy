@@ -41,7 +41,8 @@ class SocketHandler{
 				losses: userData.losses||0,
 				balance: userData.balance||0,
 				image: this._isset(userData.imageID)?`images/${userData.imageID}`:`https://placehold.it/128x128?text=${data.username}`,
-				emailVerified: userData.isVerified
+				emailVerified: userData.isVerified,
+				theme: userData.theme||"light"
 			})
 		}
 	}

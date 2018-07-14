@@ -69,6 +69,11 @@ class App extends Component {
 
 				if(this.state.userData !== undefined && this.state.userData !== null && Object.keys(this.state.userData).length>0 && this.state.userLoggedIn){
 					this.setUserData()
+
+					if(this.state.userData.theme !== ""){
+						document.body.classList = ""
+						document.body.classList.add(`theme-${this.state.userData.theme}`)
+					}
 				}
 
 				if(this.state.appEmailSent && !this.state.appLoading && Object.keys(this.state.userData).length>0){
@@ -76,6 +81,8 @@ class App extends Component {
 				}else if(!this.state.appEmailSent && !this.state.appLoading && this.state.verifyEmailError !== "" && Object.keys(this.state.userData).length>0){
 					swal("Error!", this.state.verifyEmailError, "error");
 				}
+
+
 			})
 
 			// TODO: Make this have an expiry

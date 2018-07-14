@@ -16,13 +16,17 @@ class UserProfile extends Component {
 			selectedImage: null,
 			unsavedChanges: false,
 			isLoading: false,
-			editError: ""
+			editError: "",
+			showSettings: false
 		}
 
 		this._acceptedMimes = [
 			"image/jpeg",
 			"image/png"
 		]
+
+		this.toggleSettings = this.toggleSettings.bind(this)
+		this.themeChange = this.themeChange.bind(this)
 	}
 
 	componentDidMount() {
@@ -76,6 +80,19 @@ class UserProfile extends Component {
 	triggerUpload(e){
 		e.preventDefault()
 		this.fileInput.click()
+	}
+
+	toggleSettings(){
+		this.setState({
+			showSettings: !this.state.showSettings
+		})
+	}
+
+	themeChange(e){
+		store.dispatch({type: "s/USER_CHANGE_THEME", data: {
+			theme: e.target.value,
+			userToken: this.props.userToken
+		}})
 	}
 
 
@@ -153,25 +170,39 @@ class UserProfile extends Component {
 								</div>
 							</section>
 							<section className="profile-bottom">
-								<div className="columns is-multiline">
-									<div className="column is-12">
-										<span>My Settings
-											<span className="icon is-left">
-												<i className="mdi mdi-18px mdi-settings"></i>
+								{!this.state.showSettings ? (
+									<div className="columns is-multiline">		
+										<div className="column is-12" onClick={this.toggleSettings}>
+											<span>My Settings
+												<span className="icon is-left">
+													<i className="mdi mdi-18px mdi-settings"></i>
+												</span>
 											</span>
-										</span>
-									</div>
-									<div className="column is-12" onClick={this.props.logoutFunc}>Logout
-										<span>
-											<span className="icon is-left">
-												<i className="mdi mdi-18px mdi-exit-to-app"></i>
+										</div>
+										<div className="column is-12" onClick={this.props.logoutFunc}>Logout
+											<span>
+												<span className="icon is-left">
+													<i className="mdi mdi-18px mdi-exit-to-app"></i>
+												</span>
 											</span>
-										</span>
+										</div>
 									</div>
-								</div>
+								):(
+									<div className="columns is-multiline" id="user-settings">
+										<div className="column is-12">Theme: {this.props.theme}
+											<div className="select">
+												<select onChange={this.themeChange} defaultValue={this.props.selectedTheme}>
+													<option value="light">Light</option>
+													<option value="dark">Dark</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								)}
 							</section>
 						</section>
 					</div>
+
 					<button className="modal-close is-large" aria-label="close" onClick={this.props.closeButtonFunction}></button>
 				</div>
 			</div>

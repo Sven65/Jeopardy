@@ -292,6 +292,12 @@ function reducer(state, action){
 				isLoading: true
 			})
 		break
+		case "USER_CHANGE_THEME":
+			return Object.assign({}, state, {
+				isLoading: true
+				//theme: action.data.theme
+			})
+		break
 		case "USER_EDIT_SAVED":
 			return Object.assign({}, state, {
 				isLoading: false,
@@ -304,6 +310,14 @@ function reducer(state, action){
 				isLoading: false,
 				unsavedChanges: false,
 				editError: action.data.error
+			})
+		break
+		case "CHANGE_THEME":
+			return Object.assign({}, state, {
+				userData: {
+					...state.userData,
+					theme: action.data.theme
+				}
 			})
 		break
 		case "SEND_VERIFICATION_EMAIL":

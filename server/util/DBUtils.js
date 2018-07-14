@@ -182,6 +182,14 @@ class DBUtils{
 			WHERE "ID" = $3
 		`, [password, salt, userID])
 	}
+
+	async setTheme(token, theme){
+		return await this.client.query(`
+			UPDATE users
+			SET "theme" = $1
+			WHERE "token" = $2
+		`, [theme, token])
+	}
 }
 
 module.exports = DBUtils

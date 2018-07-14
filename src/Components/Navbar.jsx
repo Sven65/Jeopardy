@@ -171,6 +171,7 @@ class Navbar extends Component {
 						logoutFunc={this.logout.bind(this)}
 						userToken={this.state.userData.token}
 						closeButtonFunction={this.toggleProfile.bind(this)}
+						selectedTheme={this.state.userData.theme}
 					/>
 
 						
