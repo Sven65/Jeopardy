@@ -1,0 +1,12 @@
+@import 'variables';
+
+body.theme-dark{
+	.rc-color-picker-panel{
+		background-color: $theme-dark-color-picker-background;
+	}
+
+	.rc-color-picker-panel-inner{
+		box-shadow: $theme-dark-color-picker-box-shadow;
+		border: $theme-dark-color-picker-panel-border;
+	}
+}

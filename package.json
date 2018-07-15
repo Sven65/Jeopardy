@@ -34,6 +34,7 @@
     "nodemailer-express-handlebars": "^3.0.0",
     "number-to-words": "^1.2.3",
     "pg": "^7.4.3",
+    "rc-color-picker": "^1.2.6",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-progressbar.js": "^0.2.0",

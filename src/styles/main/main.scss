@@ -4,6 +4,8 @@
 @import 'userForm';
 @import 'questionTable';
 @import 'chat';
+@import 'colorPicker';
+@import 'FAB';
 
 @import '../dark/main.scss';
 
@@ -186,10 +188,14 @@ html, body{
 	vertical-align: middle;
 
 	.icon{
-		vertical-align: middle;
-		opacity: 0;
+		opacity: 1;
 		transition: all 0.3s ease;
 		color: #FFF;
+
+		position: relative;
+		left: 12px;
+		top: 50%;
+		transform: translate(-50%,-50%);
 	}
 
 	&:hover{
@@ -198,7 +204,35 @@ html, body{
 
 		.icon{
 			transition: all 0.3s ease;
+			opacity: 0;
+		}
+	}
+
+	&.swatch-color-picker{
+		.icon{
 			opacity: 1;
+		}
+
+		&:hover{
+			background: rgba(0, 0, 0, .3);
+			cursor: pointer;
+
+			.icon{
+				transition: all 0.3s ease;
+				opacity: 0;
+			}
+		}
+	}
+}
+
+.rc-color-picker-wrap{
+	&.rc-color-picker-open{
+		.swatch-overlay{
+			&.swatch-color-picker{
+				.icon{
+					opacity: 0;
+				}
+			}
 		}
 	}
 }

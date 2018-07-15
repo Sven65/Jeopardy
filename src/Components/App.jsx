@@ -20,6 +20,8 @@ import Footer from './Common/Footer'
 import Alert from './Common/Alert'
 import Loader from './Common/Loader'
 
+import FAB from './Common/FAB'
+
 import swal from 'sweetalert'
 
 import store from '../store'
@@ -97,6 +99,10 @@ class App extends Component {
 		}})
 	}
 
+	discordFABClick(){
+		window.open(CONFIG.discordLink, "_blank")
+	}
+
 	render(){
 		const showVerifyBanner = Object.keys(this.state.userData).length>0&&!this.state.userData.emailVerified
 
@@ -133,6 +139,7 @@ class App extends Component {
 					800,
 					1000
 				]} users={this.state.users}/>
+				<FAB icon="discord" text="Join our Discord!" onClick={this.discordFABClick}/>
 			</div>
 		)
 	}

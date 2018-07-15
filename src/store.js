@@ -45,8 +45,6 @@ function reducer(state, action){
 	switch(action.type.replace("s/", "")){
 		case 'USER_JOIN':
 
-			console.log("JOIN", action.data)
-
 			let user = {
 				username: action.data.username,
 				userID: action.data.userID,
@@ -236,8 +234,6 @@ function reducer(state, action){
 			})
 		break
 		case "USER_LOGGED_IN":
-			console.log(action.data)
-
 			return Object.assign({}, state, {
 				loginError: {reason: ""},
 				userLoggedIn: true,

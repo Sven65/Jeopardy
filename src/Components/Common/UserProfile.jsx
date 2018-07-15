@@ -24,7 +24,26 @@ class UserProfile extends Component {
 			showSettings: false,
 			buyColorError: "",
 			boughtColor: false,
-			boughtColorSuccess: ""
+			boughtColorSuccess: "",
+			swatches: [
+				'#FFF',
+				'#F44336',
+				'#E91E63',
+				'#9C27B0',
+				'#673AB7',
+				'#3F51B5',
+				'#2196F3',
+				'#03A9F4',
+				'#00BCD4',
+				'#009688',
+				'#4CAF50',
+				'#8BC34A',
+				'#CDDC39',
+				'#FFEB3B',
+				'#FFC107',
+				'#FF9800',
+				'#FF5722'
+			]
 		}
 
 		this._acceptedMimes = [
@@ -35,6 +54,7 @@ class UserProfile extends Component {
 		this.toggleSettings = this.toggleSettings.bind(this)
 		this.themeChange = this.themeChange.bind(this)
 		this.colorSelected = this.colorSelected.bind(this)
+		this.onColorSelect = this.onColorSelect.bind(this)
 	}
 
 	componentDidMount() {
@@ -181,31 +201,25 @@ class UserProfile extends Component {
 
 	getSwatchColors(){
 		let swatchColors = []
-		let colors = [
-			'#FFF',
-			'#F44336',
-			'#E91E63',
-			'#9C27B0',
-			'#673AB7',
-			'#3F51B5',
-			'#2196F3',
-			'#03A9F4',
-			'#00BCD4',
-			'#009688',
-			'#4CAF50',
-			'#8BC34A',
-			'#CDDC39',
-			'#FFEB3B',
-			'#FFC107',
-			'#FF9800',
-			'#FF5722'
-		]
+		let colors = this.state.swatches
 		
+		this.props.unlockedColors.forEach(color => {
+			if(colors.indexOf(color) <= -1){
+				colors.push(color)
+			}
+		})
+
 		colors.forEach(color => {
 			swatchColors.push({color, unlocked: this.props.unlockedColors.indexOf(color) > -1})
 		})
 
 		return swatchColors
+	}
+
+	onColorSelect(colors){
+		this.setState({
+			swatches: [...this.state.swatches, colors.color]
+		})
 	}
 
 
@@ -322,8 +336,8 @@ class UserProfile extends Component {
 										</div>
 
 										<div className="column is-12 no-hover">
-											<span>Name Color</span>
-											<SwatchPicker colors={this.getSwatchColors()} onSelect={this.colorSelected}/>
+											<span className="title name-title">Name Color</span>
+											<SwatchPicker colors={this.getSwatchColors()} onSelect={this.colorSelected} closeHandler={this.onColorSelect}/>
 										</div>
 									</div>
 								)}

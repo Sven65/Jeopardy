@@ -26,11 +26,10 @@ function getPlugins() {
 	if (process.env.NODE_ENV === "production") {
 		plugins.push(new webpack.DefinePlugin({
 			'process.env': {
-				'NODE_ENV': process.env.NODE_ENV
+				'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
 			}
 		}));
-		
-		plugins.push(new webpack.optimize.AggressiveMergingPlugin())
+
 		plugins.push(new CompressionPlugin({
 			asset: "[path].gz[query]",
 			algorithm: "gzip",

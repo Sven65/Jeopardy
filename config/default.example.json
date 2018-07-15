@@ -53,5 +53,6 @@
 	"recaptchaSecret": "",
 	"Upload": {
 		"maxAvatarSize": 0
-	}
+	},
+	"discordLink": "https://discord.gg/wdfcN4A"
 }

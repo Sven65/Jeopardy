@@ -107,4 +107,6 @@ $(document).ready(function() {
 	$('#register-trigger').on("click", e => {
 		$('.user-modal-form-panel.two').not('.user-modal-form-panel.two.active').click()
 	})
+
+	(adsbygoogle = window.adsbygoogle || []).push({})
 })

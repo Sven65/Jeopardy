@@ -8,6 +8,8 @@ import Chat from './Chat'
 import Loader from './Common/Loader'
 import Standings from './Common/Standings'
 
+import GoogleAd from './Common/GoogleAd'
+
 import store from './../store'
 
 class GameArea extends Component {
@@ -104,10 +106,17 @@ class GameArea extends Component {
 							
 						</div>
 						<div className="tile is-parent">
-							<article className="tile is-child">
+							<article className="tile is-child is-12">
 								<div className="card">
 									<Chat/>
 								</div>
+							</article>
+							<article className="tile is-child is-12">
+								<GoogleAd
+									adClient="ca-pub-8672763383629607"
+									adSlot="9283614809"
+									adFormat="auto"
+								/>
 							</article>
 						</div>
 					</div>
