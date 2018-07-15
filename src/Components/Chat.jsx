@@ -111,11 +111,8 @@ class Chat extends Component {
 	}
 
 	emojiClicked(emoji){
-		//this.messageInput.value += `:${emojiData.name}:`
 
 		this._insertAtCursor(this.messageInput, emoji.colons)
-
-		console.log("DATA", emoji)
 
 		this.setState({
 			showEmojiPicker: false

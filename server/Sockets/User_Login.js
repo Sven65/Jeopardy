@@ -42,7 +42,9 @@ class SocketHandler{
 				balance: userData.balance||0,
 				image: this._isset(userData.imageID)?`images/${userData.imageID}`:`https://placehold.it/128x128?text=${data.username}`,
 				emailVerified: userData.isVerified,
-				theme: userData.theme||"light"
+				theme: userData.theme||"light",
+				unlockedColors: userData.unlockedColors||[],
+				color: userData.nameColor||"#FFF"
 			})
 		}
 	}

@@ -129,7 +129,7 @@ body{
 			z-index: 10000000;
 			width: 100%;
 			height: 100%;
-			position: absolute;
+			position: fixed;
 			background: rgba(0, 0, 0, 0.6);
 			top: 0;
 			bottom: 0;
@@ -165,6 +165,18 @@ body{
 					color: $theme-dark-user-card-color;
 				}
 			}
+		}
+
+		.swal-modal {
+			background-color: $theme-dark-chat-container-background;
+		}
+
+		.swal-title, .swal-text{
+			color: #FFF;
+		}
+
+		.swal-icon--success:before, .swal-icon--success:after, .swal-icon--success__hide-corners {
+			background: $theme-dark-chat-container-background;
 		}
 	}
 }

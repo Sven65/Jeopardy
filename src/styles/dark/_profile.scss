@@ -34,12 +34,20 @@ body.theme-dark{
 			&:last-of-type{
 				padding-bottom: calc( 2rem + 0.75rem );
 			}
+
+
 		}
 
 		.column:hover{
 			cursor: pointer;
 			background: $theme-dark-profile-bottom-hover;
 			color: $theme-dark-profile-bottom-hover-text;
+
+			&.no-hover{
+				background: $theme-dark-profile-bottom-background;
+				color: $theme-dark-profile-bottom-text;
+				cursor: auto;
+			}
 		}
 	}
 
@@ -85,5 +93,13 @@ body.theme-dark{
 				overflow-y: auto;
 			}
 		}
+	}
+
+	.chat-even{
+		background-color: $theme-dark-chat-message-even-background;
+	}
+
+	.chat-odd{
+		background-color: $theme-dark-chat-message-odd-background;
 	}
 }

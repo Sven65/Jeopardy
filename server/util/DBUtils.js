@@ -124,6 +124,14 @@ class DBUtils{
 		`, [amount, token])
 	}
 
+	async removeBalance(token, amount){
+		return await this.client.query(`
+			UPDATE users
+			SET "balance" = "balance" - $1
+			WHERE token = $2
+		`, [amount, token])
+	}
+
 	async getRoomByID(roomID){
 		let roomData = await this.client.query(`SELECT * FROM games WHERE "roomID" = $1`, [roomID])
 
@@ -189,6 +197,22 @@ class DBUtils{
 			SET "theme" = $1
 			WHERE "token" = $2
 		`, [theme, token])
+	}
+
+	async addUnlockedColor(token, color){
+		return await this.client.query(`
+			UPDATE users
+			SET "unlockedColors" = array_append("unlockedColors", $1)
+			WHERE "token" = $2
+		`, [color , token])
+	}
+
+	async setNameColor(token, color){
+		return await this.client.query(`
+			UPDATE users
+			SET "nameColor" = $1
+			WHERE "token" = $2
+		`, [color , token])
 	}
 }
 

@@ -30,7 +30,7 @@ class Message extends Component {
 				}
 				<div className="message-wrap" data-system={this.props.user.userID==="SYSTEM"}>
 					{this.props.user.userID !== "SYSTEM" &&
-						<span className="chat-sender">{this.props.user.username}</span>
+						<span className="chat-sender" style={{color: this.props.user.color||"#FFF"}}>{this.props.user.username}</span>
 					}
 					<span className="chat-message">{Parser.parse(this.jsemoji.replace_colons(Format.Format(this.props.message)))}</span>
 				</div>

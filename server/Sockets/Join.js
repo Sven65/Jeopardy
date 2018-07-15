@@ -79,8 +79,6 @@ class SocketHandler{
 
 		socket.join(data.roomID)
 
-		console.log("JOIN", data)
-
 		data.timeStamp = Date.now()
 		data.roomID = data.roomID
 		data.userID = socket.id
@@ -90,6 +88,7 @@ class SocketHandler{
 		data.isRegistered = this._isset(data.user.token)
 		data.token = data.user.token||""
 		data.image = await this._getUserImage(data)
+		data.color = data.user.color||"#FFF"
 
 		if(!this._isset(data.user)){
 			this.user = {}

@@ -34,6 +34,11 @@
 		cursor: pointer;
 		background: $profile-bottom-hover;
 		color: $profile-bottom-hover-text;
+
+		&.no-hover{
+			background: $profile-bottom-background;
+			cursor: auto;
+		}
 	}
 }
 
@@ -79,4 +84,8 @@
 			overflow-y: auto;
 		}
 	}
+}
+
+.chat-odd{
+	background-color: #eee;
 }

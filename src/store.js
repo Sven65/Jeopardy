@@ -45,6 +45,8 @@ function reducer(state, action){
 	switch(action.type.replace("s/", "")){
 		case 'USER_JOIN':
 
+			console.log("JOIN", action.data)
+
 			let user = {
 				username: action.data.username,
 				userID: action.data.userID,
@@ -53,7 +55,8 @@ function reducer(state, action){
 				isTurn: action.data.isTurn,
 				timeStamp: action.data.timeStamp,
 				image: action.data.image,
-				isRegistered: action.data.isRegistered||false
+				isRegistered: action.data.isRegistered||false,
+				color: action.data.color||"#eee"
 			}
 
 			if(state.users === undefined){
@@ -211,7 +214,11 @@ function reducer(state, action){
 				userFormLoad: false
 			})
 		break
-		case "USER_REGISTERED":
+		case "USER_REGISTERED": 
+			action.asyncDispatch({type: "s/GET_USER_BY_TOKEN", data: {
+				token: action.data.token
+			}})
+
 			return Object.assign({}, state, {
 				registerError: {},
 				userRegistered: true,
@@ -229,6 +236,8 @@ function reducer(state, action){
 			})
 		break
 		case "USER_LOGGED_IN":
+			console.log(action.data)
+
 			return Object.assign({}, state, {
 				loginError: {reason: ""},
 				userLoggedIn: true,
@@ -278,6 +287,8 @@ function reducer(state, action){
 			})
 		break
 		case "USER_CHANGE_THEME":
+		case "USER_BUY_COLOR":
+		case "USER_SET_COLOR":
 			return Object.assign({}, state, {
 				isLoading: true
 				//theme: action.data.theme
@@ -305,6 +316,52 @@ function reducer(state, action){
 				}
 			})
 		break
+
+		case "BUY_COLOR_ERROR":
+		case "SET_COLOR_ERROR":
+			return Object.assign({}, state, {
+				isLoading: false,
+				buyColorError: action.data.error
+			})
+		break
+
+		case "BOUGHT_COLOR":
+			return Object.assign({}, state, {
+				isLoading: false,
+				buyColorError: "",
+				boughtColor: true,
+				boughtColorSuccess: "Color bought!",
+				userData: {
+					...state.userData,
+					unlockedColors: [...state.userData.unlockedColors, action.data.color],
+					balance: action.data.newBalance
+				}
+			})
+		break
+
+		case "USER_COLOR_SET":
+
+			users = state.users
+
+			if(state.users !== undefined){
+				userIndex = users.findIndex(user => user.userID === action.data.userID)
+
+				users[userIndex].color = action.data.color
+			}
+
+			return Object.assign({}, state, {
+				isLoading: false,
+				buyColorError: "",
+				boughtColor: true,
+				boughtColorSuccess: "Color Set!",
+				userData: {
+					...state.userData,
+					color: action.data.color
+				},
+				users: users||[]
+			})
+		break
+
 		case "SEND_VERIFICATION_EMAIL":
 			return Object.assign({}, state, {
 				appLoading: true

@@ -3,6 +3,10 @@ import React, { Component } from 'react'
 import Loader from './Loader'
 import Alert from './Alert'
 
+import SwatchPicker from './SwatchPicker'
+
+import swal from 'sweetalert'
+
 import store from '../../store'
 
 class UserProfile extends Component {
@@ -17,7 +21,10 @@ class UserProfile extends Component {
 			unsavedChanges: false,
 			isLoading: false,
 			editError: "",
-			showSettings: false
+			showSettings: false,
+			buyColorError: "",
+			boughtColor: false,
+			boughtColorSuccess: ""
 		}
 
 		this._acceptedMimes = [
@@ -27,11 +34,30 @@ class UserProfile extends Component {
 
 		this.toggleSettings = this.toggleSettings.bind(this)
 		this.themeChange = this.themeChange.bind(this)
+		this.colorSelected = this.colorSelected.bind(this)
 	}
 
 	componentDidMount() {
 		store.subscribe(() => {
-			this.setState(store.getState())
+			this.setState(store.getState(), () => {
+				if(this.state.buyColorError !== ""){
+					swal({
+						title: "Error!",
+						text: this.state.buyColorError,
+						icon: "error",
+						button: "Close"
+					})
+				}else if(this.state.boughtColor !== false){
+					swal({
+						title: "Success!",
+						text: this.state.boughtColorSuccess,
+						icon: "success",
+						button: "Close"
+					})
+
+					this.setState({boughtColor: false})
+				}
+			})
 		})
 	}
 
@@ -93,6 +119,93 @@ class UserProfile extends Component {
 			theme: e.target.value,
 			userToken: this.props.userToken
 		}})
+	}
+
+	_getColorImage(color, boxSize){
+		let canvas = document.createElement("canvas")
+		canvas.width = boxSize
+		canvas.height = boxSize
+		let ctx = canvas.getContext('2d')
+
+		ctx.fillStyle = color
+
+		ctx.fillRect(0, 0, boxSize, boxSize)
+
+		return ctx.canvas.toDataURL("image/png")
+	}
+
+	_htmlToElement(html) {
+	    const template = document.createElement('template')
+	    html = html.trim()
+	    template.innerHTML = html
+	    return template.content.firstChild
+	}
+
+	_getSwalContent(color, username){
+		return this._htmlToElement(`
+			<div class="color-buy-holder">
+				<div class="columns is-multiline">
+					<div class="column is-12 chat-even">
+						<span style="color: ${color};font-weight: bold;">${username}</span>
+					</div>
+					<div class="column is-12 chat-odd">
+						<span style="color: ${color};font-weight: bold;">${username}</span>
+					</div>
+				</div>
+			</div>
+		`)
+	}
+
+	colorSelected(color){
+		if(!color.unlocked){
+			swal({
+				title: "Do you want to unlock this color for $2,000?",
+				//icon: this._getColorImage(color.color, 64),
+				content: this._getSwalContent(color.color, this.props.username),
+				buttons: ["Nope!", true]
+			}).then(confirm => {
+				if(confirm){
+					store.dispatch({type: "s/USER_BUY_COLOR", data: {
+						color: color.color,
+						userToken: this.props.userToken
+					}})
+				}
+			});
+		}else{
+			store.dispatch({type: "s/USER_SET_COLOR", data: {
+				color: color.color,
+				userToken: this.props.userToken
+			}})
+		}
+	}
+
+	getSwatchColors(){
+		let swatchColors = []
+		let colors = [
+			'#FFF',
+			'#F44336',
+			'#E91E63',
+			'#9C27B0',
+			'#673AB7',
+			'#3F51B5',
+			'#2196F3',
+			'#03A9F4',
+			'#00BCD4',
+			'#009688',
+			'#4CAF50',
+			'#8BC34A',
+			'#CDDC39',
+			'#FFEB3B',
+			'#FFC107',
+			'#FF9800',
+			'#FF5722'
+		]
+		
+		colors.forEach(color => {
+			swatchColors.push({color, unlocked: this.props.unlockedColors.indexOf(color) > -1})
+		})
+
+		return swatchColors
 	}
 
 
@@ -206,6 +319,11 @@ class UserProfile extends Component {
 													<option value="dark">Dark</option>
 												</select>
 											</div>
+										</div>
+
+										<div className="column is-12 no-hover">
+											<span>Name Color</span>
+											<SwatchPicker colors={this.getSwatchColors()} onSelect={this.colorSelected}/>
 										</div>
 									</div>
 								)}

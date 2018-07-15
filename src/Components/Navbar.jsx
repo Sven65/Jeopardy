@@ -172,6 +172,7 @@ class Navbar extends Component {
 						userToken={this.state.userData.token}
 						closeButtonFunction={this.toggleProfile.bind(this)}
 						selectedTheme={this.state.userData.theme}
+						unlockedColors={this.state.userData.unlockedColors}
 					/>
 
 						

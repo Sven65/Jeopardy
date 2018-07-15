@@ -14,7 +14,8 @@
 				"beforeCountdown": 10
 			}
 		},
-		"distanceThreshold": 1
+		"distanceThreshold": 1,
+		"colorCost": 2000
 	},
 	"Client": {
 		"socket": {
