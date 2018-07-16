@@ -317,6 +317,28 @@ class UserProfile extends Component {
 								):(
 									<div className="columns is-multiline" id="user-settings">
 
+										<div className="column is-12 no-hover">
+											<div className="field has-addons">
+												<div className="control">
+													<a className="button is-profile">Theme</a>
+												</div>
+
+												<div className="control is-expanded">
+													<div className="select is-fullwidth">
+														<select onChange={this.themeChange} defaultValue={this.props.selectedTheme}>
+															<option value="light">Light</option>
+															<option value="dark">Dark</option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div className="column is-12 no-hover">
+											<span className="title name-title">Name Color</span>
+											<SwatchPicker colors={this.getSwatchColors()} onSelect={this.colorSelected} closeHandler={this.onColorSelect}/>
+										</div>
+
 										<div className="column is-12" onClick={this.toggleSettings}>
 											<span>
 												<span className="icon is-left">
@@ -326,19 +348,6 @@ class UserProfile extends Component {
 											</span>
 										</div>
 
-										<div className="column is-12">Theme:
-											<div className="select is-fullwidth">
-												<select onChange={this.themeChange} defaultValue={this.props.selectedTheme}>
-													<option value="light">Light</option>
-													<option value="dark">Dark</option>
-												</select>
-											</div>
-										</div>
-
-										<div className="column is-12 no-hover">
-											<span className="title name-title">Name Color</span>
-											<SwatchPicker colors={this.getSwatchColors()} onSelect={this.colorSelected} closeHandler={this.onColorSelect}/>
-										</div>
 									</div>
 								)}
 							</section>

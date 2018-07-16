@@ -89,3 +89,11 @@
 .chat-odd{
 	background-color: #eee;
 }
+
+.button.is-profile{
+	background-color: $profile-theme-button-background;
+	border-color: $profile-theme-button-border-color;
+	color: $profile-theme-button-color;
+	box-shadow: none;
+	pointer-events: none;
+}

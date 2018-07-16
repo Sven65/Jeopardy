@@ -106,4 +106,12 @@ body.theme-dark{
 	.name-title{
 		color: #FFF;
 	}
+
+	.button.is-profile{
+		background-color: $theme-dark-profile-theme-button-background;
+		border-color: $theme-dark-profile-theme-button-border-color;
+		color: $theme-dark-profile-theme-button-color;
+		box-shadow: none;
+		pointer-events: none;
+	}
 }
