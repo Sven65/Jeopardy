@@ -382,6 +382,12 @@ function reducer(state, action){
 				passwordResetError: action.data.reason
 			})
 		break
+		case "RESET_PASSWORD_RESET_ERROR":
+			return Object.assign({}, state, {
+				forgotPasswordSent: false,
+				passwordResetError: null
+			})
+		break
 		case "SENT_FORGOT_PASSWORD_EMAIL":
 			return Object.assign({}, state, {
 				forgotPasswordSent: true,

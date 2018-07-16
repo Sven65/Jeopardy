@@ -164,9 +164,13 @@ class UserForm extends Component {
 				}
 			}
 		}).then(val => {
-			if (!val){
+
+			if (!val || val === null){
 				swal.stopLoading();
 				swal.close();
+
+				store.dispatch({type: "RESET_PASSWORD_RESET_ERROR"})
+
 				return
 			}
 
