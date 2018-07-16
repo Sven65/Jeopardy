@@ -59,9 +59,10 @@ class GameArea extends Component {
 
 				{/*
 					Start layout here
-				 */}
-				 <div className="container">
-					 <div className="tile is-ancestor">
+				*/}
+
+				<div className="container">
+					<div className="tile is-ancestor">
 						<div className="tile is-vertical is-8">
 							<div className="tile is-parent">
 								<article className="tile is-child">
@@ -78,6 +79,7 @@ class GameArea extends Component {
 													isTurn={user.isTurn&&this.state.gameStarted}
 													timeLeft={user.timeLeft}
 													maxTime={15}
+													playAudio={user.timeLeft===0?-1:user.timeLeft%2}
 													key={user.userID}
 												/>)
 										})}
