@@ -180,10 +180,12 @@ class Navbar extends Component {
 				}
 
 				{(() => {
-					if(isLoggedIn || this.state.userRegistered){
-						let event = new Event("USER_FORM_DONE")
-						let target = document.querySelector('#usermodal-holder');
-						target.dispatchEvent(event);
+					if(isLoggedIn){
+						if(!this.state.userRegistered){
+							let event = new Event("USER_FORM_DONE")
+							let target = document.querySelector('#usermodal-holder');
+							target.dispatchEvent(event);
+						}
 					}
 				})()}
 			</nav>

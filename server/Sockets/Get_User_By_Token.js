@@ -23,7 +23,7 @@ class SocketHandler{
 			emailVerified: userData.isVerified,
 			balance: userData.balance||0,
 			theme: userData.theme||"light",
-			unlockedColors: userData.unlockedColors||[],
+			unlockedColors: userData.unlockedColors||["#FFF"],
 			color: userData.nameColor||"#FFF"
 		}
 

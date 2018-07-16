@@ -21,13 +21,19 @@ class UserForm extends Component {
 			"login-username": "",
 			"login-password": "",
 			forgotPasswordSent: false,
-			passwordResetError: null
+			passwordResetError: null,
+
+			disableRegisterForm: false,
+			disableLoginForm: false
 		}
 
 		this.handleInput = this.handleInput.bind(this)
 		this.onRegisterKeyDown = this.onRegisterKeyDown.bind(this)
 		this.onLoginKeyDown = this.onLoginKeyDown.bind(this)
 		this.forgotPassword = this.forgotPassword.bind(this)
+
+		this._loginForm = React.createRef()
+		this._registerForm = React.createRef()
 	}
 
 	componentDidMount() {
@@ -49,6 +55,13 @@ class UserForm extends Component {
 					}).then(e => {
 						this.forgotPassword()
 					})
+				}
+
+				if(this.state.clearUserForm){
+					this.clearLoginForm()
+					this.clearRegisterForm()
+
+					store.dispatch({type: "RESET_CLEAR_USER_FORM"})
 				}
 			})
 		})
@@ -81,7 +94,7 @@ class UserForm extends Component {
 	}
 
 	register(){
-		if(this.state.userRegistered){
+		if(this.state.userRegistered || this.state.disableRegisterForm){
 			return
 		}
 
@@ -112,7 +125,7 @@ class UserForm extends Component {
 			loginError: {}
 		})
 		
-		if(this.state.userLoggedIn){
+		if(this.state.userLoggedIn || this.state.disableLoginForm){
 			return
 		}
 
@@ -211,6 +224,27 @@ class UserForm extends Component {
 		});
 	}
 
+	clearLoginForm(){
+		this.setState({
+			"login-username": "",
+			"login-password": ""
+		})
+
+		this._loginForm.reset()
+	}
+
+	clearRegisterForm(){
+		this.setState({
+			"register-username": "",
+			"register-email": "",
+			"register-password": "",
+			"register-cpassword": "",
+			"registerError": {}
+		})
+
+		this._registerForm.reset()
+	}
+
 	render(){
 
 		return (
@@ -227,18 +261,18 @@ class UserForm extends Component {
 										<h6 className={this.state.loginError.reason===""?'user-modal-success':'user-modal-error'}>{this.state.loginError.reason||this.state.userLoggedIn&&"Logged In!"}</h6>
 									</div>
 									<div className="user-modal-form-content">
-										<form>
+										<form ref={(el) => this._loginForm = el}>
 											<div className="user-modal-form-group">
 												<label htmlFor="login-username">Username</label>
-												<input id="login-username" name="login-username" required="required" type="text" onChange={this.handleInput} onKeyDown={this.onLoginKeyDown}/>
+												<input id="login-username" name="login-username" disabled={this.state.disableLoginForm} required="required" type="text" onChange={this.handleInput} onKeyDown={this.onLoginKeyDown}/>
 											</div>
 											<div className="user-modal-form-group">
 												<label htmlFor="login-password">Password</label>
-												<input id="login-password" name="login-password" required="required" type="password" onChange={this.handleInput} onKeyDown={this.onLoginKeyDown}/>
+												<input id="login-password" name="login-password" disabled={this.state.disableLoginForm} required="required" type="password" onChange={this.handleInput} onKeyDown={this.onLoginKeyDown}/>
 											</div>
 											<div className="user-modal-form-group">
 												<label className="user-modal-form-remember">
-													<input type="checkbox" name="login-checkbox"/>Remember Me
+													<input type="checkbox" name="login-checkbox" disabled={this.state.disableLoginForm}/>Remember Me
 												</label>
 												<a className="user-modal-form-recovery" href="#" onClick={this.forgotPassword}>Forgot Password?</a>
 											</div>
@@ -246,7 +280,7 @@ class UserForm extends Component {
 												<a className="user-modal-form-recovery right" href="#" id="register-trigger">New User?</a>
 											</div>
 											<div className="user-modal-form-group">
-												<button type="button" onClick={this.login.bind(this)}>Log In</button>
+												<button type="button" disabled={this.state.disableLoginForm} onClick={this.login.bind(this)}>Log In</button>
 											</div>
 										</form>
 									</div>
@@ -257,32 +291,32 @@ class UserForm extends Component {
 										<h6>{this.state.registerError.reason||this.state.userRegistered&&"Registered! Check your emails to verify your email!"}</h6>
 									</div>
 									<div className="user-modal-form-content">
-										<form>
+										<form ref={(el) => this._registerForm = el}>
 											<div className="user-modal-form-group">
 												<label htmlFor="username">Username</label>
-												<input id="username" name="register-username" required="required" type="text" onChange={this.handleInput} onKeyDown={this.onRegisterKeyDown}/>
+												<input id="username" name="register-username" disabled={this.state.disableRegisterForm} required="required" type="text" onChange={this.handleInput} onKeyDown={this.onRegisterKeyDown}/>
 											</div>
 											<div className="user-modal-form-group">
 												<label htmlFor="password">Password</label>
-												<input id="password" name="register-password" required="required" type="password" onChange={this.handleInput} onKeyDown={this.onRegisterKeyDown}/>
+												<input id="password" name="register-password" disabled={this.state.disableRegisterForm} required="required" type="password" onChange={this.handleInput} onKeyDown={this.onRegisterKeyDown}/>
 											</div>
 											<div className="user-modal-form-group">
 												<label htmlFor="cpassword">Confirm Password</label>
-												<input id="cpassword" name="register-cpassword" required="required" type="password" onChange={this.handleInput} onKeyDown={this.onRegisterKeyDown} />
+												<input id="cpassword" name="register-cpassword" disabled={this.state.disableRegisterForm} required="required" type="password" onChange={this.handleInput} onKeyDown={this.onRegisterKeyDown} />
 											</div>
 											<div className="user-modal-form-group">
 												<label htmlFor="email">Email Address</label>
-												<input id="email" name="register-email" required="required" type="email" onChange={this.handleInput} onKeyDown={this.onRegisterKeyDown}/>
+												<input id="email" name="register-email" disabled={this.state.disableRegisterForm} required="required" type="email" onChange={this.handleInput} onKeyDown={this.onRegisterKeyDown}/>
 												<span className="user-modal-form-group-error">Please enter a valid email</span>
 											</div>
 											<div className="user-modal-form-group privacyAgreementHolder">
 												<div className="md-checkbox">
-													<input id="privacyAgree" name="privacyAgree" required="required" type="checkbox" onClick={this.handleInput}/>
+													<input id="privacyAgree" name="privacyAgree" disabled={this.state.disableRegisterForm} required="required" type="checkbox" onClick={this.handleInput}/>
 													<label htmlFor="privacyAgree">I have read and agree to the <a href="Privacy" id="privacyLink" target="_blank">Privacy Policy</a></label>
 												</div>
 											</div>
 											<div className="user-modal-form-group">
-												<button type="submit" onClick={this.register.bind(this)}>Register</button>
+												<button type="submit" disabled={this.state.disableRegisterForm} onClick={this.register.bind(this)}>Register</button>
 											</div>
 										</form>
 									</div>

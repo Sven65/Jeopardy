@@ -223,6 +223,8 @@ function reducer(state, action){
 				userFormLoad: false,
 				userData: action.data,
 				userLoggedIn: true,
+				disableRegisterForm: true,
+				disableLoginForm: true
 				//showLoginForm: false
 			})
 		break
@@ -238,8 +240,12 @@ function reducer(state, action){
 				loginError: {reason: ""},
 				userLoggedIn: true,
 				userFormLoad: false,
+
 				//showLoginForm: false,
-				userData: action.data
+				userData: action.data,
+
+				disableRegisterForm: true,
+				disableLoginForm: true
 			})
 		break
 		case "USER_FORM_LOAD":
@@ -274,7 +280,12 @@ function reducer(state, action){
 			return Object.assign({}, state, {
 				userData: {},
 				userLoggedIn: false,
-				showProfile: false
+				showProfile: false,
+				clearUserForm: true,
+				disableRegisterForm: false,
+				disableLoginForm: false,
+				registerError: {},
+				userRegistered: false
 			})
 		break
 		case "ACTION_USER_EDIT":
@@ -411,6 +422,11 @@ function reducer(state, action){
 
 			return Object.assign({}, state, {
 				users: users
+			})
+		break
+		case "RESET_CLEAR_USER_FORM":
+			return Object.assign({}, state, {
+				clearUserForm: false
 			})
 		break
 		default:

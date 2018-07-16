@@ -43,7 +43,7 @@ class SocketHandler{
 				image: this._isset(userData.imageID)?`images/${userData.imageID}`:`https://placehold.it/128x128?text=${data.username}`,
 				emailVerified: userData.isVerified,
 				theme: userData.theme||"light",
-				unlockedColors: userData.unlockedColors||[],
+				unlockedColors: userData.unlockedColors||["#FFF"],
 				color: userData.nameColor||"#FFF"
 			})
 		}

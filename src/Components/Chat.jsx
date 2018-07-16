@@ -69,19 +69,21 @@ class Chat extends Component {
 	}
 
 	scrollToBottom(){
-		let rect = this.chatContainer.getBoundingClientRect()
-		let containerOffset = {
-			top: rect.top + document.body.scrollTop,
-			left: rect.left + document.body.scrollLeft
-		}
+		if(this.chatContainer !== null){
+			let rect = this.chatContainer.getBoundingClientRect()
+			let containerOffset = {
+				top: rect.top + document.body.scrollTop,
+				left: rect.left + document.body.scrollLeft
+			}
 
-		rect = this.chatBottom.getBoundingClientRect()
-		let scrollToOffset = {
-			top: rect.top + document.body.scrollTop,
-			left: rect.left + document.body.scrollLeft
-		}
+			rect = this.chatBottom.getBoundingClientRect()
+			let scrollToOffset = {
+				top: rect.top + document.body.scrollTop,
+				left: rect.left + document.body.scrollLeft
+			}
 
-		this.chatContainer.scrollTop = scrollToOffset.top - containerOffset.top + this.chatContainer.scrollTop
+			this.chatContainer.scrollTop = scrollToOffset.top - containerOffset.top + this.chatContainer.scrollTop
+		}
 	}
 
 	onKeyDown(e){
