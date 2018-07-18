@@ -1,0 +1,11 @@
+@import 'variables.scss';
+
+.gamebrowser{
+	overflow-y: scroll;
+
+	max-height: 40vh;
+
+	&__table{
+		width: 100%;
+	}
+}

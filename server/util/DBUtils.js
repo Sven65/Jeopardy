@@ -214,6 +214,12 @@ class DBUtils{
 			WHERE "token" = $2
 		`, [color , token])
 	}
+
+	async getGames(){
+		return await this.client.query(`
+			SELECT * FROM games
+		`)
+	}
 }
 
 module.exports = DBUtils

@@ -429,6 +429,13 @@ function reducer(state, action){
 				clearUserForm: false
 			})
 		break
+		case "GOT_GAME_BROWSER":
+			return Object.assign({}, state, {
+				gameBrowser: {
+					games: action.data
+				}
+			})
+		break
 		default:
 			if(CONFIG.DEV){
 				console.log("OOF", action)

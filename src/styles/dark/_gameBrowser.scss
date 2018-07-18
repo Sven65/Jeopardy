@@ -1,0 +1,13 @@
+@import 'variables.scss';
+
+body.theme-dark{
+	.gamebrowser{
+		overflow-y: scroll;
+
+		max-height: 40vh;
+
+		&__table{
+			width: 100%;
+		}
+	}
+}
