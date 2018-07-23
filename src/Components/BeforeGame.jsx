@@ -15,6 +15,10 @@ class BeforeGame extends Component {
 		this.joinGame = this.joinGame.bind(this)
 		this.onKeyDown = this.onKeyDown.bind(this)
 		this.hostGame = this.hostGame.bind(this)
+		this.rowClick = this.rowClick.bind(this)
+		this.getUsername = this.getUsername.bind(this)
+		this.getRoomID = this.getRoomID.bind(this)
+
 
 		this.roomIDInput = React.createRef()
 		this.usernameInput = React.createRef()
@@ -23,7 +27,9 @@ class BeforeGame extends Component {
 
 		this.state = {
 			userData: {},
-			joinClick: false
+			joinClick: false,
+			selectedGame: "",
+			error: null
 		}
 	}
 
@@ -34,28 +40,184 @@ class BeforeGame extends Component {
 
 				if(gameCode !== undefined && gameCode !== ""){
 					this.roomIDInput.value = gameCode
-					if(Object.keys(this.state.userData).length>0){
-						if(!this.state.joinClick){
-							this.joinButton.click()
-							this.setState({joinClick: true})
-						}
+					if(!this.state.joinClick){
+						this.joinButton.click()
+						this.setState({joinClick: true, selectedGame: gameCode})
+					}
+				}
+
+				if(this.state.error !== null && this.state.error !== undefined){
+					if(this.state.error.reason !== undefined){
+						let error = this.state.error.reason
+						store.dispatch({type: "RESET_ERROR"})
+						swal("Error!", error, "error");
+						
 					}
 				}
 			})
 		})
 	}
 
+	getUsername(){
+		return new Promise((resolve, reject) => {
+			let swalField = document.createElement('input');
+			swalField.setAttribute("placeholder", "Username");
+			swalField.setAttribute("type", "text");
+			swalField.setAttribute("required", "true");
+			swalField.classList.add("swal-content__input");
+
+			swal({
+				title: 'Please enter a username',
+				content: swalField,
+				buttons: {
+					cancel: "Cancel",
+					go: {
+						text: "Play!",
+						closeModal: false,
+						value: 1
+					}
+				}
+			}).then(val => {
+
+				if (!val || val === null){
+					swal.stopLoading();
+					swal.close();
+
+					return
+				}
+
+				let username = swalField.value
+
+				if(!username) throw null
+
+				this.usernameInput.value = username
+
+				swal.stopLoading();
+				swal.close();
+
+				resolve(username)
+
+			}).catch(err => {
+				if (err) {
+					swal("Oh noes!", "The AJAX request failed!", "error");
+				} else {
+					swal({
+						title: "Error.",
+						text: "No username entered.",
+						icon: "error",
+						button: "Try again"
+					}).then(e => {
+						this.getUsername()
+					})
+				}
+			});
+		})
+	}
+
+	getRoomID(){
+		return new Promise((resolve, reject) => {
+			let username = Object.keys(this.state.userData).length>0?this.state.userData:this.usernameInput.value
+
+			let swalField = document.createElement('input');
+			swalField.setAttribute("placeholder", "Room ID");
+			swalField.setAttribute("type", "text");
+			swalField.setAttribute("required", "true");
+			swalField.classList.add("swal-content__input");
+
+			swal({
+				title: 'Please enter a room ID',
+				content: swalField,
+				buttons: {
+					cancel: "Cancel",
+					go: {
+						text: "Host!",
+						closeModal: false,
+						value: 1
+					}
+				}
+			}).then(val => {
+
+				if (!val || val === null){
+					swal.stopLoading();
+					swal.close();
+
+					return
+				}
+
+				let roomID = swalField.value
+
+				if(!roomID) throw null
+
+				this.roomIDInput.value = roomID
+
+				swal.stopLoading();
+				swal.close();
+
+				resolve(roomID)
+
+			}).catch(err => {
+				if (err) {
+					swal("Oh noes!", "The AJAX request failed!", "error");
+				} else {
+					swal({
+						title: "Error.",
+						text: "No Room ID entered.",
+						icon: "error",
+						button: "Try again"
+					}).then(e => {
+						resolve(this.getRoomID())
+					})
+				}
+			});
+		})
+	}
+
 	joinGame(){
-		store.dispatch({type: "s/JOIN", data: {
-			roomID: this.roomIDInput.value,
-			user: Object.keys(this.state.userData).length>0?this.state.userData:{
-				username: this.usernameInput.value
-			}
-		}})
+		let username = Object.keys(this.state.userData).length>0?this.state.userData:""
+
+		if(username.length <= 0){
+			this.getUsername().then(username => {
+				store.dispatch({type: "s/JOIN", data: {
+					roomID: this.roomIDInput.value,
+					user: Object.keys(this.state.userData).length>0?this.state.userData:{
+						username: username
+					}
+				}})
+			})
+		}else{
+			store.dispatch({type: "s/JOIN", data: {
+				roomID: this.roomIDInput.value,
+				user: Object.keys(this.state.userData).length>0?this.state.userData:{
+					username: username
+				}
+			}})
+		}
 	}
 
 	hostGame(){
+		let username = Object.keys(this.state.userData).length>0?this.state.userData:this.usernameInput.value
 
+		this.getRoomID().then(roomID => {
+			if(username.length <= 0){
+				this.getUsername().then(username => {
+					this.usernameInput.value = username
+					this.joinGame()
+				})
+			}else{
+				this.joinGame()
+			}
+		})
+	}
+
+	rowClick(e){
+		let clickedRow = e.target.parentNode
+		let gameCode = clickedRow.dataset.gamecode
+
+		this.roomIDInput.value = gameCode
+
+		this.setState({
+			selectedGame: gameCode
+		})
 	}
 
 	onKeyDown(e){
@@ -66,7 +228,7 @@ class BeforeGame extends Component {
 
 	render(){
 		return (
-			<div className="scroller">
+			<div className={"scroller" + (this.props.hidden?'hidden':'')}>
 				<div className={"section " + (this.props.hidden?'hidden':'')}>
 					<div className="container" id="instructions-container">
 						<div className="tile is-ancestor">
@@ -120,11 +282,15 @@ class BeforeGame extends Component {
 					</div>
 				</div>
 				<div className={"section " + (this.props.hidden?'hidden':'')} id="beforeGame">
-					<GameBrowser joinGame={this.joinGame} joinRef={this.joinButton} hostGame={this.hostGame} hostRef={this.hostButton}/>
+					<GameBrowser selectedGame={this.state.selectedGame} joinGame={this.joinGame} joinRef={el => this.joinButton = el} hostGame={this.hostGame} hostRef={el => this.hostButton = el} rowClick={this.rowClick}/>
 					<br/>
+
+					<form className="mdl-form">
+						<InputField autoComplete="off" hidden={true} id="bfg-username" type="text" label="Username" inputRef={el => this.usernameInput = el} onKeyDown={this.onKeyDown}/>
+						<InputField autoComplete="off" hidden={true} grid="col s12" id="roomIDInput" type="text" label="Game Code" inputRef={el => this.roomIDInput = el} onKeyDown={this.onKeyDown}/>
+					</form>
 				</div>
 				<br/><br/>
-				<div className="cover-bar"></div>
 			</div>
 		)
 	}

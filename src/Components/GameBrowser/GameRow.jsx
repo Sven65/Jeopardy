@@ -7,7 +7,7 @@ class GameRow extends Component {
 
 	render(){
 		return (
-			<tr>
+			<tr onClick={this.props.onClick} data-gamecode={this.props.gameCode} className={this.props.isSelected?'selected':''}>
 				<td data-label="Game Code">{this.props.gameCode}</td>
 				<td data-label="Game Started">{this.props.gameStarted?'Yes':'No'}</td>
 				<td data-label="Game Done">{this.props.gameDone?'Yes':'No'}</td>

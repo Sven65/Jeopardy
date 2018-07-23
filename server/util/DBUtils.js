@@ -220,6 +220,14 @@ class DBUtils{
 			SELECT * FROM games
 		`)
 	}
+
+	async setPrivate(gameID, isPrivate){
+		return await this.client.query(`
+			UPDATE games
+			SET "public" = $1
+			WHERE "roomID" = $2
+		`, [isPrivate, gameID])
+	}
 }
 
 module.exports = DBUtils

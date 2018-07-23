@@ -114,6 +114,11 @@ function reducer(state, action){
 				error: action.data
 			})
 		break
+		case "RESET_ERROR":
+			return Object.assign({}, state, {
+				error: null
+			})
+		break
 		case "EVENT_CHAT":
 			return Object.assign({}, state, {
 				messages: [...state.messages||[], action.data]
@@ -418,11 +423,14 @@ function reducer(state, action){
 			users = state.users
 
 			newUser = users.findIndex(user => user.userID === action.data.newHost)
-			users[newUser].host = true
 
-			return Object.assign({}, state, {
-				users: users
-			})
+			if(user[newUser] !== undefined){
+				users[newUser].host = true
+
+				return Object.assign({}, state, {
+					users: users
+				})
+			}
 		break
 		case "RESET_CLEAR_USER_FORM":
 			return Object.assign({}, state, {

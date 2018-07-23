@@ -4,6 +4,8 @@ import UserForm from './Common/UserForm'
 import Loader from './Common/Loader'
 import UserProfile from './Common/UserProfile'
 
+import ToggleSwitch from './Common/ToggleSwitch'
+
 import mainLogo from'../Assets/TriviaPartyWhite.svg'
 
 import store from './../store'
@@ -22,6 +24,8 @@ class Navbar extends Component {
 	
 		//this.startGame = this.startGame.bind(this)
 		//this.leaveGame = this.leaveGame.bind(this)
+
+		this.privateSwitch = this.privateSwitch.bind(this)
 	}
 
 	componentDidMount() {
@@ -82,6 +86,14 @@ class Navbar extends Component {
 		})
 	}
 
+	privateSwitch(e){
+		store.dispatch({type: "s/SET_GAME_PRIVATE", data: {
+			roomID: this.state.roomID,
+			userID: this.state.user.userID,
+			isPrivate: e.target.checked
+		}})
+	}
+
 	render(){
 		const isLoggedIn = this.state.userLoggedIn
 		const showProfile = (this.state.userLoggedIn && this.state.showProfile)
@@ -105,8 +117,11 @@ class Navbar extends Component {
 
 				<div className="navbar-menu" id="navMenu">
 					<div className="navbar-end">
-
+						
 						{/* Game Buttons */}
+						<a className={"navbar-item no-background "+(this.props.hidePrivateSwitch?'hidden':'')}>
+							<ToggleSwitch onChange={this.privateSwitch}/>
+						</a>
 						<a id="game-button-start" onClick={this.startGame.bind(this)} className={"navbar-item dark-background "+(this.props.hideStartButton?'hidden':'')}>Start Game <i className="mdi mdi-18px mdi-play"></i></a>
 						<a id="game-button-leave" onClick={this.leaveGame.bind(this)} className={"navbar-item dark-background "+(this.props.hideLeaveButton?'hidden':'')}>Leave Game <i className="mdi mdi-18px mdi-exit-to-app"></i></a>
 						{/* End Game Buttons */}

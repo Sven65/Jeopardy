@@ -40,7 +40,7 @@ class GameBrowser extends Component {
 						</thead>
 						<tbody>
 							{this.state.gameBrowser.games.map(game => {
-								return (<GameRow gameCode={game.roomID} gameStarted={game.isStarted} gameDone={game.gameOver||false} userCount={game.users.length} host={game.users.filter(user => user.host)[0]||{username: "???"}}/>)
+								return (<GameRow gameCode={game.roomID} isSelected={game.roomID===this.props.selectedGame} gameStarted={game.isStarted} gameDone={game.gameOver||false} userCount={game.users.length} host={game.users.filter(user => user.host)[0]||{username: "???"}} onClick={this.props.rowClick}/>)
 							})}
 						</tbody>
 						

@@ -35,7 +35,10 @@
 					color: $gamebrowser-hover-text;
 				}
 
-				
+				&.selected{
+					background: $gamebrowser-hover;
+					color: $gamebrowser-hover-text;
+				}
 			}
 		}
 

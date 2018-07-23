@@ -123,10 +123,10 @@ class App extends Component {
 					} onClick={this.sendVerificationEmail.bind(this)} type="danger"/>
 				}
 
-				<Navbar roomID={this.state.roomID} hideLeaveButton={this.state.roomID===""} hideStartButton={(this.state.gameStarted || !this.state.user.host)}/>
+				<Navbar roomID={this.state.roomID} hideLeaveButton={this.state.roomID===""} hideStartButton={(this.state.gameStarted || !this.state.user.host)} hidePrivateSwitch={(this.state.roomID === "" || !this.state.user.host)}/>
 
-				<div className="scroll-wrapper">
-					<BeforeGame hidden={this.state.roomID!==""} headerText={this.state.error.reason||"Please enter details"} />
+				<div className={"scroll-wrapper" + (this.state.roomID!==""?'hidden':'')}>
+					<BeforeGame hidden={this.state.roomID!==""}/>
 				</div>
 				<GameArea hidden={this.state.roomID===""} categories={[
 					"Category 1",

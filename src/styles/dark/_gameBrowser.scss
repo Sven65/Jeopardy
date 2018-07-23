@@ -35,6 +35,11 @@ body.theme-dark{
 						background: $theme-dark-gamebrowser-hover;
 						color: $theme-dark-gamebrowser-hover-text;
 					}
+
+					&.selected{
+						background: $theme-dark-gamebrowser-hover;
+						color: $theme-dark-gamebrowser-hover-text;
+					}
 				}
 			}
 
