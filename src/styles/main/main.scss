@@ -13,7 +13,7 @@
 html, body{
 	width: 100%;
 	height: 100%;
-	overflow-y: auto !important;
+	overflow-y: hidden;
 	overflow-x: hidden;
 	background: $background-color;
 }
@@ -38,7 +38,7 @@ html, body{
 }
 
 #beforeGame{
-	padding-bottom: 0px;
+	//padding-bottom: 0px;
 }
 
 #instructions-container{
@@ -244,4 +244,38 @@ html, body{
 
 .swal-title, .swal-text{
 	color: rgba(0,0,0,.65);
+}
+
+#root{
+	height: 100%;
+
+	.App{
+		height: 100%;
+
+		.scroll-wrapper{
+			height: 100%;
+
+			.scroller{
+				overflow-y: scroll;
+				height: 100%;
+
+				&::-webkit-scrollbar-track{
+					-webkit-box-shadow: inset 0 0 6px $scrollbar-track-box-shadow;
+					//border-radius: 10px;
+					background-color: $scrollbar-track-background-color;
+				}
+
+				&::-webkit-scrollbar{
+					width: 12px;
+					background-color: $scrollbar-background-color;
+				}
+
+				&::-webkit-scrollbar-thumb{
+					//border-radius: 10px;
+					-webkit-box-shadow: inset 0 0 6px $scrollbar-thumb-box-shadow;
+					background-color: $scrollbar-thumb-background-color;
+				}
+			}
+		}
+	}
 }

@@ -124,7 +124,10 @@ class App extends Component {
 				}
 
 				<Navbar roomID={this.state.roomID} hideLeaveButton={this.state.roomID===""} hideStartButton={(this.state.gameStarted || !this.state.user.host)}/>
-				<BeforeGame hidden={this.state.roomID!==""} headerText={this.state.error.reason||"Please enter details"} />
+
+				<div className="scroll-wrapper">
+					<BeforeGame hidden={this.state.roomID!==""} headerText={this.state.error.reason||"Please enter details"} />
+				</div>
 				<GameArea hidden={this.state.roomID===""} categories={[
 					"Category 1",
 					"Category 2",

@@ -4,15 +4,42 @@ body.theme-dark{
 	.gamebrowser{
 		overflow-y: hidden;
 
-		max-height: 40vh;
+		max-height: 55vh;
 
 		&__table{
 			width: 100%;
+
+			background-color: $theme-dark-gamebrowser-header-background;
+			color: $theme-dark-gamebrowser-header-color;
 		
 			tbody{
 				display: block;
 				overflow-y: scroll;
 				max-height: 40vh;
+
+				tr {
+					transition: all .5s;
+					-webkit-transition: all .5s;
+					-moz-transition: .5s all;
+					-o-transition: .5s all;
+					
+					color: $theme-dark-gamebrowser-color;
+					background: $theme-dark-gamebrowser-background;
+
+					&:nth-child(odd) {
+						background: $theme-dark-gamebrowser-odd-background;
+					}
+
+					&:hover{
+						cursor: pointer;
+						background: $theme-dark-gamebrowser-hover;
+						color: $theme-dark-gamebrowser-hover-text;
+					}
+				}
+			}
+
+			td{
+				border: none;
 			}
 
 			thead, tbody tr {
@@ -23,7 +50,28 @@ body.theme-dark{
 
 			thead {
 				width: calc( 100% - 1em );
+				tr {
+					th {
+						color: $theme-dark-gamebrowser-header-color;
+						font-weight: 400;
+					}
+				}
 			}
+		}
+	}
+
+	.gameBrowser-button-holder{
+		width: 100% !important;
+		//margin: 0 !important;
+
+		button{
+			width: 100%;
+			cursor: pointer;
+			margin: 0;
+		}
+		
+		#hostButton{
+			margin-bottom: 10%;
 		}
 	}
 }

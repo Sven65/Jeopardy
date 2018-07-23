@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import store from './../../store'
 
+import Button from '../Common/Button'
 import GameRow from './GameRow'
 
 class GameBrowser extends Component {
@@ -45,6 +46,10 @@ class GameBrowser extends Component {
 						
 					</table>
 				</div>
+				<form className="mdl-form gameBrowser-button-holder">
+					<Button type="button" name="join" id="joinButton" text="Join Game" icon="send" onClick={this.props.joinGame} className="btn-submit" Ref={this.props.joinRef}/>
+					<Button type="button" name="host" id="hostButton" text="Host Game" icon="send" onClick={this.props.hostGame} className="btn-submit" Ref={this.props.hostRef}/>
+				</form>
 			</div>
 		)
 	}

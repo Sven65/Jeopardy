@@ -12,10 +12,9 @@ body{
 	&.theme-dark{
 		width: 100%;
 		height: 100%;
-		overflow-y: auto !important;
+		overflow-y: hidden;
 		overflow-x: hidden;
 		background: $theme-dark-background-color;
-
 
 		.alert{
 			padding-top: 5px;
@@ -36,7 +35,7 @@ body{
 		}
 
 		#beforeGame{
-			padding-bottom: 0px;
+			//padding-bottom: 0px;
 		}
 
 		#instructions-container{
@@ -179,6 +178,47 @@ body{
 
 		.swal-icon--success:before, .swal-icon--success:after, .swal-icon--success__hide-corners {
 			background: $theme-dark-chat-container-background;
+		}
+	}
+
+	#root{
+		height: 100%;
+
+		.App{
+			height: 100%;
+
+			.scroll-wrapper{
+				height: 100%;
+
+				.scroller{
+					overflow-y: scroll;
+					height: 100%;
+
+					&::-webkit-scrollbar-track{
+						-webkit-box-shadow: inset 0 0 6px $theme-dark-scrollbar-track-box-shadow;
+						//border-radius: 10px;
+						background-color: $theme-dark-scrollbar-track-background-color;
+					}
+
+					&::-webkit-scrollbar{
+						width: 12px;
+						background-color: $theme-dark-scrollbar-background-color;
+					}
+
+					&::-webkit-scrollbar-thumb{
+						//border-radius: 10px;
+						-webkit-box-shadow: inset 0 0 6px $theme-dark-scrollbar-thumb-box-shadow;
+						background-color: $theme-dark-scrollbar-thumb-background-color;
+					}
+
+					&.hide-scrollbar{
+						&::-webkit-scrollbar-track, &::-webkit-scrollbar, &::-webkit-scrollbar-thumb{
+							opacity: 0;
+						}
+					}
+
+				}
+			}
 		}
 	}
 }

@@ -14,10 +14,12 @@ class BeforeGame extends Component {
 
 		this.joinGame = this.joinGame.bind(this)
 		this.onKeyDown = this.onKeyDown.bind(this)
+		this.hostGame = this.hostGame.bind(this)
 
 		this.roomIDInput = React.createRef()
 		this.usernameInput = React.createRef()
 		this.joinButton = React.createRef()
+		this.hostButton = React.createRef()
 
 		this.state = {
 			userData: {},
@@ -52,6 +54,10 @@ class BeforeGame extends Component {
 		}})
 	}
 
+	hostGame(){
+
+	}
+
 	onKeyDown(e){
 		if(e.keyCode === 13){
 			this.joinGame()
@@ -60,35 +66,7 @@ class BeforeGame extends Component {
 
 	render(){
 		return (
-			<div>
-				<div className={"section " + (this.props.hidden?'hidden':'')} id="beforeGame">
-					<GameBrowser />
-					<div className="container">
-						<div className="wrapper">
-							<table className="table">
-								<tbody>
-									<tr>
-										<td data-label="Game Code">anal2</td>
-										<td data-label="Game Started">dick</td>
-									</tr>
-								</tbody>
-								
-							</table>
-						</div>
-					</div>
-					
-					{/*<div className="container">
-						<div className="wrapper">
-
-							<form className="mdl-form">
-								<h1 className="title">{this.props.headerText}</h1>
-								<InputField autoComplete="off" hidden={(this.state.userData.username!==undefined)} id="bfg-username" type="text" label="Username" inputRef={el => this.usernameInput = el} onKeyDown={this.onKeyDown}/>
-								<InputField autoComplete="off" grid="col s12" id="roomIDInput" type="text" label="Game Code" inputRef={el => this.roomIDInput = el} onKeyDown={this.onKeyDown}/>
-								<Button type="button" name="play" id="playButton" text="Play" icon="send" onClick={this.joinGame} className="btn-submit" Ref={el => this.joinButton = el}/>
-							</form>
-						</div>
-					</div>*/}
-				</div>
+			<div className="scroller">
 				<div className={"section " + (this.props.hidden?'hidden':'')}>
 					<div className="container" id="instructions-container">
 						<div className="tile is-ancestor">
@@ -141,6 +119,12 @@ class BeforeGame extends Component {
 						</div>
 					</div>
 				</div>
+				<div className={"section " + (this.props.hidden?'hidden':'')} id="beforeGame">
+					<GameBrowser joinGame={this.joinGame} joinRef={this.joinButton} hostGame={this.hostGame} hostRef={this.hostButton}/>
+					<br/>
+				</div>
+				<br/><br/>
+				<div className="cover-bar"></div>
 			</div>
 		)
 	}
