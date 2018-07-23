@@ -63,6 +63,20 @@ class BeforeGame extends Component {
 			<div>
 				<div className={"section " + (this.props.hidden?'hidden':'')} id="beforeGame">
 					<GameBrowser />
+					<div className="container">
+						<div className="wrapper">
+							<table className="table">
+								<tbody>
+									<tr>
+										<td data-label="Game Code">anal2</td>
+										<td data-label="Game Started">dick</td>
+									</tr>
+								</tbody>
+								
+							</table>
+						</div>
+					</div>
+					
 					{/*<div className="container">
 						<div className="wrapper">
 

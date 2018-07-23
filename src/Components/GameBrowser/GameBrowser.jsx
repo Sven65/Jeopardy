@@ -27,7 +27,7 @@ class GameBrowser extends Component {
 		return (
 			<div className="container gamebrowser">
 				<div className="wrapper">
-					<table className="table gamebrowser__table">
+					<table className="table gamebrowser__table is-scrollable">
 						<thead>
 							<tr>
 								<th>Game Code</th>
@@ -42,6 +42,7 @@ class GameBrowser extends Component {
 								return (<GameRow gameCode={game.roomID} gameStarted={game.isStarted} gameDone={game.gameOver||false} userCount={game.users.length} host={game.users.filter(user => user.host)[0]||{username: "???"}}/>)
 							})}
 						</tbody>
+						
 					</table>
 				</div>
 			</div>
