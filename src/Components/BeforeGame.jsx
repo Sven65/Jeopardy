@@ -252,7 +252,7 @@ class BeforeGame extends Component {
 											Aliquam placerat non sapien in tincidunt.
 										</div>
 									</div>
-								</div>
+								</div>*
 
 								<div className="column">
 									<div className="tile is-vertical is-parent">
@@ -261,7 +261,11 @@ class BeforeGame extends Component {
 										<div className="content">
 											<ul>
 												<li>
-													Enter a username and a room code that you can share with your friends to play together, keep in mind that it's case sensitive!
+													To join an existing game, click it in the list below, then click the "join game" button, enter a username and you'll be in the game!
+												</li>
+
+												<li>
+													To start a new game, click the "host game" button and enter a room code that you can share with your friends to play together, keep in mind that it's case sensitive!
 												</li>
 
 												<li>
