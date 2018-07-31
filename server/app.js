@@ -3,6 +3,7 @@ const app = express()
 const path = require("path")
 
 app.use('/user', require('./Routes/User'))
+app.use('/board', require('./Routes/Board'))
 app.use('/Assets', express.static(path.join(__dirname, './Static/Assets')))
 
 app.get('/Privacy', (req, res) => {

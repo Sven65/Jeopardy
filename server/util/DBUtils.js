@@ -228,6 +228,27 @@ class DBUtils{
 			WHERE "roomID" = $2
 		`, [isPrivate, gameID])
 	}
+
+	async getBoardByID(boardID){
+		return await this.client.query(`
+			SELECT * FROM boards.boards
+			WHERE "id" = $1
+		`, [boardID])
+	}
+
+	async getCategoryByID(categoryID){
+		return await this.client.query(`
+			SELECT * FROM boards.categories
+			WHERE "id" = $1
+		`, [categoryID])
+	}
+
+	async getCluesByCategoryID(categoryID){
+		return await this.client.query(`
+			SELECT * FROM boards.clues
+			WHERE "category_id" = $1
+		`, [categoryID])
+	}
 }
 
 module.exports = DBUtils
