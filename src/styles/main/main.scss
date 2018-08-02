@@ -31,6 +31,11 @@ html, body{
 	color: $alert-danger-text;
 }
 
+.alert.alert-success{
+	background-color: $alert-success;
+	color: $alert-success-text;
+}
+
 .hidden {
 	display: none;
 }
@@ -284,4 +289,8 @@ html, body{
 			}
 		}
 	}
+}
+
+.pointer-cursor{
+	cursor: pointer;
 }

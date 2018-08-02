@@ -264,6 +264,31 @@ class DBUtils{
 			WHERE "id" = $2
 		`, [title, categoryID])
 	}
+
+	async addCategory(title, cluesCount, userID){
+		return await this.client.query(`
+			INSERT INTO boards.categories
+			("title", "created_at", "updated_at", "clues_count", "owner")
+			VALUES ($1, current_timestamp, current_timestamp, $2, $3)
+			RETURNING "id"
+		`, [title, cluesCount, userID])
+	}
+
+	async addCategoryToBoard(boardID, categoryID){
+		return await this.client.query(`
+			UPDATE boards.boards
+			SET "categories" = array_append("categories", $1)
+			WHERE "id" = $2
+		`, [categoryID, boardID])
+	}
+
+	async addClue(answer, question, value, categoryID, owner){
+		return await this.client.query(`
+			INSERT INTO boards.clues
+			("answer", "question", "value", "created_at", "updated_at", "category_id", "owner")
+			VALUES ($1, $2, $3, current_timestamp, current_timestamp, $4, $5)
+		`, [answer, question, value, categoryID, owner])
+	}
 }
 
 module.exports = DBUtils

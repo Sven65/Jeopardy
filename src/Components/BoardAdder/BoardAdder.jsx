@@ -3,6 +3,7 @@ import Loader from './../Common/Loader'
 
 import Category from './Category'
 import Alert from './../Common/Alert'
+import BoardListing from './BoardListing'
 
 import store from './../../store'
 
@@ -14,213 +15,7 @@ class BoardAdder extends Component {
 			isLoading: false,
 			unsavedChanges: false,
 			boardErrorMessage: "",
-			boardData: {
-				"boardData": {
-					"id": "jk9hg7if",
-					"owner": "14",
-					"created_at": "2018-07-31T09:11:38.343Z",
-					"updated_at": "2018-07-31T09:11:38.343Z",
-					"categories": [
-						1
-					]
-				},
-				"clues": {
-					"1": [
-						{
-							"id":87908,
-							"answer":"baseball",
-							"question":"P.E.:Practice hard to become a Hall of Famer in this sport, like Cal Ripken Jr.",
-							"value":200,
-							"airdate":"2009-07-13T12:00:00.000Z",
-							"created_at":"2014-02-14T01:53:34.137Z",
-							"updated_at":"2014-02-14T01:53:34.137Z",
-							"category_id":11545,
-							"game_id":null,
-							"invalid_count":null,
-							"category":{
-								"id":11545,
-								"title":"YAY CLASS",
-								"created_at":"2014-02-14T01:53:33.936Z",
-								"updated_at":"2016-11-21T15:26:19.062Z",
-								"clues_count":5
-							}
-						},
-						{
-							"id":87914,
-							"answer":"Mars",
-							"question":"Science:\"Rover\" around \u0026 discover that a \"year\" on this planet lasts 687 days",
-							"value":400,
-							"airdate":"2009-07-13T12:00:00.000Z",
-							"created_at":"2014-02-14T01:53:34.399Z",
-							"updated_at":"2014-02-14T01:53:34.399Z",
-							"category_id":11545,
-							"game_id":null,
-							"invalid_count":null,
-							"category":{
-								"id":11545,
-								"title":"YAY CLASS",
-								"created_at":"2014-02-14T01:53:33.936Z",
-								"updated_at":"2016-11-21T15:26:19.062Z",
-								"clues_count":5
-							}
-						},
-						{
-							"id":87920,
-							"answer":"torch",
-							"question":"Shop:No, you will most certainly not be working with the gas-flame device called an acetylene this",
-							"value":600,
-							"airdate":"2009-07-13T12:00:00.000Z",
-							"created_at":"2014-02-14T01:53:34.615Z",
-							"updated_at":"2014-02-14T01:53:34.615Z",
-							"category_id":11545,
-							"game_id":null,
-							"invalid_count":null,
-							"category":{
-								"id":11545,
-								"title":"YAY CLASS",
-								"created_at":"2014-02-14T01:53:33.936Z",
-								"updated_at":"2016-11-21T15:26:19.062Z",
-								"clues_count":5
-							}
-						},
-						{
-							"id":87926,
-							"answer":"the book",
-							"question":"French:\"Le livre est sur la table\" means this is on the table; pick it up \u0026 start learning",
-							"value":800,
-							"airdate":"2009-07-13T12:00:00.000Z",
-							"created_at":"2014-02-14T01:53:34.825Z",
-							"updated_at":"2014-02-14T01:53:34.825Z",
-							"category_id":11545,
-							"game_id":null,
-							"invalid_count":null,
-							"category":{
-								"id":11545,
-								"title":"YAY CLASS",
-								"created_at":"2014-02-14T01:53:33.936Z",
-								"updated_at":"2016-11-21T15:26:19.062Z",
-								"clues_count":5
-							}
-						},
-						{
-							"id":87932,
-							"answer":"F. Scott Fitzgerald",
-							"question":"English:Learn that he left Princeton without a degree in 1917 \u0026 8 years later penned \"The Great Gatsby\"",
-							"value":1000,
-							"airdate":"2009-07-13T12:00:00.000Z",
-							"created_at":"2014-02-14T01:53:35.038Z",
-							"updated_at":"2014-02-14T01:53:35.038Z",
-							"category_id":11545,
-							"game_id":null,
-							"invalid_count":null,
-							"category":{
-								"id":11545,
-								"title":"YAY CLASS",
-								"created_at":"2014-02-14T01:53:33.936Z",
-								"updated_at":"2016-11-21T15:26:19.062Z",
-								"clues_count":5
-							}
-						}
-					],
-					"2": [
-						{
-							"id":87908,
-							"answer":"baseball",
-							"question":"P.E.:Practice hard to become a Hall of Famer in this sport, like Cal Ripken Jr.",
-							"value":200,
-							"airdate":"2009-07-13T12:00:00.000Z",
-							"created_at":"2014-02-14T01:53:34.137Z",
-							"updated_at":"2014-02-14T01:53:34.137Z",
-							"category_id":11545,
-							"game_id":null,
-							"invalid_count":null,
-							"category":{
-								"id":11545,
-								"title":"yeet CLASS",
-								"created_at":"2014-02-14T01:53:33.936Z",
-								"updated_at":"2016-11-21T15:26:19.062Z",
-								"clues_count":5
-							}
-						},
-						{
-							"id":87914,
-							"answer":"Mars",
-							"question":"Science:\"Rover\" around \u0026 discover that a \"year\" on this planet lasts 687 days",
-							"value":400,
-							"airdate":"2009-07-13T12:00:00.000Z",
-							"created_at":"2014-02-14T01:53:34.399Z",
-							"updated_at":"2014-02-14T01:53:34.399Z",
-							"category_id":11545,
-							"game_id":null,
-							"invalid_count":null,
-							"category":{
-								"id":11545,
-								"title":"YAY CLASS",
-								"created_at":"2014-02-14T01:53:33.936Z",
-								"updated_at":"2016-11-21T15:26:19.062Z",
-								"clues_count":5
-							}
-						},
-						{
-							"id":87920,
-							"answer":"torch",
-							"question":"Shop:No, you will most certainly not be working with the gas-flame device called an acetylene this",
-							"value":600,
-							"airdate":"2009-07-13T12:00:00.000Z",
-							"created_at":"2014-02-14T01:53:34.615Z",
-							"updated_at":"2014-02-14T01:53:34.615Z",
-							"category_id":11545,
-							"game_id":null,
-							"invalid_count":null,
-							"category":{
-								"id":11545,
-								"title":"YAY CLASS",
-								"created_at":"2014-02-14T01:53:33.936Z",
-								"updated_at":"2016-11-21T15:26:19.062Z",
-								"clues_count":5
-							}
-						},
-						{
-							"id":87926,
-							"answer":"the book",
-							"question":"French:\"Le livre est sur la table\" means this is on the table; pick it up \u0026 start learning",
-							"value":800,
-							"airdate":"2009-07-13T12:00:00.000Z",
-							"created_at":"2014-02-14T01:53:34.825Z",
-							"updated_at":"2014-02-14T01:53:34.825Z",
-							"category_id":11545,
-							"game_id":null,
-							"invalid_count":null,
-							"category":{
-								"id":11545,
-								"title":"YAY CLASS",
-								"created_at":"2014-02-14T01:53:33.936Z",
-								"updated_at":"2016-11-21T15:26:19.062Z",
-								"clues_count":5
-							}
-						},
-						{
-							"id":87932,
-							"answer":"F. Scott Fitzgerald",
-							"question":"English:Learn that he left Princeton without a degree in 1917 \u0026 8 years later penned \"The Great Gatsby\"",
-							"value":1000,
-							"airdate":"2009-07-13T12:00:00.000Z",
-							"created_at":"2014-02-14T01:53:35.038Z",
-							"updated_at":"2014-02-14T01:53:35.038Z",
-							"category_id":11545,
-							"game_id":null,
-							"invalid_count":null,
-							"category":{
-								"id":11545,
-								"title":"YAY CLASS",
-								"created_at":"2014-02-14T01:53:33.936Z",
-								"updated_at":"2016-11-21T15:26:19.062Z",
-								"clues_count":5
-							}
-						}
-					]
-				}
-			},
+			boardData: {},
 			boards: [],
 			listBoards: false
 		}
@@ -268,6 +63,11 @@ class BoardAdder extends Component {
 	            "clues_count":5
 	        }
 	    })
+
+	    store.dispatch({type: "s/ADD_CATEGORY", data: {
+	    	userToken: this.props.userToken,
+	    	boardID: this.state.boardData.boardData.id
+	    }})
 
 		this.setState({
 			...this.state,
@@ -334,6 +134,13 @@ class BoardAdder extends Component {
 		}})
 	}
 
+	hideBoard(){
+		this.setState({
+			listBoards: false,
+			boardData: {}
+		})
+	}
+
 	render(){
 		// Probably want to do something to change the color of the loader
 
@@ -356,6 +163,17 @@ class BoardAdder extends Component {
 									{this.state.boardErrorMessage}
 								</span>
 							} type="danger"/>
+						)}
+
+						{listBoards&& (
+							<Alert message={
+								<span className="is-right pointer-cursor">
+									<span className="icon is-left">
+										<i className="mdi mdi-arrow-left"></i>
+									</span>
+									Go Back
+								</span>
+							} type="success" onClick={this.hideBoard.bind(this)}/>
 						)}
 
 						{listBoards?(
@@ -385,9 +203,13 @@ class BoardAdder extends Component {
 								{/* TODO: Make this pull data from board api, list all boards user has and make them editable by pulling the data by board id from api*/}
 								{this.state.boards.map((board, key) => {
 									return (
-										<div className="column" onClick={() => this.showBoard(board.id)}>
-											<span>{board.id}</span>
-										</div>
+										<BoardListing
+											key={key}
+											id={board.id}
+											title={board.title}
+											editBoard={this.showBoard}
+										/>
+										
 									)
 								})}
 							</div>

@@ -28,6 +28,11 @@ body{
 			color: $theme-dark-alert-danger-text;
 		}
 
+		.alert.alert-success{
+			background-color: $theme-dark-alert-success;
+			color: $theme-dark-alert-success-text;
+		}
+
 		.hidden {
 			display: none;
 		}
