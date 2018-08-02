@@ -445,17 +445,37 @@ function reducer(state, action){
 			})
 		break
 
-		case "GOT_BOARDS":
-			console.log("BOARDS", action)
-
+		case "SET_CATEGORY_TITLE":
+		case "USER_GET_BOARDS":
+		case "GET_BOARD":
 			return Object.assign({}, state, {
-				boards: action.data.boards
+				isLoading: true
+			})
+		break
+
+		case "GOT_BOARDS":
+			return Object.assign({}, state, {
+				boards: action.data.boards,
+				isLoading: false
 			})
 		break
 		case "GOT_BOARD":
 			return Object.assign({}, state, {
 				boardData: action.data,
-				listBoards: true
+				listBoards: true,
+				isLoading: false
+			})
+		break
+		case "SET_TITLE_ERROR":
+			return Object.assign({}, state, {
+				boardErrorMessage: action.data,
+				isLoading: false
+			})
+		break
+
+		case "TITLE_EDIT_SAVED":
+			return Object.assign({}, state, {
+				isLoading: false
 			})
 		break
 

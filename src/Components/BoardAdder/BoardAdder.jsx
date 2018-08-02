@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Loader from './../Common/Loader'
 
 import Category from './Category'
+import Alert from './../Common/Alert'
 
 import store from './../../store'
 
@@ -12,7 +13,7 @@ class BoardAdder extends Component {
 		this.state = {
 			isLoading: false,
 			unsavedChanges: false,
-			editError: "",
+			boardErrorMessage: "",
 			boardData: {
 				"boardData": {
 					"id": "jk9hg7if",
@@ -316,6 +317,15 @@ class BoardAdder extends Component {
 			...this.state,
 			boardData: boardData
 		})
+
+		store.dispatch({type: "s/SET_CATEGORY_TITLE", data: {
+			categoryID,
+			title,
+			userToken: this.props.userToken
+		}})
+
+		this.setState({isLoading: true})
+
 	}
 
 	showBoard(id){
@@ -327,7 +337,7 @@ class BoardAdder extends Component {
 	render(){
 		// Probably want to do something to change the color of the loader
 
-		let showError = !this.state.unsavedChanges&&this.state.editError!==""
+		let showError = !this.state.unsavedChanges&&this.state.boardErrorMessage!==""
 		let listBoards = this.state.listBoards
 
 		return (
@@ -340,6 +350,14 @@ class BoardAdder extends Component {
 				<div className="modal is-active" id="board-adder">
 					<div className="modal-background"></div>
 					<div className="modal-card box">
+						{showError&& (
+							<Alert message={
+								<span>
+									{this.state.boardErrorMessage}
+								</span>
+							} type="danger"/>
+						)}
+
 						{listBoards?(
 							<div className="columns">
 								{/* TODO: Make this pull data from board api, list all boards user has and make them editable by pulling the data by board id from api*/}

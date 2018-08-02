@@ -18,7 +18,18 @@ class Category extends Component {
 				<nav className="panel">
 					<p className="panel-heading" >
 						<span onClick={() => this.props.titleEdit(this.props.categoryID)}>{this.props.categoryName}</span>
+						
 					</p>
+					{this.props.clues.length>0&&
+						<p className="panel-tabs">
+							<span className="is-right">
+								<span className="icon is-left">
+									<i className="mdi mdi-close"></i>
+								</span>
+								Delete
+							</span>
+						</p>
+					}
 					
 					{this.props.clues.map((clue, i) => {
 						return (

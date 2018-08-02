@@ -256,6 +256,14 @@ class DBUtils{
 			WHERE "owner" = $1
 		`, [userID])
 	}
+
+	async setCategoryTitle(categoryID, title){
+		return await this.client.query(`
+			UPDATE boards.categories
+			SET "title" = $1
+			WHERE "id" = $2
+		`, [title, categoryID])
+	}
 }
 
 module.exports = DBUtils
