@@ -219,23 +219,29 @@ class BoardAdder extends Component {
 						}
 					]
 				}
-			}
+			},
+			boards: [],
+			listBoards: false
 		}
 
 		this.newClue = this.newClue.bind(this)
 		this.titleEdit = this.titleEdit.bind(this)
 		this.setCategoryTitle = this.setCategoryTitle.bind(this)
+		this.showBoard = this.showBoard.bind(this)
+
 	}
 
 	componentDidMount() {
 		store.subscribe(() => {
 			this.setState(store.getState())
 		})
+
+		store.dispatch({type: "s/USER_GET_BOARDS", data: {
+			userToken: this.props.userToken
+		}})
 	}
 
 	newClue(categoryID){
-		console.log(categoryID)
-
 		let boardData = this.state.boardData
 
 		if(boardData.clues[categoryID] === undefined){
@@ -269,7 +275,6 @@ class BoardAdder extends Component {
 	}
 
 	titleEdit(categoryID){
-		console.log("cat ID", categoryID)
 		let boardData = this.state.boardData
 		let setCategoryTitle = this.setCategoryTitle
 
@@ -313,10 +318,17 @@ class BoardAdder extends Component {
 		})
 	}
 
+	showBoard(id){
+		store.dispatch({type: "s/GET_BOARD", data: {
+			boardID: id
+		}})
+	}
+
 	render(){
 		// Probably want to do something to change the color of the loader
 
 		let showError = !this.state.unsavedChanges&&this.state.editError!==""
+		let listBoards = this.state.listBoards
 
 		return (
 			<div>
@@ -328,27 +340,40 @@ class BoardAdder extends Component {
 				<div className="modal is-active" id="board-adder">
 					<div className="modal-background"></div>
 					<div className="modal-card box">
-						<div className="columns">
-							{/* TODO: Make this pull data from board api, list all boards user has and make them editable by pulling the data by board id from api*/}
-							{Object.keys(this.state.boardData.clues).map((id, key) => {
-								return (
-									<Category
-										key = {key}
-										categoryName={this.state.boardData.clues[id][0].category.title}
-										clues={this.state.boardData.clues[id]}
-										categoryID={id}
-										newClue={this.newClue}
-										titleEdit={this.titleEdit}
-									/>
-								)
-							})}
-							<Category 
-								categoryName="New Category" 
-								clues={[]}
-								categoryID={Date.now().toString(36)}
-								newClue={this.newClue}
-							/>
-						</div>
+						{listBoards?(
+							<div className="columns">
+								{/* TODO: Make this pull data from board api, list all boards user has and make them editable by pulling the data by board id from api*/}
+								{Object.keys(this.state.boardData.clues).map((id, key) => {
+									return (
+										<Category
+											key = {key}
+											categoryName={this.state.boardData.clues[id][0].category.title}
+											clues={this.state.boardData.clues[id]}
+											categoryID={id}
+											newClue={this.newClue}
+											titleEdit={this.titleEdit}
+										/>
+									)
+								})}
+								<Category 
+									categoryName="New Category" 
+									clues={[]}
+									categoryID={"-1"}
+									newClue={this.newClue}
+								/>
+							</div>
+						):(
+							<div className="columns">
+								{/* TODO: Make this pull data from board api, list all boards user has and make them editable by pulling the data by board id from api*/}
+								{this.state.boards.map((board, key) => {
+									return (
+										<div className="column" onClick={() => this.showBoard(board.id)}>
+											<span>{board.id}</span>
+										</div>
+									)
+								})}
+							</div>
+						)}
 					</div>
 					<button className="modal-close is-large" aria-label="close" onClick={this.props.closeButtonFunction}></button>
 				</div>

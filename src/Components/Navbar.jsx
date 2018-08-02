@@ -208,6 +208,7 @@ class Navbar extends Component {
 				{showBoardAdder &&
 					<BoardAdder
 						closeButtonFunction={this.toggleBoardAdder.bind(this)}
+						userToken={this.state.userData.token}
 					/>
 				}
 

@@ -249,6 +249,13 @@ class DBUtils{
 			WHERE "category_id" = $1
 		`, [categoryID])
 	}
+
+	async getBoardsByUserID(userID){
+		return await this.client.query(`
+			SELECT * FROM boards.boards
+			WHERE "owner" = $1
+		`, [userID])
+	}
 }
 
 module.exports = DBUtils
