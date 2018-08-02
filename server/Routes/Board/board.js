@@ -45,8 +45,6 @@ app.get("/:board", async (req, res) => {
 		await asyncForEach(boardData.categories, async (category) => {
 			let categoryData = await dbUtils.getCategoryByID(category)
 
-			console.log(categoryData.rows[0])
-
 			if(clues[category] === undefined){
 				clues[category] = []
 			}
@@ -61,8 +59,6 @@ app.get("/:board", async (req, res) => {
 					clue.category = categoryData.rows[0]
 				})
 
-				console.log("CG", clueGet)
-
 				clues[category] = clueGet					
 
 				clues[category] = clues[category].slice(0, 5)
@@ -75,14 +71,10 @@ app.get("/:board", async (req, res) => {
 		})
 
 		res.header("Content-Type",'application/json');
-        res.send(JSON.stringify({boardData, clues}, null, 4))
+		res.status(200).send(JSON.stringify({boardData, clues}, null, 4))
 	}
 	
 	start()
-
-	
 })
-
-
 
 module.exports =  app

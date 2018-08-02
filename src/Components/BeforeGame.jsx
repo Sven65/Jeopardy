@@ -252,7 +252,7 @@ class BeforeGame extends Component {
 											Aliquam placerat non sapien in tincidunt.
 										</div>
 									</div>
-								</div>*
+								</div>
 
 								<div className="column">
 									<div className="tile is-vertical is-parent">
