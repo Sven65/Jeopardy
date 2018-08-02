@@ -28,7 +28,7 @@ class BoardListing extends Component {
 						</span>
 					</a>
 
-					<a className="panel-block">
+					<a className="panel-block" onClick={() => this.props.onDelete(this.props.id)}>
 						<span className="is-right">
 							<span className="icon is-left">
 								<i className="mdi mdi-close"></i>

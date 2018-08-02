@@ -449,6 +449,8 @@ function reducer(state, action){
 		case "USER_GET_BOARDS":
 		case "GET_BOARD":
 		case "ADD_CATEGORY":
+		case "CREATE_BOARD":
+		case "DELETE_BOARD":
 			return Object.assign({}, state, {
 				isLoading: true
 			})
@@ -470,6 +472,7 @@ function reducer(state, action){
 		case "SET_TITLE_ERROR":
 		case "ADD_CATEGORY_ERROR":
 		case "ADD_CLUE_ERROR":
+		case "CREATE_BOARD_ERROR":
 			return Object.assign({}, state, {
 				boardErrorMessage: action.data.error,
 				isLoading: false
@@ -500,6 +503,26 @@ function reducer(state, action){
 		case "ADDED_CLUE":
 			action.asyncDispatch({type: "s/GET_BOARD", data: {
 				boardID: action.data.boardID
+			}})
+
+			return Object.assign({}, state, {
+				isLoading: false
+			})
+		return
+
+		case "CREATED_BOARD":
+			action.asyncDispatch({type: "s/GET_BOARD", data: {
+				boardID: action.data.boardID
+			}})
+
+			return Object.assign({}, state, {
+				isLoading: false
+			})
+		return
+
+		case "DELETED_BOARD":
+			action.asyncDispatch({type: "s/USER_GET_BOARDS", data: {
+				userToken: action.data.userToken
 			}})
 
 			return Object.assign({}, state, {

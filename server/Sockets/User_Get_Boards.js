@@ -1,3 +1,5 @@
+const config = require("config")
+
 class SocketHandler{
 	constructor({dbUtils = null}){
 		this._dbUtils = dbUtils
@@ -17,7 +19,7 @@ class SocketHandler{
 
 		let boardData = await this._dbUtils.getBoardsByUserID(userData.ID)
 
-		socket.emit("GOT_BOARDS", {boards: boardData.rows})
+		socket.emit("GOT_BOARDS", {boards: boardData.rows, maxBoards: userData.isPremium?config.get("Game.maxCustomBoardsPremium"):config.get("Game.maxCustomBoards")})
 	}
 }
 

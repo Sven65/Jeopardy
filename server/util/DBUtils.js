@@ -289,6 +289,30 @@ class DBUtils{
 			VALUES ($1, $2, $3, current_timestamp, current_timestamp, $4, $5)
 		`, [answer, question, value, categoryID, owner])
 	}
+
+	async getUserBoardCount(userID){
+		return await this.client.query(`
+			SELECT COUNT(*) FROM boards.boards
+			WHERE owner = $1
+		`, [userID])
+	}
+
+	async addBoard(id, owner, categories, title){
+		return await this.client.query(`
+			INSERT INTO boards.boards
+			("id", "owner", "created_at", "updated_at", "categories", "title")
+			VALUES ($1, $2, current_timestamp, current_timestamp, $3, $4)
+		`, [id, owner, categories, title])
+	}
+
+	// Deletion Stuff
+
+	async deleteBoard(boardID){
+		return await this.client.query(`
+			DELETE FROM boards.boards
+			WHERE "id" = $1
+		`, [boardID])
+	}
 }
 
 module.exports = DBUtils

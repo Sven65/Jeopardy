@@ -5,6 +5,8 @@ import Category from './Category'
 import Alert from './../Common/Alert'
 import BoardListing from './BoardListing'
 
+import swal from 'sweetalert'
+
 import store from './../../store'
 
 class BoardAdder extends Component {
@@ -24,7 +26,7 @@ class BoardAdder extends Component {
 		this.titleEdit = this.titleEdit.bind(this)
 		this.setCategoryTitle = this.setCategoryTitle.bind(this)
 		this.showBoard = this.showBoard.bind(this)
-
+		this.deleteBoard = this.deleteBoard.bind(this)
 	}
 
 	componentDidMount() {
@@ -41,33 +43,25 @@ class BoardAdder extends Component {
 		let boardData = this.state.boardData
 
 		if(boardData.clues[categoryID] === undefined){
-			boardData.clues[categoryID] = []
+			store.dispatch({type: "s/ADD_CATEGORY", data: {
+				userToken: this.props.userToken,
+				boardID: this.state.boardData.boardData.id
+			}})
+		}else{
+			store.dispatch({
+				type: "s/ADD_CLUE",
+				data: {
+					boardID: this.state.boardData.boardData.id,
+					answer: "Example Answer",
+					question: "Example Question",
+					value: 0,
+					categoryID: categoryID,
+					userToken: this.props.userToken,
+				}
+			})
 		}
 
-		boardData.clues[categoryID].push({
-	        "id":87908,
-	        "answer":"baseball",
-	        "question":"P.E.:Practice hard to become a Hall of Famer in this sport, like Cal Ripken Jr.",
-	        "value":200,
-	        "airdate":"2009-07-13T12:00:00.000Z",
-	        "created_at":"2014-02-14T01:53:34.137Z",
-	        "updated_at":"2014-02-14T01:53:34.137Z",
-	        "category_id":categoryID,
-	        "game_id":null,
-	        "invalid_count":null,
-	        "category":{
-	            "id":categoryID,
-	            "title":"Random",
-	            "created_at":"2014-02-14T01:53:33.936Z",
-	            "updated_at":"2016-11-21T15:26:19.062Z",
-	            "clues_count":5
-	        }
-	    })
 
-	    store.dispatch({type: "s/ADD_CATEGORY", data: {
-	    	userToken: this.props.userToken,
-	    	boardID: this.state.boardData.boardData.id
-	    }})
 
 		this.setState({
 			...this.state,
@@ -129,9 +123,15 @@ class BoardAdder extends Component {
 	}
 
 	showBoard(id){
-		store.dispatch({type: "s/GET_BOARD", data: {
-			boardID: id
-		}})
+		if(id === "???"){
+			store.dispatch({type: "s/CREATE_BOARD", data: {
+				userToken: this.props.userToken
+			}})
+		}else{
+			store.dispatch({type: "s/GET_BOARD", data: {
+				boardID: id
+			}})
+		}
 	}
 
 	hideBoard(){
@@ -139,6 +139,20 @@ class BoardAdder extends Component {
 			listBoards: false,
 			boardData: {}
 		})
+	}
+
+	deleteBoard(id){
+		swal({
+			title: "Do you really want to delete this board? It can't be undone!",
+			buttons: ["Nope!", true]
+		}).then(confirm => {
+			if(confirm){
+				store.dispatch({type: "s/DELETE_BOARD", data: {
+					boardID: id,
+					userToken: this.props.userToken
+				}})
+			}
+		});
 	}
 
 	render(){
@@ -191,27 +205,37 @@ class BoardAdder extends Component {
 										/>
 									)
 								})}
-								<Category 
-									categoryName="New Category" 
-									clues={[]}
-									categoryID={"-1"}
-									newClue={this.newClue}
-								/>
+
+								{Object.keys(this.state.boardData.clues).length<6&&(
+									<Category 
+										categoryName="New Category" 
+										clues={[]}
+										categoryID={"-1"}
+										newClue={this.newClue}
+									/>
+								)}
 							</div>
 						):(
 							<div className="columns">
-								{/* TODO: Make this pull data from board api, list all boards user has and make them editable by pulling the data by board id from api*/}
 								{this.state.boards.map((board, key) => {
 									return (
 										<BoardListing
 											key={key}
 											id={board.id}
-											title={board.title}
+											boardName={board.title||"Board Title"}
 											editBoard={this.showBoard}
+											onDelete={this.deleteBoard}
 										/>
-										
 									)
 								})}
+
+								{Object.keys(this.state.boards).length<6&&(
+									<BoardListing
+										id="???"
+										boardName="New Board"
+										editBoard={this.showBoard}
+									/>
+								)}
 							</div>
 						)}
 					</div>
