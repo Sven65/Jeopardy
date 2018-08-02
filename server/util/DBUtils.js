@@ -250,6 +250,13 @@ class DBUtils{
 		`, [categoryID])
 	}
 
+	async getClueData(clueID){
+		return await this.client.query(`
+			SELECT * FROM boards.clues
+			WHERE "id" = $1
+		`, [clueID])
+	}
+
 	async getBoardsByUserID(userID){
 		return await this.client.query(`
 			SELECT * FROM boards.boards
@@ -313,6 +320,21 @@ class DBUtils{
 			WHERE "id" = $1
 		`, [boardID])
 	}
+
+	async deleteCategory(categoryID){
+		return await this.client.query(`
+			DELETE FROM boards.categories
+			WHERE "id" = $1
+		`, [categoryID])
+	}
+
+	async deleteClue(clueID){
+		return await this.client.query(`
+			DELETE FROM boards.clues
+			WHERE "ID" = $1
+		`, [clueID])
+	}
+
 }
 
 module.exports = DBUtils

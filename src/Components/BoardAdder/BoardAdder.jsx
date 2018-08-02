@@ -234,6 +234,7 @@ class BoardAdder extends Component {
 										id="???"
 										boardName="New Board"
 										editBoard={this.showBoard}
+										isCreate={true}
 									/>
 								)}
 							</div>

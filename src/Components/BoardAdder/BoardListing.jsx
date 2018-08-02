@@ -24,7 +24,7 @@ class BoardListing extends Component {
 							<span className="icon is-left">
 								<i className="mdi mdi-pencil"></i>
 							</span>
-							Edit
+							{this.props.isCreate?'Create':'Edit'}
 						</span>
 					</a>
 

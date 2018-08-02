@@ -515,6 +515,10 @@ function reducer(state, action){
 				boardID: action.data.boardID
 			}})
 
+			action.asyncDispatch({type: "s/USER_GET_BOARDS", data: {
+				userToken: action.data.userToken
+			}})
+
 			return Object.assign({}, state, {
 				isLoading: false
 			})

@@ -32,7 +32,7 @@ class SocketHandler{
 		
 		await this._dbUtils.addBoard(boardID, userData.ID, [], "Board Name")
 
-		socket.emit("CREATED_BOARD", {timeStamp: Date.now(), id: boardID, userToken: data.userToken})
+		socket.emit("CREATED_BOARD", {timeStamp: Date.now(), boardID: boardID, userToken: data.userToken})
 	}
 }
 
