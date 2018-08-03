@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import Button from './../Common/Button'
 
+import Collapsible from './../Common/Collapsible'
+
 class Category extends Component {
 	constructor(props){
 		super(props)
@@ -22,20 +24,20 @@ class Category extends Component {
 					</p>
 					{this.props.clues.length>0&&
 						<p className="panel-tabs">
-							<span className="is-right">
+							<a className="is-right" onClick={() => this.props.delete(this.props.categoryID, this.props.boardID)}>
 								<span className="icon is-left">
 									<i className="mdi mdi-close"></i>
 								</span>
 								Delete
-							</span>
+							</a>
 						</p>
 					}
 					
 					{this.props.clues.map((clue, i) => {
 						return (
-							<a className="panel-block" key={i}>
-								{clue.question} - ${clue.value}
-							</a>
+							<Collapsible label={clue.question+" - $"+clue.value} key={i} className="panel" labelID={"collapsible-"+i}>
+								<h1>Hi there</h1>
+							</Collapsible>
 						)
 					})}
 

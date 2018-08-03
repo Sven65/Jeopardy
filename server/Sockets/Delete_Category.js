@@ -9,6 +9,12 @@ class SocketHandler{
 		return (variable !== null && variable !== undefined)
 	}
 
+	async asyncForEach(array, callback) {
+		for (let index = 0; index < array.length; index++) {
+			await callback(array[index], index, array)
+		}
+	}
+
 	async Execute({socket = null, io = null, data = {} }){
 		let userData = await this._dbUtils.getUserByToken(data.userToken)
 
@@ -17,7 +23,7 @@ class SocketHandler{
 			return
 		}
 
-		let categoryData = await this._dbUtils.getCategoryByID(data.boardID)
+		let categoryData = await this._dbUtils.getCategoryByID(data.categoryID)
 
 		if(categoryData.rows.length <= 0){
 			socket.emit("DELETE_CATEGORY_ERROR", {"error": "Category Not Found"})
@@ -31,9 +37,23 @@ class SocketHandler{
 			return
 		}
 
-		await this._dbUtils.deleteBoard(data.boardID)
+		const start = async () => {
+			let clues = await this._dbUtils.getCluesByCategoryID(data.categoryID)
 
-		socket.emit("DELETED_CATEGORY", {timeStamp: Date.now(), id: data.boardID, userToken: data.userToken})
+			await this.asyncForEach(clues.rows, async (clue) => {
+				await this._dbUtils.deleteClue(clue.ID)
+			})
+
+			await this._dbUtils.deleteCategory(data.categoryID)
+
+			await this._dbUtils.removeCategoryFromBoard(data.categoryID, data.boardID)
+
+			socket.emit("DELETED_CATEGORY", {timeStamp: Date.now(), id: data.categoryID, boardID: data.boardID, userToken: data.userToken})
+		}
+		
+		start()
+
+		
 	}
 }
 

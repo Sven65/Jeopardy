@@ -17,7 +17,7 @@ class SocketHandler{
 			return
 		}
 
-		let clueData = await this._dbUtils.getClueData(data.boardID)
+		let clueData = await this._dbUtils.getClueData(data.clueID)
 
 		if(clueData.rows.length <= 0){
 			socket.emit("DELETE_CLUE_ERROR", {"error": "Clue Not Found"})
@@ -31,9 +31,9 @@ class SocketHandler{
 			return
 		}
 
-		await this._dbUtils.deleteClue(data.boardID)
+		await this._dbUtils.deleteClue(data.clueID)
 
-		socket.emit("DELETED_CLUE", {timeStamp: Date.now(), id: data.boardID, userToken: data.userToken})
+		socket.emit("DELETED_CLUE", {timeStamp: Date.now(), id: data.clueID, boardID: data.boardID, userToken: data.userToken})
 	}
 }
 

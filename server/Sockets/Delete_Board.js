@@ -15,8 +15,6 @@ class SocketHandler{
 		}
 	}
 
-
-
 	async Execute({socket = null, io = null, data = {} }){
 		let userData = await this._dbUtils.getUserByToken(data.userToken)
 

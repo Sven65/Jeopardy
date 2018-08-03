@@ -27,6 +27,7 @@ class BoardAdder extends Component {
 		this.setCategoryTitle = this.setCategoryTitle.bind(this)
 		this.showBoard = this.showBoard.bind(this)
 		this.deleteBoard = this.deleteBoard.bind(this)
+		this.deleteCategory = this.deleteCategory.bind(this)
 	}
 
 	componentDidMount() {
@@ -155,6 +156,21 @@ class BoardAdder extends Component {
 		});
 	}
 
+	deleteCategory(id, boardID){
+		swal({
+			title: "Do you really want to delete this category? It can't be undone!",
+			buttons: ["Nope!", true]
+		}).then(confirm => {
+			if(confirm){
+				store.dispatch({type: "s/DELETE_CATEGORY", data: {
+					categoryID: id,
+					boardID: boardID,
+					userToken: this.props.userToken
+				}})
+			}
+		});
+	}
+
 	render(){
 		// Probably want to do something to change the color of the loader
 
@@ -202,6 +218,8 @@ class BoardAdder extends Component {
 											categoryID={id}
 											newClue={this.newClue}
 											titleEdit={this.titleEdit}
+											delete={this.deleteCategory}
+											boardID={this.state.boardData.boardData.id}
 										/>
 									)
 								})}

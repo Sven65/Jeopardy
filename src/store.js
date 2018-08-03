@@ -451,6 +451,8 @@ function reducer(state, action){
 		case "ADD_CATEGORY":
 		case "CREATE_BOARD":
 		case "DELETE_BOARD":
+		case "DELETE_CATEGORY":
+		case "DELETE_CLUE":
 			return Object.assign({}, state, {
 				isLoading: true
 			})
@@ -473,6 +475,9 @@ function reducer(state, action){
 		case "ADD_CATEGORY_ERROR":
 		case "ADD_CLUE_ERROR":
 		case "CREATE_BOARD_ERROR":
+		case "DELETE_BOARD_ERROR":
+		case "DELETE_CATEGORY_ERROR":
+		case "DELETE_CLUE_ERROR":
 			return Object.assign({}, state, {
 				boardErrorMessage: action.data.error,
 				isLoading: false
@@ -533,6 +538,17 @@ function reducer(state, action){
 				isLoading: false
 			})
 		return
+
+		case "DELETED_CATEGORY":
+		case "DELETED_CLUE":
+			action.asyncDispatch({type: "s/GET_BOARD", data: {
+				boardID: action.data.boardID
+			}})
+
+			return Object.assign({}, state, {
+				isLoading: false
+			})
+		break
 
 		default:
 			if(CONFIG.DEV){

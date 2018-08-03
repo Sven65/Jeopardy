@@ -335,6 +335,13 @@ class DBUtils{
 		`, [clueID])
 	}
 
+	async removeCategoryFromBoard(categoryID, boardID){
+		return await this.client.query(`
+			UPDATE boards.boards
+			SET "categories" = array_remove("categories", $1)
+			WHERE "id" = $2
+		`, [categoryID , boardID])
+	}
 }
 
 module.exports = DBUtils
