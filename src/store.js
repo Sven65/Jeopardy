@@ -467,6 +467,7 @@ function reducer(state, action){
 		break
 		case "GOT_BOARD":
 			return Object.assign({}, state, {
+				boardErrorMessage: "",
 				boardData: action.data,
 				listBoards: true,
 				isLoading: false

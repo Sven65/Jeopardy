@@ -27,12 +27,15 @@ class BoardAdder extends Component {
 		this.titleEdit = this.titleEdit.bind(this)
 		this.setCategoryTitle = this.setCategoryTitle.bind(this)
 
+		this.boardTitleEdit = this.boardTitleEdit.bind(this)
+		this.setBoardTitle = this.setBoardTitle.bind(this)
+
 		this.showBoard = this.showBoard.bind(this)
+		this.newBoard = this.newBoard.bind(this)
 
 		this.deleteBoard = this.deleteBoard.bind(this)
 		this.deleteCategory = this.deleteCategory.bind(this)
 		this.deleteClue = this.deleteClue.bind(this)
-
 
 		this.saveClue = this.saveClue.bind(this)
 	}
@@ -102,6 +105,69 @@ class BoardAdder extends Component {
 		})
 	}
 
+	boardTitleEdit(boardID){
+		let boards = this.state.boards
+
+		let boardIndex =  boards.findIndex(board => board.id === boardID)
+
+		let boardData = boards[boardIndex]
+
+		let setBoardTitle = this.setBoardTitle
+
+		if(boardData === undefined){
+			boardData = {}
+		}
+
+		let originalTitle = boardData.title
+
+		boardData.title = (
+			<input
+				type="text"
+				autoFocus
+				onBlur={(e) => setBoardTitle(boardID, e.target.value, originalTitle)}
+				onKeyDown={e => e.keyCode===13?setBoardTitle(boardID, e.target.value, originalTitle):null}
+			/>
+		)
+
+		this.setState({
+			...this.state,
+			boards: boards
+		})
+	}
+
+	setBoardTitle(boardID, title, originalTitle){
+
+		let boards = this.state.boards
+
+		let boardIndex = boards.findIndex(board => board.id === boardID)
+
+		let boardData = boards[boardIndex]
+
+		if(title === ""){
+			title = originalTitle
+		}
+
+		if(boardData === undefined){
+			boardData = {}
+		}
+
+		boardData.title = title
+
+		this.setState({
+			...this.state,
+			boards: boards
+		})
+
+		store.dispatch({type: "s/SET_BOARD_TITLE", data: {
+			boardID,
+			title,
+			userToken: this.props.userToken
+		}})
+
+		this.setState({isLoading: true})
+
+	}
+
 	setCategoryTitle(categoryID, title, originalTitle){
 		let boardData = this.state.boardData
 
@@ -131,15 +197,15 @@ class BoardAdder extends Component {
 	}
 
 	showBoard(id){
-		if(id === "???"){
-			store.dispatch({type: "s/CREATE_BOARD", data: {
-				userToken: this.props.userToken
-			}})
-		}else{
-			store.dispatch({type: "s/GET_BOARD", data: {
-				boardID: id
-			}})
-		}
+		store.dispatch({type: "s/GET_BOARD", data: {
+			boardID: id
+		}})
+	}
+
+	newBoard(){
+		store.dispatch({type: "s/CREATE_BOARD", data: {
+			userToken: this.props.userToken
+		}})
 	}
 
 	hideBoard(){
@@ -278,6 +344,7 @@ class BoardAdder extends Component {
 											boardName={board.title||"Board Title"}
 											editBoard={this.showBoard}
 											onDelete={this.deleteBoard}
+											boardNameEdit={this.boardTitleEdit}
 										/>
 									)
 								})}
@@ -286,8 +353,9 @@ class BoardAdder extends Component {
 									<BoardListing
 										id="???"
 										boardName="New Board"
-										editBoard={this.showBoard}
+										editBoard={this.newBoard}
 										isCreate={true}
+										boardNameEdit={null}
 									/>
 								)}
 							</div>

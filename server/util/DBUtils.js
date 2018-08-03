@@ -273,6 +273,14 @@ class DBUtils{
 		`, [title, categoryID])
 	}
 
+	async setBoardTitle(boardID, title){
+		return await this.client.query(`
+			UPDATE boards.boards
+			SET "title" = $1
+			WHERE "id" = $2
+		`, [title, boardID])
+	}
+
 	async addCategory(title, cluesCount, userID){
 		return await this.client.query(`
 			INSERT INTO boards.categories

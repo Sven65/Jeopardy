@@ -22,8 +22,7 @@ class Category extends Component {
 			<div className="column">
 				<nav className="panel">
 					<p className="panel-heading" >
-						<span onClick={() => this.props.titleEdit(this.props.categoryID)}>{this.props.categoryName}</span>
-						
+						<span onClick={() => this.props.titleEdit(this.props.categoryID)}>{this.props.categoryName}</span>	
 					</p>
 					{this.props.clues.length>0&&
 						<p className="panel-tabs">
