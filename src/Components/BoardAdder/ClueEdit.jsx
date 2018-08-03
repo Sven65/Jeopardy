@@ -78,6 +78,8 @@ class ClueEdit extends Component {
 
 				<form className="mdl-form gameBrowser-button-holder">
 					<Button type="button" name="saveClue" id="saveClueButton" text="Save Clue" icon="content-save" className="btn-submit panel-block" onClick={() => this.props.saveClue(this.props.clue.ID, this.state.question, this.state.answer, this.state.value, this.props.boardID)} />
+					<Button type="button" name="deleteClue" id="deleteClueButton" text="Delete Clue" icon="delete" className="btn-danger panel-block" onClick={() => this.props.deleteClue(this.props.clue.ID, this.props.boardID)} />
+
 				</form>
 			</div>
 		)

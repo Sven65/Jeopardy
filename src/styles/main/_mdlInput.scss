@@ -4,6 +4,7 @@
 $bg-color: $mdl-input-bg-color;
 $title-color: $mdl-input-title-color;
 $hl-color: $mdl-input-hl-color; // Button etc
+$hl-danger-color: $mdl-input-hl-danger-color; // Button etc
 $muted-color: mix(white, $bg-color, 70%);
 $trans-time: 300ms;
 $width: 90%;
@@ -127,6 +128,16 @@ form.mdl-form{
 				color: mix(white, $hl-color, 85%);
 			}
 		}
+
+		&.btn-danger{
+			background: $hl-danger-color;
+			color: mix(white, $hl-color, 70%);
+			&:hover {
+				background: darken($hl-danger-color, 5%);
+				color: mix(white, $hl-danger-color, 85%);
+			}
+		}
+
 		&.btn-cancel {
 			background: #eee;
 			&:hover {
@@ -174,6 +185,16 @@ form.mdl-form{
 			color: mix(white, $hl-color, 85%);
 		}
 	}
+
+	&.btn-danger{
+		background: $hl-danger-color;
+		color: mix(white, $hl-color, 70%);
+		&:hover {
+			background: darken($hl-danger-color, 5%);
+			color: mix(white, $hl-danger-color, 85%);
+		}
+	}
+
 	&.btn-cancel {
 		background: #eee;
 		&:hover {

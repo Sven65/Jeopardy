@@ -38,7 +38,7 @@ class Category extends Component {
 					
 					{this.props.clues.map((clue, i) => {
 						return (
-							<Collapsible label={clue.question+" - $"+clue.value} key={i} className="panel" labelID={"collapsible-"+i}>
+							<Collapsible label={clue.question+" - $"+clue.value} key={i} className="panel" labelID={"collapsible-"+clue.ID}>
 								<ClueEdit saveClue={this.props.saveClue} clue={clue} boardID={this.props.boardID}/>
 							</Collapsible>
 						)

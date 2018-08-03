@@ -4,6 +4,8 @@
 $theme-dark-bg-color: $theme-dark-mdl-input-bg-color;
 $theme-dark-title-color: $theme-dark-mdl-input-title-color;
 $theme-dark-hl-color: $theme-dark-mdl-input-hl-color; // Button etc
+$theme-dark-hl-danger-color: $theme-dark-mdl-input-hl-danger-color; // Button etc
+
 $theme-dark-muted-color: mix(white, $theme-dark-bg-color, 70%);
 $theme-dark-trans-time: 300ms;
 $theme-dark-width: 90%;
@@ -130,6 +132,16 @@ body.theme-dark{
 					color: mix(white, $theme-dark-hl-color, 85%);
 				}
 			}
+
+			&.btn-danger{
+				background: $theme-dark-hl-danger-color;
+				color: mix(white, $hl-color, 70%);
+				&:hover {
+					background: darken($theme-dark-hl-danger-color, 5%);
+					color: mix(white, $theme-dark-hl-danger-color, 85%);
+				}
+			}
+
 			&.btn-cancel {
 				background: #eee;
 				&:hover {
@@ -177,6 +189,16 @@ body.theme-dark{
 				color: mix(white, $theme-dark-hl-color, 85%);
 			}
 		}
+
+		&.btn-danger{
+			background: $theme-dark-hl-danger-color;
+			color: mix(white, $hl-color, 70%);
+			&:hover {
+				background: darken($theme-dark-hl-danger-color, 5%);
+				color: mix(white, $theme-dark-hl-danger-color, 85%);
+			}
+		}
+
 		&.btn-cancel {
 			background: #eee;
 			&:hover {
