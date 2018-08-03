@@ -23,11 +23,16 @@ class BoardAdder extends Component {
 		}
 
 		this.newClue = this.newClue.bind(this)
+
 		this.titleEdit = this.titleEdit.bind(this)
 		this.setCategoryTitle = this.setCategoryTitle.bind(this)
+
 		this.showBoard = this.showBoard.bind(this)
+
 		this.deleteBoard = this.deleteBoard.bind(this)
 		this.deleteCategory = this.deleteCategory.bind(this)
+
+		this.saveClue = this.saveClue.bind(this)
 	}
 
 	componentDidMount() {
@@ -171,6 +176,17 @@ class BoardAdder extends Component {
 		});
 	}
 
+	saveClue(id, question, answer, value, boardID){
+		store.dispatch({type: "s/SAVE_CLUE", data: {
+			clueID: id,
+			question,
+			answer,
+			value,
+			boardID: boardID,
+			userToken: this.props.userToken
+		}})
+	}
+
 	render(){
 		// Probably want to do something to change the color of the loader
 
@@ -220,6 +236,7 @@ class BoardAdder extends Component {
 											titleEdit={this.titleEdit}
 											delete={this.deleteCategory}
 											boardID={this.state.boardData.boardData.id}
+											saveClue={this.saveClue}
 										/>
 									)
 								})}

@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import Button from './../Common/Button'
 
 import Collapsible from './../Common/Collapsible'
+import InputField from './../Common/InputField'
+
+import ClueEdit from './ClueEdit'
 
 class Category extends Component {
 	constructor(props){
@@ -36,7 +39,7 @@ class Category extends Component {
 					{this.props.clues.map((clue, i) => {
 						return (
 							<Collapsible label={clue.question+" - $"+clue.value} key={i} className="panel" labelID={"collapsible-"+i}>
-								<h1>Hi there</h1>
+								<ClueEdit saveClue={this.props.saveClue} clue={clue} boardID={this.props.boardID}/>
 							</Collapsible>
 						)
 					})}

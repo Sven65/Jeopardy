@@ -22,7 +22,7 @@ class Collapsible extends Component {
 			<div className={"wrap-collapsible "+this.props.className+" "+isOpen}>
 				<p className="panel-heading" onClick={this.clickLabel}>
 					<input id={this.props.labelID} className="toggle" type="checkbox" ref={(el) => this._check = el}/>
-					<label for={this.props.labelID} className="lbl-toggle" ref={(el) => this._label = el} onClick={this.clickLabel}>{this.props.label}</label>
+					<label htmlFor={this.props.labelID} className="lbl-toggle" ref={(el) => this._label = el} onClick={this.clickLabel}>{this.props.label}</label>
 				</p>
 
 				<div className="collapsible-content panel-block">

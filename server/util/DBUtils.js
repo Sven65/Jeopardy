@@ -247,13 +247,14 @@ class DBUtils{
 		return await this.client.query(`
 			SELECT * FROM boards.clues
 			WHERE "category_id" = $1
+			ORDER By "ID"
 		`, [categoryID])
 	}
 
 	async getClueData(clueID){
 		return await this.client.query(`
 			SELECT * FROM boards.clues
-			WHERE "id" = $1
+			WHERE "ID" = $1
 		`, [clueID])
 	}
 
@@ -341,6 +342,14 @@ class DBUtils{
 			SET "categories" = array_remove("categories", $1)
 			WHERE "id" = $2
 		`, [categoryID , boardID])
+	}
+
+	async editClue(clueID, answer, question, value){
+		return await this.client.query(`
+			UPDATE boards.clues
+			SET "answer" = $1, "question" = $2, "value" = $3, "updated_at" = current_timestamp
+			WHERE "ID" = $4
+		`, [answer, question, value, clueID])
 	}
 }
 
