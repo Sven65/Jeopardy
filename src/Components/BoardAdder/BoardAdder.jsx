@@ -31,6 +31,8 @@ class BoardAdder extends Component {
 
 		this.deleteBoard = this.deleteBoard.bind(this)
 		this.deleteCategory = this.deleteCategory.bind(this)
+		this.deleteClue = this.deleteClue.bind(this)
+
 
 		this.saveClue = this.saveClue.bind(this)
 	}
@@ -176,6 +178,21 @@ class BoardAdder extends Component {
 		});
 	}
 
+	deleteClue(id, boardID){
+		swal({
+			title: "Do you really want to delete this clue? It can't be undone!",
+			buttons: ["Nope!", true]
+		}).then(confirm => {
+			if(confirm){
+				store.dispatch({type: "s/DELETE_CLUE", data: {
+					clueID: id,
+					boardID: boardID,
+					userToken: this.props.userToken
+				}})
+			}
+		});
+	}
+
 	saveClue(id, question, answer, value, boardID){
 		store.dispatch({type: "s/SAVE_CLUE", data: {
 			clueID: id,
@@ -237,6 +254,7 @@ class BoardAdder extends Component {
 											delete={this.deleteCategory}
 											boardID={this.state.boardData.boardData.id}
 											saveClue={this.saveClue}
+											deleteClue={this.deleteClue}
 										/>
 									)
 								})}
