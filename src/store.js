@@ -449,11 +449,11 @@ function reducer(state, action){
 		case "USER_GET_BOARDS":
 		case "GET_BOARD":
 		case "ADD_CATEGORY":
-		case "CREATE_BOARD":
 		case "DELETE_BOARD":
 		case "DELETE_CATEGORY":
 		case "DELETE_CLUE":
 		case "SAVE_CLUE":
+		case "CREATE_BOARD":
 			return Object.assign({}, state, {
 				isLoading: true
 			})
@@ -469,14 +469,13 @@ function reducer(state, action){
 			return Object.assign({}, state, {
 				boardErrorMessage: "",
 				boardData: action.data,
-				listBoards: true,
+				listBoards: false,
 				isLoading: false
 			})
 		break
 		case "SET_TITLE_ERROR":
 		case "ADD_CATEGORY_ERROR":
 		case "ADD_CLUE_ERROR":
-		case "CREATE_BOARD_ERROR":
 		case "DELETE_BOARD_ERROR":
 		case "DELETE_CATEGORY_ERROR":
 		case "DELETE_CLUE_ERROR":
@@ -554,6 +553,14 @@ function reducer(state, action){
 			})
 		break
 
+		case "CREATE_BOARD_ERROR":
+			return Object.assign({}, state, {
+				boardErrorMessage: action.data.error,
+				isLoading: false,
+				boardData: null,
+				listBoards: true
+			})
+		break
 
 
 		default:

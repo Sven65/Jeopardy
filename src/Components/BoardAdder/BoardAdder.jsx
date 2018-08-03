@@ -19,7 +19,7 @@ class BoardAdder extends Component {
 			boardErrorMessage: "",
 			boardData: {},
 			boards: [],
-			listBoards: false
+			listBoards: true
 		}
 
 		this.newClue = this.newClue.bind(this)
@@ -210,7 +210,7 @@ class BoardAdder extends Component {
 
 	hideBoard(){
 		this.setState({
-			listBoards: false,
+			listBoards: true,
 			boardData: {}
 		})
 	}
@@ -294,7 +294,7 @@ class BoardAdder extends Component {
 							} type="danger"/>
 						)}
 
-						{listBoards&& (
+						{!listBoards&& (
 							<Alert message={
 								<span className="is-right pointer-cursor">
 									<span className="icon is-left">
@@ -305,7 +305,7 @@ class BoardAdder extends Component {
 							} type="success" onClick={this.hideBoard.bind(this)}/>
 						)}
 
-						{listBoards?(
+						{!listBoards?(
 							<div className="columns">
 								{/* TODO: Make this pull data from board api, list all boards user has and make them editable by pulling the data by board id from api*/}
 								{Object.keys(this.state.boardData.clues).map((id, key) => {
