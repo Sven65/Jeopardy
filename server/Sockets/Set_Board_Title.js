@@ -13,25 +13,25 @@ class SocketHandler{
 		let userData = await this._dbUtils.getUserByToken(data.userToken)
 
 		if(!this._isset(userData)){
-			socket.emit("SET_TITLE_ERROR", {error: `Invalid User!`})
+			socket.emit("SET_BOARD_TITLE_ERROR", {error: `Invalid User!`})
 			return
 		}
 
 		let boardData = await this._dbUtils.getBoardByID(data.boardID)
 
 		if(boardData.rows.length <= 0){
-			socket.emit("SET_TITLE_ERROR", {"error": "Board Not Found"})
+			socket.emit("SET_BOARD_TITLE_ERROR", {"error": "Board Not Found"})
 			return
 		}
 
 		if(boardData.rows[0].owner !== userData.ID){
-			socket.emit("SET_TITLE_ERROR", {"error": "Board does not belong to current user."})
+			socket.emit("SET_BOARD_TITLE_ERROR", {"error": "Board does not belong to current user."})
 			return
 		}
 
 		await this._dbUtils.setBoardTitle(data.boardID, data.title)
 
-		socket.emit("TITLE_EDIT_SAVED", {timeStamp: Date.now()})
+		socket.emit("BOARD_TITLE_EDIT_SAVED", {timeStamp: Date.now()})
 	}
 }
 

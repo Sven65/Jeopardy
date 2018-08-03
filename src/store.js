@@ -454,6 +454,7 @@ function reducer(state, action){
 		case "DELETE_CLUE":
 		case "SAVE_CLUE":
 		case "CREATE_BOARD":
+		case "SET_BOARD_TITLE":
 			return Object.assign({}, state, {
 				isLoading: true
 			})
@@ -480,6 +481,7 @@ function reducer(state, action){
 		case "DELETE_CATEGORY_ERROR":
 		case "DELETE_CLUE_ERROR":
 		case "SAVE_CLUE_ERROR":
+		case "SET_BOARD_TITLE_ERROR":
 			return Object.assign({}, state, {
 				boardErrorMessage: action.data.error,
 				isLoading: false
@@ -487,6 +489,12 @@ function reducer(state, action){
 		break
 
 		case "TITLE_EDIT_SAVED":
+			return Object.assign({}, state, {
+				isLoading: false
+			})
+		break
+
+		case "BOARD_TITLE_EDIT_SAVED":
 			return Object.assign({}, state, {
 				isLoading: false
 			})
