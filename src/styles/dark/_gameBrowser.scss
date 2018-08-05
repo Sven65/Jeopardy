@@ -9,8 +9,8 @@ body.theme-dark{
 		&__table{
 			width: 100%;
 
-			background-color: $theme-dark-gamebrowser-header-background;
-			color: $theme-dark-gamebrowser-header-color;
+			background-color: map-deep-get($colors, "dark", "gameBrowser", "header", "background");
+			color: map-deep-get($colors, "dark", "gameBrowser", "header", "color");
 		
 			tbody{
 				display: block;
@@ -23,22 +23,22 @@ body.theme-dark{
 					-moz-transition: .5s all;
 					-o-transition: .5s all;
 					
-					color: $theme-dark-gamebrowser-color;
-					background: $theme-dark-gamebrowser-background;
+					color: map-deep-get($colors, "dark", "gameBrowser", "color");
+					background: map-deep-get($colors, "dark", "gameBrowser", "background");
 
 					&:nth-child(odd) {
-						background: $theme-dark-gamebrowser-odd-background;
+						background: map-deep-get($colors, "dark", "gameBrowser", "oddBackground");
 					}
 
 					&:hover{
 						cursor: pointer;
-						background: $theme-dark-gamebrowser-hover;
-						color: $theme-dark-gamebrowser-hover-text;
+						background: map-deep-get($colors, "dark", "gameBrowser", "hover");
+						color: map-deep-get($colors, "dark", "gameBrowser", "hoverText");
 					}
 
 					&.selected{
-						background: $theme-dark-gamebrowser-hover;
-						color: $theme-dark-gamebrowser-hover-text;
+						background: map-deep-get($colors, "dark", "gameBrowser", "hover");
+						color: $map-deep-get($colors, "dark", "gameBrowser", "hoverText");
 					}
 				}
 			}
@@ -57,7 +57,7 @@ body.theme-dark{
 				width: calc( 100% - 1em );
 				tr {
 					th {
-						color: $theme-dark-gamebrowser-header-color;
+						color: map-deep-get($colors, "dark", "gameBrowser", "header", "color");
 						font-weight: 400;
 					}
 				}

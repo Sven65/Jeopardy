@@ -28,9 +28,9 @@ body.theme-dark{
 
 				.action-button{
 					&__text{
-						background-color: $FAB-text-show-background;
+						background-color: map-deep-get($colors, "dark", "FAB", "text", "background");
 						border-radius: 3px;
-						color: $FAB-text-show-color;
+						color: map-deep-get($colors, "dark", "FAB", "text", "COLOR");
 						right: 75px;
 						font-size: 14px;
 						opacity: .8;
@@ -52,7 +52,7 @@ body.theme-dark{
 				&__text {
 					opacity: 0;
 					background-color: rgba(0, 0, 0, 0);
-					color: $theme-dark-background-color;
+					color: map-deep-get($colors, "dark", "general", "background");
 					transition: opacity .1s;
 					-webkit-transition: opacity .1s;
 					-moz-transition: .1s opacity;

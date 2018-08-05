@@ -16,7 +16,7 @@ body{
 		height: 100%;
 		overflow-y: hidden;
 		overflow-x: hidden;
-		background: map-deep-get($colors, "general", "background");
+		background: map-deep-get($colors, "dark", "general", "background");
 
 		.alert{
 			padding-top: 5px;
@@ -24,13 +24,13 @@ body{
 		}
 
 		.alert.alert-danger{
-			background-color: map-deep-get($colors, "alert", "danger", "background");
-			color: map-deep-get($colors, "alert", "danger", "text");
+			background-color: map-deep-get($colors, "dark", "alert", "danger", "background");
+			color: map-deep-get($colors, "dark", "alert", "danger", "text");
 		}
 
 		.alert.alert-success{
-			background-color: map-deep-get($colors, "alert", "success", "background");
-			color: map-deep-get($colors, "alert", "success", "text");
+			background-color: map-deep-get($colors, "dark", "alert", "success", "background");
+			color: map-deep-get($colors, "dark", "alert", "success", "text");
 		}
 
 		.hidden {
@@ -50,21 +50,21 @@ body{
 			width: 90%;
 
 			* {
-				color: map-deep-get($colors, "general", "instructionsContainer", "color");
+				color: map-deep-get($colors, "dark", "general", "instructionsContainer", "color");
 				font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 				font-weight: 300;
 			}
 		}
 
 		.navbar {
-			background: map-deep-get($colors, "general", "primaryColor");
+			background: map-deep-get($colors, "dark", "general", "primaryColor");
 			
 			.navbar-link::after{
-				border-color: map-deep-get($colors, "general", "navbar", "text");
+				border-color: map-deep-get($colors, "dark", "general", "navbar", "text");
 			}
 
 			.navbar-link:hover::after{
-				border-color: map-deep-get($colors, "general", "navbar", "text");
+				border-color: map-deep-get($colors, "dark", "general", "navbar", "text");
 			}
 
 			.navbar-item{
@@ -74,26 +74,26 @@ body{
 
 		.navbar-burger{
 			span {
-				color: $map-deep-get($colors, "general", "navbar", "text");
+				color: $map-deep-get($colors, "dark", "general", "navbar", "text");
 			}
 		}
 
 		@media screen and (min-width: 1088px){
 			.navbar-item.has-dropdown:hover .navbar-link, .navbar-item.has-dropdown.is-active{
-				background-color: map-deep-get($colors, "general", "primaryColorDark");
+				background-color: map-deep-get($colors, "dark", "general", "primaryColorDark");
 			}
 
 			.navbar {
 				.user-link {
-					color: map-deep-get($colors, "general", "navbar", "text");
+					color: map-deep-get($colors, "dark", "general", "navbar", "text");
 				}
 
 				a.navbar-item{
-					color: map-deep-get($colors, "general", "navbar", "text");
+					color: map-deep-get($colors, "dark", "general", "navbar", "text");
 				}
 
 				a.navbar-item.dark-background:hover{
-					background-color: map-deep-get($colors, "general", "primaryColorDark");
+					background-color: map-deep-get($colors, "dark", "general", "primaryColorDark");
 				}
 			}
 		}
@@ -163,28 +163,28 @@ body{
 		}
 
 		#gameCodeHeader{
-			color: map-deep-get($colors, "general", "gameCodeHeader", "text");
+			color: map-deep-get($colors, "dark", "general", "gameCodeHeader", "text");
 		}
 
 		.user-card{
 			.card{
-				background-color: map-deep-get($colors, "userCard", "background");
+				background-color: map-deep-get($colors, "dark", "userCard", "background");
 				* {
-					color: map-deep-get($colors, "userCard", "color");
+					color: map-deep-get($colors, "dark", "userCard", "color");
 				}
 			}
 		}
 
 		.swal-modal {
-			background-color: map-deep-get($colors, "general", "swal", "background");
+			background-color: map-deep-get($colors, "dark", "general", "swal", "background");
 		}
 
 		.swal-title, .swal-text{
-			color: map-deep-get($colors, "general", "swal", "color");
+			color: map-deep-get($colors, "dark", "general", "swal", "color");
 		}
 
 		.swal-icon--success:before, .swal-icon--success:after, .swal-icon--success__hide-corners {
-			background: map-deep-get($colors, "general", "swal", "background");
+			background: map-deep-get($colors, "dark", "general", "swal", "background");
 		}
 	}
 
@@ -202,20 +202,20 @@ body{
 					height: 100%;
 
 					&::-webkit-scrollbar-track{
-						-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "general", "scrollbar", "track", "boxShadow");
+						-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "dark", "general", "scrollbar", "track", "boxShadow");
 						//border-radius: 10px;
-						background-color: map-deep-get($colors, "general", "scrollbar", "track", "background");
+						background-color: map-deep-get($colors, "dark", "general", "scrollbar", "track", "background");
 					}
 
 					&::-webkit-scrollbar{
 						width: 12px;
-						background-color: map-deep-get($colors, "general", "scrollbar", "background");
+						background-color: map-deep-get($colors, "dark", "general", "scrollbar", "background");
 					}
 
 					&::-webkit-scrollbar-thumb{
 						//border-radius: 10px;
-						-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "general", "scrollbar", "thumb", "boxShadow");
-						background-color: map-deep-get($colors, "general", "scrollbar", "thumb", "background");
+						-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "dark", "general", "scrollbar", "thumb", "boxShadow");
+						background-color: map-deep-get($colors, "dark", "general", "scrollbar", "thumb", "background");
 					}
 
 					&.hide-scrollbar{

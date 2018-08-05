@@ -12,24 +12,24 @@ body.theme-dark{
 	}
 
 	.profile-top{
-		background: $theme-dark-profile-top-background;
-		color: $theme-dark-profile-top-text;
+		background: map-deep-get($colors, "dark", "profile", "top", "background");
+		color: map-deep-get($colors, "dark", "profile", "top", "text");
 
 		.title{
-			color: $theme-dark-profile-top-text;
+			color: map-deep-get($colors, "dark", "profile", "top", "text");
 		}
 	}
 
 	.profile-bottom{
 		.column{
-			background: $theme-dark-profile-bottom-background;
+			background: map-deep-get($colors, "dark", "profile", "bottom", "background");
 			padding: 2rem;
 
 			transition: all .5s;
 			-webkit-transition: all .5s;
 			-moz-transition: .5s all;
 			-o-transition: .5s all;
-			color: $theme-dark-profile-bottom-text;
+			color: map-deep-get($colors, "dark", "profile", "bottom", "text");
 
 			&:last-of-type{
 				padding-bottom: calc( 2rem + 0.75rem );
@@ -40,12 +40,12 @@ body.theme-dark{
 
 		.column:hover{
 			cursor: pointer;
-			background: $theme-dark-profile-bottom-hover;
-			color: $theme-dark-profile-bottom-hover-text;
+			background: map-deep-get($colors, "dark", "profile", "bottom", "hover");
+			color: map-deep-get($colors, "dark", "profile", "bottom", "hoverText");
 
 			&.no-hover{
-				background: $theme-dark-profile-bottom-background;
-				color: $theme-dark-profile-bottom-text;
+				background: map-deep-get($colors, "dark", "profile", "bottom", "background");
+				color: map-deep-get($colors, "dark", "profile", "bottom", "text");
 				cursor: auto;
 			}
 		}
@@ -95,22 +95,14 @@ body.theme-dark{
 		}
 	}
 
-	.chat-even{
-		background-color: $theme-dark-chat-message-even-background;
-	}
-
-	.chat-odd{
-		background-color: $theme-dark-chat-message-odd-background;
-	}
-
 	.name-title{
 		color: #FFF;
 	}
 
 	.button.is-profile{
-		background-color: $theme-dark-profile-theme-button-background;
-		border-color: $theme-dark-profile-theme-button-border-color;
-		color: $theme-dark-profile-theme-button-color;
+		background-color: map-deep-get($colors, "dark", "profile", "themeButton", "background");
+		border-color: map-deep-get($colors, "dark", "profile", "themeButton", "border");
+		color: map-deep-get($colors, "dark", "profile", "themeButton", "color");
 		box-shadow: none;
 		pointer-events: none;
 	}

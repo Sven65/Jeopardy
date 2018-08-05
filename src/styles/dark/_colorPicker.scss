@@ -2,11 +2,11 @@
 
 body.theme-dark{
 	.rc-color-picker-panel{
-		background-color: $theme-dark-color-picker-background;
+		background-color: map-deep-get($colors, "dark", "colorPicker", "background");
 	}
 
 	.rc-color-picker-panel-inner{
-		box-shadow: $theme-dark-color-picker-box-shadow;
-		border: $theme-dark-color-picker-panel-border;
+		box-shadow: map-deep-get($colors, "dark", "colorPicker", "boxShadow");
+		border: map-deep-get($colors, "dark", "colorPicker", "border");
 	}
 }

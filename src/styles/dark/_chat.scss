@@ -23,7 +23,7 @@ body.theme-dark{
 	#chat-container {
 		/*margin-left: 5px;*/
 		width: 100%;
-		background-color: $theme-dark-chat-container-background;
+		background-color: map-deep-get($colors, "dark", "dark", "chat", "container", "background");
 	}
 
 	.chat-image {
@@ -46,16 +46,16 @@ body.theme-dark{
 		li {
 			padding: 5px 10px;
 
-			background-color: $theme-dark-chat-message-even-background;
-			color: $theme-dark-chat-message-even-color;
+			background-color: map-deep-get($colors, "dark", "dark", "chat", "message", "even", "background");
+			color: map-deep-get($colors, "dark", "dark", "chat", "message", "even", "color");
 
 			&:nth-child(odd) {
-				background-color: $theme-dark-chat-message-odd-background;
-				color: $theme-dark-chat-message-odd-color;
+				background-color: map-deep-get($colors, "dark", "dark", "chat", "message", "odd", "background");
+				color: map-deep-get($colors, "dark", "dark", "chat", "message", "odd", "color");
 			}
 
 			&.chatBottom{
-				background-color: $theme-dark-chat-container-background;
+				background-color: map-deep-get($colors, "dark", "dark", "chat", "container", "background");
 			}
 		}
 	}
@@ -81,7 +81,7 @@ body.theme-dark{
 				}
 
 				.input{
-					box-shadow: 0 1px 2px $theme-dark-chat-input-shadow;
+					box-shadow: 0 1px 2px map-deep-get($colors, "dark", "dark", "chat", "inputShadow");
 				}
 			}
 		}
@@ -92,17 +92,17 @@ body.theme-dark{
 		}
 
 		.button{
-			background-color: $theme-dark-chat-button-background;
+			background-color: map-deep-get($colors, "dark", "dark", "chat", "button", "background", "normal");
 			border-color: transparent;
-			color: $theme-dark-chat-button-text;
+			color: map-deep-get($colors, "dark", "dark", "chat", "button", "text");
 			transition: all 0.3s ease;
 
 			&:hover{
-				background-color: $theme-dark-chat-button-background-hover;
+				background-color: map-deep-get($colors, "dark", "dark", "chat", "button", "background", "hover");
 			}
 
 			&:active{
-				background-color: $theme-dark-chat-button-background-active;
+				background-color: map-deep-get($colors, "dark", "dark", "chat", "button", "background", "active");
 			}
 		}
 
@@ -123,8 +123,8 @@ body.theme-dark{
 
 		&:hover{
 			cursor: pointer;
-			background-color: $theme-dark-chat-button-background;
-			color: $theme-dark-chat-button-text;
+			background-color: map-deep-get($colors, "dark", "dark", "chat", "button", "background", "normal");
+			color:map-deep-get($colors, "dark", "dark", "chat", "button", "text");
 			transition: all 0.3s ease;
 		}
 		transition: all 0.3s ease;
@@ -133,8 +133,8 @@ body.theme-dark{
 	.emoji-mart{
 		position: absolute !important;
 		bottom: 35px;
-		color: $theme-dark-emoji-picker-color;
-		background: $theme-dark-emoji-picker-background;
+		color: map-deep-get($colors, "dark", "dark", "emojiPicker", "color");
+		background: map-deep-get($colors, "dark", "dark", "emojiPicker", "background");
 		border: 0;
 		border-radius: 0;
 
@@ -176,14 +176,14 @@ body.theme-dark{
 
 		.emoji-mart-category-label{
 			span {
-				background-color: $theme-dark-emoji-picker-category-background;
+				background-color:  map-deep-get($colors, "dark", "dark", "emojiPicker", "category", "background");
 			}
 		}
 
 		.emoji-mart-emoji{
 			&:hover{
 				&:before {
-					background-color: $theme-dark-emoji-picker-emoji-hover-background;
+					background-color:  map-deep-get($colors, "dark", "dark", "emojiPicker", "hover", "background", );
 				}
 			}
 		}
@@ -191,6 +191,14 @@ body.theme-dark{
 
 	.emoji{
 		width: 32px;
+	}
+
+	.chat-even{
+		background-color:  map-deep-get($colors, "dark", "dark", "chat", "message", "even", "background");
+	}
+
+	.chat-odd{
+		background-color: map-deep-get($colors, "dark", "dark", "chat", "message", "odd", "background");
 	}
 }
 

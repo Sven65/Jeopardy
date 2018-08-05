@@ -4,8 +4,8 @@ body.theme-dark{
 
 	#gameTable{
 		width: 100%;
-		background-color: map-deep-get($colors, "questionTable", "background");
-		color: map-deep-get($colors, "questionTable", "color");
+		background-color: map-deep-get($colors, "dark", "questionTable", "background");
+		color: map-deep-get($colors, "dark", "questionTable", "color");
 
 		tbody {
 			tr {
@@ -15,18 +15,18 @@ body.theme-dark{
 
 					&:hover{
 						cursor: pointer;
-						background-color: map-deep-get($colors, "questionTable", "hover");
-						color: map-deep-get($colors, "questionTable", "color");
+						background-color: map-deep-get($colors, "dark", "questionTable", "hover");
+						color: map-deep-get($colors, "dark", "questionTable", "color");
 					}
 
 					&:active{
-						background-color:map-deep-get($colors, "questionTable", "active");
-						color: map-deep-get($colors, "questionTable", "color");
+						background-color:map-deep-get($colors, "dark", "questionTable", "active");
+						color: map-deep-get($colors, "dark", "questionTable", "color");
 					}
 
 					&[data-revealed="true"]{
-						background-color: map-deep-get($colors, "questionTable", "hover")
-						color: map-deep-get($colors, "questionTable", "color");
+						background-color: map-deep-get($colors, "dark", "questionTable", "hover")
+						color: map-deep-get($colors, "dark", "questionTable", "color");
 					}
 				}
 			}
@@ -37,8 +37,8 @@ body.theme-dark{
 			tr {
 				th {
 					border: 0;
-					background-color: map-deep-get($colors, "questionTable", "header", "background");
-					color: map-deep-get($colors, "questionTable", "header", "text");
+					background-color: map-deep-get($colors, "dark", "questionTable", "header", "background");
+					color: map-deep-get($colors, "dark", "questionTable", "header", "text");
 					font-weight: 400;
 				}
 			}
@@ -66,13 +66,13 @@ body.theme-dark{
 		}
 		
 		table tr {
-			border-bottom: 3px solid map-deep-get($colors, "questionTable", "mobile", "border");
+			border-bottom: 3px solid map-deep-get($colors, "dark", "questionTable", "mobile", "border");
 			display: block;
 			margin-bottom: .625em;
 		}
 		
 		table td {
-			border-bottom: 1px solid map-deep-get($colors, "questionTable", "mobile", "border");
+			border-bottom: 1px solid map-deep-get($colors, "dark", "questionTable", "mobile", "border");
 			display: block;
 			font-size: .8em;
 			text-align: right;
@@ -96,12 +96,12 @@ body.theme-dark{
 
 	#game-question-area{
 		.card-content{
-			background-color: map-deep-get($colors, "questionCard", "background");
-			color: map-deep-get($colors, "questionCard", "text");
+			background-color: map-deep-get($colors, "dark", "questionCard", "background");
+			color: map-deep-get($colors, "dark", "questionCard", "text");
 			font-weight: 300;
 
 			.title{
-				color: map-deep-get($colors, "questionCard", "text");
+				color: map-deep-get($colors, "dark", "questionCard", "text");
 				font-weight: 300;
 			}
 		}

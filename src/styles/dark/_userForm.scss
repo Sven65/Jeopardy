@@ -7,7 +7,7 @@ body.theme-dark{
 		top: 0;
 		left: 0;
 		display: none;
-		background: map-deep-get($colors, "userForm", "overlay", "background");
+		background: map-deep-get($colors, "dark", "userForm", "overlay", "background");
 		width: 100%;
 		height: 100%;
 	}
@@ -15,10 +15,10 @@ body.theme-dark{
 	.user-modal-form {
 		z-index: 15;
 		position: relative;
-		background: map-deep-get($colors, "userForm", "overlay", "background");
+		background: map-deep-get($colors, "dark", "userForm", "overlay", "background");
 		max-width: 600px;
 		border-radius: 4px;
-		box-shadow: 0 0 30px map-deep-get($colors, "userForm", "overlay", "boxShadow");
+		box-shadow: 0 0 30px map-deep-get($colors, "dark", "userForm", "overlay", "boxShadow");
 		box-sizing: border-box;
 		margin: 100px auto 10px;
 		overflow: hidden;
@@ -39,7 +39,7 @@ body.theme-dark{
 		position: absolute;
 		top: 60px;
 		right: 60px;
-		background: map-deep-get($colors, "userForm", "modal", "background");
+		background: map-deep-get($colors, "dark", "userForm", "modal", "background");
 		width: 60px;
 		height: 60px;
 		border-radius: 100%;
@@ -58,7 +58,7 @@ body.theme-dark{
 			left: 50%;
 			width: 30px;
 			height: 4px;
-			background: map-deep-get($colors, "userForm", "modal", "toggle", "background");
+			background: map-deep-get($colors, "dark", "userForm", "modal", "toggle", "background");
 			-webkit-transform: translate(-50%, -50%);
 			transform: translate(-50%, -50%);
 		}
@@ -82,7 +82,7 @@ body.theme-dark{
 		flex-wrap: wrap;
 		justify-content: space-between;
 		margin: 0 0 20px;
-		color: map-deep-get($colors, "userForm", "modal", "input", "color");
+		color: map-deep-get($colors, "dark", "userForm", "modal", "input", "color");
 
 		&:last-child {
 			margin: 0;
@@ -96,12 +96,12 @@ body.theme-dark{
 			text-transform: uppercase;
 			letter-spacing: .2em;
 
-			color: map-deep-get($colors, "userForm", "modal", "input", "color");
+			color: map-deep-get($colors, "dark", "userForm", "modal", "input", "color");
 		}
 	}
 
 	.two .user-modal-form-group label {
-		color: map-deep-get($colors, "userForm", "modal", "label", "color");
+		color: map-deep-get($colors, "dark", "userForm", "modal", "label", "color");
 	}
 
 	.user-modal-form-group input {
@@ -123,24 +123,24 @@ body.theme-dark{
 			color: rgba(255, 255, 255, 0.8);
 		}
 
-		color: map-deep-get($colors, "userForm", "modal", "input", "color");
+		color: map-deep-get($colors, "dark", "userForm", "modal", "input", "color");
 	}
 
 	.two .user-modal-form-group input {
-		color: map-deep-get($colors, "userForm", "modal", "input", "color");
+		color: map-deep-get($colors, "dark", "userForm", "modal", "input", "color");
 		&:focus {
-			color: map-deep-get($colors, "userForm", "modal", "input", "color");
+			color: map-deep-get($colors, "dark", "userForm", "modal", "input", "color");
 		}
 	}
 
 	.user-modal-form-group button {
 		outline: none;
-		background: map-deep-get($colors, "userForm", "modal", "button", "background");
+		background: map-deep-get($colors, "dark", "userForm", "modal", "button", "background");
 		width: 100%;
 		border: 0;
 		border-radius: 4px;
 		padding: 12px 20px;
-		color: map-deep-get($colors, "userForm", "modal", "button", "color");
+		color: map-deep-get($colors, "dark", "userForm", "modal", "button", "color");
 		font-family: inherit;
 		font-size: inherit;
 		font-weight: 500;
@@ -150,8 +150,8 @@ body.theme-dark{
 	}
 
 	.two .user-modal-form-group button {
-		background: map-deep-get($colors, "userForm", "modal", "button", "background");
-		color: map-deep-get($colors, "userForm", "modal", "button", "color");
+		background: map-deep-get($colors, "dark", "userForm", "modal", "button", "background");
+		color: map-deep-get($colors, "dark", "userForm", "modal", "button", "color");
 	}
 
 	.user-modal-form-group {
@@ -167,7 +167,7 @@ body.theme-dark{
 			}
 		}
 		.user-modal-form-recovery {
-			color: map-deep-get($colors, "userForm", "modal", "recovery", "color");
+			color: map-deep-get($colors, "dark", "userForm", "modal", "recovery", "color");
 			font-size: 12px;
 			text-decoration: none;
 		}
@@ -195,7 +195,7 @@ body.theme-dark{
 			position: absolute;
 			top: 0;
 			left: 95%;
-			background: map-deep-get($colors, "userForm", "modal", "panelTwo", "background");
+			background: map-deep-get($colors, "dark", "userForm", "modal", "panelTwo", "background");
 			width: 100%;
 			min-height: 100%;
 			padding: 60px calc(10% + 60px) 60px 60px;
@@ -255,24 +255,24 @@ body.theme-dark{
 		margin: 0 0 40px;
 		h1 {
 			padding: 4px 0;
-			color: map-deep-get($colors, "userForm", "modal", "header", "color");
+			color: map-deep-get($colors, "dark", "userForm", "modal", "header", "color");
 			font-size: 24px;
 			font-weight: 700;
 			text-transform: uppercase;
 		}
 
 		.user-modal-error{
-			color: map-deep-get($colors, "userForm", "modal", "errorColor");
+			color: map-deep-get($colors, "dark", "userForm", "modal", "errorColor");
 		}
 
 		.user-modal-success{
-			color:  map-deep-get($colors, "userForm", "modal", "successColor");
+			color:  map-deep-get($colors, "dark", "userForm", "modal", "successColor");
 		}
 	}
 
 	.two .user-modal-form-header {
 		h1, h6{
-			color: map-deep-get($colors, "userForm", "modal", "panelTwo", "header", "color");
+			color: map-deep-get($colors, "dark", "userForm", "modal", "panelTwo", "header", "color");
 		}
 
 		h1 {
@@ -331,7 +331,7 @@ body.theme-dark{
 				width: 20px;
 				height: 20px;
 				border: 2px solid rgba(0, 0, 0, 0.54);
-				background: map-deep-get($colors, "mdCheckbox", "checkbox", "background");
+				background: map-deep-get($colors, "dark", "mdCheckbox", "checkbox", "background");
 				border-radius: 2px;
 				cursor: pointer;
 				transition: background .3s;
@@ -343,7 +343,7 @@ body.theme-dark{
 			visibility: hidden;
 			&:checked + label {
 				&:before {
-					background: map-deep-get($colors, "mdCheckbox", "checkbox", "checkedLabelBg");
+					background: map-deep-get($colors, "dark", "mdCheckbox", "checkbox", "checkedLabelBg");
 					border: none;
 				}
 				&:after {
@@ -352,7 +352,7 @@ body.theme-dark{
 					left: 4px;
 					width: 12px;
 					height: 6px;
-					border: 2px solidmap-deep-get($colors, "mdCheckbox", "checkbox", "checkedLabelBorder");
+					border: 2px solidmap-deep-get($colors, "dark", "mdCheckbox", "checkbox", "checkedLabelBorder");
 					border-top-style: none;
 					border-right-style: none;
 				}
@@ -369,9 +369,9 @@ body.theme-dark{
 	}
 
 	#privacyLink {
-		color: map-deep-get($colors, "mdCheckbox", "privacyLink", "color");
+		color: map-deep-get($colors, "dark", "mdCheckbox", "privacyLink", "color");
 		&:hover{
-			color:map-deep-get($colors, "mdCheckbox", "privacyLink", "hover");
+			color:map-deep-get($colors, "dark", "mdCheckbox", "privacyLink", "hover");
 		}
 	}
 

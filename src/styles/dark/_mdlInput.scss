@@ -1,10 +1,10 @@
 @import "variables";
 
 // VARIABLES // ============================== //
-$theme-dark-bg-color: $theme-dark-mdl-input-bg-color;
-$theme-dark-title-color: $theme-dark-mdl-input-title-color;
-$theme-dark-hl-color: $theme-dark-mdl-input-hl-color; // Button etc
-$theme-dark-hl-danger-color: $theme-dark-mdl-input-hl-danger-color; // Button etc
+$theme-dark-bg-color: map-deep-get($colors, "dark", "mdlInput", "background");
+$theme-dark-title-color: map-deep-get($colors, "dark", "mdlInput", "title", "color");
+$theme-dark-hl-color: map-deep-get($colors, "dark", "mdlInput", "hl", "color"); // Button etc
+$theme-dark-hl-danger-color: map-deep-get($colors, "dark", "mdlInput", "hl", "danger"); // Button etc
 
 $theme-dark-muted-color: mix(white, $theme-dark-bg-color, 70%);
 $theme-dark-trans-time: 300ms;

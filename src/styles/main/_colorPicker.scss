@@ -11,12 +11,12 @@
 }
 
 .rc-color-picker-panel{
-	background-color: $color-picker-background;
+	background-color: map-deep-get($colors, "colorPicker", "background");
 }
 
 .rc-color-picker-panel-inner{
-	box-shadow: $color-picker-box-shadow;
-	border: $color-picker-panel-border;
+	box-shadow: map-deep-get($colors, "colorPicker", "boxShadow");
+	border: map-deep-get($colors, "colorPicker", "border");
 }
 
 .rc-color-picker-panel-params-input{
