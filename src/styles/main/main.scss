@@ -295,3 +295,22 @@ html, body{
 .pointer-cursor{
 	cursor: pointer;
 }
+
+.boardID{
+	width: 100%;
+}
+
+.copy-notification{
+	width: 100%;
+
+	transition: opacity 1s ease-in-out;
+	opacity: 100;
+
+	display: inline !important;
+
+	&.hidden{
+		display: inline !important;
+		opacity: 0;
+		transition: opacity 1s ease-in-out;
+	}
+}

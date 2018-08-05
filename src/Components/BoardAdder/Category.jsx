@@ -24,16 +24,7 @@ class Category extends Component {
 					<p className="panel-heading" >
 						<span onClick={() => this.props.titleEdit(this.props.categoryID)}>{this.props.categoryName}</span>	
 					</p>
-					{this.props.clues.length>0&&
-						<p className="panel-tabs">
-							<a className="is-right" onClick={() => this.props.delete(this.props.categoryID, this.props.boardID)}>
-								<span className="icon is-left">
-									<i className="mdi mdi-close"></i>
-								</span>
-								Delete
-							</a>
-						</p>
-					}
+					
 					
 					{this.props.clues.map((clue, i) => {
 						return (
@@ -48,6 +39,12 @@ class Category extends Component {
 							<Button type="button" name="newClue" id="newClueButton" text="Add New Clue" icon="plus" onClick={() => this.props.newClue(this.props.categoryID)} className="btn-submit panel-block"/>
 						</form>
 					)}
+
+					{this.props.clues.length>0&&
+						<form className="mdl-form gameBrowser-button-holder">
+							<Button type="button" name="deleteCategory" id="deleteCategoryButton" text="Delete Category" icon="close" onClick={() => this.props.delete(this.props.categoryID, this.props.boardID)} className="btn-danger panel-block"/>
+						</form>
+					}
 				</nav>
 			</div>
 		)
