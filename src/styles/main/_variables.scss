@@ -1,147 +1,413 @@
-// --------------------------- \\
-//       Chat
+/// Map deep get
+/// @author Hugo Giraudel
+/// @access public
+/// @param {Map} $map - Map
+/// @param {Arglist} $keys - Key chain
+/// @return {*} - Desired value
+@function map-deep-get($map, $keys...) {
+	@each $key in $keys {
+		$map: map-get($map, $key);
+	}
+	@return $map;
+}
 
-$chat-input-shadow: rgba(10, 10, 10, 0.1);
-$chat-button-background: #8BC34A;
-$chat-button-text: #FFF;
-$chat-button-background-hover: #7CB342;
-$chat-button-background-active: #689F38;
+$colors: (
+	light: (
+		general: (
+			primaryColor: #FF9800,
+			primaryColorDark: #FB8C00,
+			navbar: (
+				text: #FFF
+			),
+			background: #FFF,
+			instructionsContainer: (
+				color: #FFF
+			),
+			gameCodeHeader: (
+				text: #FFF
+			),
+			swal: (
+				background: #757575,
+				color: #FFF
+			),
+			scrollbar: (
+				track: (
+					boxShadow: rgba(0,0,0,0.3),
+					background: #F5F5F5
+				),
+				background: #F5F5F5,
+				thumb: (
+					boxShadow: rgba(0,0,0,0.3),
+					background: #FB8C00
+				)
+			)
+		),
+		alert: (
+			danger: (
+				background: #F44336,
+				text: #FFF
+			),
+			success: (
+				background: #8BC34A,
+				text: #FFF
+			)
+		),
+		chat: (
+			inputShadow: rgba(10, 10, 10, 0.1),
+			button: (
+				background: (
+					normal: #8BC34A,
+					hover: #7CB342,
+					active: #689F38
+				),
+				text: #FFF
+			),
+			container: (
+				background: #FFF
+			),
+			message: (
+				even: (
+					background: #FFF,
+					color: #000
+				),
+				odd: (
+					background: #EEE,
+					color: #000
+				)
+			)
+		),
+		emojiPicker: (
+			color: #FFF,
+			background: #424242,
+			category: (
+				background: rgba(66, 66, 66, .95)
+			),
+			hover: (
+				background: #616161
+			)
+		),
+		mdlInput: (
+			background: #424242,
+			title: (
+				color: #000
+			),
+			hl: (
+				color: #4CAF50,
+				danger: #F44336
+			),
+			textColor: #FFF
+		),
+		userCard: (
+			background: #FFFFFF,
+			color: #4A4A4A
+		),
+		userForm: (
+			overlay: (
+				background: rgba(0, 0, 0, 0.8),
+				boxShadow: rgba(0, 0, 0, 0.1)
+			),
+			modal: (
+				background: #FFF,
+				errorColor: #F44336,
+				successColor: #4CAF50,
+				toggle: (
+					background: #4285F4
+				),
+				label: (
+					color: #FFF
+				),
+				input: (
+					color: #FFF
+				),
+				button: (
+					color: #FFF,
+					background: #4285F4
+				),
+				recovery: (
+					color: #4285F4
+				),
+				header: (
+					color: #4285F4
+				),
+				panelTwo: (
+					background: #4285F4,
+					color: #FFF,
+					header: (
+						color: #FFF
+					)
+				)
+			)
+		),
+		mdCheckbox: (
+			checkbox: (
+				background: #FFF,
+				checkedLabelBg: #8BC34A,
+				checkedLabelBorder: #FFF,
+			),
+			privacyLink: (
+				color: #FFF,
+				hover: #BBDEFB
+			)
+		),
+		questionTable: (
+			background: #363636,
+			color: #FFF,
+			hover: #E53935,
+			active: #D32F2F,
+			header: (
+				background: #F44336,
+				color: #FFF
+			),
+			mobile: (
+				border: #ddd
+			)
+		),
+		questionCard: (
+			background: #FF9800,
+			text: #FFF
+		),
+		profile: (
+			top: (
+				background: #8BC34A,
+				text: #212121
+			),
+			bottom: (
+				background: #FFF,
+				hover: #689F38,
+				hoverText: #212121,
+				text: #FFF
+			),
+			themeButton: (
+				background: whitesmoke,
+				border: #DBDBDB,
+				color: #7A7A7A
+			)
+		),
+		gameBrowser: (
+			color: #000,
 
-$chat-container-background: #FFF;
+			background: #BDBDBD,
+			hover: #FF9800,
+			hoverText: #FFF,
+			header: (
+				background: #FF9800,
+				color: #FFF
+			),
+			oddBackground: #EEE
+		),
+		FAB: (
+			text: (
+				background: #212121,
+				color: #FFF
+			),
+			icon: (
+				background: #FF4081,
+				color: #FFF
+			)
+		),
+		colorPicker: (
+			background: #FFF,
+			boxShadow: #CCC,
+			border: #CCC
+		)
+	),
+	dark: (
+		general: (
+			primaryColor: #FF9800,
+			primaryColorDark: #FB8C00,
+			navbar: (
+				text: #FFF
+			),
+			background: #757575,
+			instructionsContainer: (
+				color: #FFF
+			),
+			gameCodeHeader: (
+				text: #FFF
+			),
+			swal: (
+				background: #757575,
+				color: #FFF
+			),
+			scrollbar: (
+				track: (
+					boxShadow: rgba(0,0,0,0.3),
+					background: #F5F5F5
+				),
+				background: #F5F5F5,
+				thumb: (
+					boxShadow: rgba(0,0,0,0.3),
+					background: #555
+				)
+			)
+		),
+		alert: (
+			danger: (
+				background: #F44336,
+				text: #FFF
+			),
+			success: (
+				background: #8BC34A,
+				text: #FFF
+			)
+		),
+		chat: (
+			inputShadow: rgba(10, 10, 10, 0.1),
+			button: (
+				background: (
+					normal: #8BC34A,
+					hover: #7CB342,
+					active: #689F38
+				),
+				text: #FFF
+			),
+			container: (
+				background: #757575
+			),
+			message: (
+				even: (
+					background: #424242,
+					color: #FFF
+				),
+				odd: (
+					background: #616161,
+					color: #FFF
+				)
+			)
+		),
+		emojiPicker: (
+			color: #FFF,
+			background: #424242,
+			category: (
+				background: rgba(66, 66, 66, .95)
+			),
+			hover: (
+				background: #616161
+			)
+		),
+		mdlInput: (
+			background: #424242,
+			title: (
+				color: #FFF
+			),
+			hl: (
+				color: #4CAF50,
+				danger: #F44336
+			),
+			textColor: #FFF
+		),
+		userCard: (
+			background: #4A4A4A,
+			color: #FFF
+		),
+		userForm: (
+			overlay: (
+				background: rgba(0, 0, 0, 0.8),
+				boxShadow: rgba(0, 0, 0, 0.1)
+			),
+			modal: (
+				background: #616161,
+				errorColor: #F44336,
+				successColor: #4CAF50,
+				toggle: (
+					background: #757575
+				),
+				label: (
+					color: #FFF
+				),
+				input: (
+					color: #FFF
+				),
+				button: (
+					color: #FFF,
+					background: #757575
+				),
+				recovery: (
+					color: #FFF
+				),
+				header: (
+					color: #FFF
+				),
+				panelTwo: (
+					background: #424242,
+					color: #FFF,
+					header: (
+						color: #FFF
+					)
+				)
+			)
+		),
+		mdCheckbox: (
+			checkbox: (
+				background: #FFF,
+				checkedLabelBg: #8BC34A,
+				checkedLabelBorder: #FFF,
+			),
+			privacyLink: (
+				color: #FFF,
+				hover: #BBDEFB
+			)
+		),
+		questionTable: (
+			background: #363636,
+			color: #FFF,
+			hover: #E53935,
+			active: #D32F2F,
+			header: (
+				background: #F44336,
+				color: #FFF
+			),
+			mobile: (
+				border: #ddd
+			)
+		),
+		questionCard: (
+			background: #FF9800,
+			text: #FFF
+		),
+		profile: (
+			top: (
+				background: #616161,
+				text: #FFF
+			),
+			bottom: (
+				background: #757575,
+				hover: #424242,
+				hoverText: #FFF,
+				text: #FFF
+			),
+			themeButton: (
+				background: whitesmoke,
+				border: #DBDBDB,
+				color: #7A7A7A
+			)
+		),
+		gameBrowser: (
+			color: #FFF,
 
-// --------------------------- \\
-//      MDL Input
-
-$mdl-input-bg-color: #424242;
-$mdl-input-title-color: #000;
-$mdl-input-hl-color: #4CAF50;
-$mdl-input-hl-danger-color: #F44336;
-
-// --------------------------- \\
-//       Profile
-
-$profile-top-background: #8BC34A;
-$profile-top-text: #212121;
-
-$profile-bottom-background: #FFF;
-$profile-bottom-hover: #689F38;
-$profile-bottom-hover-text: #212121;
-
-// Theme button
-
-$profile-theme-button-background: whitesmoke;
-$profile-theme-button-border-color: #dbdbdb;
-$profile-theme-button-color: #7a7a7a;
-
-// --------------------------- \\
-//       Question Table
-
-$gameTable-hover-color: #E53935;
-$gameTable-active-color: #D32f2f;
-$gameTable-text-color: #FFF;
-
-$gameTable-header-text-color: #FFF;
-$gameTable-header-background: #F44336;
-
-// Question table Game Question
-
-$question-card-background: #FF9800;
-$question-card-text: #FFF;
-
-// Mobile Game Table
-
-$gameTable-mobile-border: #ddd;
-
-// --------------------------- \\
-//       User Form
-
-$user-modal-background: #FFF;
-$user-modal-toggle-background-bafter: #4285F4;
-
-$user-modal-label-color: #FFF;
-$user-modal-form-input-color: #FFF;
-$user-modal-form-button-color: #FFF;
-$user-modal-form-button-background: #4285F4;
-
-$user-modal-recovery-color: #4285F4;
-
-$user-modal-form-header-color: #4285F4;
-$user-modal-error-color: #F44336;
-$user-modal-success-color: #4CAF50;
-
-$user-modal-panel-two-background: #4285F4;
-$user-modal-panel-two-header-color: #FFF;
-
-//       MD Checkbox
-
-$md-checkbox-background: #FFF;
-$md-checkbox-checked-label-before-bg: #8BC34A;
-$md-checkbox-checked-label-border-color: #FFF;
-
-$md-privacyLink-color: #FFF;
-$md-privacyLink-hover-color: #BBDEFB;
-
-// --------------------------- \\
-//       Alerts
-
-$alert-danger: #F44336;
-$alert-danger-text: #FFF;
-
-$alert-success: #8BC34A;
-$alert-success-text: #FFF;
-
-// --------------------------- \\
-//       Main Stuff
-
-$primary-color: #FF9800;
-$primary-color-dark: #FB8C00;
-$navbar-text: #FFF;
-$background-color: #FFF;
-$gameCodeHeader-text: #FFF;
-
-// --------------------------- \\
-//       User Card
-
-$user-card-background: #FFFFFF;
-$user-card-color: #4a4a4a;
-
-// --------------------------- \\
-//       Color Picker
-
-$color-picker-background: #FFF;
-$color-picker-box-shadow: 0 1px 5px #ccc;
-$color-picker-panel-border: 1px solid #ccc;
-
-// --------------------------- \\
-//       FAB
-
-$FAB-icon-background: #ff4081;
-$FAB-icon-color: #FFF;
-
-$FAB-text-show-background: #212121;
-$FAB-text-show-color: #FFF;
-
-// --------------------------- \\
-//       Game browser
-
-$gamebrowser-color: #000;
-$gamebrowser-background: #BDBDBD;
-
-$gamebrowser-hover: #FF9800;
-$gamebrowser-hover-text: #FFF;
-
-$gamebrowser-header-background: #FF9800;
-$gamebrowser-header-color: #FFF;
-
-$gamebrowser-odd-background: #EEE;
-
-// --------------------------- \\
-//       Scrollbar
-
-$scrollbar-track-box-shadow: rgba(0,0,0,0.3);
-$scrollbar-track-background-color: #F5F5F5;
-
-$scrollbar-background-color: #F5F5F5;
-
-$scrollbar-thumb-box-shadow: rgba(0,0,0,0.3);
-$scrollbar-thumb-background-color: #FB8C00;
+			background: #424242,
+			hover: #FF9800,
+			hoverText: #FFF,
+			header: (
+				background: #FF9800,
+				color: #FFF
+			),
+			oddBackground: #616161
+		),
+		FAB: (
+			text: (
+				background: #212121,
+				color: #FFF
+			),
+			icon: (
+				background: #FF4081,
+				color: #FFF
+			)
+		),
+		colorPicker: (
+			background: #616161,
+			boxShadow: #424242,
+			border: #424242
+		)
+	)
+);

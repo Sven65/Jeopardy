@@ -1,4 +1,4 @@
-@import 'variables';
+//@import 'variables';
 
 body.theme-dark{
 
@@ -352,7 +352,7 @@ body.theme-dark{
 					left: 4px;
 					width: 12px;
 					height: 6px;
-					border: 2px solidmap-deep-get($colors, "dark", "mdCheckbox", "checkbox", "checkedLabelBorder");
+					border: 2px solid map-deep-get($colors, "dark", "mdCheckbox", "checkbox", "checkedLabelBorder");
 					border-top-style: none;
 					border-right-style: none;
 				}

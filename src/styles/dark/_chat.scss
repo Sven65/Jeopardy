@@ -1,4 +1,4 @@
-@import "variables";
+//@import "variables";
 
 /**
  * Chat styles
@@ -23,7 +23,7 @@ body.theme-dark{
 	#chat-container {
 		/*margin-left: 5px;*/
 		width: 100%;
-		background-color: map-deep-get($colors, "dark", "dark", "chat", "container", "background");
+		background-color: map-deep-get($colors, "dark", "chat", "container", "background");
 	}
 
 	.chat-image {
@@ -46,16 +46,16 @@ body.theme-dark{
 		li {
 			padding: 5px 10px;
 
-			background-color: map-deep-get($colors, "dark", "dark", "chat", "message", "even", "background");
-			color: map-deep-get($colors, "dark", "dark", "chat", "message", "even", "color");
+			background-color: map-deep-get($colors, "dark", "chat", "message", "even", "background");
+			color: map-deep-get($colors, "dark", "chat", "message", "even", "color");
 
 			&:nth-child(odd) {
-				background-color: map-deep-get($colors, "dark", "dark", "chat", "message", "odd", "background");
-				color: map-deep-get($colors, "dark", "dark", "chat", "message", "odd", "color");
+				background-color: map-deep-get($colors, "dark", "chat", "message", "odd", "background");
+				color: map-deep-get($colors, "dark", "chat", "message", "odd", "color");
 			}
 
 			&.chatBottom{
-				background-color: map-deep-get($colors, "dark", "dark", "chat", "container", "background");
+				background-color: map-deep-get($colors, "dark", "chat", "container", "background");
 			}
 		}
 	}
@@ -81,7 +81,7 @@ body.theme-dark{
 				}
 
 				.input{
-					box-shadow: 0 1px 2px map-deep-get($colors, "dark", "dark", "chat", "inputShadow");
+					box-shadow: 0 1px 2px map-deep-get($colors, "dark", "chat", "inputShadow");
 				}
 			}
 		}
@@ -92,17 +92,17 @@ body.theme-dark{
 		}
 
 		.button{
-			background-color: map-deep-get($colors, "dark", "dark", "chat", "button", "background", "normal");
+			background-color: map-deep-get($colors, "dark", "chat", "button", "background", "normal");
 			border-color: transparent;
-			color: map-deep-get($colors, "dark", "dark", "chat", "button", "text");
+			color: map-deep-get($colors, "dark", "chat", "button", "text");
 			transition: all 0.3s ease;
 
 			&:hover{
-				background-color: map-deep-get($colors, "dark", "dark", "chat", "button", "background", "hover");
+				background-color: map-deep-get($colors, "dark", "chat", "button", "background", "hover");
 			}
 
 			&:active{
-				background-color: map-deep-get($colors, "dark", "dark", "chat", "button", "background", "active");
+				background-color: map-deep-get($colors, "dark", "chat", "button", "background", "active");
 			}
 		}
 
@@ -123,8 +123,8 @@ body.theme-dark{
 
 		&:hover{
 			cursor: pointer;
-			background-color: map-deep-get($colors, "dark", "dark", "chat", "button", "background", "normal");
-			color:map-deep-get($colors, "dark", "dark", "chat", "button", "text");
+			background-color: map-deep-get($colors, "dark", "chat", "button", "background", "normal");
+			color: map-deep-get($colors, "dark", "chat", "button", "text");
 			transition: all 0.3s ease;
 		}
 		transition: all 0.3s ease;
@@ -133,8 +133,8 @@ body.theme-dark{
 	.emoji-mart{
 		position: absolute !important;
 		bottom: 35px;
-		color: map-deep-get($colors, "dark", "dark", "emojiPicker", "color");
-		background: map-deep-get($colors, "dark", "dark", "emojiPicker", "background");
+		color: map-deep-get($colors, "dark", "emojiPicker", "color");
+		background: map-deep-get($colors, "dark", "emojiPicker", "background");
 		border: 0;
 		border-radius: 0;
 
@@ -176,14 +176,14 @@ body.theme-dark{
 
 		.emoji-mart-category-label{
 			span {
-				background-color:  map-deep-get($colors, "dark", "dark", "emojiPicker", "category", "background");
+				background-color:  map-deep-get($colors, "dark", "emojiPicker", "category", "background");
 			}
 		}
 
 		.emoji-mart-emoji{
 			&:hover{
 				&:before {
-					background-color:  map-deep-get($colors, "dark", "dark", "emojiPicker", "hover", "background", );
+					background-color:  map-deep-get($colors, "dark", "emojiPicker", "hover", "background", );
 				}
 			}
 		}
@@ -194,11 +194,11 @@ body.theme-dark{
 	}
 
 	.chat-even{
-		background-color:  map-deep-get($colors, "dark", "dark", "chat", "message", "even", "background");
+		background-color:  map-deep-get($colors, "dark", "chat", "message", "even", "background");
 	}
 
 	.chat-odd{
-		background-color: map-deep-get($colors, "dark", "dark", "chat", "message", "odd", "background");
+		background-color: map-deep-get($colors, "dark", "chat", "message", "odd", "background");
 	}
 }
 

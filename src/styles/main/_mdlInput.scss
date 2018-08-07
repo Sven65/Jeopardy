@@ -1,10 +1,10 @@
 @import "variables";
 
 // VARIABLES // ============================== //
-$bg-color: $mdl-input-bg-color;
-$title-color: $mdl-input-title-color;
-$hl-color: $mdl-input-hl-color; // Button etc
-$hl-danger-color: $mdl-input-hl-danger-color; // Button etc
+$bg-color: map-deep-get($colors, "light", "mdlInput", "background");
+$title-color: map-deep-get($colors, "light", "mdlInput", "title", "color");
+$hl-color: map-deep-get($colors, "light", "mdlInput", "hl", "color"); // Button etc
+$hl-danger-color: map-deep-get($colors, "light", "mdlInput", "hl", "danger"); // Button etc
 $muted-color: mix(white, $bg-color, 70%);
 $trans-time: 300ms;
 $width: 90%;

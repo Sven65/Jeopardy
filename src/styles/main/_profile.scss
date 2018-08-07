@@ -11,13 +11,13 @@
 }
 
 .profile-top{
-	background: $profile-top-background;
-	color: $profile-top-text;
+	background: map-deep-get($colors, "light", "profile", "top", "background");
+	color: map-deep-get($colors, "light", "profile", "top", "text");
 }
 
 .profile-bottom{
 	.column{
-		background: $profile-bottom-background;
+		background: map-deep-get($colors, "light", "profile", "bottom", "background");
 		padding: 2rem;
 
 		transition: all .5s;
@@ -32,11 +32,11 @@
 
 	.column:hover{
 		cursor: pointer;
-		background: $profile-bottom-hover;
-		color: $profile-bottom-hover-text;
+		background: map-deep-get($colors, "light", "profile", "bottom", "hover");
+		color: map-deep-get($colors, "light", "profile", "bottom", "hoverText");
 
 		&.no-hover{
-			background: $profile-bottom-background;
+			background: map-deep-get($colors, "light", "profile", "bottom", "background");
 			cursor: auto;
 		}
 	}
@@ -91,9 +91,9 @@
 }
 
 .button.is-profile{
-	background-color: $profile-theme-button-background;
-	border-color: $profile-theme-button-border-color;
-	color: $profile-theme-button-color;
+	background-color: map-deep-get($colors, "light", "profile", "themeButton", "background");
+	border-color: map-deep-get($colors, "light", "profile", "themeButton", "border");
+	color: map-deep-get($colors, "light", "profile", "themeButton", "color");
 	box-shadow: none;
 	pointer-events: none;
 }

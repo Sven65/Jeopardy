@@ -1,4 +1,4 @@
-@import "variables";
+//@import "variables";
 
 body.theme-dark{
 	.FAB {
@@ -30,7 +30,7 @@ body.theme-dark{
 					&__text{
 						background-color: map-deep-get($colors, "dark", "FAB", "text", "background");
 						border-radius: 3px;
-						color: map-deep-get($colors, "dark", "FAB", "text", "COLOR");
+						color: map-deep-get($colors, "dark", "FAB", "text", "color");
 						right: 75px;
 						font-size: 14px;
 						opacity: .8;

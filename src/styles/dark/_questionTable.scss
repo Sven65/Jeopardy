@@ -1,4 +1,4 @@
-@import 'variables';
+//@import 'variables';
 
 body.theme-dark{
 
@@ -25,7 +25,7 @@ body.theme-dark{
 					}
 
 					&[data-revealed="true"]{
-						background-color: map-deep-get($colors, "dark", "questionTable", "hover")
+						background-color: map-deep-get($colors, "dark", "questionTable", "hover");
 						color: map-deep-get($colors, "dark", "questionTable", "color");
 					}
 				}

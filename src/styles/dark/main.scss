@@ -1,4 +1,4 @@
-@import 'variables.scss';
+//@import 'variables.scss';
 @import 'mdlInput';
 @import 'profile';
 @import 'userForm';
@@ -74,7 +74,7 @@ body{
 
 		.navbar-burger{
 			span {
-				color: $map-deep-get($colors, "dark", "general", "navbar", "text");
+				color: map-deep-get($colors, "dark", "general", "navbar", "text");
 			}
 		}
 

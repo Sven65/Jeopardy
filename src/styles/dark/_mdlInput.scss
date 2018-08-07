@@ -1,4 +1,4 @@
-@import "variables";
+//@import "variables";
 
 // VARIABLES // ============================== //
 $theme-dark-bg-color: map-deep-get($colors, "dark", "mdlInput", "background");
@@ -6,7 +6,7 @@ $theme-dark-title-color: map-deep-get($colors, "dark", "mdlInput", "title", "col
 $theme-dark-hl-color: map-deep-get($colors, "dark", "mdlInput", "hl", "color"); // Button etc
 $theme-dark-hl-danger-color: map-deep-get($colors, "dark", "mdlInput", "hl", "danger"); // Button etc
 
-$theme-dark-muted-color: mix(white, $theme-dark-bg-color, 70%);
+$theme-dark-muted-color: mix(white, map-deep-get($colors, "dark", "general", "background"), 70%);
 $theme-dark-trans-time: 300ms;
 $theme-dark-width: 90%;
 
@@ -45,7 +45,7 @@ body.theme-dark{
 		input,
 		textarea {
 			background: none;
-			color: $theme-dark-mdl-input-text-color;
+			color: map-deep-get($colors, "dark", "mdlInput", "textColor");
 			//color: $theme-dark-muted-color;
 			font-size: 18px;
 			padding: 10px 10px 10px 5px;

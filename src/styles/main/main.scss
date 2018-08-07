@@ -18,7 +18,7 @@ html, body{
 	height: 100%;
 	overflow-y: hidden;
 	overflow-x: hidden;
-	background: $background-color;
+	background: map-deep-get($colors, "light", "general", "background");
 }
 
 
@@ -28,13 +28,13 @@ html, body{
 }
 
 .alert.alert-danger{
-	background-color: $alert-danger;
-	color: $alert-danger-text;
+	background-color: map-deep-get($colors, "light", "alert", "danger", "background");
+	color: map-deep-get($colors, "light", "alert", "danger", "text");
 }
 
 .alert.alert-success{
-	background-color: $alert-success;
-	color: $alert-success-text;
+	background-color: map-deep-get($colors, "light", "alert", "success", "background");
+	color: map-deep-get($colors, "light", "alert", "success", "text");
 }
 
 .hidden {
@@ -59,14 +59,14 @@ html, body{
 }
 
 .navbar {
-	background: $primary-color;
+	background: map-deep-get($colors, "light", "general", "primaryColor");
 	
 	.navbar-link::after{
-		border-color: $navbar-text;
+		border-color: map-deep-get($colors, "light", "general", "navbar", "text");
 	}
 
 	.navbar-link:hover::after{
-		border-color: $navbar-text;
+		border-color: map-deep-get($colors, "light", "general", "navbar", "text");
 	}
 
 	.navbar-item{
@@ -76,30 +76,30 @@ html, body{
 
 .navbar-burger{
 	span {
-		color: $navbar-text;
+		color: map-deep-get($colors, "light", "general", "navbar", "text");
 	}
 }
 
 @media screen and (min-width: 1088px){
 	.navbar-item.has-dropdown:hover .navbar-link, .navbar-item.has-dropdown.is-active{
-		background-color: $primary-color-dark;
+		background-color: map-deep-get($colors, "light", "general", "primaryColorDark");
 	}
 
 	.navbar {
 		.user-link {
-			color: $navbar-text;
+			color: map-deep-get($colors, "light", "general", "navbar", "text");
 		}
 
 		a.navbar-item{
-			color: $navbar-text;
+			color: map-deep-get($colors, "light", "general", "navbar", "text");
 		}
 
 		a.navbar-item.dark-background:hover{
-			background-color: $primary-color-dark;
+			background-color: map-deep-get($colors, "light", "general", "primaryColorDark");
 		}
 
 		a.navbar-item.no-background:hover{
-			background-color: $primary-color;
+			background-color: map-deep-get($colors, "light", "general", "primaryColor");
 		}
 	}
 }
@@ -170,15 +170,15 @@ html, body{
 
 .user-card{
 	.card{
-		background-color: $user-card-background;
+		background-color: map-deep-get($colors, "light", "userCard", "background");
 		* {
-			color: $user-card-color;
+			color: map-deep-get($colors, "light", "userCard", "color");
 		}
 	}
 }
 
 #gameCodeHeader{
-	color: $gameCodeHeader-text;
+	color: map-deep-get($colors, "light", "general", "gameCodeHeader", "text");
 }
 
 .swatch{
@@ -272,20 +272,20 @@ html, body{
 				height: 100%;
 
 				&::-webkit-scrollbar-track{
-					-webkit-box-shadow: inset 0 0 6px $scrollbar-track-box-shadow;
+					-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "light", "general", "scrollbar", "track", "boxShadow");
 					//border-radius: 10px;
-					background-color: $scrollbar-track-background-color;
+					background-color: map-deep-get($colors, "light", "general", "scrollbar", "track", "background");
 				}
 
 				&::-webkit-scrollbar{
 					width: 12px;
-					background-color: $scrollbar-background-color;
+					background-color: map-deep-get($colors, "light", "general", "scrollbar", "background");
 				}
 
 				&::-webkit-scrollbar-thumb{
 					//border-radius: 10px;
-					-webkit-box-shadow: inset 0 0 6px $scrollbar-thumb-box-shadow;
-					background-color: $scrollbar-thumb-background-color;
+					-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "light", "general", "scrollbar", "thumb", "boxShadow");
+					background-color: map-deep-get($colors, "light", "general", "scrollbar", "thumb", "background");
 				}
 			}
 		}

@@ -1,4 +1,4 @@
-@import 'variables.scss';
+//@import 'variables.scss';
 
 body.theme-dark{
 	.gamebrowser{
@@ -38,7 +38,7 @@ body.theme-dark{
 
 					&.selected{
 						background: map-deep-get($colors, "dark", "gameBrowser", "hover");
-						color: $map-deep-get($colors, "dark", "gameBrowser", "hoverText");
+						color: map-deep-get($colors, "dark", "gameBrowser", "hoverText");
 					}
 				}
 			}

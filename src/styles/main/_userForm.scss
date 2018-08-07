@@ -13,7 +13,7 @@
 .user-modal-form {
 	z-index: 15;
 	position: relative;
-	background: $user-modal-background;
+	background: map-deep-get($colors, "light", "userForm", "modal", "background");
 	max-width: 600px;
 	border-radius: 4px;
 	box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
@@ -37,7 +37,7 @@
 	position: absolute;
 	top: 60px;
 	right: 60px;
-	background: $user-modal-background;
+	background: map-deep-get($colors, "light", "userForm", "modal", "background");
 	width: 60px;
 	height: 60px;
 	border-radius: 100%;
@@ -56,7 +56,7 @@
 		left: 50%;
 		width: 30px;
 		height: 4px;
-		background: $user-modal-toggle-background-bafter;
+		background: map-deep-get($colors, "light", "userForm", "modal", "toggle", "background");
 		-webkit-transform: translate(-50%, -50%);
 		transform: translate(-50%, -50%);
 	}
@@ -95,7 +95,7 @@
 }
 
 .two .user-modal-form-group label {
-	color: $user-modal-label-color;
+	color: map-deep-get($colors, "light", "userForm", "modal", "label", "color");
 }
 
 .user-modal-form-group input {
@@ -119,20 +119,20 @@
 }
 
 .two .user-modal-form-group input {
-	color: $user-modal-form-input-color;
+	color: map-deep-get($colors, "light", "userForm", "modal", "input", "color");
 	&:focus {
-		color: $user-modal-form-input-color;
+		color: map-deep-get($colors, "light", "userForm", "modal", "input", "color");
 	}
 }
 
 .user-modal-form-group button {
 	outline: none;
-	background: $user-modal-form-button-background;
+	background: map-deep-get($colors, "light", "userForm", "modal", "button", "background");
 	width: 100%;
 	border: 0;
 	border-radius: 4px;
 	padding: 12px 20px;
-	color: $user-modal-form-button-color;
+	color: map-deep-get($colors, "light", "userForm", "modal", "button", "color");
 	font-family: inherit;
 	font-size: inherit;
 	font-weight: 500;
@@ -142,8 +142,8 @@
 }
 
 .two .user-modal-form-group button {
-	background: $user-modal-form-button-color;
-	color: $user-modal-form-button-background;
+	background: map-deep-get($colors, "light", "userForm", "modal", "button", "color");
+	color: map-deep-get($colors, "light", "userForm", "modal", "button", "background");
 }
 
 .user-modal-form-group {
@@ -159,7 +159,7 @@
 		}
 	}
 	.user-modal-form-recovery {
-		color: $user-modal-recovery-color;
+		color: map-deep-get($colors, "light", "userForm", "modal", "recovery", "color");
 		font-size: 12px;
 		text-decoration: none;
 	}
@@ -187,7 +187,7 @@
 		position: absolute;
 		top: 0;
 		left: 95%;
-		background: $user-modal-panel-two-background;
+		background: map-deep-get($colors, "light", "userForm", "modal", "panelTwo", "background");
 		width: 100%;
 		min-height: 100%;
 		padding: 60px calc(10% + 60px) 60px 60px;
@@ -247,24 +247,24 @@
 	margin: 0 0 40px;
 	h1 {
 		padding: 4px 0;
-		color: $user-modal-form-header-color;
+		color: map-deep-get($colors, "light", "userForm", "modal", "header", "color");
 		font-size: 24px;
 		font-weight: 700;
 		text-transform: uppercase;
 	}
 
 	.user-modal-error{
-		color: $user-modal-error-color;
+		color: map-deep-get($colors, "light", "userForm", "modal", "errorColor");
 	}
 
 	.user-modal-success{
-		color: $user-modal-success-color;
+		color: map-deep-get($colors, "light", "userForm", "modal", "successColor");
 	}
 }
 
 .two .user-modal-form-header {
 	h1, h6{
-		color: $user-modal-panel-two-header-color;
+		color: map-deep-get($colors, "light", "userForm", "modal", "panelTwo", "header", "color");
 	}
 
 	h1 {
@@ -322,7 +322,7 @@ label[for="privacyAgree"] {
 		&:before {
 			width: 20px;
 			height: 20px;
-			background: $md-checkbox-background;
+			background: map-deep-get($colors, "light", "mdCheckbox", "checkbox", "background");
 			border: 2px solid rgba(0, 0, 0, 0.54);
 			border-radius: 2px;
 			cursor: pointer;
@@ -335,7 +335,7 @@ label[for="privacyAgree"] {
 		visibility: hidden;
 		&:checked + label {
 			&:before {
-				background: $md-checkbox-checked-label-before-bg;
+				background: map-deep-get($colors, "light", "mdCheckbox", "checkbox", "checkedLabelBg");
 				border: none;
 			}
 			&:after {
@@ -344,7 +344,7 @@ label[for="privacyAgree"] {
 				left: 4px;
 				width: 12px;
 				height: 6px;
-				border: 2px solid $md-checkbox-checked-label-border-color;
+				border: 2px solid map-deep-get($colors, "light", "mdCheckbox", "checkbox", "checkedLabelBorder");
 				border-top-style: none;
 				border-right-style: none;
 			}
@@ -361,9 +361,9 @@ label[for="privacyAgree"] {
 }
 
 #privacyLink {
-	color: $md-privacyLink-color;
+	color: map-deep-get($colors, "light", "mdCheckbox", "privacyLink", "color");
 	&:hover{
-		color: $md-privacyLink-hover-color;
+		color: map-deep-get($colors, "light", "mdCheckbox", "privacyLink", "hover");
 	}
 }
 
