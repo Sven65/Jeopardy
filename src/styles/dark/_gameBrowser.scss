@@ -1,28 +1,11 @@
-//@import 'variables.scss';
-
 body.theme-dark{
 	.gamebrowser{
-		overflow-y: hidden;
-
-		max-height: 55vh;
-
 		&__table{
-			width: 100%;
-
 			background-color: map-deep-get($colors, "dark", "gameBrowser", "header", "background");
 			color: map-deep-get($colors, "dark", "gameBrowser", "header", "color");
 		
 			tbody{
-				display: block;
-				overflow-y: scroll;
-				max-height: 40vh;
-
 				tr {
-					transition: all .5s;
-					-webkit-transition: all .5s;
-					-moz-transition: .5s all;
-					-o-transition: .5s all;
-					
 					color: map-deep-get($colors, "dark", "gameBrowser", "color");
 					background: map-deep-get($colors, "dark", "gameBrowser", "background");
 
@@ -31,7 +14,6 @@ body.theme-dark{
 					}
 
 					&:hover{
-						cursor: pointer;
 						background: map-deep-get($colors, "dark", "gameBrowser", "hover");
 						color: map-deep-get($colors, "dark", "gameBrowser", "hoverText");
 					}
@@ -43,40 +25,13 @@ body.theme-dark{
 				}
 			}
 
-			td{
-				border: none;
-			}
-
-			thead, tbody tr {
-				display:table;
-				width:100%;
-				table-layout:fixed;
-			}
-
 			thead {
-				width: calc( 100% - 1em );
 				tr {
 					th {
 						color: map-deep-get($colors, "dark", "gameBrowser", "header", "color");
-						font-weight: 400;
 					}
 				}
 			}
-		}
-	}
-
-	.gameBrowser-button-holder{
-		width: 100% !important;
-		//margin: 0 !important;
-
-		button{
-			width: 100%;
-			cursor: pointer;
-			margin: 0;
-		}
-		
-		#hostButton{
-			margin-bottom: 10%;
 		}
 	}
 }

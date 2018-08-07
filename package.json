@@ -61,6 +61,7 @@
     "mini-css-extract-plugin": "^0.4.1",
     "node-sass": "^4.9.1",
     "sass-loader": "^7.0.3",
+    "sass-material-colors": "0.0.5",
     "style-loader": "^0.21.0",
     "webp-loader": "^0.4.0",
     "webpack": "^4.12.1",

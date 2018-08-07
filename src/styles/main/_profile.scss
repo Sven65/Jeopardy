@@ -10,14 +10,8 @@
 	background-repeat: no-repeat;
 }
 
-.profile-top{
-	background: map-deep-get($colors, "light", "profile", "top", "background");
-	color: map-deep-get($colors, "light", "profile", "top", "text");
-}
-
 .profile-bottom{
 	.column{
-		background: map-deep-get($colors, "light", "profile", "bottom", "background");
 		padding: 2rem;
 
 		transition: all .5s;
@@ -32,11 +26,8 @@
 
 	.column:hover{
 		cursor: pointer;
-		background: map-deep-get($colors, "light", "profile", "bottom", "hover");
-		color: map-deep-get($colors, "light", "profile", "bottom", "hoverText");
 
 		&.no-hover{
-			background: map-deep-get($colors, "light", "profile", "bottom", "background");
 			cursor: auto;
 		}
 	}
@@ -91,9 +82,6 @@
 }
 
 .button.is-profile{
-	background-color: map-deep-get($colors, "light", "profile", "themeButton", "background");
-	border-color: map-deep-get($colors, "light", "profile", "themeButton", "border");
-	color: map-deep-get($colors, "light", "profile", "themeButton", "color");
 	box-shadow: none;
 	pointer-events: none;
 }

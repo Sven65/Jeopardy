@@ -1,5 +1,3 @@
-@import "variables";
-
 /**
  * Chat styles
  */
@@ -22,7 +20,6 @@
 #chat-container {
 	/*margin-left: 5px;*/
 	width: 100%;
-	background-color: map-deep-get($colors, "light", "chat", "container", "background");
 }
 
 .chat-image {
@@ -44,18 +41,6 @@
 	height: calc(100vh - 30vh);
 	li {
 		padding: 5px 10px;
-
-		background-color: map-deep-get($colors, "light", "chat", "message", "even", "background");
-		color: map-deep-get($colors, "light", "chat", "message", "even", "color");
-
-		&:nth-child(odd) {
-			background-color: map-deep-get($colors, "light", "chat", "message", "odd", "background");
-			color: map-deep-get($colors, "light", "chat", "message", "odd", "color");
-		}
-
-		&.chatBottom{
-			background-color: map-deep-get($colors, "light", "chat", "container", "background");
-		}
 	}
 }
 
@@ -78,10 +63,6 @@
 			     margin-left: 0;
 			     margin-right: 0;
 			}
-
-			.input{
-				box-shadow: 0 1px 2px map-deep-get($colors, "light", "chat", "inputShadow");
-			}
 		}
 	}
 
@@ -91,18 +72,8 @@
 	}
 
 	.button{
-		background-color: map-deep-get($colors, "light", "chat", "button", "background", "normal");
 		border-color: transparent;
-		color: map-deep-get($colors, "light", "chat", "button", "text");
 		transition: all 0.3s ease;
-
-		&:hover{
-			background-color: map-deep-get($colors, "light", "chat", "button", "background", "hover");
-		}
-
-		&:active{
-			background-color: map-deep-get($colors, "light", "chat", "button", "background", "active");
-		}
 	}
 
 	.input{
@@ -122,8 +93,6 @@
 
 	&:hover{
 		cursor: pointer;
-		background-color: map-deep-get($colors, "light", "chat", "button", "background", "normal");
-		color: map-deep-get($colors, "light", "chat", "button", "text");
 		transition: all 0.3s ease;
 	}
 	transition: all 0.3s ease;

@@ -5,47 +5,12 @@
  */
 
 body.theme-dark{
-	.chat-message-container {
-		display: flex;
-		align-items: center;
-		width: 100%;
-	}
-
-	.chat-message {
-		word-break: break-all;
-
-		&::before {
-			content: "\A";
-			white-space: pre;
-		}
-	}
-
 	#chat-container {
-		/*margin-left: 5px;*/
-		width: 100%;
 		background-color: map-deep-get($colors, "dark", "chat", "container", "background");
 	}
 
-	.chat-image {
-		width: 64px;
-		height: 64px;
-		border-radius: 50%;
-		background-repeat: no-repeat;
-	}
-
-	.chat-sender {
-		font-weight: bold;
-	}
-
 	#chat-messages {
-		list-style-type: none;
-		margin: 0;
-		padding: 0;
-		overflow-y: auto;
-		height: calc(100vh - 30vh);
 		li {
-			padding: 5px 10px;
-
 			background-color: map-deep-get($colors, "dark", "chat", "message", "even", "background");
 			color: map-deep-get($colors, "dark", "chat", "message", "even", "color");
 
@@ -60,42 +25,17 @@ body.theme-dark{
 		}
 	}
 
-	.message-wrap{
-		width: 100%;
-
-		&[data-system='false'] {
-			padding-left: 3%;
-		}
-	}
-
 	.chat-input{
 		.field{
 			.control{
-				&:first-of-type{
-					width: 100%;
-				}
-
-				.button .icon:first-child:last-child {
-				     margin-left: 0;
-				     margin-right: 0;
-				}
-
 				.input{
 					box-shadow: 0 1px 2px map-deep-get($colors, "dark", "chat", "inputShadow");
 				}
 			}
 		}
-
-		.button, .input {
-			border-radius: 0px;
-			outline: none;
-		}
-
 		.button{
 			background-color: map-deep-get($colors, "dark", "chat", "button", "background", "normal");
-			border-color: transparent;
 			color: map-deep-get($colors, "dark", "chat", "button", "text");
-			transition: all 0.3s ease;
 
 			&:hover{
 				background-color: map-deep-get($colors, "dark", "chat", "button", "background", "hover");
@@ -105,74 +45,18 @@ body.theme-dark{
 				background-color: map-deep-get($colors, "dark", "chat", "button", "background", "active");
 			}
 		}
-
-		.input{
-
-			&:active{
-				border-color: unset;
-			}
-
-			&:focus{
-				box-shadow: unset;
-			}
-		}
 	}
 
 	#emoji-picker-toggle{
-		pointer-events: all;
-
 		&:hover{
-			cursor: pointer;
 			background-color: map-deep-get($colors, "dark", "chat", "button", "background", "normal");
 			color: map-deep-get($colors, "dark", "chat", "button", "text");
-			transition: all 0.3s ease;
 		}
-		transition: all 0.3s ease;
 	}
 
 	.emoji-mart{
-		position: absolute !important;
-		bottom: 35px;
 		color: map-deep-get($colors, "dark", "emojiPicker", "color");
 		background: map-deep-get($colors, "dark", "emojiPicker", "background");
-		border: 0;
-		border-radius: 0;
-
-		.emoji-mart-bar{
-			border-bottom-width: 0px;
-		}
-
-		.emoji-mart-search{
-			margin-top: 6px;
-			padding: 0 6px;
-			margin-bottom: 6px;
-
-			input{
-				-moz-appearance: none;
-				-webkit-appearance: none;
-				align-items: center;
-				border: 1px solid transparent;
-				box-shadow: none;
-				display: inline-flex;
-				font-size: 1rem;
-				height: 2.25em;
-				justify-content: flex-start;
-				line-height: 1.5;
-				padding-bottom: calc(0.375em - 1px);
-				padding-left: calc(0.625em - 1px);
-				padding-right: calc(0.625em - 1px);
-				padding-top: calc(0.375em - 1px);
-				position: relative;
-				vertical-align: top;
-				border-radius: 0px;
-
-				&:active, &:focus {
-					border-color: unset;
-					border-color: #3273dc;
-					box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
-				}
-			}
-		}
 
 		.emoji-mart-category-label{
 			span {
@@ -183,16 +67,12 @@ body.theme-dark{
 		.emoji-mart-emoji{
 			&:hover{
 				&:before {
-					background-color:  map-deep-get($colors, "dark", "emojiPicker", "hover", "background", );
+					background-color:  map-deep-get($colors, "dark", "emojiPicker", "hover", "background");
 				}
 			}
 		}
 	}
-
-	.emoji{
-		width: 32px;
-	}
-
+	
 	.chat-even{
 		background-color:  map-deep-get($colors, "dark", "chat", "message", "even", "background");
 	}

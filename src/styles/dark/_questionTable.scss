@@ -1,20 +1,13 @@
-//@import 'variables';
-
 body.theme-dark{
 
 	#gameTable{
-		width: 100%;
 		background-color: map-deep-get($colors, "dark", "questionTable", "background");
 		color: map-deep-get($colors, "dark", "questionTable", "color");
 
 		tbody {
 			tr {
 				td {
-					border: 0;
-					transition: all 0.3s;
-
 					&:hover{
-						cursor: pointer;
 						background-color: map-deep-get($colors, "dark", "questionTable", "hover");
 						color: map-deep-get($colors, "dark", "questionTable", "color");
 					}
@@ -36,61 +29,20 @@ body.theme-dark{
 		thead {
 			tr {
 				th {
-					border: 0;
 					background-color: map-deep-get($colors, "dark", "questionTable", "header", "background");
 					color: map-deep-get($colors, "dark", "questionTable", "header", "text");
-					font-weight: 400;
 				}
 			}
 		}
 	}
 
 	@media screen and (max-width: 600px) {
-		table {
-			border: 0;
-		}
-
-		table caption {
-			font-size: 1.3em;
-		}
-		
-		table thead {
-			border: none;
-			clip: rect(0 0 0 0);
-			height: 1px;
-			margin: -1px;
-			overflow: hidden;
-			padding: 0;
-			position: absolute;
-			width: 1px;
-		}
-		
 		table tr {
 			border-bottom: 3px solid map-deep-get($colors, "dark", "questionTable", "mobile", "border");
-			display: block;
-			margin-bottom: .625em;
 		}
 		
 		table td {
 			border-bottom: 1px solid map-deep-get($colors, "dark", "questionTable", "mobile", "border");
-			display: block;
-			font-size: .8em;
-			text-align: right;
-		}
-		
-		table td::before {
-			/*
-			* aria-label has no advantage, it won't be read inside a table
-			content: attr(aria-label);
-			*/
-			content: attr(data-label);
-			float: left;
-			font-weight: bold;
-			text-transform: uppercase;
-		}
-		
-		table td:last-child {
-			border-bottom: 0;
 		}
 	}
 
@@ -98,11 +50,9 @@ body.theme-dark{
 		.card-content{
 			background-color: map-deep-get($colors, "dark", "questionCard", "background");
 			color: map-deep-get($colors, "dark", "questionCard", "text");
-			font-weight: 300;
 
 			.title{
 				color: map-deep-get($colors, "dark", "questionCard", "text");
-				font-weight: 300;
 			}
 		}
 	}

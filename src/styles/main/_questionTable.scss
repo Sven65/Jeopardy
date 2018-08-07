@@ -1,5 +1,3 @@
-@import 'variables';
-
 #gameTable{
 	width: 100%;
 
@@ -11,30 +9,15 @@
 
 				&:hover{
 					cursor: pointer;
-					background-color: map-deep-get($colors, "light", "questionTable", "hover");
-					color: map-deep-get($colors, "light", "questionTable", "color");
-				}
-
-				&:active{
-					background-color: map-deep-get($colors, "light", "questionTable", "active");
-					color: map-deep-get($colors, "light", "questionTable", "color");
-				}
-
-				&[data-revealed="true"]{
-					background-color: map-deep-get($colors, "light", "questionTable", "hover");
-					color: map-deep-get($colors, "light", "questionTable", "color");
 				}
 			}
 		}
 	}
 
-
 	thead {
 		tr {
 			th {
 				border: 0;
-				background-color: map-deep-get($colors, "light", "questionTable", "header", "background");
-				color: map-deep-get($colors, "light", "questionTable", "header", "text");
 				font-weight: 400;
 			}
 		}
@@ -62,13 +45,11 @@
 	}
 	
 	table tr {
-		border-bottom: 3px solid map-deep-get($colors, "light", "questionTable", "mobile", "border");
 		display: block;
 		margin-bottom: .625em;
 	}
 	
 	table td {
-		border-bottom: 1px solid map-deep-get($colors, "light", "questionTable", "mobile", "border");
 		display: block;
 		font-size: .8em;
 		text-align: right;
@@ -92,12 +73,9 @@
 
 #game-question-area{
 	.card-content{
-		background-color: map-deep-get($colors, "light", "questionCard", "background");
-		color: map-deep-get($colors, "light", "questionCard", "text");
 		font-weight: 300;
 
 		.title{
-			color: map-deep-get($colors, "light", "questionCard", "text");
 			font-weight: 300;
 		}
 	}

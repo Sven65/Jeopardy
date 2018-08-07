@@ -1,4 +1,3 @@
-//@import 'variables.scss';
 @import 'mdlInput';
 @import 'profile';
 @import 'userForm';
@@ -12,16 +11,7 @@
 
 body{
 	&.theme-dark{
-		width: 100%;
-		height: 100%;
-		overflow-y: hidden;
-		overflow-x: hidden;
 		background: map-deep-get($colors, "dark", "general", "background");
-
-		.alert{
-			padding-top: 5px;
-			padding-bottom: 5px;
-		}
 
 		.alert.alert-danger{
 			background-color: map-deep-get($colors, "dark", "alert", "danger", "background");
@@ -33,26 +23,9 @@ body{
 			color: map-deep-get($colors, "dark", "alert", "success", "text");
 		}
 
-		.hidden {
-			display: none;
-		}
-
-		.full-width{
-			width: 100%;
-		}
-
-		#beforeGame{
-			//padding-bottom: 0px;
-		}
-
 		#instructions-container{
-
-			width: 90%;
-
 			* {
 				color: map-deep-get($colors, "dark", "general", "instructionsContainer", "color");
-				font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-				font-weight: 300;
 			}
 		}
 
@@ -65,10 +38,6 @@ body{
 
 			.navbar-link:hover::after{
 				border-color: map-deep-get($colors, "dark", "general", "navbar", "text");
-			}
-
-			.navbar-item{
-				font-size: 1rem;
 			}
 		}
 
@@ -95,70 +64,6 @@ body{
 				a.navbar-item.dark-background:hover{
 					background-color: map-deep-get($colors, "dark", "general", "primaryColorDark");
 				}
-			}
-		}
-
-		@media screen and (max-width: 1088px){
-			.navbar-item {
-				a {
-					color: unset;
-				}
-			}
-
-			.navbar-brand {
-				.navbar-item {
-					img {
-						max-height: 0.9rem;
-					}
-				}
-			}
-		}
-
-		#playButton{
-			width: 100%;
-			cursor: pointer;
-		}
-
-		.loader-holder ~ body{
-			overflow: none;
-		}
-
-		.absolute-center{
-			position: fixed;
-			top: 50%;
-			left: 50%;
-			/* bring your own prefixes */
-			-webkit-transform: translate(-50%, -50%);
-				-ms-transform: translate(-50%, -50%);
-					transform: translate(-50%, -50%);
-		}
-
-		.loader-holder {
-			z-index: 10000000;
-			width: 100%;
-			height: 100%;
-			position: fixed;
-			background: rgba(0, 0, 0, 0.6);
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
-
-			&.is-fixed{
-				position: fixed;
-			}
-		}
-
-		.column {
-			&.user-card{
-				flex-grow: 0;
-			}
-		}
-
-		.image{
-			&.is-192x192{
-				width: 192px;
-				height: 192px;
 			}
 		}
 
@@ -189,41 +94,22 @@ body{
 	}
 
 	#root{
-		height: 100%;
-
 		.App{
-			height: 100%;
-
 			.scroll-wrapper{
-				height: 100%;
-
 				.scroller{
-					overflow-y: scroll;
-					height: 100%;
-
 					&::-webkit-scrollbar-track{
 						-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "dark", "general", "scrollbar", "track", "boxShadow");
-						//border-radius: 10px;
 						background-color: map-deep-get($colors, "dark", "general", "scrollbar", "track", "background");
 					}
 
 					&::-webkit-scrollbar{
-						width: 12px;
 						background-color: map-deep-get($colors, "dark", "general", "scrollbar", "background");
 					}
 
 					&::-webkit-scrollbar-thumb{
-						//border-radius: 10px;
 						-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "dark", "general", "scrollbar", "thumb", "boxShadow");
 						background-color: map-deep-get($colors, "dark", "general", "scrollbar", "thumb", "background");
 					}
-
-					&.hide-scrollbar{
-						&::-webkit-scrollbar-track, &::-webkit-scrollbar, &::-webkit-scrollbar-thumb{
-							opacity: 0;
-						}
-					}
-
 				}
 			}
 		}

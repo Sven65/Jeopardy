@@ -1,0 +1,36 @@
+.gamebrowser{
+	&__table{
+		background-color: map-deep-get($colors, "light", "gameBrowser", "header", "background");
+		color: map-deep-get($colors, "light", "gameBrowser", "header", "color");
+	
+		tbody{
+			tr {
+				
+				color: map-deep-get($colors, "light", "gameBrowser", "color");
+				background: map-deep-get($colors, "light", "gameBrowser", "background");
+
+				&:nth-child(odd) {
+					background: map-deep-get($colors, "light", "gameBrowser", "oddBackground");
+				}
+				
+				&:hover{
+					background: map-deep-get($colors, "light", "gameBrowser", "hover");
+					color: map-deep-get($colors, "light", "gameBrowser", "hoverText");
+				}
+
+				&.selected{
+					background: map-deep-get($colors, "light", "gameBrowser", "hover");
+					color: map-deep-get($colors, "light", "gameBrowser", "hoverText");
+				}
+			}
+		}
+
+		thead {
+			tr {
+				th {
+					color: map-deep-get($colors, "light", "gameBrowser", "header", "color");
+				}
+			}
+		}
+	}
+}

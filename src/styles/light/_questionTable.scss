@@ -1,0 +1,52 @@
+#gameTable{
+	tbody {
+		tr {
+			td {
+				&:hover{
+					background-color: map-deep-get($colors, "light", "questionTable", "hover");
+					color: map-deep-get($colors, "light", "questionTable", "color");
+				}
+
+				&:active{
+					background-color: map-deep-get($colors, "light", "questionTable", "active");
+					color: map-deep-get($colors, "light", "questionTable", "color");
+				}
+
+				&[data-revealed="true"]{
+					background-color: map-deep-get($colors, "light", "questionTable", "hover");
+					color: map-deep-get($colors, "light", "questionTable", "color");
+				}
+			}
+		}
+	}
+
+	thead {
+		tr {
+			th {
+				background-color: map-deep-get($colors, "light", "questionTable", "header", "background");
+				color: map-deep-get($colors, "light", "questionTable", "header", "text");
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 600px) {
+	table tr {
+		border-bottom: 3px solid map-deep-get($colors, "light", "questionTable", "mobile", "border");
+	}
+	
+	table td {
+		border-bottom: 1px solid map-deep-get($colors, "light", "questionTable", "mobile", "border");
+	}
+}
+
+#game-question-area{
+	.card-content{
+		background-color: map-deep-get($colors, "light", "questionCard", "background");
+		color: map-deep-get($colors, "light", "questionCard", "text");
+
+		.title{
+			color: map-deep-get($colors, "light", "questionCard", "text");
+		}
+	}
+}
