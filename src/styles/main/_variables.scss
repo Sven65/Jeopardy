@@ -1,3 +1,5 @@
+@import 'sass-material-colors';
+
 /// Map deep get
 /// @author Hugo Giraudel
 /// @access public
@@ -11,95 +13,98 @@
 	@return $map;
 }
 
+$white: #FFF;
+$black: #000;
+
 $colors: (
 	light: (
 		general: (
-			primaryColor: #FF9800,
-			primaryColorDark: #FB8C00,
+			primaryColor: material-color('orange', '500'),
+			primaryColorDark: material-color('orange', '600'),
 			navbar: (
-				text: #FFF
+				text: $white
 			),
-			background: #FFF,
+			background: $white,
 			instructionsContainer: (
-				color: #FFF
+				color: $white
 			),
 			gameCodeHeader: (
-				text: #FFF
+				text: $white
 			),
 			swal: (
-				background: #757575,
-				color: #FFF
+				background: material-color('grey', '600'),
+				color: $white
 			),
 			scrollbar: (
 				track: (
 					boxShadow: rgba(0,0,0,0.3),
-					background: #F5F5F5
+					background: material-color('grey', '100')
 				),
-				background: #F5F5F5,
+				background: material-color('grey', '100'),
 				thumb: (
 					boxShadow: rgba(0,0,0,0.3),
-					background: #FB8C00
+					background: material-color('orange', '600')
 				)
 			)
 		),
 		alert: (
 			danger: (
-				background: #F44336,
-				text: #FFF
+				background: material-color('red', '500'),
+				text: $white
 			),
 			success: (
-				background: #8BC34A,
-				text: #FFF
+				background: material-color('light-green', '500'),
+				text: $white
 			)
 		),
 		chat: (
 			inputShadow: rgba(10, 10, 10, 0.1),
 			button: (
 				background: (
-					normal: #8BC34A,
-					hover: #7CB342,
-					active: #689F38
+					normal: material-color('light-green', '500'),
+					hover: material-color('light-green', '600'),
+					active: material-color('light-green', '700')
 				),
-				text: #FFF
+				text: $white
 			),
 			container: (
-				background: #FFF
+				background: $white
 			),
 			message: (
 				even: (
-					background: #FFF,
-					color: #000
+					background: $white,
+					color: $black
 				),
 				odd: (
-					background: #EEE,
-					color: #000
+					background: material-color('grey', '200'),
+					color: $black
 				)
 			)
 		),
 		emojiPicker: (
-			color: #FFF,
-			background: #424242,
+			color: $white,
+			background: material-color('grey', '800'),
 			category: (
 				background: rgba(66, 66, 66, .95)
 			),
 			hover: (
-				background: #616161
+				background: material-color('grey', '700')
 			)
 		),
 		mdlInput: (
-			background: #424242,
+			background: material-color('grey', '800'),
 			title: (
-				color: #000
+				color: $black
 			),
 			hl: (
-				color: #4CAF50,
-				danger: #F44336
+				color: material-color('green', '500'),
+				danger: material-color('red', '500')
 			),
-			textColor: #FFF
+			textColor: $white
 		),
 		userCard: (
-			background: #FFFFFF,
-			color: #4A4A4A
+			background: $white,
+			color: material-color('grey', '800')
 		),
 		userForm: (
 			overlay: (
@@ -107,198 +112,198 @@ $colors: (
 				boxShadow: rgba(0, 0, 0, 0.1)
 			),
 			modal: (
-				background: #FFF,
-				errorColor: #F44336,
-				successColor: #4CAF50,
+				background: $white,
+				errorColor: material-color('red', '500'),
+				successColor: material-color('green', '500'),
 				toggle: (
-					background: #4285F4
+					background: material-color('blue', 'a200')
 				),
 				label: (
-					color: #FFF
+					color: $white
 				),
 				input: (
-					color: #FFF
+					color: $white
 				),
 				button: (
-					color: #FFF,
-					background: #4285F4
+					color: $white,
+					background: material-color('blue', 'a200')
 				),
 				recovery: (
-					color: #4285F4
+					color: material-color('blue', 'a200')
 				),
 				header: (
-					color: #4285F4
+					color: material-color('blue', 'a200')
 				),
 				panelTwo: (
-					background: #4285F4,
-					color: #FFF,
+					background: material-color('blue', 'a200'),
+					color: $white,
 					header: (
-						color: #FFF
+						color: $white
 					)
 				)
 			)
 		),
 		mdCheckbox: (
 			checkbox: (
-				background: #FFF,
-				checkedLabelBg: #8BC34A,
-				checkedLabelBorder: #FFF,
+				background: $white,
+				checkedLabelBg: material-color('light-green', '500'),
+				checkedLabelBorder: $white,
 			),
 			privacyLink: (
-				color: #FFF,
-				hover: #BBDEFB
+				color: $white,
+				hover: material-color('blue', '100')
 			)
 		),
 		questionTable: (
-			background: #363636,
-			color: #FFF,
-			hover: #E53935,
-			active: #D32F2F,
+			background: material-color('blue-grey', '900'),
+			color: $white,
+			hover: material-color('red', '600'),
+			active: material-color('red', '700'),
 			header: (
-				background: #F44336,
-				color: #FFF
+				background: material-color('red', '500'),
+				color: $white
 			),
 			mobile: (
-				border: #ddd
+				border: material-color('grey', '300')
 			)
 		),
 		questionCard: (
-			background: #FF9800,
-			text: #FFF
+			background: material-color('orange', '500'),
+			text: $white
 		),
 		profile: (
 			top: (
-				background: #8BC34A,
-				text: #212121
+				background: material-color('light-green', '500'),
+				text: material-color('grey', '900')
 			),
 			bottom: (
-				background: #FFF,
-				hover: #689F38,
-				hoverText: #212121,
-				text: #FFF
+				background: $white,
+				hover: material-color('light-green', '700'),
+				hoverText: material-color('grey', '900'),
+				text: $white
 			),
 			themeButton: (
 				background: whitesmoke,
-				border: #DBDBDB,
-				color: #7A7A7A
+				border: material-color('grey', '400'),
+				color: material-color('grey', '600')
 			)
 		),
 		gameBrowser: (
-			color: #000,
+			color: $black,
 
-			background: #BDBDBD,
-			hover: #FF9800,
-			hoverText: #FFF,
+			background: material-color('grey', '400'),
+			hover: material-color('orange', '500'),
+			hoverText: $white,
 			header: (
-				background: #FF9800,
-				color: #FFF
+				background: material-color('orange', '500'),
+				color: $white
 			),
-			oddBackground: #EEE
+			oddBackground: material-color('grey', '200')
 		),
 		FAB: (
 			text: (
-				background: #212121,
-				color: #FFF
+				background: material-color('grey', '900'),
+				color: $white
 			),
 			icon: (
-				background: #FF4081,
-				color: #FFF
+				background: material-color('pink', 'a200'),
+				color: $white
 			)
 		),
 		colorPicker: (
-			background: #FFF,
-			boxShadow: #CCC,
-			border: #CCC
+			background: $white,
+			boxShadow: material-color('brown', '100'),
+			border: material-color('brown', '100')
 		)
 	),
 	dark: (
 		general: (
-			primaryColor: #FF9800,
-			primaryColorDark: #FB8C00,
+			primaryColor: material-color('orange', '500'),
+			primaryColorDark: material-color('orange', '600'),
 			navbar: (
-				text: #FFF
+				text: $white
 			),
-			background: #757575,
+			background: material-color('grey', '600'),
 			instructionsContainer: (
-				color: #FFF
+				color: $white
 			),
 			gameCodeHeader: (
-				text: #FFF
+				text: $white
 			),
 			swal: (
-				background: #757575,
-				color: #FFF
+				background: material-color('grey', '600'),
+				color: $white
 			),
 			scrollbar: (
 				track: (
 					boxShadow: rgba(0,0,0,0.3),
-					background: #F5F5F5
+					background: material-color('grey', '100')
 				),
-				background: #F5F5F5,
+				background: material-color('grey', '100'),
 				thumb: (
 					boxShadow: rgba(0,0,0,0.3),
-					background: #555
+					background: material-color('grey', '700')
 				)
 			)
 		),
 		alert: (
 			danger: (
-				background: #F44336,
-				text: #FFF
+				background: material-color('red', '500'),
+				text: $white
 			),
 			success: (
-				background: #8BC34A,
-				text: #FFF
+				background: material-color('light-green', '500'),
+				text: $white
 			)
 		),
 		chat: (
 			inputShadow: rgba(10, 10, 10, 0.1),
 			button: (
 				background: (
-					normal: #8BC34A,
-					hover: #7CB342,
-					active: #689F38
+					normal: material-color('light-green', '500'),
+					hover: material-color('light-green', '600'),
+					active: material-color('light-green', '700')
 				),
-				text: #FFF
+				text: $white
 			),
 			container: (
-				background: #757575
+				background: material-color('grey', '600')
 			),
 			message: (
 				even: (
-					background: #424242,
-					color: #FFF
+					background: material-color('grey', '800'),
+					color: $white
 				),
 				odd: (
-					background: #616161,
-					color: #FFF
+					background: material-color('grey', '700'),
+					color: $white
 				)
 			)
 		),
 		emojiPicker: (
-			color: #FFF,
-			background: #424242,
+			color: $white,
+			background: material-color('grey', '800'),
 			category: (
 				background: rgba(66, 66, 66, .95)
 			),
 			hover: (
-				background: #616161
+				background: material-color('grey', '700')
 			)
 		),
 		mdlInput: (
-			background: #424242,
+			background: material-color('grey', '800'),
 			title: (
-				color: #FFF
+				color: $white
 			),
 			hl: (
-				color: #4CAF50,
-				danger: #F44336
+				color: material-color('green', '500'),
+				danger: material-color('red', '500')
 			),
-			textColor: #FFF
+			textColor: $white
 		),
 		userCard: (
-			background: #4A4A4A,
-			color: #FFF
+			background: material-color('grey', '800'),
+			color: $white
 		),
 		userForm: (
 			overlay: (
@@ -306,108 +311,124 @@ $colors: (
 				boxShadow: rgba(0, 0, 0, 0.1)
 			),
 			modal: (
-				background: #616161,
-				errorColor: #F44336,
-				successColor: #4CAF50,
+				background: material-color('grey', '700'),
+				errorColor: material-color('red', '500'),
+				successColor: material-color('green', '500'),
 				toggle: (
-					background: #757575
+					background: material-color('grey', '600')
 				),
 				label: (
-					color: #FFF
+					color: $white
 				),
 				input: (
-					color: #FFF
+					color: $white
 				),
 				button: (
-					color: #FFF,
-					background: #757575
+					color: $white,
+					background: material-color('grey', '600')
 				),
 				recovery: (
-					color: #FFF
+					color: $white
 				),
 				header: (
-					color: #FFF
+					color: $white
 				),
 				panelTwo: (
-					background: #424242,
-					color: #FFF,
+					background: material-color('grey', '800'),
+					color: $white,
 					header: (
-						color: #FFF
+						color: $white
 					)
 				)
 			)
 		),
 		mdCheckbox: (
 			checkbox: (
-				background: #FFF,
-				checkedLabelBg: #8BC34A,
-				checkedLabelBorder: #FFF,
+				background: $white,
+				checkedLabelBg: material-color('light-green', '500'),
+				checkedLabelBorder: $white,
 			),
 			privacyLink: (
-				color: #FFF,
-				hover: #BBDEFB
+				color: $white,
+				hover: material-color('blue', '100')
 			)
 		),
 		questionTable: (
-			background: #363636,
-			color: #FFF,
-			hover: #E53935,
-			active: #D32F2F,
+			background: material-color('blue-grey', '900'),
+			color: $white,
+			hover: material-color('red', '600'),
+			active: material-color('red', '700'),
 			header: (
-				background: #F44336,
-				color: #FFF
+				background: material-color('red', '500'),
+				color: $white
 			),
 			mobile: (
-				border: #ddd
+				border: material-color('grey', '300')
 			)
 		),
 		questionCard: (
-			background: #FF9800,
-			text: #FFF
+			background: material-color('orange', '500'),
+			text: $white
 		),
 		profile: (
 			top: (
-				background: #616161,
-				text: #FFF
+				background: material-color('grey', '700'),
+				text: $white
 			),
 			bottom: (
-				background: #757575,
-				hover: #424242,
-				hoverText: #FFF,
-				text: #FFF
+				background: material-color('grey', '600'),
+				hover: material-color('grey', '800'),
+				hoverText: $white,
+				text: $white
 			),
 			themeButton: (
 				background: whitesmoke,
-				border: #DBDBDB,
-				color: #7A7A7A
+				border: material-color('grey', '400'),
+				color: material-color('grey', '600')
 			)
 		),
 		gameBrowser: (
-			color: #FFF,
+			color: $white,
 
-			background: #424242,
-			hover: #FF9800,
-			hoverText: #FFF,
+			background: material-color('grey', '800'),
+			hover: material-color('orange', '500'),
+			hoverText: $white,
 			header: (
-				background: #FF9800,
-				color: #FFF
+				background: material-color('orange', '500'),
+				color: $white
 			),
-			oddBackground: #616161
+			oddBackground: material-color('grey', '700')
 		),
 		FAB: (
 			text: (
-				background: #212121,
-				color: #FFF
+				background: material-color('grey', '900'),
+				color: $white
 			),
 			icon: (
-				background: #FF4081,
-				color: #FFF
+				background: material-color('pink', 'a200'),
+				color: $white
 			)
 		),
 		colorPicker: (
-			background: #616161,
-			boxShadow: #424242,
-			border: #424242
+			background: material-color('grey', '700'),
+			boxShadow: material-color('grey', '800'),
+			border: material-color('grey', '800')
+		),
+		boardAdder: (
+			background: material-color('grey', '500'),
+			header: (
+				background: material-color('grey', '800'),
+				text: $white
+			),
+			panelBlock: (
+				background: material-color('grey', '600'),
+				border: material-color('grey', '700'),
+				color: $white,
+				hover: (
+					background: material-color('grey', '700'),
+					color: $white
+				)
+			)
 		)
 	)
 );

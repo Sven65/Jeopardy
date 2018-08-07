@@ -2,8 +2,34 @@ body{
 	&.theme-dark{
 		#board-adder{
 			.box{
-				overflow: auto;
-				width: 90%;
+				background-color: map-deep-get($colors, "dark", "boardAdder", "background");
+			}
+
+			.panel-heading{
+				border-top: 1px solid map-deep-get($colors, "dark", "boardAdder", "panelBlock", "border");
+				border-bottom: 1px solid map-deep-get($colors, "dark", "boardAdder", "panelBlock", "border");
+				border-left: 1px solid map-deep-get($colors, "dark", "boardAdder", "panelBlock", "border");
+				border-right: 1px solid map-deep-get($colors, "dark", "boardAdder", "panelBlock", "border");
+
+				background-color: map-deep-get($colors, "dark", "boardAdder", "header", "background");
+				color: map-deep-get($colors, "dark", "boardAdder", "header", "text");
+			}
+
+			.panel-block{
+
+				&:not(.btn){
+					background-color: map-deep-get($colors, "dark", "boardAdder", "panelBlock", "background");
+					color: map-deep-get($colors, "dark", "boardAdder", "panelBlock", "color");
+				
+					border-bottom: 1px solid map-deep-get($colors, "dark", "boardAdder", "panelBlock", "border");
+					border-left: 1px solid map-deep-get($colors, "dark", "boardAdder", "panelBlock", "border");
+					border-right: 1px solid map-deep-get($colors, "dark", "boardAdder", "panelBlock", "border");
+
+					&:hover{
+						background-color: map-deep-get($colors, "dark", "boardAdder", "panelBlock", "hover", "background");
+						color: map-deep-get($colors, "dark", "boardAdder", "panelBlock", "hover", "color");
+					}
+				}
 			}
 		}
 	}
