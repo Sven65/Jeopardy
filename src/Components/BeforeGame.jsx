@@ -48,6 +48,7 @@ class BeforeGame extends Component {
 				if(gameCode !== undefined && gameCode !== ""){
 					this.roomIDInput.value = gameCode
 					if(!this.state.joinClick){
+						console.log("CLICK JB")
 						this.joinButton.click()
 						this.setState({joinClick: true, selectedGame: gameCode})
 					}
@@ -60,6 +61,17 @@ class BeforeGame extends Component {
 						swal("Error!", error, "error");
 						
 					}
+				}
+
+				if(this.state.validUserBoards.length > 0 && this.state.roomID !== null && this.state.roomID !== undefined){
+					swal(
+						<BoardPicker boards={this.state.validUserBoards} onSelect={this._selectBoard}/>, {
+							title: "Please select a board"
+						}
+					).then(() => {
+						this.setState({validUserBoards: []})
+						this.joinGame()
+					})
 				}
 			})
 		})
@@ -219,14 +231,6 @@ class BeforeGame extends Component {
 				store.dispatch({type: "s/GET_USER_VALID_BOARDS", data: {
 					userToken: this.state.userData.token
 				}})
-
-				swal(
-					<BoardPicker boards={this.state.validUserBoards} onSelect={this._selectBoard}/>, {
-						title: "Please select a board"
-					}
-				).then(() => {
-					this.joinGame()
-				})
 			}
 		})
 	}

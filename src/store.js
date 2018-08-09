@@ -111,7 +111,8 @@ function reducer(state, action){
 		break
 		case "GERROR":
 			return Object.assign({}, state, {
-				error: action.data
+				error: action.data,
+				validUserBoards: []
 			})
 		break
 		case "RESET_ERROR":
