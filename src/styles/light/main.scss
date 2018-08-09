@@ -40,6 +40,12 @@ html, body{
 	}
 }
 
+.board-button{
+	&.selected{
+		background: map-deep-get($colors, "light", "general", "primaryColor") !important;
+	}
+}
+
 @media screen and (min-width: 1088px){
 	.navbar-item.has-dropdown:hover .navbar-link, .navbar-item.has-dropdown.is-active{
 		background-color: map-deep-get($colors, "light", "general", "primaryColorDark");

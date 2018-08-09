@@ -93,6 +93,12 @@ body{
 		}
 	}
 
+	.board-button{
+		&.selected{
+			background: map-deep-get($colors, "dark", "general", "primaryColor") !important;
+		}
+	}
+
 	#root{
 		.App{
 			.scroll-wrapper{

@@ -41,6 +41,10 @@ class BoardAdder extends Component {
 	}
 
 	componentDidMount() {
+		this.unsubscribe = store.subscribe(() => {
+
+		})
+
 		store.subscribe(() => {
 			this.setState(store.getState())
 		})
@@ -48,6 +52,11 @@ class BoardAdder extends Component {
 		store.dispatch({type: "s/USER_GET_BOARDS", data: {
 			userToken: this.props.userToken
 		}})
+	}
+
+	componentWillUnmount() {
+		console.log("UNMOUNT BOARDADDER")
+		this.unsubscribe();
 	}
 
 	newClue(categoryID){
@@ -63,11 +72,11 @@ class BoardAdder extends Component {
 				type: "s/ADD_CLUE",
 				data: {
 					boardID: this.state.boardData.boardData.id,
-					answer: "Example Answer",
+					answer: "Example Answer!",
 					question: "Example Question",
-					value: 0,
+					value: 200,
 					categoryID: categoryID,
-					userToken: this.props.userToken,
+					userToken: this.props.userToken
 				}
 			})
 		}

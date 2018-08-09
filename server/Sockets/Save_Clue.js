@@ -31,7 +31,16 @@ class SocketHandler{
 
 		await this._dbUtils.editClue(data.clueID, data.answer, data.question, data.value)
 
-		socket.emit("SAVED_CLUE", {timeStamp: Date.now(), boardID: data.boardID, userToken: data.userToken})
+		socket.emit("SAVED_CLUE", {
+			timeStamp: Date.now(),
+			boardID: data.boardID,
+			userToken: data.userToken,
+			clueID: data.clueID,
+			answer: data.answer,
+			value: data.value,
+			categoryID: clueData.rows[0].category_id,
+			question: data.question
+		})
 	}
 }
 

@@ -230,3 +230,10 @@ html, body{
 		transition: opacity 1s ease-in-out;
 	}
 }
+
+
+.board-button{
+	&:hover{
+		cursor: pointer;
+	}
+}

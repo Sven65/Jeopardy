@@ -50,7 +50,7 @@ class SocketHandler{
 
 					clues[category] = clues[category].slice(0, 5)
 
-					clues[category] = GameUtils.valueFixer(GameUtils.valueFixer(clues[category]))
+					//clues[category] = GameUtils.valueFixer(GameUtils.valueFixer(clues[category]))
 
 					GameUtils.categoryUpperCase(clues[category])
 					GameUtils.answerUnescape(clues[category])

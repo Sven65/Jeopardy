@@ -4,6 +4,9 @@ import InputField from './Common/InputField'
 import Button from './Common/Button'
 
 import GameBrowser from './GameBrowser'
+import BoardPicker from './Common/BoardPicker'
+
+import swal from './SweetAlert'
 
 import store from './../store'
 import history from './../history'
@@ -18,6 +21,8 @@ class BeforeGame extends Component {
 		this.rowClick = this.rowClick.bind(this)
 		this.getUsername = this.getUsername.bind(this)
 		this.getRoomID = this.getRoomID.bind(this)
+		this._sendJoin = this._sendJoin.bind(this)
+		this._selectBoard = this._selectBoard.bind(this)
 
 
 		this.roomIDInput = React.createRef()
@@ -29,7 +34,9 @@ class BeforeGame extends Component {
 			userData: {},
 			joinClick: false,
 			selectedGame: "",
-			error: null
+			error: null,
+			selectedBoard: "default",
+			validUserBoards: []
 		}
 	}
 
@@ -172,26 +179,33 @@ class BeforeGame extends Component {
 		})
 	}
 
+	_sendJoin(username){
+		store.dispatch({type: "s/JOIN", data: {
+			roomID: this.roomIDInput.value,
+			user: Object.keys(this.state.userData).length>0?this.state.userData:{
+				username: username
+			},
+			boardID: this.state.selectedBoard
+		}})
+	}
+
 	joinGame(){
 		let username = Object.keys(this.state.userData).length>0?this.state.userData:""
 
 		if(username.length <= 0){
 			this.getUsername().then(username => {
-				store.dispatch({type: "s/JOIN", data: {
-					roomID: this.roomIDInput.value,
-					user: Object.keys(this.state.userData).length>0?this.state.userData:{
-						username: username
-					}
-				}})
+				this.usernameInput.value = username
+				this._sendJoin(username)
 			})
 		}else{
-			store.dispatch({type: "s/JOIN", data: {
-				roomID: this.roomIDInput.value,
-				user: Object.keys(this.state.userData).length>0?this.state.userData:{
-					username: username
-				}
-			}})
+			this._sendJoin(username)
 		}
+	}
+
+	_selectBoard(board){
+		this.setState({
+			selectedBoard: board.id
+		})
 	}
 
 	hostGame(){
@@ -199,12 +213,20 @@ class BeforeGame extends Component {
 
 		this.getRoomID().then(roomID => {
 			if(username.length <= 0){
-				this.getUsername().then(username => {
-					this.usernameInput.value = username
+				this.joinGame()
+			}else{
+
+				store.dispatch({type: "s/GET_USER_VALID_BOARDS", data: {
+					userToken: this.state.userData.token
+				}})
+
+				swal(
+					<BoardPicker boards={this.state.validUserBoards} onSelect={this._selectBoard}/>, {
+						title: "Please select a board"
+					}
+				).then(() => {
 					this.joinGame()
 				})
-			}else{
-				this.joinGame()
 			}
 		})
 	}

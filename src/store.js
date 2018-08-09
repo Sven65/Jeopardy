@@ -460,6 +460,12 @@ function reducer(state, action){
 			})
 		break
 
+		case "GET_USER_VALID_BOARDS":
+			return Object.assign({}, state, {
+				isLoading: true
+			})
+		break
+
 		case "GOT_BOARDS":
 			return Object.assign({}, state, {
 				boards: action.data.boards,
@@ -505,7 +511,7 @@ function reducer(state, action){
 				boardID: action.data.boardID,
 				answer: "Example Answer",
 				question: "Example Question",
-				value: 0,
+				value: 200,
 				categoryID: action.data.id,
 				userToken: action.data.userToken
 			}})
@@ -552,12 +558,23 @@ function reducer(state, action){
 		case "DELETED_CATEGORY":
 		case "DELETED_CLUE":
 		case "SAVED_CLUE":
-			action.asyncDispatch({type: "s/GET_BOARD", data: {
+			/*action.asyncDispatch({type: "s/GET_BOARD", data: {
 				boardID: action.data.boardID
-			}})
+			}})*/
+
+			let boardData = state.boardData
+
+			clueIndex = boardData.clues[""+action.data.categoryID].findIndex(clue => ""+clue.ID === ""+action.data.clueID)
+
+			console.log("z", boardData.clues[""+action.data.categoryID])
+
+			boardData.clues[""+action.data.categoryID][clueIndex].answer = action.data.answer
+			boardData.clues[""+action.data.categoryID][clueIndex].value = action.data.value
+			boardData.clues[""+action.data.categoryID][clueIndex].question = action.data.question
 
 			return Object.assign({}, state, {
-				isLoading: false
+				isLoading: false,
+				boardData
 			})
 		break
 
@@ -567,6 +584,14 @@ function reducer(state, action){
 				isLoading: false,
 				boardData: null,
 				listBoards: true
+			})
+		break
+
+		case "GOT_VALID_USER_BOARDS":
+			console.log("BOARDS", action.data)
+			return Object.assign({}, state, {
+				isLoading: false,
+				validUserBoards: action.data.boards
 			})
 		break
 
