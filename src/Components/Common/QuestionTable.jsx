@@ -52,7 +52,7 @@ class QuestionTable extends Component {
 					clue.category = {}
 				}
 
-				rowEl.push(<td data-label={clue.category.title} key={i} data-key={i} className="game-clue" data-revealed={clue.revealed||false} data-id={clue.id} data-category={clue.category.id} onClick={this.onClick}>{clue.revealed?'X':'$'+value}</td>)
+				rowEl.push(<td data-label={clue.category.title} key={i} data-key={i} className="game-clue" data-revealed={clue.revealed||false} data-id={clue.id||clue.ID} data-category={clue.category.id} onClick={this.onClick}>{clue.revealed?'X':'$'+value}</td>)
 			})
 
 			return (

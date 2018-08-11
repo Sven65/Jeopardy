@@ -35,6 +35,8 @@ class SocketHandler{
 	}
 
 	async Execute({socket = null, io = null, data = {} }){
+		console.log("JOIN", data)
+
 		let isHost = false
 		let canJoin = false
 		let errorMessage = "Game is still loading, please wait."
@@ -101,7 +103,7 @@ class SocketHandler{
 		let user = new User(data)
 
 		await room.addUser(user)
-
+		
 		room.users.forEach(user => {
 			socket.emit("USER_JOIN", user)
 		})

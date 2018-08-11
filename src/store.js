@@ -43,8 +43,12 @@ function reducer(state, action){
 	if(!state) return {}
 
 	switch(action.type.replace("s/", "")){
+		case "JOIN":
+			return Object.assign({}, state, {
+				validUserBoards: []
+			})
+		break
 		case 'USER_JOIN':
-
 			let user = {
 				username: action.data.username,
 				userID: action.data.userID,
@@ -72,7 +76,8 @@ function reducer(state, action){
 				})
 
 				action.asyncDispatch({type: "s/ACTION_GETQUESTIONS", data: {
-					roomID: action.data.roomID
+					roomID: action.data.roomID,
+					boardID: action.data.boardID
 				}})
 
 				if(user.userID === socket.id){
@@ -111,7 +116,8 @@ function reducer(state, action){
 		break
 		case "GERROR":
 			return Object.assign({}, state, {
-				error: action.data
+				error: action.data,
+				validUserBoards: []
 			})
 		break
 		case "RESET_ERROR":
@@ -130,8 +136,9 @@ function reducer(state, action){
 		case "ACTION_GOTQUESTIONS":
 			if(!state.questionsLoaded){
 
+
 				action.asyncDispatch({type: "EVENT_CHAT", data: {
-					message: `Questions Loaded!`,
+					message: `Questions Loaded from ${action.data.boardData.type} board **${action.data.boardData.title}**!`,
 					user: {
 						username: "SYSTEM",
 						userID: "SYSTEM"
@@ -167,7 +174,7 @@ function reducer(state, action){
 
 			let clues = state.clues
 
-			let clueIndex = clues[action.data.categoryID].findIndex(clue => ""+clue.id === action.data.clueID)
+			let clueIndex = clues[action.data.categoryID].findIndex(clue => ""+(clue.id||clue.ID) === action.data.clueID)
 
 			clues[action.data.categoryID][clueIndex].revealed = true
 
@@ -444,6 +451,155 @@ function reducer(state, action){
 				}
 			})
 		break
+
+		case "SET_CATEGORY_TITLE":
+		case "USER_GET_BOARDS":
+		case "GET_BOARD":
+		case "ADD_CATEGORY":
+		case "DELETE_BOARD":
+		case "DELETE_CATEGORY":
+		case "DELETE_CLUE":
+		case "SAVE_CLUE":
+		case "CREATE_BOARD":
+		case "SET_BOARD_TITLE":
+			return Object.assign({}, state, {
+				isLoading: true
+			})
+		break
+
+		case "GET_USER_VALID_BOARDS":
+			return Object.assign({}, state, {
+				isLoading: true
+			})
+		break
+
+		case "GOT_BOARDS":
+			return Object.assign({}, state, {
+				boards: action.data.boards,
+				isLoading: false
+			})
+		break
+		case "GOT_BOARD":
+			return Object.assign({}, state, {
+				boardErrorMessage: "",
+				boardData: action.data,
+				listBoards: false,
+				isLoading: false
+			})
+		break
+		case "SET_TITLE_ERROR":
+		case "ADD_CATEGORY_ERROR":
+		case "ADD_CLUE_ERROR":
+		case "DELETE_BOARD_ERROR":
+		case "DELETE_CATEGORY_ERROR":
+		case "DELETE_CLUE_ERROR":
+		case "SAVE_CLUE_ERROR":
+		case "SET_BOARD_TITLE_ERROR":
+			return Object.assign({}, state, {
+				boardErrorMessage: action.data.error,
+				isLoading: false
+			})
+		break
+
+		case "TITLE_EDIT_SAVED":
+			return Object.assign({}, state, {
+				isLoading: false
+			})
+		break
+
+		case "BOARD_TITLE_EDIT_SAVED":
+			return Object.assign({}, state, {
+				isLoading: false
+			})
+		break
+
+		case "ADDED_CATEGORY":
+			action.asyncDispatch({type: "s/ADD_CLUE", data: {
+				boardID: action.data.boardID,
+				answer: "Example Answer",
+				question: "Example Question",
+				value: 200,
+				categoryID: action.data.id,
+				userToken: action.data.userToken
+			}})
+
+			return Object.assign({}, state, {
+				isLoading: false
+			})
+		return
+
+		case "ADDED_CLUE":
+			action.asyncDispatch({type: "s/GET_BOARD", data: {
+				boardID: action.data.boardID
+			}})
+
+			return Object.assign({}, state, {
+				isLoading: false
+			})
+		return
+
+		case "CREATED_BOARD":
+			action.asyncDispatch({type: "s/GET_BOARD", data: {
+				boardID: action.data.boardID
+			}})
+
+			action.asyncDispatch({type: "s/USER_GET_BOARDS", data: {
+				userToken: action.data.userToken
+			}})
+
+			return Object.assign({}, state, {
+				isLoading: false
+			})
+		return
+
+		case "DELETED_BOARD":
+			action.asyncDispatch({type: "s/USER_GET_BOARDS", data: {
+				userToken: action.data.userToken
+			}})
+
+			return Object.assign({}, state, {
+				isLoading: false
+			})
+		return
+
+		case "DELETED_CATEGORY":
+		case "DELETED_CLUE":
+		case "SAVED_CLUE":
+			/*action.asyncDispatch({type: "s/GET_BOARD", data: {
+				boardID: action.data.boardID
+			}})*/
+
+			let boardData = state.boardData
+
+			clueIndex = boardData.clues[""+action.data.categoryID].findIndex(clue => ""+(clue.id||clue.ID) === ""+action.data.clueID)
+
+			boardData.clues[""+action.data.categoryID][clueIndex].answer = action.data.answer
+			boardData.clues[""+action.data.categoryID][clueIndex].value = action.data.value
+			boardData.clues[""+action.data.categoryID][clueIndex].question = action.data.question
+
+			return Object.assign({}, state, {
+				isLoading: false,
+				boardData
+			})
+		break
+
+		case "CREATE_BOARD_ERROR":
+			return Object.assign({}, state, {
+				boardErrorMessage: action.data.error,
+				isLoading: false,
+				boardData: null,
+				listBoards: true
+			})
+		break
+
+		case "GOT_VALID_USER_BOARDS":
+			return Object.assign({}, state, {
+				isLoading: false,
+				validUserBoards: action.data.boards
+			})
+		break
+
+
 		default:
 			if(CONFIG.DEV){
 				console.log("OOF", action)

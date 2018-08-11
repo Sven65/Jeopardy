@@ -1,5 +1,3 @@
-@import 'variables.scss';
-
 .gamebrowser{
 	overflow-y: hidden;
 
@@ -7,9 +5,6 @@
 
 	&__table{
 		width: 100%;
-
-		background-color: $gamebrowser-header-background;
-		color: $gamebrowser-header-color;
 	
 		tbody{
 			display: block;
@@ -21,23 +16,9 @@
 				-webkit-transition: all .5s;
 				-moz-transition: .5s all;
 				-o-transition: .5s all;
-				
-				color: $gamebrowser-color;
-				background: $gamebrowser-background;
 
-				&:nth-child(odd) {
-					background: $gamebrowser-odd-background;
-				}
-				
 				&:hover{
 					cursor: pointer;
-					background: $gamebrowser-hover;
-					color: $gamebrowser-hover-text;
-				}
-
-				&.selected{
-					background: $gamebrowser-hover;
-					color: $gamebrowser-hover-text;
 				}
 			}
 		}
@@ -56,7 +37,6 @@
 			width: calc( 100% - 1em );
 			tr {
 				th {
-					color: $gamebrowser-header-color;
 					font-weight: 400;
 				}
 			}

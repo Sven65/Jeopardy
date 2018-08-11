@@ -1,5 +1,3 @@
-@import 'variables';
-
 #gameTable{
 	width: 100%;
 
@@ -11,30 +9,15 @@
 
 				&:hover{
 					cursor: pointer;
-					background-color: $gameTable-hover-color;
-					color: $gameTable-text-color;
-				}
-
-				&:active{
-					background-color: $gameTable-active-color;
-					color: $gameTable-text-color;
-				}
-
-				&[data-revealed="true"]{
-					background-color: $gameTable-hover-color;
-					color: $gameTable-text-color;
 				}
 			}
 		}
 	}
 
-
 	thead {
 		tr {
 			th {
 				border: 0;
-				background-color: $gameTable-header-background;
-				color: $gameTable-header-text-color;
 				font-weight: 400;
 			}
 		}
@@ -62,13 +45,11 @@
 	}
 	
 	table tr {
-		border-bottom: 3px solid $gameTable-mobile-border;
 		display: block;
 		margin-bottom: .625em;
 	}
 	
 	table td {
-		border-bottom: 1px solid $gameTable-mobile-border;
 		display: block;
 		font-size: .8em;
 		text-align: right;
@@ -92,12 +73,9 @@
 
 #game-question-area{
 	.card-content{
-		background-color: $question-card-background;
-		color: $question-card-text;
 		font-weight: 300;
 
 		.title{
-			color: $question-card-text;
 			font-weight: 300;
 		}
 	}
