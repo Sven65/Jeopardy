@@ -136,8 +136,9 @@ function reducer(state, action){
 		case "ACTION_GOTQUESTIONS":
 			if(!state.questionsLoaded){
 
+
 				action.asyncDispatch({type: "EVENT_CHAT", data: {
-					message: `Questions Loaded from board **${action.data.boardID}**!`,
+					message: `Questions Loaded from ${action.data.boardData.type} board **${action.data.boardData.title}**!`,
 					user: {
 						username: "SYSTEM",
 						userID: "SYSTEM"
@@ -572,8 +573,6 @@ function reducer(state, action){
 
 			clueIndex = boardData.clues[""+action.data.categoryID].findIndex(clue => ""+(clue.id||clue.ID) === ""+action.data.clueID)
 
-			console.log("z", boardData.clues[""+action.data.categoryID])
-
 			boardData.clues[""+action.data.categoryID][clueIndex].answer = action.data.answer
 			boardData.clues[""+action.data.categoryID][clueIndex].value = action.data.value
 			boardData.clues[""+action.data.categoryID][clueIndex].question = action.data.question
@@ -594,7 +593,6 @@ function reducer(state, action){
 		break
 
 		case "GOT_VALID_USER_BOARDS":
-			console.log("BOARDS", action.data)
 			return Object.assign({}, state, {
 				isLoading: false,
 				validUserBoards: action.data.boards

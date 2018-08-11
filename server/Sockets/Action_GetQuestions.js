@@ -65,12 +65,22 @@ class SocketHandler{
 				}else{
 					boardData = boardData.rows[0]
 
+					data.boardData = boardData
+					data.boardData.type = "custom"
+
 					categories = boardData.categories.map(categoryID => {
 						return {id: categoryID}
 					})
 				}
 			}
 
+			if(!this._isset(data.boardData)){
+				data.boardData = {
+					title: "Default",
+					id: "default",
+					type: "standard"
+				}
+			}
 
 			let clues = {}
 
