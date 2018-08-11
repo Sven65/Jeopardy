@@ -31,20 +31,26 @@ class App extends Component {
 		super(props)
 
 		this.state = {
-			joinedUsers: [],
-			users: [],
-			questionsLoaded: false,
-			roomID: "",
-			user: {},
+			
+			user: {
+				userData: {},
+				verifyEmailError: ""
+			},
 			error: {
 
 			},
-			gameStarted: false,
-			gameDone: false,
-			standings: [],
-			userData: {},
-			appLoading: false,
-			verifyEmailError: ""
+			game: {
+				gameStarted: false,
+				gameDone: false,
+				standings: [],
+				roomID: "",
+				joinedUsers: [],
+				users: [],
+				questionsLoaded: false
+			},
+			loader: {
+				isLoading: false
+			}
 		}
 
 
@@ -53,8 +59,8 @@ class App extends Component {
 
 	setUserData(){
 		let data = {
-			username: this.state.userData.username,
-			token: this.state.userData.token,
+			username: this.state.user.userData.username,
+			token: this.state.user.userData.token,
 			setAt: Date.now()
 		}
 
@@ -65,19 +71,19 @@ class App extends Component {
 		store.subscribe(() => {
 			this.setState(store.getState(), () => {
 
-				if(this.state.userData !== undefined && this.state.userData !== null && Object.keys(this.state.userData).length>0 && this.state.userLoggedIn){
+				if(this.state.user.userData !== undefined && this.state.user.userData !== null && Object.keys(this.state.user.userData).length>0 && this.state.user.userLoggedIn){
 					this.setUserData()
 
-					if(this.state.userData.theme !== ""){
+					if(this.state.user.userData.theme !== ""){
 						document.body.classList = ""
-						document.body.classList.add(`theme-${this.state.userData.theme}`)
+						document.body.classList.add(`theme-${this.state.user.userData.theme}`)
 					}
 				}
 
-				if(this.state.appEmailSent && !this.state.appLoading && Object.keys(this.state.userData).length>0){
+				if(this.state.user.appEmailSent && !this.state.loader.isLoading && Object.keys(this.state.user.userData).length>0){
 					swal("Email sent!", "Please check your inbox for further instructions!", "success");
-				}else if(!this.state.appEmailSent && !this.state.appLoading && this.state.verifyEmailError !== "" && Object.keys(this.state.userData).length>0){
-					swal("Error!", this.state.verifyEmailError, "error");
+				}else if(!this.state.user.appEmailSent && !this.state.loader.isLoading && this.state.user.verifyEmailError !== "" && Object.keys(this.state.user.userData).length>0){
+					swal("Error!", this.state.user.verifyEmailError, "error");
 				}
 
 
@@ -88,14 +94,14 @@ class App extends Component {
 			
 		})
 
-		if(Object.keys(this.state.userData).length <= 0){
+		if(Object.keys(this.state.user.userData).length <= 0){
 			store.dispatch({type: "INIT_GET_USER_DATA"})
 		}
 	}
 
 	sendVerificationEmail(){
 		store.dispatch({type: "s/SEND_VERIFICATION_EMAIL", data: {
-			token: this.state.userData.token
+			token: this.state.user.userData.token
 		}})
 	}
 
@@ -104,12 +110,12 @@ class App extends Component {
 	}
 
 	render(){
-		const showVerifyBanner = Object.keys(this.state.userData).length>0&&!this.state.userData.emailVerified
+		const showVerifyBanner = Object.keys(this.state.user.userData).length>0&&!this.state.user.userData.emailVerified
 
 		return (
 			<div className="App">
 
-				{this.state.appLoading &&
+				{this.state.loader.isLoading &&
 					<div className="loader-holder">
 						<Loader />
 					</div>
@@ -123,12 +129,12 @@ class App extends Component {
 					} onClick={this.sendVerificationEmail.bind(this)} type="danger"/>
 				}
 
-				<Navbar roomID={this.state.roomID} hideLeaveButton={this.state.roomID===""} hideStartButton={(this.state.gameStarted || !this.state.user.host)} hidePrivateSwitch={(this.state.roomID === "" || !this.state.user.host)}/>
+				<Navbar roomID={this.state.game.roomID} hideLeaveButton={this.state.game.roomID===""} hideStartButton={(this.state.game.gameStarted || !this.state.user.host)} hidePrivateSwitch={(this.state.roomID === "" || !this.state.user.host)}/>
 
-				<div className={"scroll-wrapper" + (this.state.roomID!==""?'hidden':'')}>
-					<BeforeGame hidden={this.state.roomID!==""}/>
+				<div className={"scroll-wrapper" + (this.state.game.roomID!==""?'hidden':'')}>
+					<BeforeGame hidden={this.state.game.roomID!==""}/>
 				</div>
-				<GameArea hidden={this.state.roomID===""} categories={[
+				<GameArea hidden={this.state.game.roomID===""} categories={[
 					"Category 1",
 					"Category 2",
 					"Category 3",
@@ -141,7 +147,7 @@ class App extends Component {
 					600,
 					800,
 					1000
-				]} users={this.state.users}/>
+				]} users={this.state.game.users}/>
 				<FAB icon="discord" text="Join our Discord!" onClick={this.discordFABClick}/>
 			</div>
 		)

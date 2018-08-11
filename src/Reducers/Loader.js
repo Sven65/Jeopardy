@@ -65,7 +65,9 @@ function loader(state={}, action){
 		})
 	}
 
-	return state
+	return {
+		isLoading: false
+	}
 }
 
 export default loader

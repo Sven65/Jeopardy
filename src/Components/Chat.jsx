@@ -16,7 +16,9 @@ class Chat extends Component {
 		super(props)
 
 		this.state = {
-			messages: [],
+			chat: {
+				messages: []
+			},
 			showEmojiPicker: false
 		}
 
@@ -128,7 +130,7 @@ class Chat extends Component {
 					<div className="row">
 						<div className="container" id="chat-container">
 							<ul id="chat-messages" ref={el => this.chatContainer = el}>
-								{this.state.messages.map(message => {
+								{this.state.chat.messages.map(message => {
 									return (<Message user={message.user} timeStamp={message.timeStamp} message={message.message} key={message.timeStamp}/>)
 								})}
 								<li className="chatBottom" ref={el => this.chatBottom = el}></li>

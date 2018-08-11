@@ -29,7 +29,7 @@ function chat(state={}, action){
 		break
 
 		default:
-			return state
+			return Object.assign({messages: []}, state)
 		break
 	}
 }

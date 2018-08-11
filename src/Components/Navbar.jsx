@@ -35,9 +35,7 @@ class Navbar extends Component {
 	componentDidMount() {
 		store.subscribe(() => {
 
-			this.setState(store.getState(), () => {
-				console.log("NAVSTORE", this.state)
-			})
+			this.setState(store.getState())
 
 			//console.log("MESSAGE", this.state.messages)
 		})

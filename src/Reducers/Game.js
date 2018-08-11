@@ -1,3 +1,5 @@
+import history from '../history'
+
 function game(state={}, action){
 	switch(action.type.replace("s/", "")){
 		case "ACTION_GOTQUESTIONS":
@@ -17,7 +19,83 @@ function game(state={}, action){
 					clues: action.data.clues
 				})
 			}
+
+			return state
 		break
+
+		case 'USER_JOIN':
+			console.log("GAME STATE", state)
+
+			let user = {
+				username: action.data.username,
+				userID: action.data.userID,
+				balance: action.data.balance,
+				host: action.data.host,
+				isTurn: action.data.isTurn,
+				timeStamp: action.data.timeStamp,
+				image: action.data.image,
+				isRegistered: action.data.isRegistered||false,
+				color: action.data.color||"#eee"
+			}
+
+			console.log("USER", user)
+			console.log("SOCKET ID", socket.id)
+
+			if(state.users === undefined){
+				state.users = []
+			}
+
+			let isJoined = state.users.filter(stateUser => {
+				return stateUser.userID === action.data.userID
+			}).length>0
+
+			if(!isJoined){
+
+				history.push({
+					hash: `#${action.data.roomID}`
+				})
+
+				action.asyncDispatch({type: "s/ACTION_GETQUESTIONS", data: {
+					roomID: action.data.roomID,
+					boardID: action.data.boardID
+				}})
+
+				if(user.userID === socket.id){
+					action.asyncDispatch({type: "EVENT_CHAT", data: {
+						message: `Joined room **${action.data.roomID}** as **${action.data.username}**!`,
+						user: {
+							username: "SYSTEM",
+							userID: "SYSTEM"
+						},
+						timeStamp: Date.now()
+					}})
+
+					return Object.assign({}, state, {
+						roomID: action.data.roomID,
+						user: user,
+						users: [...state.users||[], user]
+					})
+				}else{
+					action.asyncDispatch({type: "EVENT_CHAT", data: {
+						message: `User **${action.data.username}** joined!`,
+						user: {
+							username: "SYSTEM",
+							userID: "SYSTEM"
+						},
+						timeStamp: Date.now()
+					}})
+
+
+					return Object.assign({}, state, {
+						roomID: action.data.roomID,
+						users: [...state.users||[], user]
+					})
+				}
+			}
+
+			return state
+		break
+
 		case "USER_LEAVE":
 			action.asyncDispatch({type: "EVENT_CHAT", data: {
 				message: `User ${action.data.user.username} left!`,
@@ -130,8 +208,44 @@ function game(state={}, action){
 			})
 		break
 
+		case "GOT_VALID_USER_BOARDS":
+			return Object.assign({}, state, {
+				validUserBoards: action.data.boards
+			})
+		break
+
+		case "GERROR":
+			return Object.assign({}, state, {
+				error: action.data,
+				validUserBoards: []
+			})
+		break
+		case "RESET_ERROR":
+			return Object.assign({}, state, {
+				error: null
+			})
+		break
+
+		case "JOIN":
+			return Object.assign({}, state, {
+				validUserBoards: []
+			})
+		break
+
 		default:
-			return state
+			return Object.assign({
+				validUserBoards: [],
+				users: [],
+				roomID: "",
+				gameStarted: false,
+				gameDone: false,
+				standings: {},
+				questionsLoaded: false,
+				joinedUsers: [],
+				clues: {},
+				currentQuestion: {},
+				user: {}
+			}, state)
 		break
 	}
 }

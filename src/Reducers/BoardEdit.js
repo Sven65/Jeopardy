@@ -84,12 +84,6 @@ function boardEdit(state={}, action){
 			})
 		break
 
-		case "GOT_VALID_USER_BOARDS":
-			return Object.assign({}, state, {
-				validUserBoards: action.data.boards
-			})
-		break
-
 		case "GERROR":
 			return Object.assign({}, state, {
 				validUserBoards:  []

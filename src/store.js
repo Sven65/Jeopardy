@@ -1,4 +1,3 @@
-import history from './history'
 import {
 	loader,
 	user,
@@ -50,53 +49,6 @@ function reducer(state, action){
 	if(!state) return {}
 
 	switch(action.type.replace("s/", "")){
-		case "GERROR":
-			return Object.assign({}, state, {
-				error: action.data
-			})
-		break
-		case "RESET_ERROR":
-			return Object.assign({}, state, {
-				error: null
-			})
-		break
-
-		case "SENT_VERIFICATION_EMAIL":
-			return Object.assign({}, state, {
-				appEmailSent: true
-			})
-		break
-		case "SENT_VERIFICATION_EMAIL_ERROR":
-			return Object.assign({}, state, {
-				appEmailSent: false,
-				verifyEmailError: action.data.error
-			})
-		break
-		case "PASSWORD_RESET_ERROR":
-			return Object.assign({}, state, {
-				forgotPasswordSent: false,
-				passwordResetError: action.data.reason
-			})
-		break
-		case "RESET_PASSWORD_RESET_ERROR":
-			return Object.assign({}, state, {
-				forgotPasswordSent: false,
-				passwordResetError: null
-			})
-		break
-		case "SENT_FORGOT_PASSWORD_EMAIL":
-			return Object.assign({}, state, {
-				forgotPasswordSent: true,
-				passwordResetError: null
-			})
-		break
-		
-		case "RESET_CLEAR_USER_FORM":
-			return Object.assign({}, state, {
-				clearUserForm: false
-			})
-		break
-
 		default:
 			if(CONFIG.DEV){
 				console.log("OOF", action)

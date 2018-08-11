@@ -36,6 +36,24 @@ class SocketHandler{
 		return categories
 	}
 
+	async _getBoardData(boardID){
+		if(boardID === "default"){
+			return {
+				title: "Default",
+				id: "default",
+				type: "standard"
+			}
+		}else{
+			let boardData = await this._dbUtils.getBoardByID(boardID)
+
+			boardData = boardData.rows[0]
+
+			boardData.type = "custom"
+
+			return boardData
+		}
+	}
+
 	async Execute({socket = null, io = null, data = {} }){
 		let room = await this._dbUtils.getRoomByID(data.roomID)
 		let boardID = data.boardID
@@ -50,6 +68,7 @@ class SocketHandler{
 
 		if(Object.keys(room.questions).length > 0 && !data.force){
 			data.clues = room.questions.clues
+			data.boardData = await this._getBoardData(room.boardID)
 			io.to(data.roomID).emit("ACTION_GOTQUESTIONS", data)
 		}else{
 
@@ -119,6 +138,8 @@ class SocketHandler{
 
 				data.clues = clues
 				data.boardID = boardID
+
+				console.log("DATA", data)
 
 				io.to(data.roomID).emit("ACTION_GOTQUESTIONS", data)
 

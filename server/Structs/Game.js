@@ -1,11 +1,12 @@
 class Game{
-	constructor({users=[], isStarted=false, currentQuestion=null, questions=null, roomID="", db=null}){
+	constructor({users=[], isStarted=false, currentQuestion=null, questions=null, roomID="", db=null, boardID="default"}){
 		this.currentQuestion = currentQuestion
 		this.isStarted = isStarted
 		this.questions = questions
 		this.users = users
 		this.gameOver = false
 		this.roomID = roomID
+		this.boardID = boardID
 		this._client = db
 	}
 
@@ -193,6 +194,16 @@ class Game{
 			WHERE "roomID" = $2
 			`,
 			[this.users, this.roomID]
+		)
+	}
+
+	async setBoardID(boardID){
+		return await this._client.query(`
+			UPDATE games
+			SET "boardID" = $1
+			WHERE "roomID" = $2
+			`,
+			[boardID, this.roomID]
 		)
 	}
 

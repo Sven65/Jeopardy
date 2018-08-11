@@ -5,72 +5,6 @@ function user(state={}, action){
 				validUserBoards: []
 			})
 		break
-		case 'USER_JOIN':
-			let user = {
-				username: action.data.username,
-				userID: action.data.userID,
-				balance: action.data.balance,
-				host: action.data.host,
-				isTurn: action.data.isTurn,
-				timeStamp: action.data.timeStamp,
-				image: action.data.image,
-				isRegistered: action.data.isRegistered||false,
-				color: action.data.color||"#eee"
-			}
-
-			if(state.users === undefined){
-				state.users = []
-			}
-
-			let isJoined = state.users.filter(stateUser => {
-				return stateUser.userID === action.data.userID
-			}).length>0
-
-			if(!isJoined){
-
-				history.push({
-					hash: `#${action.data.roomID}`
-				})
-
-				action.asyncDispatch({type: "s/ACTION_GETQUESTIONS", data: {
-					roomID: action.data.roomID,
-					boardID: action.data.boardID
-				}})
-
-				if(user.userID === socket.id){
-					action.asyncDispatch({type: "EVENT_CHAT", data: {
-						message: `Joined room **${action.data.roomID}** as **${action.data.username}**!`,
-						user: {
-							username: "SYSTEM",
-							userID: "SYSTEM"
-						},
-						timeStamp: Date.now()
-					}})
-
-					return Object.assign({}, state, {
-						roomID: action.data.roomID,
-						user: user,
-						users: [...state.users||[], user]
-					})
-				}else{
-					action.asyncDispatch({type: "EVENT_CHAT", data: {
-						message: `User **${action.data.username}** joined!`,
-						user: {
-							username: "SYSTEM",
-							userID: "SYSTEM"
-						},
-						timeStamp: Date.now()
-					}})
-
-
-					return Object.assign({}, state, {
-						roomID: action.data.roomID,
-						users: [...state.users||[], user]
-					})
-				}
-			}
-		break
-
 
 		case "USER_REGISTER_ERROR":
 			return Object.assign({}, state, {
@@ -184,8 +118,52 @@ function user(state={}, action){
 			})
 		break
 
+		case "SENT_VERIFICATION_EMAIL":
+			return Object.assign({}, state, {
+				appEmailSent: true
+			})
+		break
+		case "SENT_VERIFICATION_EMAIL_ERROR":
+			return Object.assign({}, state, {
+				appEmailSent: false,
+				verifyEmailError: action.data.error
+			})
+		break
+		case "PASSWORD_RESET_ERROR":
+			return Object.assign({}, state, {
+				forgotPasswordSent: false,
+				passwordResetError: action.data.reason
+			})
+		break
+		case "RESET_PASSWORD_RESET_ERROR":
+			return Object.assign({}, state, {
+				forgotPasswordSent: false,
+				passwordResetError: null
+			})
+		break
+		case "SENT_FORGOT_PASSWORD_EMAIL":
+			return Object.assign({}, state, {
+				forgotPasswordSent: true,
+				passwordResetError: null
+			})
+		break
+		
+		case "RESET_CLEAR_USER_FORM":
+			return Object.assign({}, state, {
+				clearUserForm: false
+			})
+		break
+
 		default:
-			return state
+			return Object.assign({
+				"registerError": {},
+				"loginError": {
+					reason: ""
+				},
+				userData: {},
+				verifyEmailError: "",
+				passwordResetError: null
+			}, state)
 		break
 	}
 }

@@ -9,13 +9,14 @@ class DBUtils{
 		return (variable !== null && variable !== undefined)
 	}
 
-	async addGame(roomID){
-		return await this.client.query(`INSERT INTO games ("roomID", "currentQuestion", "isStarted", questions, users) VALUES ($1, $2, $3, $4, $5)`, [
+	async addGame(roomID, boardID){
+		return await this.client.query(`INSERT INTO games ("roomID", "currentQuestion", "isStarted", questions, users, "boardID") VALUES ($1, $2, $3, $4, $5, $6)`, [
 			roomID,
 			null,
 			false,
 			{},
-			[]
+			[],
+			boardID
 		])
 	}
 
