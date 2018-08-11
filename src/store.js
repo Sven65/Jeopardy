@@ -9,6 +9,8 @@ import {
 
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 
+import history from './history'
+
 import createSocketIoMiddleware from 'redux-socket.io'
 import asyncDispatchMiddleware from './Middlewares/AsyncDispatchMiddleware'
 import io from 'socket.io-client'

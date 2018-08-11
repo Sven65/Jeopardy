@@ -28,6 +28,10 @@ function chat(state={}, action){
 			})
 		break
 
+		case "LEAVE":
+			return {messages: []}
+		break
+
 		default:
 			return Object.assign({messages: []}, state)
 		break
