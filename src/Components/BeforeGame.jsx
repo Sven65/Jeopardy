@@ -48,7 +48,6 @@ class BeforeGame extends Component {
 				if(gameCode !== undefined && gameCode !== ""){
 					this.roomIDInput.value = gameCode
 					if(!this.state.joinClick){
-						console.log("CLICK JB")
 						this.joinButton.click()
 						this.setState({joinClick: true, selectedGame: gameCode})
 					}
@@ -63,13 +62,14 @@ class BeforeGame extends Component {
 					}
 				}
 
-				if(this.state.validUserBoards.length > 0 && this.state.roomID !== null && this.state.roomID !== undefined){
+				if(this.state.validUserBoards.length > 0 && (this.state.roomID === null || this.state.roomID === undefined || this.state.roomID === "")){
+					console.log("SHOWING PICKER")
 					swal(
 						<BoardPicker boards={this.state.validUserBoards} onSelect={this._selectBoard}/>, {
 							title: "Please select a board"
 						}
 					).then(() => {
-						this.setState({validUserBoards: []})
+						this.setState({validUserBoards: [], joinClick: true})
 						this.joinGame()
 					})
 				}
@@ -192,6 +192,7 @@ class BeforeGame extends Component {
 	}
 
 	_sendJoin(username){
+		console.log("JOIN w/ NAME ", username)
 		store.dispatch({type: "s/JOIN", data: {
 			roomID: this.roomIDInput.value,
 			user: Object.keys(this.state.userData).length>0?this.state.userData:{
@@ -202,6 +203,7 @@ class BeforeGame extends Component {
 	}
 
 	joinGame(){
+		console.log("JOIN GAME")
 		let username = Object.keys(this.state.userData).length>0?this.state.userData:""
 
 		if(username.length <= 0){

@@ -32,6 +32,8 @@ class SocketHandler{
 	async Execute({socket = null, io = null, data = {}, roomTimers = {}}){
 		let room = await this._dbUtils.getRoomByID(data.roomID)
 
+		console.log("GET QUESTION ", data)
+
 		if(!this._isset(room)){
 			return
 		}

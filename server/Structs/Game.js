@@ -39,7 +39,7 @@ class Game{
 
 	getClueData(categoryID, clueID){
 		return this.questions.clues[categoryID].filter(clue => {
-			return clue.id === clueID
+			return (clue.id||clue.ID) === clueID
 		})[0]||null
 	}
 
@@ -132,6 +132,10 @@ class Game{
 		}
 
 		//this.users[oldHostIndex].isHost = false
+		if(this.users[newHostIndex] === undefined){
+			return {newHostIndex: -1}
+		}
+
 		this.users[newHostIndex].host = true
 
 		await this._client.query(`
@@ -147,7 +151,7 @@ class Game{
 
 	async setClueRevealed(categoryID, clueID){
 		let clueIndex = this.questions.clues[categoryID].findIndex(clue => {
-			return clue.id === clueID
+			return (clue.id||clue.ID) === clueID
 		})
 
 		this.questions.clues[categoryID][clueIndex].revealed = true

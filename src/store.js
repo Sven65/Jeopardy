@@ -43,8 +43,12 @@ function reducer(state, action){
 	if(!state) return {}
 
 	switch(action.type.replace("s/", "")){
+		case "JOIN":
+			return Object.assign({}, state, {
+				validUserBoards: []
+			})
+		break
 		case 'USER_JOIN':
-
 			let user = {
 				username: action.data.username,
 				userID: action.data.userID,
@@ -72,7 +76,8 @@ function reducer(state, action){
 				})
 
 				action.asyncDispatch({type: "s/ACTION_GETQUESTIONS", data: {
-					roomID: action.data.roomID
+					roomID: action.data.roomID,
+					boardID: action.data.boardID
 				}})
 
 				if(user.userID === socket.id){
@@ -132,7 +137,7 @@ function reducer(state, action){
 			if(!state.questionsLoaded){
 
 				action.asyncDispatch({type: "EVENT_CHAT", data: {
-					message: `Questions Loaded!`,
+					message: `Questions Loaded from board **${action.data.boardID}**!`,
 					user: {
 						username: "SYSTEM",
 						userID: "SYSTEM"
@@ -168,7 +173,7 @@ function reducer(state, action){
 
 			let clues = state.clues
 
-			let clueIndex = clues[action.data.categoryID].findIndex(clue => ""+clue.id === action.data.clueID)
+			let clueIndex = clues[action.data.categoryID].findIndex(clue => ""+(clue.id||clue.ID) === action.data.clueID)
 
 			clues[action.data.categoryID][clueIndex].revealed = true
 
@@ -565,7 +570,7 @@ function reducer(state, action){
 
 			let boardData = state.boardData
 
-			clueIndex = boardData.clues[""+action.data.categoryID].findIndex(clue => ""+clue.ID === ""+action.data.clueID)
+			clueIndex = boardData.clues[""+action.data.categoryID].findIndex(clue => ""+(clue.id||clue.ID) === ""+action.data.clueID)
 
 			console.log("z", boardData.clues[""+action.data.categoryID])
 
