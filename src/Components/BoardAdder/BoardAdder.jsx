@@ -14,12 +14,16 @@ class BoardAdder extends Component {
 		super(props)
 
 		this.state = {
-			isLoading: false,
 			unsavedChanges: false,
-			boardErrorMessage: "",
-			boardData: {},
-			boards: [],
-			listBoards: true
+			loader: {
+				isLoading: false
+			},
+			boardEdit: {
+				boardErrorMessage: "",
+				boardData: {},
+				boards: [],
+				listBoards: true
+			}
 		}
 
 		this.newClue = this.newClue.bind(this)
@@ -60,18 +64,18 @@ class BoardAdder extends Component {
 	}
 
 	newClue(categoryID){
-		let boardData = this.state.boardData
+		let boardData = this.state.boardEdit.boardData
 
 		if(boardData.clues[categoryID] === undefined){
 			store.dispatch({type: "s/ADD_CATEGORY", data: {
 				userToken: this.props.userToken,
-				boardID: this.state.boardData.boardData.id
+				boardID: this.state.boardEdit.boardData.boardData.id
 			}})
 		}else{
 			store.dispatch({
 				type: "s/ADD_CLUE",
 				data: {
-					boardID: this.state.boardData.boardData.id,
+					boardID: this.state.boardEdit.boardData.boardData.id,
 					answer: "Example Answer!",
 					question: "Example Question",
 					value: 200,
@@ -90,7 +94,7 @@ class BoardAdder extends Component {
 	}
 
 	titleEdit(categoryID){
-		let boardData = this.state.boardData
+		let boardData = this.state.boardEdit.boardData
 		let setCategoryTitle = this.setCategoryTitle
 
 		if(boardData.clues[categoryID] === undefined){
@@ -146,7 +150,7 @@ class BoardAdder extends Component {
 
 	setBoardTitle(boardID, title, originalTitle){
 
-		let boards = this.state.boards
+		let boards = this.state.boardEdit.boards
 
 		let boardIndex = boards.findIndex(board => board.id === boardID)
 
@@ -178,7 +182,7 @@ class BoardAdder extends Component {
 	}
 
 	setCategoryTitle(categoryID, title, originalTitle){
-		let boardData = this.state.boardData
+		let boardData = this.state.boardEdit.boardData
 
 		if(title === ""){
 			title = originalTitle
@@ -282,8 +286,8 @@ class BoardAdder extends Component {
 	render(){
 		// Probably want to do something to change the color of the loader
 
-		let showError = !this.state.unsavedChanges&&this.state.boardErrorMessage!==""
-		let listBoards = this.state.listBoards
+		let showError = !this.state.unsavedChanges&&this.state.boardEdit.boardErrorMessage!==""
+		let listBoards = this.state.boardEdit.listBoards
 
 		return (
 			<div>
@@ -298,7 +302,7 @@ class BoardAdder extends Component {
 						{showError&& (
 							<Alert message={
 								<span>
-									{this.state.boardErrorMessage}
+									{this.state.boardEdit.boardErrorMessage}
 								</span>
 							} type="danger"/>
 						)}
@@ -317,24 +321,24 @@ class BoardAdder extends Component {
 						{!listBoards?(
 							<div className="columns">
 								{/* TODO: Make this pull data from board api, list all boards user has and make them editable by pulling the data by board id from api*/}
-								{Object.keys(this.state.boardData.clues).map((id, key) => {
+								{Object.keys(this.state.boardEdit.boardData.clues).map((id, key) => {
 									return (
 										<Category
 											key = {key}
-											categoryName={this.state.boardData.clues[id][0].category.title}
-											clues={this.state.boardData.clues[id]}
+											categoryName={this.state.boardEdit.boardData.clues[id][0].category.title}
+											clues={this.state.boardEdit.boardData.clues[id]}
 											categoryID={id}
 											newClue={this.newClue}
 											titleEdit={this.titleEdit}
 											delete={this.deleteCategory}
-											boardID={this.state.boardData.boardData.id}
+											boardID={this.state.boardEdit.boardData.boardData.id}
 											saveClue={this.saveClue}
 											deleteClue={this.deleteClue}
 										/>
 									)
 								})}
 
-								{Object.keys(this.state.boardData.clues).length<6&&(
+								{Object.keys(this.state.boardEdit.boardData.clues).length<6&&(
 									<Category 
 										categoryName="New Category" 
 										clues={[]}
@@ -345,7 +349,7 @@ class BoardAdder extends Component {
 							</div>
 						):(
 							<div className="columns">
-								{this.state.boards.map((board, key) => {
+								{this.state.boardEdit.boards.map((board, key) => {
 									return (
 										<BoardListing
 											key={key}
@@ -358,7 +362,7 @@ class BoardAdder extends Component {
 									)
 								})}
 
-								{Object.keys(this.state.boards).length<6&&(
+								{Object.keys(this.state.boardEdit.boards).length<6&&(
 									<BoardListing
 										id="???"
 										boardName="New Board"

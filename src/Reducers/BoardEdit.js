@@ -63,6 +63,8 @@ function boardEdit(state={}, action){
 		case "DELETED_CATEGORY":
 		case "DELETED_CLUE":
 		case "SAVED_CLUE":
+			console.log("BOARD EDIT STATE", state)
+
 			let boardData = state.boardData
 
 			clueIndex = boardData.clues[""+action.data.categoryID].findIndex(clue => ""+(clue.id||clue.ID) === ""+action.data.clueID)
@@ -91,7 +93,13 @@ function boardEdit(state={}, action){
 		break
 
 		default:
-			return state
+			return Object.assign({}, state, {
+				validUserBoards: [],
+				boardErrorMessage: "",
+				boardData: {},
+				boards: [],
+				listBoards: true
+			})
 		break
 	}
 }
