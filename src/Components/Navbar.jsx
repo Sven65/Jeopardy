@@ -16,8 +16,10 @@ class Navbar extends Component {
 		super(props)
 
 		this.state = {
-			userData: {},
-			userLoggedIn: false,
+			user: {
+				userData: {},
+				userLoggedIn: false
+			},
 			userFormLoad: false,
 			showProfile: false,
 			showLoginForm: false,
@@ -32,7 +34,10 @@ class Navbar extends Component {
 
 	componentDidMount() {
 		store.subscribe(() => {
-			this.setState(store.getState())
+
+			this.setState(store.getState(), () => {
+				console.log("NAVSTORE", this.state)
+			})
 
 			//console.log("MESSAGE", this.state.messages)
 		})
@@ -103,8 +108,8 @@ class Navbar extends Component {
 	}
 
 	render(){
-		const isLoggedIn = this.state.userLoggedIn
-		const showProfile = (this.state.userLoggedIn && this.state.showProfile)
+		const isLoggedIn = this.state.user.userLoggedIn
+		const showProfile = (this.state.user.userLoggedIn && this.state.showProfile)
 		const showLoginForm = (this.state.showLoginForm)
 		const showBoardAdder = (this.state.showBoardAdder)
 
@@ -138,7 +143,7 @@ class Navbar extends Component {
 						<div className="navbar-item has-dropdown is-hoverable">
 							{/* User stuff */}
 							<a className="navbar-link user-link">
-								<i className="mdi mdi-account"></i>{!isLoggedIn?"User":this.state.userData.username}
+								<i className="mdi mdi-account"></i>{!isLoggedIn?"User":this.state.user.userData.username}
 							</a>
 
 							{!isLoggedIn?(

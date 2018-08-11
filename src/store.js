@@ -52,8 +52,7 @@ function reducer(state, action){
 	switch(action.type.replace("s/", "")){
 		case "GERROR":
 			return Object.assign({}, state, {
-				error: action.data,
-				validUserBoards: []
+				error: action.data
 			})
 		break
 		case "RESET_ERROR":

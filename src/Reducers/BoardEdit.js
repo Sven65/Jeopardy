@@ -90,6 +90,11 @@ function boardEdit(state={}, action){
 			})
 		break
 
+		case "GERROR":
+			return Object.assign({}, state, {
+				validUserBoards:  []
+			})
+		break
 
 		default:
 			return state
