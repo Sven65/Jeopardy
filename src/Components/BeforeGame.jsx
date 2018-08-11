@@ -1,10 +1,20 @@
 import React, { Component } from 'react'
 
+import Loadable from 'react-loadable'
+import Loader from './Common/Loader'
+
+const GameBrowser = Loadable({
+	loader: () => import('./GameBrowser'),
+	loading: Loader,
+})
+
+const BoardPicker = Loadable({
+	loader: () => import('./Common/BoardPicker'),
+	loading: Loader,
+})
+
 import InputField from './Common/InputField'
 import Button from './Common/Button'
-
-import GameBrowser from './GameBrowser'
-import BoardPicker from './Common/BoardPicker'
 
 import swal from './SweetAlert'
 
@@ -70,7 +80,6 @@ class BeforeGame extends Component {
 				}
 
 				if(this.state.game.validUserBoards.length > 0 && (this.state.game.roomID === null || this.state.game.roomID === undefined || this.state.game.roomID === "")){
-					console.log("SHOWING PICKER", this.state)
 					swal(
 						<BoardPicker boards={this.state.game.validUserBoards} onSelect={this._selectBoard}/>, {
 							title: "Please select a board"

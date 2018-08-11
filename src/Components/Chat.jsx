@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 
+import Loadable from 'react-loadable'
+import Loader from './Common/Loader'
+
 import 'emoji-mart/css/emoji-mart.css'
+
 import { Picker } from 'emoji-mart'
 
 import InputField from './Common/InputField'

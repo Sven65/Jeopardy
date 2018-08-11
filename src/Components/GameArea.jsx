@@ -1,11 +1,32 @@
 import React, { Component } from 'react'
 
-import UserCard from './Common/UserCard'
-import QuestionCard from './Common/QuestionCard'
-import QuestionTable from './Common/QuestionTable'
-import Chat from './Chat'
+import Loadable from 'react-loadable'
 import Loader from './Common/Loader'
-import Standings from './Common/Standings'
+
+const UserCard = Loadable({
+	loader: () => import('./Common/UserCard'),
+	loading: Loader,
+})
+
+const QuestionCard = Loadable({
+	loader: () => import('./Common/QuestionCard'),
+	loading: Loader,
+})
+
+const QuestionTable = Loadable({
+	loader: () => import('./Common/QuestionTable'),
+	loading: Loader,
+})
+
+const Chat = Loadable({
+	loader: () => import('./Chat'),
+	loading: Loader,
+})
+
+const Standings = Loadable({
+	loader: () => import('./Common/Standings'),
+	loading: Loader,
+})
 
 import GoogleAd from './Common/GoogleAd'
 
