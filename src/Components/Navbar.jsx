@@ -195,23 +195,23 @@ class Navbar extends Component {
 
 				{showProfile &&
 					<UserProfile
-						username={this.state.userData.username}
-						image={this.state.userData.image}
-						wins={this.state.userData.wins}
-						losses={this.state.userData.losses}
-						balance={this.state.userData.balance}
+						username={this.state.user.userData.username}
+						image={this.state.user.userData.image}
+						wins={this.state.user.userData.wins}
+						losses={this.state.user.userData.losses}
+						balance={this.state.user.userData.balance}
 						logoutFunc={this.logout.bind(this)}
-						userToken={this.state.userData.token}
+						userToken={this.state.user.userData.token}
 						closeButtonFunction={this.toggleProfile.bind(this)}
-						selectedTheme={this.state.userData.theme}
-						unlockedColors={this.state.userData.unlockedColors}
+						selectedTheme={this.state.user.userData.theme}
+						unlockedColors={this.state.user.userData.unlockedColors}
 					/>
 				}
 
 				{showBoardAdder &&
 					<BoardAdder
 						closeButtonFunction={this.toggleBoardAdder.bind(this)}
-						userToken={this.state.userData.token}
+						userToken={this.state.user.userData.token}
 					/>
 				}
 

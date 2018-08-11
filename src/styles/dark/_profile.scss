@@ -14,6 +14,10 @@ body.theme-dark{
 			color: map-deep-get($colors, "dark", "profile", "bottom", "text");
 		}
 
+		.title{
+			color: map-deep-get($colors, "dark", "profile", "top", "text");
+		}
+
 		.column:hover{
 			background: map-deep-get($colors, "dark", "profile", "bottom", "hover");
 			color: map-deep-get($colors, "dark", "profile", "bottom", "hoverText");

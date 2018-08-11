@@ -9,6 +9,8 @@ import swal from 'sweetalert'
 
 import store from '../../store'
 
+// TODO: FIX issue with this popping up errors and stuff when it shouldn't when buying and selecting colors
+
 class UserProfile extends Component {
 	constructor(props){
 		super(props)
@@ -18,13 +20,7 @@ class UserProfile extends Component {
 		this.state = {
 			imagePreview: this.props.image,
 			selectedImage: null,
-			unsavedChanges: false,
-			isLoading: false,
-			editError: "",
 			showSettings: false,
-			buyColorError: "",
-			boughtColor: false,
-			boughtColorSuccess: "",
 			swatches: [
 				'#FFF',
 				'#F44336',
@@ -43,7 +39,18 @@ class UserProfile extends Component {
 				'#FFC107',
 				'#FF9800',
 				'#FF5722'
-			]
+			],
+
+			loader: {
+				isLoading: false
+			},
+			userEdit: {
+				editError: "",
+				buyColorError: "",
+				boughtColor: false,
+				boughtColorSuccess: "",
+				unsavedChanges: false
+			}
 		}
 
 		this._acceptedMimes = [
@@ -60,22 +67,28 @@ class UserProfile extends Component {
 	componentDidMount() {
 		store.subscribe(() => {
 			this.setState(store.getState(), () => {
-				if(this.state.buyColorError !== ""){
+				if(this.state.userEdit.buyColorError !== ""){
 					swal({
 						title: "Error!",
-						text: this.state.buyColorError,
+						text: this.state.userEdit.buyColorError,
 						icon: "error",
 						button: "Close"
 					})
-				}else if(this.state.boughtColor !== false){
+				}else if(this.state.userEdit.boughtColor !== false){
 					swal({
 						title: "Success!",
-						text: this.state.boughtColorSuccess,
+						text: this.state.userEdit.boughtColorSuccess,
 						icon: "success",
 						button: "Close"
+					}).then(() => {
+						this.setState(Object.assign({}, this.state, {
+							userEdit: {
+								boughtColor: false
+							}
+						}))
 					})
 
-					this.setState({boughtColor: false})
+					
 				}
 			})
 		})
@@ -226,11 +239,11 @@ class UserProfile extends Component {
 	render(){
 		// Probably want to do something to change the color of the loader
 
-		let showError = !this.state.unsavedChanges&&this.state.editError!==""
+		let showError = !this.state.userEdit.unsavedChanges&&this.state.userEdit.editError!==""
 
 		return (
 			<div>
-				{this.state.isLoading &&
+				{this.state.loader.isLoading &&
 					<div className="loader-holder">
 						<Loader />
 					</div>
@@ -243,7 +256,7 @@ class UserProfile extends Component {
 								{showError&& (
 									<Alert message={
 										<span>
-											{this.state.editError}
+											{this.state.userEdit.editError}
 										</span>
 									} type="danger"/>
 								)}

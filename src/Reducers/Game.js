@@ -24,7 +24,6 @@ function game(state={}, action){
 		break
 
 		case 'USER_JOIN':
-			console.log("GAME STATE", state)
 
 			let user = {
 				username: action.data.username,
@@ -189,7 +188,9 @@ function game(state={}, action){
 			if(state.users !== undefined){
 				userIndex = users.findIndex(user => user.userID === action.data.userID)
 
-				users[userIndex].color = action.data.color
+				if(users[userIndex] !== undefined){
+					users[userIndex].color = action.data.color
+				}
 			}
 
 			return Object.assign({}, state, {

@@ -27,7 +27,13 @@ function userEdit(state={}, action){
 		break
 
 		default:
-			return state
+			return Object.assign({
+				unsavedChanges: false,
+				editError: "",
+				buyColorError: "",
+				boughtColor: false,
+				boughtColorSuccess: ""
+			}, state)
 		break
 	}
 }
