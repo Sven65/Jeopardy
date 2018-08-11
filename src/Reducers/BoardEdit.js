@@ -36,12 +36,20 @@ function boardEdit(state={}, action){
 				categoryID: action.data.id,
 				userToken: action.data.userToken
 			}})
+
+			return Object.assign({}, state, {
+				
+			})
 		return
 
 		case "ADDED_CLUE":
 			action.asyncDispatch({type: "s/GET_BOARD", data: {
 				boardID: action.data.boardID
 			}})
+
+			return Object.assign({}, state, {
+				
+			})
 		return
 
 		case "CREATED_BOARD":
@@ -52,20 +60,38 @@ function boardEdit(state={}, action){
 			action.asyncDispatch({type: "s/USER_GET_BOARDS", data: {
 				userToken: action.data.userToken
 			}})
+
+			return Object.assign({}, state, {
+				
+			})
 		return
 
 		case "DELETED_BOARD":
 			action.asyncDispatch({type: "s/USER_GET_BOARDS", data: {
 				userToken: action.data.userToken
 			}})
+
+			return Object.assign({}, state, {
+				
+			})
 		return
 
 		case "DELETED_CATEGORY":
 		case "DELETED_CLUE":
+			action.asyncDispatch({type: "s/GET_BOARD", data: {
+				boardID: action.data.boardID
+			}})
+
+			return Object.assign({}, state, {
+				
+			})
+		break
 		case "SAVED_CLUE":
 			console.log("BOARD EDIT STATE", state)
 
 			let boardData = state.boardData
+
+			console.log("boardData", boardData)
 
 			clueIndex = boardData.clues[""+action.data.categoryID].findIndex(clue => ""+(clue.id||clue.ID) === ""+action.data.clueID)
 
@@ -86,6 +112,13 @@ function boardEdit(state={}, action){
 			})
 		break
 
+		case "CLOSE_BOARD": 
+			return Object.assign({}, state, {
+				listBoards: true,
+				boardData: {}
+			})
+		break
+
 		case "GERROR":
 			return Object.assign({}, state, {
 				validUserBoards:  []
@@ -93,13 +126,14 @@ function boardEdit(state={}, action){
 		break
 
 		default:
-			return Object.assign({}, state, {
+			console.log("RETURN DEFAULT")
+			return Object.assign({}, {
 				validUserBoards: [],
 				boardErrorMessage: "",
 				boardData: {},
 				boards: [],
 				listBoards: true
-			})
+			}, state)
 		break
 	}
 }

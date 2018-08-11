@@ -89,7 +89,9 @@ class BoardAdder extends Component {
 
 		this.setState({
 			...this.state,
-			boardData: boardData
+			boardEdit: {
+				boardData: boardData
+			}
 		})
 	}
 
@@ -114,12 +116,14 @@ class BoardAdder extends Component {
 
 		this.setState({
 			...this.state,
-			boardData: boardData
+			boardEdit: {
+				boardData: boardData
+			}
 		})
 	}
 
 	boardTitleEdit(boardID){
-		let boards = this.state.boards
+		let boards = this.state.boardEdit.boards
 
 		let boardIndex =  boards.findIndex(board => board.id === boardID)
 
@@ -144,7 +148,9 @@ class BoardAdder extends Component {
 
 		this.setState({
 			...this.state,
-			boards: boards
+			boardEdit: {
+				boards: boards
+			}
 		})
 	}
 
@@ -168,7 +174,9 @@ class BoardAdder extends Component {
 
 		this.setState({
 			...this.state,
-			boards: boards
+			boardEdit: {
+				boards: boards
+			}
 		})
 
 		store.dispatch({type: "s/SET_BOARD_TITLE", data: {
@@ -176,9 +184,6 @@ class BoardAdder extends Component {
 			title,
 			userToken: this.props.userToken
 		}})
-
-		this.setState({isLoading: true})
-
 	}
 
 	setCategoryTitle(categoryID, title, originalTitle){
@@ -196,7 +201,9 @@ class BoardAdder extends Component {
 
 		this.setState({
 			...this.state,
-			boardData: boardData
+			boardEdit: {
+				boardData: boardData
+			}
 		})
 
 		store.dispatch({type: "s/SET_CATEGORY_TITLE", data: {
@@ -204,8 +211,6 @@ class BoardAdder extends Component {
 			title,
 			userToken: this.props.userToken
 		}})
-
-		this.setState({isLoading: true})
 
 	}
 
@@ -222,9 +227,8 @@ class BoardAdder extends Component {
 	}
 
 	hideBoard(){
-		this.setState({
-			listBoards: true,
-			boardData: {}
+		store.dispatch({
+			type: "CLOSE_BOARD"
 		})
 	}
 
@@ -291,7 +295,7 @@ class BoardAdder extends Component {
 
 		return (
 			<div>
-				{this.state.isLoading &&
+				{this.state.loader.isLoading &&
 					<div className="loader-holder">
 						<Loader />
 					</div>

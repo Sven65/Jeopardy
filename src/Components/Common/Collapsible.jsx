@@ -9,19 +9,29 @@ class Collapsible extends Component {
 		this.clickLabel = this.clickLabel.bind(this)
 		this._label = React.createRef()
 		this._check = React.createRef()
+
+		this.state = {
+			open: false
+		}
 	}
 
 	clickLabel(){
 		this._label.click()
 	}
 
+	checkChange(e){
+		this.setState({
+			open: e.target.checked
+		})
+	}
+
 	render(){
-		let isOpen = this._check.checked?'open':''
+		let isOpen = this.state.open?'open':''
 
 		return (
 			<div className={"wrap-collapsible "+this.props.className+" "+isOpen}>
 				<p className="panel-heading" onClick={this.clickLabel}>
-					<input id={this.props.labelID} className="toggle" type="checkbox" ref={(el) => this._check = el}/>
+					<input id={this.props.labelID} className="toggle" type="checkbox" ref={(el) => this._check = el} onChange={this.checkChange.bind(this)}/>
 					<label htmlFor={this.props.labelID} className="lbl-toggle" ref={(el) => this._label = el} onClick={this.clickLabel}>{this.props.label}</label>
 				</p>
 
