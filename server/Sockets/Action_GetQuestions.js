@@ -29,8 +29,16 @@ class SocketHandler{
 		}
 	}
 
+	async _getJServiceCategories(){
+		let categoryGet = await JS.getCategories(JS._categoryCount, Math.floor(Math.random() * JS._maxOffset) + JS._minOffset)
+		let categories = categoryGet.body
+		
+		return categories
+	}
+
 	async Execute({socket = null, io = null, data = {} }){
 		let room = await this._dbUtils.getRoomByID(data.roomID)
+		let boardID = data.boardID
 
 		if(!this._isset(room)){
 			return
@@ -45,8 +53,34 @@ class SocketHandler{
 			io.to(data.roomID).emit("ACTION_GOTQUESTIONS", data)
 		}else{
 
-			let categoryGet = await JS.getCategories(JS._categoryCount, Math.floor(Math.random() * JS._maxOffset) + JS._minOffset)
-			let categories = categoryGet.body
+			let categories = ""
+
+			if(boardID === "default"){
+				categories = await this._getJServiceCategories()
+			}else{
+				let boardData = await this._dbUtils.getBoardByID(boardID)
+
+				if(boardData.rows.length <= 0){
+					categories = await this._getJServiceCategories()
+				}else{
+					boardData = boardData.rows[0]
+
+					data.boardData = boardData
+					data.boardData.type = "custom"
+
+					categories = boardData.categories.map(categoryID => {
+						return {id: categoryID}
+					})
+				}
+			}
+
+			if(!this._isset(data.boardData)){
+				data.boardData = {
+					title: "Default",
+					id: "default",
+					type: "standard"
+				}
+			}
 
 			let clues = {}
 
@@ -56,7 +90,22 @@ class SocketHandler{
 						clues[category.id] = []
 					}
 
-					let clueGet = await JS.getClues(category.id)
+					let clueGet = {}
+
+					if(boardID === "default"){
+						clueGet = await JS.getClues(category.id)
+					}else{
+						let categoryData = await this._dbUtils.getCategoryByID(category.id)
+						let clueBody = await this._dbUtils.getCluesByCategoryID(category.id)
+
+						clueBody.rows.forEach(clue => {
+							clue.category = categoryData.rows[0]
+						})
+
+						clueGet = {
+							body: clueBody.rows
+						}
+					}
 
 					clues[category.id] = clueGet.body					
 
@@ -69,6 +118,7 @@ class SocketHandler{
 				})
 
 				data.clues = clues
+				data.boardID = boardID
 
 				io.to(data.roomID).emit("ACTION_GOTQUESTIONS", data)
 

@@ -1,0 +1,114 @@
+@import 'mdlInput';
+@import 'profile';
+@import 'userForm';
+@import 'questionTable';
+@import 'chat';
+@import 'colorPicker';
+@import 'FAB';
+@import 'gameBrowser';
+@import 'boardAdder';
+
+html, body{
+	background: map-deep-get($colors, "light", "general", "background");
+}
+
+.alert.alert-danger{
+	background-color: map-deep-get($colors, "light", "alert", "danger", "background");
+	color: map-deep-get($colors, "light", "alert", "danger", "text");
+}
+
+.alert.alert-success{
+	background-color: map-deep-get($colors, "light", "alert", "success", "background");
+	color: map-deep-get($colors, "light", "alert", "success", "text");
+}
+
+.navbar {
+	background: map-deep-get($colors, "light", "general", "primaryColor");
+	
+	.navbar-link::after{
+		border-color: map-deep-get($colors, "light", "general", "navbar", "text");
+	}
+
+	.navbar-link:hover::after{
+		border-color: map-deep-get($colors, "light", "general", "navbar", "text");
+	}
+}
+
+.navbar-burger{
+	span {
+		color: map-deep-get($colors, "light", "general", "navbar", "text");
+	}
+}
+
+.board-button{
+	&.selected{
+		background: map-deep-get($colors, "light", "general", "primaryColor") !important;
+	}
+}
+
+@media screen and (min-width: 1088px){
+	.navbar-item.has-dropdown:hover .navbar-link, .navbar-item.has-dropdown.is-active{
+		background-color: map-deep-get($colors, "light", "general", "primaryColorDark");
+	}
+
+	.navbar {
+		.user-link {
+			color: map-deep-get($colors, "light", "general", "navbar", "text");
+		}
+
+		a.navbar-item{
+			color: map-deep-get($colors, "light", "general", "navbar", "text");
+		}
+
+		a.navbar-item.dark-background:hover{
+			background-color: map-deep-get($colors, "light", "general", "primaryColorDark");
+		}
+
+		a.navbar-item.no-background:hover{
+			background-color: map-deep-get($colors, "light", "general", "primaryColor");
+		}
+	}
+}
+
+.user-card{
+	.card{
+		background-color: map-deep-get($colors, "light", "userCard", "background");
+		* {
+			color: map-deep-get($colors, "light", "userCard", "color");
+		}
+	}
+}
+
+#gameCodeHeader{
+	color: map-deep-get($colors, "light", "general", "gameCodeHeader", "text");
+}
+
+.swal-modal {
+	background-color: #FFF;
+}
+
+#root{
+	.App{
+		.scroll-wrapper{
+			.scroller{
+				&::-webkit-scrollbar-track{
+					-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "light", "general", "scrollbar", "track", "boxShadow");
+					//border-radius: 10px;
+					background-color: map-deep-get($colors, "light", "general", "scrollbar", "track", "background");
+				}
+
+				&::-webkit-scrollbar{
+					width: 12px;
+					background-color: map-deep-get($colors, "light", "general", "scrollbar", "background");
+				}
+
+				&::-webkit-scrollbar-thumb{
+					//border-radius: 10px;
+					-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "light", "general", "scrollbar", "thumb", "boxShadow");
+					background-color: map-deep-get($colors, "light", "general", "scrollbar", "thumb", "background");
+				}
+			}
+		}
+	}
+}
+

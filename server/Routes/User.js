@@ -52,6 +52,20 @@ app.get("/:userID/reset/:verificationCode", async (req, res) => {
 	}
 })
 
+app.get("/:userID/boards/", async (req, res) => {
+	let boardData = await dbUtils.getBoardsByUserID(req.params.userID)
+
+	if(!isset(boardData.rows.length <= 0)){
+		res.status(404).json({error: "Invalid user ID."})
+		return
+	}
+
+	boardData = boardData.rows
+
+	res.header("Content-Type",'application/json');
+	res.status(200).send(JSON.stringify(boardData, null, 4))
+})
+
 app.post("/verify/email", async (req, res) => {
 	let resp = await snekfetch.post(`https://www.google.com/recaptcha/api/siteverify?response=${req.body.captchaResponse}&secret=${config.get("recaptchaSecret")}`).send()
 

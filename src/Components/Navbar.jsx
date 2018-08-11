@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import UserForm from './Common/UserForm'
 import Loader from './Common/Loader'
 import UserProfile from './Common/UserProfile'
+import BoardAdder from './BoardAdder'
 
 import ToggleSwitch from './Common/ToggleSwitch'
 
@@ -19,7 +20,8 @@ class Navbar extends Component {
 			userLoggedIn: false,
 			userFormLoad: false,
 			showProfile: false,
-			showLoginForm: false
+			showLoginForm: false,
+			showBoardAdder: false
 		}
 	
 		//this.startGame = this.startGame.bind(this)
@@ -86,6 +88,12 @@ class Navbar extends Component {
 		})
 	}
 
+	toggleBoardAdder(e){
+		this.setState({
+			showBoardAdder: !this.state.showBoardAdder
+		})
+	}
+
 	privateSwitch(e){
 		store.dispatch({type: "s/SET_GAME_PRIVATE", data: {
 			roomID: this.state.roomID,
@@ -98,6 +106,7 @@ class Navbar extends Component {
 		const isLoggedIn = this.state.userLoggedIn
 		const showProfile = (this.state.userLoggedIn && this.state.showProfile)
 		const showLoginForm = (this.state.showLoginForm)
+		const showBoardAdder = (this.state.showBoardAdder)
 
 		return (
 			<nav className="navbar" role="navigation" aria-label="main navigation" id="main-nav">
@@ -143,6 +152,11 @@ class Navbar extends Component {
 									<a className="navbar-item" onClick={this.toggleProfile.bind(this)}>
 										<a className="modal-trigger" id="userprofile-trigger">Profile</a>
 									</a>
+
+									<a className="navbar-item" onClick={this.toggleBoardAdder.bind(this)}>
+										<a className="modal-trigger" id="boardAdder-trigger">Game Boards</a>
+									</a>
+
 									<a className="navbar-item" onClick={this.logout.bind(this)}>
 
 										<a className="logout" id="user-logout">
@@ -189,9 +203,13 @@ class Navbar extends Component {
 						selectedTheme={this.state.userData.theme}
 						unlockedColors={this.state.userData.unlockedColors}
 					/>
+				}
 
-						
-					
+				{showBoardAdder &&
+					<BoardAdder
+						closeButtonFunction={this.toggleBoardAdder.bind(this)}
+						userToken={this.state.userData.token}
+					/>
 				}
 
 				{(() => {
