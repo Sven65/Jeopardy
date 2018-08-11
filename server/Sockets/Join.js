@@ -36,9 +36,6 @@ class SocketHandler{
 
 	async Execute({socket = null, io = null, data = {} }){
 
-		console.log("SOCKET", socket)
-		console.log("JOIN", data)
-
 		let isHost = false
 		let canJoin = false
 		let errorMessage = "Game is still loading, please wait."
@@ -87,7 +84,7 @@ class SocketHandler{
 
 		data.timeStamp = Date.now()
 		data.roomID = data.roomID
-		data.userID = socket.client.id
+		data.userID = socket.id
 		data.host = isHost
 		data.isTurn = isHost
 		data.balance = 0
@@ -103,9 +100,7 @@ class SocketHandler{
 		if(!this._isset(data.user.image)){
 			data.user.image = `https://placehold.it/128x128?text=${data.username}`
 		}
-
-		console.log("SEND", data)
-
+		
 		let user = new User(data)
 
 		await room.addUser(user)

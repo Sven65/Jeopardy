@@ -60,8 +60,8 @@ class Chat extends Component {
 		}else{
 
 			store.dispatch({type: "s/chat", data: {
-				roomID: this.state.roomID,
-				user: this.state.user,
+				roomID: this.state.game.roomID,
+				user: this.state.game.user,
 				message: this.messageInput.value,
 				timeStamp: Date.now()
 			}})

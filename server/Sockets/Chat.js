@@ -133,7 +133,6 @@ class SocketHandler{
 		}
 
 		if(emitChat){
-			console.log("DONG", data)
 			io.to(data.roomID).emit('EVENT_CHAT', data)
 		}
 	}

@@ -15,6 +15,10 @@ import io from 'socket.io-client'
 
 let socket = io(`${CONFIG.Client.socket.host}`)
 
+if(CONFIG.DEV){
+	window.socket = socket
+}
+
 const patch = require('socketio-wildcard')(io.Manager);
 patch(socket)
 

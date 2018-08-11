@@ -46,8 +46,6 @@ class SocketHandler{
 
 		userBoards = userBoards.rows
 
-		console.log("length", userBoards.length)
-
 		if(userBoards.length <= 0){
 			socket.emit("GOT_VALID_USER_BOARDS", {boards: []})
 			return
@@ -73,9 +71,6 @@ class SocketHandler{
 					let clues = await this._dbUtils.getCluesByCategoryID(categoryID)
 
 					clues = clues.rows
-
-					console.log("clues", clues.length)
-
 					if(clues.length >= 5){
 						// Enough clues
 
@@ -85,14 +80,10 @@ class SocketHandler{
 							hasValues.push(clue.value)
 
 						})
-
-						console.log("VALUES", hasValues)
-
 						if(hasValues.sort().equals([200, 400, 600, 800, 1000].sort())){
 							// Category has all values
 							validCategoryAmount++
 
-							console.log("valid category", validCategoryAmount)
 						}
 					}
 				})
@@ -101,8 +92,6 @@ class SocketHandler{
 					validBoards.push(board)
 				}
 			})
-
-			console.log("valud", validBoards)
 
 			socket.emit("GOT_VALID_USER_BOARDS", {boards: validBoards, type: "2"})
 

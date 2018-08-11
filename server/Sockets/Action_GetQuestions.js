@@ -139,8 +139,6 @@ class SocketHandler{
 				data.clues = clues
 				data.boardID = boardID
 
-				console.log("DATA", data)
-
 				io.to(data.roomID).emit("ACTION_GOTQUESTIONS", data)
 
 				if(!this._isset(room.questions)){

@@ -46,7 +46,8 @@ class App extends Component {
 				roomID: "",
 				joinedUsers: [],
 				users: [],
-				questionsLoaded: false
+				questionsLoaded: false,
+				user: {}
 			},
 			loader: {
 				isLoading: false
@@ -129,7 +130,7 @@ class App extends Component {
 					} onClick={this.sendVerificationEmail.bind(this)} type="danger"/>
 				}
 
-				<Navbar roomID={this.state.game.roomID} hideLeaveButton={this.state.game.roomID===""} hideStartButton={(this.state.game.gameStarted || !this.state.user.host)} hidePrivateSwitch={(this.state.roomID === "" || !this.state.user.host)}/>
+				<Navbar roomID={this.state.game.roomID} hideLeaveButton={this.state.game.roomID===""} hideStartButton={(this.state.game.gameStarted || !this.state.game.user.host)} hidePrivateSwitch={(this.state.game.roomID === "" || !this.state.game.user.host)}/>
 
 				<div className={"scroll-wrapper" + (this.state.game.roomID!==""?'hidden':'')}>
 					<BeforeGame hidden={this.state.game.roomID!==""}/>
