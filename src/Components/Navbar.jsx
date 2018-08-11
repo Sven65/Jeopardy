@@ -1,15 +1,25 @@
 import React, { Component } from 'react'
+import Loadable from 'react-loadable'
+
+import Loader from './Common/Loader'
 
 import UserForm from './Common/UserForm'
-import Loader from './Common/Loader'
-import UserProfile from './Common/UserProfile'
-import BoardAdder from './BoardAdder'
 
 import ToggleSwitch from './Common/ToggleSwitch'
 
 import mainLogo from'../Assets/TriviaPartyWhite.svg'
 
 import store from './../store'
+
+const UserProfile = Loadable({
+	loader: () => import('./Common/UserProfile'),
+	loading: Loader,
+})
+
+const BoardAdder = Loadable({
+	loader: () => import('./BoardAdder'),
+	loading: Loader,
+})
 
 class Navbar extends Component {
 	constructor(props){

@@ -11,16 +11,39 @@ import './../styles/loaders.min.css'
 
 import './../General/init.js'
 
-//import {socket, socketDebug, getQuestions } from '../api'
-import Navbar from './Navbar'
-import BeforeGame from './BeforeGame'
-import GameArea from './GameArea'
-
-import Footer from './Common/Footer'
-import Alert from './Common/Alert'
+import Loadable from 'react-loadable'
 import Loader from './Common/Loader'
 
-import FAB from './Common/FAB'
+const Navbar = Loadable({
+	loader: () => import('./Navbar'),
+	loading: Loader,
+})
+
+const BeforeGame = Loadable({
+	loader: () => import('./BeforeGame'),
+	loading: Loader,
+})
+
+const GameArea = Loadable({
+	loader: () => import('./GameArea'),
+	loading: Loader,
+})
+
+const Footer = Loadable({
+	loader: () => import('./Common/Footer'),
+	loading: Loader,
+})
+
+const Alert = Loadable({
+	loader: () => import('./Common/Alert'),
+	loading: Loader,
+})
+
+const FAB = Loadable({
+	loader: () => import('./Common/FAB'),
+	loading: Loader,
+})
+
 
 import swal from 'sweetalert'
 
