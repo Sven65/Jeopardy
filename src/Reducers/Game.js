@@ -38,9 +38,6 @@ function game(state={}, action){
 				color: action.data.color||"#eee"
 			}
 
-			console.log("USER", user)
-			console.log("SOCKET ID", socket.id)
-
 			if(state.users === undefined){
 				state.users = []
 			}
@@ -232,6 +229,25 @@ function game(state={}, action){
 			})
 		break
 
+		case "LEAVE":
+			return {
+				validUserBoards: [],
+				users: [],
+				roomID: "",
+				gameStarted: false,
+				gameDone: false,
+				standings: {},
+				questionsLoaded: false,
+				joinedUsers: [],
+				clues: {},
+				currentQuestion: {},
+				user: {},
+				gameBrowser: {
+					games: state.gameBrowser.games
+				}
+			}
+		break
+
 		default:
 			return Object.assign({
 				validUserBoards: [],
@@ -244,7 +260,10 @@ function game(state={}, action){
 				joinedUsers: [],
 				clues: {},
 				currentQuestion: {},
-				user: {}
+				user: {},
+				gameBrowser: {
+					games: []
+				}
 			}, state)
 		break
 	}

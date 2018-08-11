@@ -49,18 +49,18 @@ class Navbar extends Component {
 
 	startGame(){
 		store.dispatch({type: "s/GAME_ACTION_START", data: {
-			roomID: this.state.roomID,
-			userID: this.state.user.userID
+			roomID: this.state.game.roomID,
+			userID: this.state.game.user.userID
 		}})
 	}
 
 	leaveGame(){
 		store.dispatch({type: "s/USER_ACTION_LEAVE", data: {
-			roomID: this.state.roomID,
-			userID: this.state.user.userID
+			roomID: this.state.game.roomID,
+			userID: this.state.game.user.userID
 		}})
 
-		store.dispatch({type: "LEAVE", data: {a: "oof"}})
+		store.dispatch({type: "LEAVE"})
 	}
 
 	logout(){
@@ -99,8 +99,8 @@ class Navbar extends Component {
 
 	privateSwitch(e){
 		store.dispatch({type: "s/SET_GAME_PRIVATE", data: {
-			roomID: this.state.roomID,
-			userID: this.state.user.userID,
+			roomID: this.state.game.roomID,
+			userID: this.state.game.user.userID,
 			isPrivate: e.target.checked
 		}})
 	}
