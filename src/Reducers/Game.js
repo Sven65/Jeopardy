@@ -231,6 +231,10 @@ function game(state={}, action){
 		break
 
 		case "LEAVE":
+			history.push({
+				hash: ""
+			})
+
 			return {
 				validUserBoards: [],
 				users: [],

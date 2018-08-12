@@ -8,11 +8,7 @@ const GameBrowser = Loadable({
 	loading: Loader,
 })
 
-const BoardPicker = Loadable({
-	loader: () => import('./Common/BoardPicker'),
-	loading: Loader,
-})
-
+import BoardPicker from './Common/BoardPicker'
 import InputField from './Common/InputField'
 import Button from './Common/Button'
 
@@ -281,17 +277,7 @@ class BeforeGame extends Component {
 										<p className="title">What is TriviaParty?</p>
 										<p className="subtitle"></p>
 										<div className="content">
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-											Sed lectus nisl, porttitor sed tellus quis, malesuada euismod nunc.
-											Morbi sodales id neque eget eleifend. Nunc id turpis consectetur, euismod metus in, laoreet libero.
-											Suspendisse ullamcorper mattis est, dictum pulvinar nibh rutrum nec.
-											Vivamus sollicitudin ante odio, ut aliquam lorem pellentesque in.
-											Pellentesque auctor orci at consectetur suscipit.
-											Praesent id leo vestibulum, egestas nulla et, auctor purus.
-											Ut fermentum dignissim molestie. Maecenas tincidunt ac turpis et molestie.
-											Suspendisse consequat, enim eu tincidunt sagittis, urna libero commodo lacus, ac luctus nulla nisi quis lacus.
-											Phasellus tristique massa a tempus elementum. Morbi felis nunc, iaculis id justo ac, dignissim vulputate lacus.
-											Aliquam placerat non sapien in tincidunt.
+											TriviaParty is a online Trivia Game for one to four players, featuring a chat and custom boards.
 										</div>
 									</div>
 								</div>

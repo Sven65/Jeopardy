@@ -47,7 +47,14 @@ class SocketHandler{
 		userBoards = userBoards.rows
 
 		if(userBoards.length <= 0){
-			socket.emit("GOT_VALID_USER_BOARDS", {boards: []})
+			socket.emit("GOT_VALID_USER_BOARDS", {
+				boards: [
+					{
+						id: "default",
+						title: "Default"
+					}
+				]
+			})
 			return
 		}
 
@@ -55,7 +62,12 @@ class SocketHandler{
 
 		// Enough categories
 
-		let validBoards = []
+		let validBoards = [
+			{
+				id: "default",
+				title: "Default"
+			}
+		]
 
 		let validCategoryBoards = userBoards.filter(board => {
 			return board.categories.length >= 6
