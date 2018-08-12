@@ -1,0 +1,126 @@
+$bg-color: map-deep-get($colors, "light", "mdlInput", "background");
+$title-color: map-deep-get($colors, "light", "mdlInput", "title", "color");
+$hl-color: map-deep-get($colors, "light", "mdlInput", "hl", "color"); // Button etc
+$hl-danger-color: map-deep-get($colors, "light", "mdlInput", "hl", "danger"); // Button etc
+$muted-color: mix(white, $bg-color, 70%);
+
+form.mdl-form{
+	
+	h1 {
+		color: $title-color;
+	}
+	h5 {
+		color: $muted-color;
+	}
+
+	input,
+	textarea {
+		border-bottom: 1px solid $muted-color;
+
+		&:focus ~ label,
+		&:valid ~ label {
+			color: $hl-color;
+		}
+	}
+
+	input[type="password"] {
+		letter-spacing: 0.3em;
+	}
+
+	label {
+		color: $muted-color;
+	}
+
+	.bar {
+		&:before {
+			background: $hl-color;
+		}
+	}
+
+	// BUTTONS // ============================== //
+	.btn {
+		background: #fff;
+		color: mix(black, $muted-color, 25%);
+		&:hover {
+			color: mix(black, $muted-color, 30%);
+			box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
+		}
+		&.btn-link {
+			background: $hl-color;
+			color: mix(white, $hl-color, 80%);
+			&:hover {
+				background: darken($hl-color, 5%);
+				color: mix(white, $hl-color, 85%);
+			}
+		}
+		&.btn-submit {
+			background: $hl-color;
+			color: mix(white, $hl-color, 70%);
+			&:hover {
+				background: darken($hl-color, 5%);
+				color: mix(white, $hl-color, 85%);
+			}
+		}
+
+		&.btn-danger{
+			background: $hl-danger-color;
+			color: mix(white, $hl-color, 70%);
+			&:hover {
+				background: darken($hl-danger-color, 5%);
+				color: mix(white, $hl-danger-color, 85%);
+			}
+		}
+
+		&.btn-cancel {
+			background: #eee;
+			&:hover {
+				background: darken(#eee, 5%);
+				color: mix(black, $muted-color, 30%);
+			}
+		}
+	}
+}
+
+
+.mdl-btn {
+	background: #fff;
+	color: mix(black, $muted-color, 25%);
+	
+	&:hover {
+		color: mix(black, $muted-color, 30%);
+		box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
+	}
+	&.btn-link {
+		background: $hl-color;
+		color: mix(white, $hl-color, 80%);
+		&:hover {
+			background: darken($hl-color, 5%);
+			color: mix(white, $hl-color, 85%);
+		}
+	}
+	&.btn-submit {
+		background: $hl-color;
+		color: mix(white, $hl-color, 70%);
+		&:hover {
+			background: darken($hl-color, 5%);
+			color: mix(white, $hl-color, 85%);
+		}
+	}
+
+	&.btn-danger{
+		background: $hl-danger-color;
+		color: mix(white, $hl-color, 70%);
+		&:hover {
+			background: darken($hl-danger-color, 5%);
+			color: mix(white, $hl-danger-color, 85%);
+		}
+	}
+
+	&.btn-cancel {
+		background: #eee;
+		&:hover {
+			background: darken(#eee, 5%);
+			color: mix(black, $muted-color, 30%);
+		}
+	}
+}

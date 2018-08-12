@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 
+import Loadable from 'react-loadable'
+import Loader from './Common/Loader'
+
 import 'emoji-mart/css/emoji-mart.css'
+
 import { Picker } from 'emoji-mart'
 
 import InputField from './Common/InputField'
@@ -16,7 +20,9 @@ class Chat extends Component {
 		super(props)
 
 		this.state = {
-			messages: [],
+			chat: {
+				messages: []
+			},
 			showEmojiPicker: false
 		}
 
@@ -58,8 +64,8 @@ class Chat extends Component {
 		}else{
 
 			store.dispatch({type: "s/chat", data: {
-				roomID: this.state.roomID,
-				user: this.state.user,
+				roomID: this.state.game.roomID,
+				user: this.state.game.user,
 				message: this.messageInput.value,
 				timeStamp: Date.now()
 			}})
@@ -128,7 +134,7 @@ class Chat extends Component {
 					<div className="row">
 						<div className="container" id="chat-container">
 							<ul id="chat-messages" ref={el => this.chatContainer = el}>
-								{this.state.messages.map(message => {
+								{this.state.chat.messages.map(message => {
 									return (<Message user={message.user} timeStamp={message.timeStamp} message={message.message} key={message.timeStamp}/>)
 								})}
 								<li className="chatBottom" ref={el => this.chatBottom = el}></li>

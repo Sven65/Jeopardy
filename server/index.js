@@ -31,6 +31,7 @@ const middleware = require('socketio-wildcard')()
 io.use(middleware)
 
 io.on("connection", socket => {
+
 	socket.on('*', packet => {
 		const event = packet.data[0].toLowerCase()
 		const data = packet.data[1]

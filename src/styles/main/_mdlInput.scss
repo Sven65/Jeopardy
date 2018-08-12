@@ -1,9 +1,8 @@
-@import "variables";
-
 // VARIABLES // ============================== //
-$bg-color: $mdl-input-bg-color;
-$title-color: $mdl-input-title-color;
-$hl-color: $mdl-input-hl-color; // Button etc
+$bg-color: map-deep-get($colors, "light", "mdlInput", "background");
+$title-color: map-deep-get($colors, "light", "mdlInput", "title", "color");
+$hl-color: map-deep-get($colors, "light", "mdlInput", "hl", "color"); // Button etc
+$hl-danger-color: map-deep-get($colors, "light", "mdlInput", "hl", "danger"); // Button etc
 $muted-color: mix(white, $bg-color, 70%);
 $trans-time: 300ms;
 $width: 90%;
@@ -26,12 +25,10 @@ form.mdl-form{
 		font-size: 3em;
 		font-weight: 300;
 		text-align: center;
-		color: $title-color;
 	}
 	h5 {
 		text-align: center;
 		text-transform: uppercase;
-		color: $muted-color;
 	}
 
 	textarea {
@@ -48,7 +45,6 @@ form.mdl-form{
 		width: 100%;
 		border: none;
 		border-radius: 0;
-		border-bottom: 1px solid $muted-color;
 		&:focus {
 			outline: none;
 		}
@@ -56,7 +52,6 @@ form.mdl-form{
 		&:valid ~ label {
 			top: -14px;
 			font-size: 12px;
-			color: $hl-color;
 		}
 		&:focus ~ .bar:before {
 			width: 100%;
@@ -68,7 +63,6 @@ form.mdl-form{
 	}
 
 	label {
-		color: $muted-color;
 		font-size: 16px;
 		font-weight: normal;
 		position: absolute;
@@ -88,7 +82,6 @@ form.mdl-form{
 			width: 0;
 			bottom: 0px;
 			position: absolute;
-			background: $hl-color;
 			transition: $trans-time ease all;
 			left: 0%;
 		}
@@ -96,8 +89,6 @@ form.mdl-form{
 
 	// BUTTONS // ============================== //
 	.btn {
-		background: #fff;
-		color: mix(black, $muted-color, 25%);
 		border: none;
 		padding: 10px 20px;
 		border-radius: 3px;
@@ -108,31 +99,7 @@ form.mdl-form{
 		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 		transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 		&:hover {
-			color: mix(black, $muted-color, 30%);
 			box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
-		}
-		&.btn-link {
-			background: $hl-color;
-			color: mix(white, $hl-color, 80%);
-			&:hover {
-				background: darken($hl-color, 5%);
-				color: mix(white, $hl-color, 85%);
-			}
-		}
-		&.btn-submit {
-			background: $hl-color;
-			color: mix(white, $hl-color, 70%);
-			&:hover {
-				background: darken($hl-color, 5%);
-				color: mix(white, $hl-color, 85%);
-			}
-		}
-		&.btn-cancel {
-			background: #eee;
-			&:hover {
-				background: darken(#eee, 5%);
-				color: mix(black, $muted-color, 30%);
-			}
 		}
 	}
 
@@ -144,7 +111,6 @@ form.mdl-form{
 
 .mdl-btn {
 	background: #fff;
-	color: mix(black, $muted-color, 25%);
 	border: none;
 	padding: 10px 20px;
 	border-radius: 3px;
@@ -154,31 +120,4 @@ form.mdl-form{
 	outline: none;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 	transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
-	&:hover {
-		color: mix(black, $muted-color, 30%);
-		box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
-	}
-	&.btn-link {
-		background: $hl-color;
-		color: mix(white, $hl-color, 80%);
-		&:hover {
-			background: darken($hl-color, 5%);
-			color: mix(white, $hl-color, 85%);
-		}
-	}
-	&.btn-submit {
-		background: $hl-color;
-		color: mix(white, $hl-color, 70%);
-		&:hover {
-			background: darken($hl-color, 5%);
-			color: mix(white, $hl-color, 85%);
-		}
-	}
-	&.btn-cancel {
-		background: #eee;
-		&:hover {
-			background: darken(#eee, 5%);
-			color: mix(black, $muted-color, 30%);
-		}
-	}
 }

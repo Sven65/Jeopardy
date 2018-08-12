@@ -9,13 +9,14 @@ class DBUtils{
 		return (variable !== null && variable !== undefined)
 	}
 
-	async addGame(roomID){
-		return await this.client.query(`INSERT INTO games ("roomID", "currentQuestion", "isStarted", questions, users) VALUES ($1, $2, $3, $4, $5)`, [
+	async addGame(roomID, boardID){
+		return await this.client.query(`INSERT INTO games ("roomID", "currentQuestion", "isStarted", questions, users, "boardID") VALUES ($1, $2, $3, $4, $5, $6)`, [
 			roomID,
 			null,
 			false,
 			{},
-			[]
+			[],
+			boardID
 		])
 	}
 
@@ -227,6 +228,137 @@ class DBUtils{
 			SET "public" = $1
 			WHERE "roomID" = $2
 		`, [isPrivate, gameID])
+	}
+
+	async getBoardByID(boardID){
+		return await this.client.query(`
+			SELECT * FROM boards.boards
+			WHERE "id" = $1
+		`, [boardID])
+	}
+
+	async getCategoryByID(categoryID){
+		return await this.client.query(`
+			SELECT * FROM boards.categories
+			WHERE "id" = $1
+		`, [categoryID])
+	}
+
+	async getCluesByCategoryID(categoryID){
+		return await this.client.query(`
+			SELECT * FROM boards.clues
+			WHERE "category_id" = $1
+			ORDER By "ID"
+		`, [categoryID])
+	}
+
+	async getClueData(clueID){
+		return await this.client.query(`
+			SELECT * FROM boards.clues
+			WHERE "ID" = $1
+		`, [clueID])
+	}
+
+	async getBoardsByUserID(userID){
+		return await this.client.query(`
+			SELECT * FROM boards.boards
+			WHERE "owner" = $1
+		`, [userID])
+	}
+
+	async setCategoryTitle(categoryID, title){
+		return await this.client.query(`
+			UPDATE boards.categories
+			SET "title" = $1
+			WHERE "id" = $2
+		`, [title, categoryID])
+	}
+
+	async setBoardTitle(boardID, title){
+		return await this.client.query(`
+			UPDATE boards.boards
+			SET "title" = $1
+			WHERE "id" = $2
+		`, [title, boardID])
+	}
+
+	async addCategory(title, cluesCount, userID){
+		return await this.client.query(`
+			INSERT INTO boards.categories
+			("title", "created_at", "updated_at", "clues_count", "owner")
+			VALUES ($1, current_timestamp, current_timestamp, $2, $3)
+			RETURNING "id"
+		`, [title, cluesCount, userID])
+	}
+
+	async addCategoryToBoard(boardID, categoryID){
+		return await this.client.query(`
+			UPDATE boards.boards
+			SET "categories" = array_append("categories", $1)
+			WHERE "id" = $2
+		`, [categoryID, boardID])
+	}
+
+	async addClue(answer, question, value, categoryID, owner){
+		return await this.client.query(`
+			INSERT INTO boards.clues
+			("answer", "question", "value", "created_at", "updated_at", "category_id", "owner")
+			VALUES ($1, $2, $3, current_timestamp, current_timestamp, $4, $5)
+		`, [answer, question, value, categoryID, owner])
+	}
+
+	async getUserBoardCount(userID){
+		return await this.client.query(`
+			SELECT COUNT(*) FROM boards.boards
+			WHERE owner = $1
+		`, [userID])
+	}
+
+	async addBoard(id, owner, categories, title){
+		return await this.client.query(`
+			INSERT INTO boards.boards
+			("id", "owner", "created_at", "updated_at", "categories", "title")
+			VALUES ($1, $2, current_timestamp, current_timestamp, $3, $4)
+		`, [id, owner, categories, title])
+	}
+
+	// Deletion Stuff
+
+	async deleteBoard(boardID){
+		return await this.client.query(`
+			DELETE FROM boards.boards
+			WHERE "id" = $1
+		`, [boardID])
+	}
+
+	async deleteCategory(categoryID){
+		return await this.client.query(`
+			DELETE FROM boards.categories
+			WHERE "id" = $1
+		`, [categoryID])
+	}
+
+	async deleteClue(clueID){
+		return await this.client.query(`
+			DELETE FROM boards.clues
+			WHERE "ID" = $1
+		`, [clueID])
+	}
+
+	async removeCategoryFromBoard(categoryID, boardID){
+		return await this.client.query(`
+			UPDATE boards.boards
+			SET "categories" = array_remove("categories", $1)
+			WHERE "id" = $2
+		`, [categoryID , boardID])
+	}
+
+	async editClue(clueID, answer, question, value){
+		return await this.client.query(`
+			UPDATE boards.clues
+			SET "answer" = $1, "question" = $2, "value" = $3, "updated_at" = current_timestamp
+			WHERE "ID" = $4
+		`, [answer, question, value, clueID])
 	}
 }
 

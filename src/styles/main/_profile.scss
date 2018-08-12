@@ -10,14 +10,8 @@
 	background-repeat: no-repeat;
 }
 
-.profile-top{
-	background: $profile-top-background;
-	color: $profile-top-text;
-}
-
 .profile-bottom{
 	.column{
-		background: $profile-bottom-background;
 		padding: 2rem;
 
 		transition: all .5s;
@@ -32,11 +26,8 @@
 
 	.column:hover{
 		cursor: pointer;
-		background: $profile-bottom-hover;
-		color: $profile-bottom-hover-text;
 
 		&.no-hover{
-			background: $profile-bottom-background;
 			cursor: auto;
 		}
 	}
@@ -91,9 +82,6 @@
 }
 
 .button.is-profile{
-	background-color: $profile-theme-button-background;
-	border-color: $profile-theme-button-border-color;
-	color: $profile-theme-button-color;
 	box-shadow: none;
 	pointer-events: none;
 }

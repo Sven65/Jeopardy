@@ -1,99 +1,45 @@
-@import "variables";
-
 // VARIABLES // ============================== //
-$theme-dark-bg-color: $theme-dark-mdl-input-bg-color;
-$theme-dark-title-color: $theme-dark-mdl-input-title-color;
-$theme-dark-hl-color: $theme-dark-mdl-input-hl-color; // Button etc
-$theme-dark-muted-color: mix(white, $theme-dark-bg-color, 70%);
+$theme-dark-bg-color: map-deep-get($colors, "dark", "mdlInput", "background");
+$theme-dark-title-color: map-deep-get($colors, "dark", "mdlInput", "title", "color");
+$theme-dark-hl-color: map-deep-get($colors, "dark", "mdlInput", "hl", "color"); // Button etc
+$theme-dark-hl-danger-color: map-deep-get($colors, "dark", "mdlInput", "hl", "danger"); // Button etc
+
+$theme-dark-muted-color: mix(white, map-deep-get($colors, "dark", "general", "background"), 70%);
 $theme-dark-trans-time: 300ms;
 $theme-dark-width: 90%;
 
 body.theme-dark{
 
-	// FORM // ============================== //
-
-	.group {
-		position: relative;
-		margin: 45px 0;
-	}
-
 	// INPUTS // ============================== //
 
 	form.mdl-form{
-
-		width: $theme-dark-width;
-		margin: 45px auto;
-		
 		h1 {
-			font-size: 3em;
-			font-weight: 300;
-			text-align: center;
 			color: $theme-dark-title-color;
 		}
 		h5 {
-			text-align: center;
-			text-transform: uppercase;
 			color: $theme-dark-muted-color;
-		}
-
-		textarea {
-			resize: none;
 		}
 
 		input,
 		textarea {
-			background: none;
-			color: $theme-dark-mdl-input-text-color;
-			//color: $theme-dark-muted-color;
-			font-size: 18px;
-			padding: 10px 10px 10px 5px;
-			display: block;
-			width: 100%;
-			border: none;
-			border-radius: 0;
+			color: map-deep-get($colors, "dark", "mdlInput", "textColor");
 			border-bottom: 1px solid $theme-dark-muted-color;
 			&:focus {
 				outline: none;
 			}
 			&:focus ~ label,
 			&:valid ~ label {
-				top: -14px;
-				font-size: 12px;
 				color: $theme-dark-hl-color;
 			}
-			&:focus ~ .bar:before {
-				width: 100%;
-			}
-		}
-
-		input[type="password"] {
-			letter-spacing: 0.3em;
 		}
 
 		label {
 			color: $theme-dark-muted-color;
-			font-size: 16px;
-			font-weight: normal;
-			position: absolute;
-			pointer-events: none;
-			left: 5px;
-			top: 10px;
-			transition: $theme-dark-trans-time ease all;
 		}
 
 		.bar {
-			position: relative;
-			display: block;
-			width: 100%;
 			&:before {
-				content: '';
-				height: 2px;
-				width: 0;
-				bottom: 0px;
-				position: absolute;
 				background: $theme-dark-hl-color;
-				transition: $theme-dark-trans-time ease all;
-				left: 0%;
 			}
 		}
 
@@ -101,15 +47,6 @@ body.theme-dark{
 		.btn {
 			background: #fff;
 			color: mix(black, $theme-dark-muted-color, 25%);
-			border: none;
-			padding: 10px 20px;
-			border-radius: 3px;
-			letter-spacing: 0.06em;
-			text-transform: uppercase;
-			text-decoration: none;
-			outline: none;
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-			transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 			&:hover {
 				color: mix(black, $theme-dark-muted-color, 30%);
 				box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
@@ -130,6 +67,16 @@ body.theme-dark{
 					color: mix(white, $theme-dark-hl-color, 85%);
 				}
 			}
+
+			&.btn-danger{
+				background: $theme-dark-hl-danger-color;
+				color: mix(white, $hl-color, 70%);
+				&:hover {
+					background: darken($theme-dark-hl-danger-color, 5%);
+					color: mix(white, $theme-dark-hl-danger-color, 85%);
+				}
+			}
+
 			&.btn-cancel {
 				background: #eee;
 				&:hover {
@@ -138,25 +85,11 @@ body.theme-dark{
 				}
 			}
 		}
-
-		.btn-box {
-			text-align: center;
-			margin: 50px 0;
-		}
 	}
 
 	.mdl-btn {
 		background: #fff;
 		color: mix(black, $theme-dark-muted-color, 25%);
-		border: none;
-		padding: 10px 20px;
-		border-radius: 3px;
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
-		text-decoration: none;
-		outline: none;
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-		transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 		&:hover {
 			color: mix(black, $theme-dark-muted-color, 30%);
 			box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
@@ -177,6 +110,16 @@ body.theme-dark{
 				color: mix(white, $theme-dark-hl-color, 85%);
 			}
 		}
+
+		&.btn-danger{
+			background: $theme-dark-hl-danger-color;
+			color: mix(white, $hl-color, 70%);
+			&:hover {
+				background: darken($theme-dark-hl-danger-color, 5%);
+				color: mix(white, $theme-dark-hl-danger-color, 85%);
+			}
+		}
+
 		&.btn-cancel {
 			background: #eee;
 			&:hover {

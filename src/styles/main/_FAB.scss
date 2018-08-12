@@ -1,5 +1,3 @@
-@import "variables";
-
 @mixin circleShadow($vertical) {
 	box-shadow:0 0 $vertical rgba(0,0,0,.14),0 $vertical $vertical*2 rgba(0,0,0,.28)
 }
@@ -31,9 +29,7 @@
 
 			.action-button{
 				&__text{
-					background-color: $FAB-text-show-background;
 					border-radius: 3px;
-					color: $FAB-text-show-color;
 					right: 75px;
 					font-size: 14px;
 					opacity: .8;
@@ -55,7 +51,6 @@
 			&__text {
 				opacity: 0;
 				background-color: rgba(0, 0, 0, 0);
-				color: $background-color;
 				transition: opacity .1s;
 				-webkit-transition: opacity .1s;
 				-moz-transition: .1s opacity;
@@ -68,9 +63,7 @@
 .action-button {
 	&__icon{
 		@include circleShadow(4px);
-		background-color: $FAB-icon-background;
 		border-radius: 50%;
-		color: $FAB-icon-color;
 		padding: 32px;
 	}
 }

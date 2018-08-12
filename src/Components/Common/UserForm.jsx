@@ -13,9 +13,11 @@ class UserForm extends Component {
 			"register-email": "",
 			"register-password": "",
 			"register-cpassword": "",
-			"registerError": {},
-			"loginError": {
-				reason: ""
+			"user": {
+				"registerError": {},
+				"loginError": {
+					reason: ""
+				}
 			},
 
 			"login-username": "",
@@ -39,17 +41,18 @@ class UserForm extends Component {
 	componentDidMount() {
 		store.subscribe(() => {
 			this.setState(store.getState(), () => {
-				if(this.state.forgotPasswordSent){
+
+				if(this.state.user.forgotPasswordSent){
 					swal({
 						title: "Success!",
 						text: "Check your email for further instructions!",
 						icon: "success",
 						button: "Okay!"
 					})
-				}else if(this.state.passwordResetError !== null){
+				}else if(this.state.user.passwordResetError !== null){
 					swal({
 						title: "Error!",
-						text: this.state.passwordResetError,
+						text: this.state.user.passwordResetError,
 						icon: "error",
 						button: "Try Again"
 					}).then(e => {
@@ -112,8 +115,10 @@ class UserForm extends Component {
 			}
 		}else{
 			this.setState({
-				registerError: {
-					reason: "Please fill in all fields."
+				user: {
+					registerError: {
+						reason: "Please fill in all fields."
+					}
 				}
 			})
 		}
@@ -122,7 +127,9 @@ class UserForm extends Component {
 	login(){
 
 		this.setState({
-			loginError: {}
+			user: {
+				loginError: {}
+			}
 		})
 		
 		if(this.state.userLoggedIn || this.state.disableLoginForm){
@@ -131,8 +138,10 @@ class UserForm extends Component {
 
 		if(this.state['login-username'] === "" || this.state["login-password"] === ""){
 			this.setState({
-				loginError: {
-					reason: "Please fill in all fields."
+				user: {
+					loginError: {
+						reason: "Please fill in all fields."
+					}
 				}
 			})
 			return
@@ -239,7 +248,9 @@ class UserForm extends Component {
 			"register-email": "",
 			"register-password": "",
 			"register-cpassword": "",
-			"registerError": {}
+			user: {
+				"registerError": {}
+			}
 		})
 
 		this._registerForm.reset()
@@ -258,7 +269,7 @@ class UserForm extends Component {
 								<div className="user-modal-form-panel one">
 									<div className="user-modal-form-header">
 										<h1>Account Login</h1>
-										<h6 className={this.state.loginError.reason===""?'user-modal-success':'user-modal-error'}>{this.state.loginError.reason||this.state.userLoggedIn&&"Logged In!"}</h6>
+										<h6 className={this.state.user.loginError.reason===""?'user-modal-success':'user-modal-error'}>{this.state.user.loginError.reason||this.state.user.userLoggedIn&&"Logged In!"}</h6>
 									</div>
 									<div className="user-modal-form-content">
 										<form ref={(el) => this._loginForm = el}>
@@ -288,7 +299,7 @@ class UserForm extends Component {
 								<div className="user-modal-form-panel two">
 									<div className="user-modal-form-header">
 										<h1>Register Account</h1>
-										<h6>{this.state.registerError.reason||this.state.userRegistered&&"Registered! Check your emails to verify your email!"}</h6>
+										<h6>{this.state.user.registerError.reason||this.state.userRegistered&&"Registered! Check your emails to verify your email!"}</h6>
 									</div>
 									<div className="user-modal-form-content">
 										<form ref={(el) => this._registerForm = el}>

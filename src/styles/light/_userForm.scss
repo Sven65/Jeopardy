@@ -1,0 +1,89 @@
+.user-modal-form {
+	background: map-deep-get($colors, "light", "userForm", "modal", "background");
+}
+
+.user-modal-form-toggle {
+	background: map-deep-get($colors, "light", "userForm", "modal", "background");
+
+	&:before, &:after {
+		background: map-deep-get($colors, "light", "userForm", "modal", "toggle", "background");
+	}
+}
+
+.two .user-modal-form-group label {
+	color: map-deep-get($colors, "light", "userForm", "modal", "label", "color");
+}
+
+.two .user-modal-form-group input {
+	color: map-deep-get($colors, "light", "userForm", "modal", "input", "color");
+	&:focus {
+		color: map-deep-get($colors, "light", "userForm", "modal", "input", "color");
+	}
+}
+
+.user-modal-form-group button {
+	background: map-deep-get($colors, "light", "userForm", "modal", "button", "background");
+	color: map-deep-get($colors, "light", "userForm", "modal", "button", "color");
+}
+
+.two .user-modal-form-group button {
+	background: map-deep-get($colors, "light", "userForm", "modal", "button", "color");
+	color: map-deep-get($colors, "light", "userForm", "modal", "button", "background");
+}
+
+.user-modal-form-group {
+	.user-modal-form-recovery {
+		color: map-deep-get($colors, "light", "userForm", "modal", "recovery", "color");
+	}
+}
+
+.user-modal-form-panel {
+	&.two {
+		background: map-deep-get($colors, "light", "userForm", "modal", "panelTwo", "background");
+	}
+}
+
+.user-modal-form-header {
+	h1 {
+		color: map-deep-get($colors, "light", "userForm", "modal", "header", "color");
+	}
+
+	.user-modal-error{
+		color: map-deep-get($colors, "light", "userForm", "modal", "errorColor");
+	}
+
+	.user-modal-success{
+		color: map-deep-get($colors, "light", "userForm", "modal", "successColor");
+	}
+}
+
+.two .user-modal-form-header {
+	h1, h6{
+		color: map-deep-get($colors, "light", "userForm", "modal", "panelTwo", "header", "color");
+	}
+}
+
+.md-checkbox {
+	label {
+		&:before {
+			background: map-deep-get($colors, "light", "mdCheckbox", "checkbox", "background");
+		}
+	}
+	input[type="checkbox"] {
+		&:checked + label {
+			&:before {
+				background: map-deep-get($colors, "light", "mdCheckbox", "checkbox", "checkedLabelBg");
+			}
+			&:after {
+				border: 2px solid map-deep-get($colors, "light", "mdCheckbox", "checkbox", "checkedLabelBorder");
+			}
+		}
+	}
+}
+
+#privacyLink {
+	color: map-deep-get($colors, "light", "mdCheckbox", "privacyLink", "color");
+	&:hover{
+		color: map-deep-get($colors, "light", "mdCheckbox", "privacyLink", "hover");
+	}
+}
