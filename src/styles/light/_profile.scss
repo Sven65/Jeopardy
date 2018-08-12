@@ -23,3 +23,13 @@
 	border-color: map-deep-get($colors, "light", "profile", "themeButton", "border");
 	color: map-deep-get($colors, "light", "profile", "themeButton", "color");
 }
+
+.user-settings {
+	.user-modal-form-group{
+		&.has-error{
+			input{
+				border-bottom: 1px solid map-deep-get($colors, "light", "profile", "settings", "account", "input", "error", "border-bottom");
+			}
+		}
+	}
+}

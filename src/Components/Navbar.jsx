@@ -12,7 +12,7 @@ import mainLogo from'../Assets/TriviaPartyWhite.svg'
 import store from './../store'
 
 const UserProfile = Loadable({
-	loader: () => import('./Common/UserProfile'),
+	loader: () => import('./UserProfile'),
 	loading: Loader,
 })
 

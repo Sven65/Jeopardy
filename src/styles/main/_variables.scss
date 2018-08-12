@@ -186,6 +186,15 @@ $colors: (
 				background: whitesmoke,
 				border: material-color('grey', '400'),
 				color: material-color('grey', '600')
+			),
+			settings: (
+				account: (
+					input: (
+						error: (
+							border-bottom: material-color('red', '500')
+						)
+					)
+				)
 			)
 		),
 		gameBrowser: (
@@ -214,6 +223,9 @@ $colors: (
 			background: $white,
 			boxShadow: material-color('brown', '100'),
 			border: material-color('brown', '100')
+		),
+		errorIcon: (
+			errorColor: material-color('red', '500')
 		)
 	),
 	dark: (
@@ -385,6 +397,27 @@ $colors: (
 				background: whitesmoke,
 				border: material-color('grey', '400'),
 				color: material-color('grey', '600')
+			),
+			settings: (
+				account: (
+					input: (
+						error: (
+							border-bottom: material-color('red', '500')
+						)
+					)
+				),
+				tabs: (
+					border: $white,
+					text-color: $white,
+					active: (
+						text-color: material-color('light-blue', '300'),
+						border-color: material-color('light-blue', '300')
+					),
+					hover: (
+						text-color: material-color('light-blue', '300'),
+						border-color: material-color('light-blue', '300')
+					)
+				)
 			)
 		),
 		gameBrowser: (
@@ -429,6 +462,9 @@ $colors: (
 					color: $white
 				)
 			)
+		),
+		errorIcon: (
+			errorColor: material-color('red', '400')
 		)
 	)
 );

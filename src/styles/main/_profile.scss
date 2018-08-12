@@ -24,6 +24,14 @@
 		}
 	}
 
+	.user-settings{
+		.column{
+			&:not(:last-of-type){
+				padding: 1.5rem;
+			}
+		}
+	}
+
 	.column:hover{
 		cursor: pointer;
 
@@ -84,4 +92,30 @@
 .button.is-profile{
 	box-shadow: none;
 	pointer-events: none;
+}
+
+.user-settings {
+	.tabs{
+		ul{
+			li {
+				a {
+					transition: all .5s;
+					-webkit-transition: all .5s;
+					-moz-transition: .5s all;
+					-o-transition: .5s all;
+				}
+			}
+		}
+	}
+
+	&.is-error{
+		text-align: center;
+		.title, .subtitle{
+			font-weight: 300 !important;
+		}
+
+		.errorIcon{
+			margin: auto;
+		}
+	}
 }
