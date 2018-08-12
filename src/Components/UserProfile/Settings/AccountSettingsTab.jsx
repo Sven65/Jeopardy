@@ -13,6 +13,11 @@ const ErrorIcon = Loadable({
 	loading: Loader,
 })
 
+const Button = Loadable({
+	loader: () => import('../../Common/Button'),
+	loading: Loader,
+})
+
 import swal from 'sweetalert'
 
 import store from '../../../store'
@@ -42,6 +47,12 @@ class AccountSettingsTab extends Component {
 
 		this.handleInput = this.handleInput.bind(this)
 		this.checkPasswordMatch = this.checkPasswordMatch.bind(this)
+
+		this.passwordConfirmInput = React.createRef()
+		this.passwordInput = React.createRef()
+
+		this.saveButton = React.createRef()
+
 	}
 
 	componentDidMount() {
@@ -67,7 +78,7 @@ class AccountSettingsTab extends Component {
 	}
 
 	checkPasswordMatch(password){
-		return this.state.confirmPassword === this.state.password
+		return this.passwordInput.value === this.passwordConfirmInput.value
 	}
 
 
@@ -118,9 +129,11 @@ class AccountSettingsTab extends Component {
 							type="password"
 							label="New Password"
 							onChange={this.handleInput}
-							validateFunc={this.checkPasswordMatch}
+							onKeyDown={this.handleInput}
+							showError={this.checkPasswordMatch}
 							error="Passwords don't match"
 							autoComplete="off"
+							inputRef={el => this.passwordInput = el}
 						/>
 
 						<UserInputField 
@@ -129,11 +142,29 @@ class AccountSettingsTab extends Component {
 							required="required"
 							type="password"
 							label="Confirm New Password"
-							validateFunc={this.checkPasswordMatch}
+							showError={this.checkPasswordMatch}
 							error="Passwords don't match"
+							onChange={this.handleInput}
+							onKeyDown={this.handleInput}
+							autoComplete="off"
+							inputRef={el => this.passwordConfirmInput = el}
+						/>
+					</div>
+
+					<div className="column is-12 no-hover padding-15 no-bottom-padding">
+						<UserInputField 
+							id="currentPassword"
+							name="currentPassword"
+							required="required"
+							type="password"
+							label="Current Password"
 							onChange={this.handleInput}
 							autoComplete="off"
 						/>
+
+						<form className="mdl-form gameBrowser-button-holder">
+							<Button type="button" name="save" id="saveButton" text="Save" icon="content-save" className="btn-submit" Ref={(el) => this.saveButton = el}/>
+						</form>
 					</div>
 				</div>
 			</div>

@@ -92,33 +92,47 @@ body{
 		.swal-icon--success:before, .swal-icon--success:after, .swal-icon--success__hide-corners {
 			background: map-deep-get($colors, "dark", "general", "swal", "background");
 		}
-	}
 
-	.board-button{
-		&.selected{
-			background: map-deep-get($colors, "dark", "general", "primaryColor") !important;
+		.board-button{
+			&.selected{
+				background: map-deep-get($colors, "dark", "general", "primaryColor") !important;
+			}
 		}
-	}
 
-	#root{
-		.App{
-			.scroll-wrapper{
-				.scroller{
-					&::-webkit-scrollbar-track{
-						-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "dark", "general", "scrollbar", "track", "boxShadow");
-						background-color: map-deep-get($colors, "dark", "general", "scrollbar", "track", "background");
-					}
+		#root{
+			.App{
+				.scroll-wrapper{
+					.scroller{
+						&::-webkit-scrollbar-track{
+							-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "dark", "general", "scrollbar", "track", "boxShadow");
+							background-color: map-deep-get($colors, "dark", "general", "scrollbar", "track", "background");
+						}
 
-					&::-webkit-scrollbar{
-						background-color: map-deep-get($colors, "dark", "general", "scrollbar", "background");
-					}
+						&::-webkit-scrollbar{
+							background-color: map-deep-get($colors, "dark", "general", "scrollbar", "background");
+						}
 
-					&::-webkit-scrollbar-thumb{
-						-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "dark", "general", "scrollbar", "thumb", "boxShadow");
-						background-color: map-deep-get($colors, "dark", "general", "scrollbar", "thumb", "background");
+						&::-webkit-scrollbar-thumb{
+							-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "dark", "general", "scrollbar", "thumb", "boxShadow");
+							background-color: map-deep-get($colors, "dark", "general", "scrollbar", "thumb", "background");
+						}
 					}
 				}
 			}
+		}
+
+		*::-webkit-scrollbar-track{
+			-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "dark", "general", "scrollbar", "track", "boxShadow");
+			background-color: map-deep-get($colors, "dark", "general", "scrollbar", "track", "background");
+		}
+
+		*::-webkit-scrollbar{
+			background-color: map-deep-get($colors, "dark", "general", "scrollbar", "background");
+		}
+
+		*::-webkit-scrollbar-thumb{
+			-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "dark", "general", "scrollbar", "thumb", "boxShadow");
+			background-color: map-deep-get($colors, "dark", "general", "scrollbar", "thumb", "background");
 		}
 	}
 }

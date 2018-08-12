@@ -30,8 +30,14 @@ class UserInputField extends Component {
 	}
 
 	render(){
+		let showError = this.state.showError
+
+		if(this.props.showError !== undefined){
+			showError = !this.props.showError()
+		}
+
 		return (
-			<div className={"user-modal-form-group "+this.props.className+" "+(this.state.showError?'has-error':'')}>
+			<div className={"user-modal-form-group "+this.props.className+" "+(showError?'has-error':'')}>
 				<label htmlFor={this.props.id}>{this.props.label}</label>
 				<input
 					id={this.props.id}
@@ -41,8 +47,10 @@ class UserInputField extends Component {
 					onChange={this.handleInput}
 					autoComplete={this.props.autoComplete}
 					defaultValue={this.props.defaultValue}
+					onKeyDown={this.props.onKeyDown}
+					ref={this.props.inputRef}
 					/>
-				<span className={"user-modal-form-group-error "+(this.state.showError?'':'hidden')}>{this.props.error}</span>
+				<span className={"user-modal-form-group-error "+(showError?'':'hidden')}>{this.props.error}</span>
 			</div>
 		)
 	}

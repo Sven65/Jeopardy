@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Button from './../Common/Button'
 
 import Collapsible from './../Common/Collapsible'
-import InputField from './../Common/InputField'
 
 class ClueEdit extends Component {
 	constructor(props){
