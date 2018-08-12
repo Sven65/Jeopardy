@@ -73,6 +73,8 @@ class UserProfile extends Component {
 						text: this.state.userEdit.buyColorError,
 						icon: "error",
 						button: "Close"
+					}).then(() => {
+						store.dispatch({type: "RESET_BUY_COLOR_ERROR"})
 					})
 				}else if(this.state.userEdit.boughtColor !== false){
 					swal({
@@ -81,11 +83,7 @@ class UserProfile extends Component {
 						icon: "success",
 						button: "Close"
 					}).then(() => {
-						this.setState(Object.assign({}, this.state, {
-							userEdit: {
-								boughtColor: false
-							}
-						}))
+						store.dispatch({type: "RESET_BOUGHT_COLOR"})
 					})
 
 					

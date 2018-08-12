@@ -26,6 +26,27 @@ function userEdit(state={}, action){
 			})
 		break
 
+		case "RESET_BOUGHT_COLOR":
+			return Object.assign({}, state, {
+				boughtColor: false
+			})
+		break
+
+		case "RESET_BUY_COLOR_ERROR":
+			return Object.assign({}, state, {
+				buyColorError: ""
+			})
+		break
+
+		case "USER_COLOR_SET":
+
+			return Object.assign({}, state, {
+				buyColorError: "",
+				boughtColor: true,
+				boughtColorSuccess: "Color Set!"
+			})
+		break
+
 		default:
 			return Object.assign({
 				unsavedChanges: false,

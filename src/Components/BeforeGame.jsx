@@ -277,7 +277,21 @@ class BeforeGame extends Component {
 										<p className="title">What is TriviaParty?</p>
 										<p className="subtitle"></p>
 										<div className="content">
-											TriviaParty is a online Trivia Game for one to four players, featuring a chat and custom boards.
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+											Sed fermentum mi tellus, id placerat nibh semper eget.
+											Sed dapibus, diam sed mattis congue, tortor mauris sodales risus, at dignissim quam elit in eros.
+											Aliquam vulputate non dui et suscipit.
+											Nunc gravida auctor arcu vitae hendrerit.
+											Quisque nec consequat neque, non lobortis sapien.
+											Curabitur consequat velit mi, id mattis lacus condimentum sit amet.
+											Sed volutpat felis libero, a faucibus tortor luctus non.
+											Vestibulum nec bibendum urna. Curabitur vitae pulvinar neque.
+											Quisque convallis nisi lobortis, sodales risus vitae, tincidunt velit.
+											Etiam pulvinar malesuada erat, in imperdiet leo venenatis id.
+											Interdum et malesuada fames ac ante ipsum primis in faucibus. 
+											Fusce et rhoncus purus, ac dictum enim.
+											Curabitur at quam vitae diam dapibus fermentum.
+											Aliquam nisi magna, sollicitudin nec eros eget, vulputate fringilla est.
 										</div>
 									</div>
 								</div>
