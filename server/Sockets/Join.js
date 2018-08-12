@@ -35,7 +35,6 @@ class SocketHandler{
 	}
 
 	async Execute({socket = null, io = null, data = {} }){
-		console.log("JOIN", data)
 
 		let isHost = false
 		let canJoin = false
@@ -47,7 +46,7 @@ class SocketHandler{
 		let room = await this._dbUtils.getRoomByID(data.roomID)
 
 		if(!this._isset(room)){
-			await this._dbUtils.addGame(data.roomID)
+			await this._dbUtils.addGame(data.roomID, data.boardID)
 
 			room = await this._dbUtils.getRoomByID(data.roomID)
 		}
@@ -81,6 +80,8 @@ class SocketHandler{
 
 		socket.join(data.roomID)
 
+
+
 		data.timeStamp = Date.now()
 		data.roomID = data.roomID
 		data.userID = socket.id
@@ -99,7 +100,7 @@ class SocketHandler{
 		if(!this._isset(data.user.image)){
 			data.user.image = `https://placehold.it/128x128?text=${data.username}`
 		}
-
+		
 		let user = new User(data)
 
 		await room.addUser(user)

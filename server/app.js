@@ -12,7 +12,6 @@ app.get('/Privacy', (req, res) => {
 
 if(process.env.NODE_ENV === "production"){
 	app.get('*.js', function (req, res, next) {
-		console.log("NIGGER")
 		req.url = req.url + '.gz';
 		res.set('Content-Encoding', 'gzip');
 		next();

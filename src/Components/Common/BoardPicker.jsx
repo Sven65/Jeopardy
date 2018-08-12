@@ -29,7 +29,6 @@ class BoardPicker extends Component {
 							<Button type="button" name="join" text={board.title} icon="send" onClick={((e) => {this.selectBoard(board)})} className={"btn-submit board-button "+(this.state.selected===board.id?'selected':'')}/>
 						)
 					})}
-					<Button type="button" name="join" text="Default" icon="send" onClick={((e) => {this.selectBoard({id: "default"})})} className={"btn-submit board-button "+(this.state.selected==="default"?'selected':'')}/>
 				</form>
 			</div>
 		)

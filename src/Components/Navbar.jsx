@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
+import Loadable from 'react-loadable'
+
+import Loader from './Common/Loader'
 
 import UserForm from './Common/UserForm'
-import Loader from './Common/Loader'
-import UserProfile from './Common/UserProfile'
-import BoardAdder from './BoardAdder'
 
 import ToggleSwitch from './Common/ToggleSwitch'
 
@@ -11,13 +11,25 @@ import mainLogo from'../Assets/TriviaPartyWhite.svg'
 
 import store from './../store'
 
+const UserProfile = Loadable({
+	loader: () => import('./Common/UserProfile'),
+	loading: Loader,
+})
+
+const BoardAdder = Loadable({
+	loader: () => import('./BoardAdder'),
+	loading: Loader,
+})
+
 class Navbar extends Component {
 	constructor(props){
 		super(props)
 
 		this.state = {
-			userData: {},
-			userLoggedIn: false,
+			user: {
+				userData: {},
+				userLoggedIn: false
+			},
 			userFormLoad: false,
 			showProfile: false,
 			showLoginForm: false,
@@ -32,6 +44,7 @@ class Navbar extends Component {
 
 	componentDidMount() {
 		store.subscribe(() => {
+
 			this.setState(store.getState())
 
 			//console.log("MESSAGE", this.state.messages)
@@ -46,18 +59,18 @@ class Navbar extends Component {
 
 	startGame(){
 		store.dispatch({type: "s/GAME_ACTION_START", data: {
-			roomID: this.state.roomID,
-			userID: this.state.user.userID
+			roomID: this.state.game.roomID,
+			userID: this.state.game.user.userID
 		}})
 	}
 
 	leaveGame(){
 		store.dispatch({type: "s/USER_ACTION_LEAVE", data: {
-			roomID: this.state.roomID,
-			userID: this.state.user.userID
+			roomID: this.state.game.roomID,
+			userID: this.state.game.user.userID
 		}})
 
-		store.dispatch({type: "LEAVE", data: {a: "oof"}})
+		store.dispatch({type: "LEAVE"})
 	}
 
 	logout(){
@@ -96,15 +109,15 @@ class Navbar extends Component {
 
 	privateSwitch(e){
 		store.dispatch({type: "s/SET_GAME_PRIVATE", data: {
-			roomID: this.state.roomID,
-			userID: this.state.user.userID,
+			roomID: this.state.game.roomID,
+			userID: this.state.game.user.userID,
 			isPrivate: e.target.checked
 		}})
 	}
 
 	render(){
-		const isLoggedIn = this.state.userLoggedIn
-		const showProfile = (this.state.userLoggedIn && this.state.showProfile)
+		const isLoggedIn = this.state.user.userLoggedIn
+		const showProfile = (this.state.user.userLoggedIn && this.state.showProfile)
 		const showLoginForm = (this.state.showLoginForm)
 		const showBoardAdder = (this.state.showBoardAdder)
 
@@ -138,7 +151,7 @@ class Navbar extends Component {
 						<div className="navbar-item has-dropdown is-hoverable">
 							{/* User stuff */}
 							<a className="navbar-link user-link">
-								<i className="mdi mdi-account"></i>{!isLoggedIn?"User":this.state.userData.username}
+								<i className="mdi mdi-account"></i>{!isLoggedIn?"User":this.state.user.userData.username}
 							</a>
 
 							{!isLoggedIn?(
@@ -192,23 +205,23 @@ class Navbar extends Component {
 
 				{showProfile &&
 					<UserProfile
-						username={this.state.userData.username}
-						image={this.state.userData.image}
-						wins={this.state.userData.wins}
-						losses={this.state.userData.losses}
-						balance={this.state.userData.balance}
+						username={this.state.user.userData.username}
+						image={this.state.user.userData.image}
+						wins={this.state.user.userData.wins}
+						losses={this.state.user.userData.losses}
+						balance={this.state.user.userData.balance}
 						logoutFunc={this.logout.bind(this)}
-						userToken={this.state.userData.token}
+						userToken={this.state.user.userData.token}
 						closeButtonFunction={this.toggleProfile.bind(this)}
-						selectedTheme={this.state.userData.theme}
-						unlockedColors={this.state.userData.unlockedColors}
+						selectedTheme={this.state.user.userData.theme}
+						unlockedColors={this.state.user.userData.unlockedColors}
 					/>
 				}
 
 				{showBoardAdder &&
 					<BoardAdder
 						closeButtonFunction={this.toggleBoardAdder.bind(this)}
-						userToken={this.state.userData.token}
+						userToken={this.state.user.userData.token}
 					/>
 				}
 

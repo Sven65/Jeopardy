@@ -5,7 +5,7 @@ body.theme-dark{
 	}
 
 	.user-modal-form {
-		background: map-deep-get($colors, "dark", "userForm", "overlay", "background");
+		background: map-deep-get($colors, "dark", "userForm", "modal", "background");
 		box-shadow: 0 0 30px map-deep-get($colors, "dark", "userForm", "overlay", "boxShadow");
 	}
 

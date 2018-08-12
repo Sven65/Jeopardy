@@ -7,7 +7,9 @@ class QuestionTable extends Component {
 		super(props)
 
 		this.state = {
-			clues: {}
+			game: {
+				clues: {}
+			}
 		}
 
 		this.onClick = this.onClick.bind(this)
@@ -23,22 +25,22 @@ class QuestionTable extends Component {
 		store.dispatch({type: "s/GAME_ACTION_GET_QUESTION", data: {
 			clueID: e.target.dataset.id,
 			categoryID: e.target.dataset.category,
-			roomID: this.state.roomID,
-			userID: this.state.user.userID
+			roomID: this.state.game.roomID,
+			userID: this.state.game.user.userID
 		}})
 	}
 
 	getBody(){
 		let rows = {}
 
-		Object.keys(this.state.clues).map(categoryID => {
-							
+		Object.keys(this.state.game.clues).map(categoryID => {
+
 			this.props.values.map(value => {
 				if(rows[value] === undefined){
 					rows[value] = []
 				}
 
-				rows[value].push(this.state.clues[categoryID].filter(clue => {
+				rows[value].push(this.state.game.clues[categoryID].filter(clue => {
 					return clue.value === value
 				})[0])
 			})
@@ -69,8 +71,8 @@ class QuestionTable extends Component {
 				<table id="gameTable" className="table">
 					<thead>
 						<tr>
-							{Object.keys(this.state.clues).map((categoryID, i) => {
-								return (<th key={i}>{this.state.clues[categoryID][0].category.title}</th>)
+							{Object.keys(this.state.game.clues).map((categoryID, i) => {
+								return (<th key={i}>{this.state.game.clues[categoryID][0].category.title}</th>)
 							})}
 						</tr>
 					</thead>

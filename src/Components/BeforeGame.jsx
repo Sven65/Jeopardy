@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
 
+import Loadable from 'react-loadable'
+import Loader from './Common/Loader'
+
+const GameBrowser = Loadable({
+	loader: () => import('./GameBrowser'),
+	loading: Loader,
+})
+
+import BoardPicker from './Common/BoardPicker'
 import InputField from './Common/InputField'
 import Button from './Common/Button'
-
-import GameBrowser from './GameBrowser'
-import BoardPicker from './Common/BoardPicker'
 
 import swal from './SweetAlert'
 
@@ -31,12 +37,17 @@ class BeforeGame extends Component {
 		this.hostButton = React.createRef()
 
 		this.state = {
-			userData: {},
+			user: {
+				userData: {}
+			},
+			game: {
+				validUserBoards: [],
+				error: null
+			},
 			joinClick: false,
 			selectedGame: "",
 			error: null,
-			selectedBoard: "default",
-			validUserBoards: []
+			selectedBoard: "default"
 		}
 	}
 
@@ -53,19 +64,20 @@ class BeforeGame extends Component {
 					}
 				}
 
-				if(this.state.error !== null && this.state.error !== undefined){
-					if(this.state.error.reason !== undefined){
-						let error = this.state.error.reason
-						store.dispatch({type: "RESET_ERROR"})
-						swal("Error!", error, "error");
+				if(this.state.game.error !== null && this.state.game.error !== undefined){
+					if(this.state.game.error.reason !== undefined){
+						let error = this.state.game.error.reason
+						
+						swal("Error!", error, "error").then(() => {
+							store.dispatch({type: "RESET_ERROR"})
+						})
 						
 					}
 				}
 
-				if(this.state.validUserBoards.length > 0 && (this.state.roomID === null || this.state.roomID === undefined || this.state.roomID === "")){
-					console.log("SHOWING PICKER")
+				if(this.state.game.validUserBoards.length > 0 && (this.state.game.roomID === null || this.state.game.roomID === undefined || this.state.game.roomID === "")){
 					swal(
-						<BoardPicker boards={this.state.validUserBoards} onSelect={this._selectBoard}/>, {
+						<BoardPicker boards={this.state.game.validUserBoards} onSelect={this._selectBoard}/>, {
 							title: "Please select a board"
 						}
 					).then(() => {
@@ -135,7 +147,7 @@ class BeforeGame extends Component {
 
 	getRoomID(){
 		return new Promise((resolve, reject) => {
-			let username = Object.keys(this.state.userData).length>0?this.state.userData:this.usernameInput.value
+			let username = Object.keys(this.state.user.userData).length>0?this.state.user.userData:this.usernameInput.value
 
 			let swalField = document.createElement('input');
 			swalField.setAttribute("placeholder", "Room ID");
@@ -192,10 +204,9 @@ class BeforeGame extends Component {
 	}
 
 	_sendJoin(username){
-		console.log("JOIN w/ NAME ", username)
 		store.dispatch({type: "s/JOIN", data: {
 			roomID: this.roomIDInput.value,
-			user: Object.keys(this.state.userData).length>0?this.state.userData:{
+			user: Object.keys(this.state.user.userData).length>0?this.state.user.userData:{
 				username: username
 			},
 			boardID: this.state.selectedBoard
@@ -203,8 +214,7 @@ class BeforeGame extends Component {
 	}
 
 	joinGame(){
-		console.log("JOIN GAME")
-		let username = Object.keys(this.state.userData).length>0?this.state.userData:""
+		let username = Object.keys(this.state.user.userData).length>0?this.state.user.userData:""
 
 		if(username.length <= 0){
 			this.getUsername().then(username => {
@@ -223,7 +233,7 @@ class BeforeGame extends Component {
 	}
 
 	hostGame(){
-		let username = Object.keys(this.state.userData).length>0?this.state.userData:this.usernameInput.value
+		let username = Object.keys(this.state.user.userData).length>0?this.state.user.userData:this.usernameInput.value
 
 		this.getRoomID().then(roomID => {
 			if(username.length <= 0){
@@ -231,7 +241,7 @@ class BeforeGame extends Component {
 			}else{
 
 				store.dispatch({type: "s/GET_USER_VALID_BOARDS", data: {
-					userToken: this.state.userData.token
+					userToken: this.state.user.userData.token
 				}})
 			}
 		})
@@ -268,16 +278,20 @@ class BeforeGame extends Component {
 										<p className="subtitle"></p>
 										<div className="content">
 											Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-											Sed lectus nisl, porttitor sed tellus quis, malesuada euismod nunc.
-											Morbi sodales id neque eget eleifend. Nunc id turpis consectetur, euismod metus in, laoreet libero.
-											Suspendisse ullamcorper mattis est, dictum pulvinar nibh rutrum nec.
-											Vivamus sollicitudin ante odio, ut aliquam lorem pellentesque in.
-											Pellentesque auctor orci at consectetur suscipit.
-											Praesent id leo vestibulum, egestas nulla et, auctor purus.
-											Ut fermentum dignissim molestie. Maecenas tincidunt ac turpis et molestie.
-											Suspendisse consequat, enim eu tincidunt sagittis, urna libero commodo lacus, ac luctus nulla nisi quis lacus.
-											Phasellus tristique massa a tempus elementum. Morbi felis nunc, iaculis id justo ac, dignissim vulputate lacus.
-											Aliquam placerat non sapien in tincidunt.
+											Sed fermentum mi tellus, id placerat nibh semper eget.
+											Sed dapibus, diam sed mattis congue, tortor mauris sodales risus, at dignissim quam elit in eros.
+											Aliquam vulputate non dui et suscipit.
+											Nunc gravida auctor arcu vitae hendrerit.
+											Quisque nec consequat neque, non lobortis sapien.
+											Curabitur consequat velit mi, id mattis lacus condimentum sit amet.
+											Sed volutpat felis libero, a faucibus tortor luctus non.
+											Vestibulum nec bibendum urna. Curabitur vitae pulvinar neque.
+											Quisque convallis nisi lobortis, sodales risus vitae, tincidunt velit.
+											Etiam pulvinar malesuada erat, in imperdiet leo venenatis id.
+											Interdum et malesuada fames ac ante ipsum primis in faucibus. 
+											Fusce et rhoncus purus, ac dictum enim.
+											Curabitur at quam vitae diam dapibus fermentum.
+											Aliquam nisi magna, sollicitudin nec eros eget, vulputate fringilla est.
 										</div>
 									</div>
 								</div>
