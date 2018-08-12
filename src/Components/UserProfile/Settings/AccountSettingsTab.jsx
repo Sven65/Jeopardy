@@ -42,7 +42,8 @@ class AccountSettingsTab extends Component {
 					email: "",
 					error: null
 				}
-			}
+			},
+
 		}
 
 		this.handleInput = this.handleInput.bind(this)
@@ -50,8 +51,10 @@ class AccountSettingsTab extends Component {
 
 		this.passwordConfirmInput = React.createRef()
 		this.passwordInput = React.createRef()
+		this.currentPasswordInput = React.createRef()
 
 		this.saveButton = React.createRef()
+
 
 	}
 
@@ -67,7 +70,10 @@ class AccountSettingsTab extends Component {
 
 	handleInput(event){
 		this.setState({
-			[event.target.name]: event.target.value
+			[event.target.name]: event.target.value,
+			userEdit: {
+				unsavedChanges: true
+			}
 		})
 	}
 
@@ -87,6 +93,7 @@ class AccountSettingsTab extends Component {
 
 		let showError = !this.state.userEdit.unsavedChanges&&this.state.userEdit.editError!==""
 		let isError = this.state.user.settings.error!==null
+		let showSaveButton = this.state.userEdit.unsavedChanges&&this.currentPasswordInput.value!==""
 
 		if(isError){
 			return (
@@ -160,9 +167,10 @@ class AccountSettingsTab extends Component {
 							label="Current Password"
 							onChange={this.handleInput}
 							autoComplete="off"
+							inputRef={el => this.currentPasswordInput = el}
 						/>
 
-						<form className="mdl-form gameBrowser-button-holder">
+						<form className={"mdl-form gameBrowser-button-holder "+(showSaveButton?'':'hidden')}>
 							<Button type="button" name="save" id="saveButton" text="Save" icon="content-save" className="btn-submit" Ref={(el) => this.saveButton = el}/>
 						</form>
 					</div>
