@@ -154,6 +154,31 @@ function user(state={}, action){
 			})
 		break
 
+		case "GOT_USER_SETTINGS":
+			return Object.assign({}, state, {
+				settings: {
+					error: null,
+					...action.data
+				}
+			})
+		break
+
+		case "GET_USER_SETTINGS_ERROR":
+			return Object.assign({}, state, {
+				settings: {
+					error: action.data.error
+				}
+			})
+		break
+
+		case "RESET_SETTINGS_DATA":
+			return Object.assign({}, state, {
+				settings: {
+					error: null
+				}
+			})
+		break
+
 		default:
 			return Object.assign({
 				"registerError": {},
@@ -162,7 +187,10 @@ function user(state={}, action){
 				},
 				userData: {},
 				verifyEmailError: "",
-				passwordResetError: null
+				passwordResetError: null,
+				settings: {
+					errror: null
+				}
 			}, state)
 		break
 	}

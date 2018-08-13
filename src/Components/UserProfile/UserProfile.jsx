@@ -1,15 +1,22 @@
 import React, { Component } from 'react'
+import Loadable from 'react-loadable'
 
-import Loader from './Loader'
-import Alert from './Alert'
+import Loader from '../Common/Loader'
+import Alert from '../Common/Alert'
 
-import SwatchPicker from './SwatchPicker'
+const SwatchPicker = Loadable({
+	loader: () => import('../Common/SwatchPicker'),
+	loading: Loader,
+})
+
+const Settings = Loadable({
+	loader: () => import('./Settings'),
+	loading: Loader,
+})
 
 import swal from 'sweetalert'
 
 import store from '../../store'
-
-// TODO: FIX issue with this popping up errors and stuff when it shouldn't when buying and selecting colors
 
 class UserProfile extends Component {
 	constructor(props){
@@ -21,26 +28,6 @@ class UserProfile extends Component {
 			imagePreview: this.props.image,
 			selectedImage: null,
 			showSettings: false,
-			swatches: [
-				'#FFF',
-				'#F44336',
-				'#E91E63',
-				'#9C27B0',
-				'#673AB7',
-				'#3F51B5',
-				'#2196F3',
-				'#03A9F4',
-				'#00BCD4',
-				'#009688',
-				'#4CAF50',
-				'#8BC34A',
-				'#CDDC39',
-				'#FFEB3B',
-				'#FFC107',
-				'#FF9800',
-				'#FF5722'
-			],
-
 			loader: {
 				isLoading: false
 			},
@@ -59,36 +46,11 @@ class UserProfile extends Component {
 		]
 
 		this.toggleSettings = this.toggleSettings.bind(this)
-		this.themeChange = this.themeChange.bind(this)
-		this.colorSelected = this.colorSelected.bind(this)
-		this.onColorSelect = this.onColorSelect.bind(this)
 	}
 
 	componentDidMount() {
 		store.subscribe(() => {
-			this.setState(store.getState(), () => {
-				if(this.state.userEdit.buyColorError !== ""){
-					swal({
-						title: "Error!",
-						text: this.state.userEdit.buyColorError,
-						icon: "error",
-						button: "Close"
-					}).then(() => {
-						store.dispatch({type: "RESET_BUY_COLOR_ERROR"})
-					})
-				}else if(this.state.userEdit.boughtColor !== false){
-					swal({
-						title: "Success!",
-						text: this.state.userEdit.boughtColorSuccess,
-						icon: "success",
-						button: "Close"
-					}).then(() => {
-						store.dispatch({type: "RESET_BOUGHT_COLOR"})
-					})
-
-					
-				}
-			})
+			this.setState(store.getState())
 		})
 	}
 
@@ -112,7 +74,9 @@ class UserProfile extends Component {
 			self.setState({
 				imagePreview: reader.result,
 				selectedImage: file,
-				unsavedChanges: true
+				userEdit:{
+					unsavedChanges: true
+				}
 			})
 		}, false)
 
@@ -140,97 +104,15 @@ class UserProfile extends Component {
 	}
 
 	toggleSettings(){
+		let showSettings = !this.state.showSettings
+
 		this.setState({
-			showSettings: !this.state.showSettings
+			showSettings: showSettings
 		})
-	}
 
-	themeChange(e){
-		store.dispatch({type: "s/USER_CHANGE_THEME", data: {
-			theme: e.target.value,
-			userToken: this.props.userToken
-		}})
-	}
-
-	_getColorImage(color, boxSize){
-		let canvas = document.createElement("canvas")
-		canvas.width = boxSize
-		canvas.height = boxSize
-		let ctx = canvas.getContext('2d')
-
-		ctx.fillStyle = color
-
-		ctx.fillRect(0, 0, boxSize, boxSize)
-
-		return ctx.canvas.toDataURL("image/png")
-	}
-
-	_htmlToElement(html) {
-	    const template = document.createElement('template')
-	    html = html.trim()
-	    template.innerHTML = html
-	    return template.content.firstChild
-	}
-
-	_getSwalContent(color, username){
-		return this._htmlToElement(`
-			<div class="color-buy-holder">
-				<div class="columns is-multiline">
-					<div class="column is-12 chat-even">
-						<span style="color: ${color};font-weight: bold;">${username}</span>
-					</div>
-					<div class="column is-12 chat-odd">
-						<span style="color: ${color};font-weight: bold;">${username}</span>
-					</div>
-				</div>
-			</div>
-		`)
-	}
-
-	colorSelected(color){
-		if(!color.unlocked){
-			swal({
-				title: "Do you want to unlock this color for $2,000?",
-				//icon: this._getColorImage(color.color, 64),
-				content: this._getSwalContent(color.color, this.props.username),
-				buttons: ["Nope!", true]
-			}).then(confirm => {
-				if(confirm){
-					store.dispatch({type: "s/USER_BUY_COLOR", data: {
-						color: color.color,
-						userToken: this.props.userToken
-					}})
-				}
-			});
-		}else{
-			store.dispatch({type: "s/USER_SET_COLOR", data: {
-				color: color.color,
-				userToken: this.props.userToken
-			}})
+		if(!showSettings){
+			store.dispatch({type: "RESET_SETTINGS_DATA"})
 		}
-	}
-
-	getSwatchColors(){
-		let swatchColors = []
-		let colors = this.state.swatches
-		
-		this.props.unlockedColors.forEach(color => {
-			if(colors.indexOf(color) <= -1){
-				colors.push(color)
-			}
-		})
-
-		colors.forEach(color => {
-			swatchColors.push({color, unlocked: this.props.unlockedColors.indexOf(color) > -1})
-		})
-
-		return swatchColors
-	}
-
-	onColorSelect(colors){
-		this.setState({
-			swatches: [...this.state.swatches, colors.color]
-		})
 	}
 
 
@@ -241,11 +123,6 @@ class UserProfile extends Component {
 
 		return (
 			<div>
-				{this.state.loader.isLoading &&
-					<div className="loader-holder">
-						<Loader />
-					</div>
-				}
 				<div className="modal is-active" id="user-profile">
 					<div className="modal-background"></div>
 					<div className="modal-card">
@@ -278,7 +155,7 @@ class UserProfile extends Component {
 											</div>
 											<div className="column">
 												{
-													this.state.unsavedChanges&&(
+													this.state.userEdit.unsavedChanges&&(
 														<button className="mdl-btn" id="save-profile-button" onClick={this.saveProfile.bind(this)}>Save!</button>
 													)
 												}
@@ -326,40 +203,12 @@ class UserProfile extends Component {
 										</div>
 									</div>
 								):(
-									<div className="columns is-multiline" id="user-settings">
-
-										<div className="column is-12 no-hover">
-											<div className="field has-addons">
-												<div className="control">
-													<a className="button is-profile">Theme</a>
-												</div>
-
-												<div className="control is-expanded">
-													<div className="select is-fullwidth">
-														<select onChange={this.themeChange} defaultValue={this.props.selectedTheme}>
-															<option value="light">Light</option>
-															<option value="dark">Dark</option>
-														</select>
-													</div>
-												</div>
-											</div>
-										</div>
-
-										<div className="column is-12 no-hover">
-											<span className="title name-title">Name Color</span>
-											<SwatchPicker colors={this.getSwatchColors()} onSelect={this.colorSelected} closeHandler={this.onColorSelect}/>
-										</div>
-
-										<div className="column is-12" onClick={this.toggleSettings}>
-											<span>
-												<span className="icon is-left">
-													<i className="mdi mdi-18px mdi-arrow-left"></i>
-												</span>
-												Go Back
-											</span>
-										</div>
-
-									</div>
+									<Settings
+										unlockedColors={this.props.unlockedColors}
+										selectedTheme={this.props.selectedTheme}
+										userToken={this.props.userToken}
+										username={this.props.username}
+										toggleSettings={this.toggleSettings}/>
 								)}
 							</section>
 						</section>

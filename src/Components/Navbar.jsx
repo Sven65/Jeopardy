@@ -12,7 +12,7 @@ import mainLogo from'../Assets/TriviaPartyWhite.svg'
 import store from './../store'
 
 const UserProfile = Loadable({
-	loader: () => import('./Common/UserProfile'),
+	loader: () => import('./UserProfile'),
 	loading: Loader,
 })
 
@@ -33,13 +33,15 @@ class Navbar extends Component {
 			userFormLoad: false,
 			showProfile: false,
 			showLoginForm: false,
-			showBoardAdder: false
+			showBoardAdder: false,
+			showDropdown: false
 		}
 	
 		//this.startGame = this.startGame.bind(this)
 		//this.leaveGame = this.leaveGame.bind(this)
 
 		this.privateSwitch = this.privateSwitch.bind(this)
+		this._burgerClick = this._burgerClick.bind(this)
 	}
 
 	componentDidMount() {
@@ -115,6 +117,12 @@ class Navbar extends Component {
 		}})
 	}
 
+	_burgerClick(){
+		this.setState({
+			showDropdown: !this.state.showDropdown
+		})
+	}
+
 	render(){
 		const isLoggedIn = this.state.user.userLoggedIn
 		const showProfile = (this.state.user.userLoggedIn && this.state.showProfile)
@@ -130,14 +138,14 @@ class Navbar extends Component {
 							<span id="gameCodeHeader">Game: {this.props.roomID}</span>
 						}
 					</a>
-					<a role="button" className="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+					<a role="button" className={"navbar-burger "+(this.state.showDropdown?'is-active':'is-gay')} data-target="navMenu" aria-label="menu" aria-expanded="false" onClick={this._burgerClick}>
 						<span aria-hidden="true"></span>
 						<span aria-hidden="true"></span>
 						<span aria-hidden="true"></span>
 					</a>
 				</div>
 
-				<div className="navbar-menu" id="navMenu">
+				<div className={"navbar-menu "+(this.state.showDropdown?'is-active':'')} id="navMenu">
 					<div className="navbar-end">
 						
 						{/* Game Buttons */}

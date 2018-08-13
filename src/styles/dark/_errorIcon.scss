@@ -1,0 +1,13 @@
+body{
+	&.theme-dark{
+		.errorIcon {
+			&-error {
+				border: 4px solid map-deep-get($colors, "dark", "errorIcon", "errorColor");
+
+				&-left, &-right {
+					background-color: map-deep-get($colors, "dark", "errorIcon", "errorColor");
+				}
+			}
+		}
+	}
+}

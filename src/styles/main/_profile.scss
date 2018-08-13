@@ -11,6 +11,7 @@
 }
 
 .profile-bottom{
+
 	.column{
 		padding: 2rem;
 
@@ -21,6 +22,18 @@
 
 		&:last-of-type{
 			padding-bottom: calc( 2rem + 0.75rem );
+		}
+
+		&.no-bottom-padding{
+			padding-bottom: 0;
+		}
+	}
+
+	.user-settings{
+		.column{
+			&:not(:last-of-type){
+				padding: 1.5rem;
+			}
 		}
 	}
 
@@ -84,4 +97,40 @@
 .button.is-profile{
 	box-shadow: none;
 	pointer-events: none;
+}
+
+.user-settings {
+	.tabs{
+		ul{
+			li {
+				a {
+					transition: all .5s;
+					-webkit-transition: all .5s;
+					-moz-transition: .5s all;
+					-o-transition: .5s all;
+				}
+			}
+		}
+	}
+
+	&.is-error{
+		text-align: center;
+		.title, .subtitle{
+			font-weight: 300 !important;
+		}
+
+		.errorIcon{
+			margin: auto;
+		}
+	}
+
+	.column{
+		&.padding-15{
+			padding: 1.5rem;
+		}
+
+		&.no-bottom-padding{
+			padding-bottom: 0;
+		}
+	}
 }

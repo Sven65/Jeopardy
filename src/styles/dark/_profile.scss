@@ -3,7 +3,7 @@ body.theme-dark{
 		background: map-deep-get($colors, "dark", "profile", "top", "background");
 		color: map-deep-get($colors, "dark", "profile", "top", "text");
 
-		.title{
+		.title, .subtitle{
 			color: map-deep-get($colors, "dark", "profile", "top", "text");
 		}
 	}
@@ -14,7 +14,7 @@ body.theme-dark{
 			color: map-deep-get($colors, "dark", "profile", "bottom", "text");
 		}
 
-		.title{
+		.title, .subtitle{
 			color: map-deep-get($colors, "dark", "profile", "top", "text");
 		}
 
@@ -33,5 +33,41 @@ body.theme-dark{
 		background-color: map-deep-get($colors, "dark", "profile", "themeButton", "background");
 		border-color: map-deep-get($colors, "dark", "profile", "themeButton", "border");
 		color: map-deep-get($colors, "dark", "profile", "themeButton", "color");
+	}
+
+	.user-settings {
+		.user-modal-form-group{
+			&.has-error{
+				input{
+					border-bottom: 1px solid map-deep-get($colors, "dark", "profile", "settings", "account", "input", "error", "border-bottom");
+				}
+			}
+		}
+
+		.tabs{
+			ul{
+				border-bottom-color: map-deep-get($colors, "dark", "profile", "settings", "tabs", "border");
+			
+				li {
+					a {
+						color: map-deep-get($colors, "dark", "profile", "settings", "tabs", "text-color");
+					
+						&:hover{
+							border-bottom-color: map-deep-get($colors, "dark", "profile", "settings", "tabs", "hover", "border-color");
+							color: map-deep-get($colors, "dark", "profile", "settings", "tabs", "hover", "text-color");
+						}
+					}
+
+					&.is-active{
+						a {
+							border-bottom-color: map-deep-get($colors, "dark", "profile", "settings", "tabs", "active", "border-color");
+							color: map-deep-get($colors, "dark", "profile", "settings", "tabs", "active", "text-color");
+						}
+					}
+
+					
+				}
+			}
+		}
 	}
 }
