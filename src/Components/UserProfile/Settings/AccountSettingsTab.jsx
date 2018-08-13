@@ -51,11 +51,11 @@ class AccountSettingsTab extends Component {
 
 		this._checkHasUnsavedChanges = this._checkHasUnsavedChanges.bind(this)
 
+		this._saveSettings = this._saveSettings.bind(this)
+
 		this.passwordConfirmInput = React.createRef()
 		this.passwordInput = React.createRef()
 		this.currentPasswordInput = React.createRef()
-
-		this.saveButton = React.createRef()
 
 		// TODO: Make this save stuff
 	}
@@ -103,6 +103,16 @@ class AccountSettingsTab extends Component {
 
 	checkPasswordMatch(password){
 		return this.passwordInput.value === this.passwordConfirmInput.value
+	}
+
+	_saveSettings(){
+		store.dispatch({type: "s/SAVE_USER_SETTINGS", data: {
+			userToken: this.props.userToken,
+			newEmail: this.state.emailInput,
+			password: this.state.password,
+			confirmPassword: this.state.confirmPassword,
+			currentPassword: this.state.currentPassword
+		}})
 	}
 
 
@@ -189,7 +199,7 @@ class AccountSettingsTab extends Component {
 						/>
 
 						<form className={"mdl-form gameBrowser-button-holder "+(showSaveButton?'':'hidden')}>
-							<Button type="button" name="save" id="saveButton" text="Save" icon="content-save" className="btn-submit" Ref={(el) => this.saveButton = el}/>
+							<Button type="button" name="save" id="saveButton" text="Save" icon="content-save" className="btn-submit" onClick={this._saveSettings}/>
 						</form>
 					</div>
 				</div>

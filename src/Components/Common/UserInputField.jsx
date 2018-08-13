@@ -13,14 +13,17 @@ class UserInputField extends Component {
 	}
 
 	validateInput(input){
-		if(this.props.validateFunc(input)){
-			this.setState({
-				showError: false
-			})
-		}else{
-			this.setState({
-				showError: true
-			})
+
+		if(this.props.validateFunc !== undefined){
+			if(this.props.validateFunc(input)){
+				this.setState({
+					showError: false
+				})
+			}else{
+				this.setState({
+					showError: true
+				})
+			}
 		}
 	}
 

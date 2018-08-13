@@ -47,6 +47,20 @@ function userEdit(state={}, action){
 			})
 		break
 
+		case "SAVE_USER_SETTINGS_ERROR":
+			return Object.assign({}, state, {
+				editError: `Error saving settings: ${action.data.error}`
+			})
+		break
+
+		case "SAVED_USER_SETTINGS":
+			return Object.assign({}, state, {
+				boughtColorSuccess: `Settings saved!${action.data.setNewEmail?' Check your emails to verify your new address!':''}`,
+				boughtColor: true,
+				editError: ""
+			})
+		break
+
 		default:
 			return Object.assign({
 				unsavedChanges: false,

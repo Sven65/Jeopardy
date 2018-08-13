@@ -160,6 +160,14 @@ class DBUtils{
 		`, [verificationCode, userID])
 	}
 
+	async setUserEmail(userID, email){
+		return await this.client.query(`
+			UPDATE users
+			SET "email" = $1
+			WHERE "ID" = $2
+		`, [email, userID])
+	}
+
 	async setLastVerificationRequest(userID, time){
 		return await this.client.query(`
 			UPDATE users
