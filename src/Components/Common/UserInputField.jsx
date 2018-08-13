@@ -25,8 +25,8 @@ class UserInputField extends Component {
 	}
 
 	handleInput(event){
-		this.validateInput(event.target.value)
 		this.props.onChange(event)
+		this.validateInput(event.target.value)
 	}
 
 	render(){

@@ -43,11 +43,13 @@ class AccountSettingsTab extends Component {
 					error: null
 				}
 			},
-
+			showPasswordError: false
 		}
 
 		this.handleInput = this.handleInput.bind(this)
 		this.checkPasswordMatch = this.checkPasswordMatch.bind(this)
+
+		this._checkHasUnsavedChanges = this._checkHasUnsavedChanges.bind(this)
 
 		this.passwordConfirmInput = React.createRef()
 		this.passwordInput = React.createRef()
@@ -68,12 +70,28 @@ class AccountSettingsTab extends Component {
 		}})
 	}
 
+
+	// Returns true if the user has unsaved changes
+	_checkHasUnsavedChanges(){
+		let emailChanged = this.state.user.settings.email!==this.state.emailInput&&this.state.emailInput!==undefined
+
+		let passwordChanged = (this.state.password!==""&&this.state.password!==undefined)&&(this.state.confirmPassword!==""&&this.state.confirmPassword!==undefined)
+
+		let passwordsMatch = this.checkPasswordMatch()
+
+		return emailChanged||passwordChanged&&passwordsMatch
+	}
+
 	handleInput(event){
 		this.setState({
 			[event.target.name]: event.target.value,
-			userEdit: {
-				unsavedChanges: true
-			}
+		}, () => {
+			this.setState({
+				showPasswordError: this.checkPasswordMatch(),
+				userEdit: {
+					unsavedChanges: this._checkHasUnsavedChanges()
+				}
+			})
 		})
 	}
 
@@ -95,6 +113,8 @@ class AccountSettingsTab extends Component {
 		let isError = this.state.user.settings.error!==null
 		let showSaveButton = this.state.userEdit.unsavedChanges&&this.currentPasswordInput.value!==""
 
+		let showPasswordError = this.state.showPasswordError
+
 		if(isError){
 			return (
 				<div>
@@ -115,8 +135,8 @@ class AccountSettingsTab extends Component {
 				<div className="columns is-multiline user-settings">
 					<div className="column is-12 no-hover">
 						<UserInputField 
-							id="email"
-							name="email"
+							id="emailInput"
+							name="emailInput"
 							required="required"
 							type="email"
 							label="Email Address"
@@ -136,8 +156,7 @@ class AccountSettingsTab extends Component {
 							type="password"
 							label="New Password"
 							onChange={this.handleInput}
-							onKeyDown={this.handleInput}
-							showError={this.checkPasswordMatch}
+							showError={() => {return showPasswordError}}
 							error="Passwords don't match"
 							autoComplete="off"
 							inputRef={el => this.passwordInput = el}
@@ -149,10 +168,9 @@ class AccountSettingsTab extends Component {
 							required="required"
 							type="password"
 							label="Confirm New Password"
-							showError={this.checkPasswordMatch}
+							showError={() => {return showPasswordError}}
 							error="Passwords don't match"
 							onChange={this.handleInput}
-							onKeyDown={this.handleInput}
 							autoComplete="off"
 							inputRef={el => this.passwordConfirmInput = el}
 						/>
