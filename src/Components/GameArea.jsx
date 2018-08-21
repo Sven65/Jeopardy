@@ -1,12 +1,32 @@
 import React, { Component } from 'react'
 
-
-import UserCard from './Common/UserCard'
-import QuestionCard from './Common/QuestionCard'
-import QuestionTable from './Common/QuestionTable'
-import Chat from './Chat'
+import Loadable from 'react-loadable'
 import Loader from './Common/Loader'
-import Standings from './Common/Standings'
+
+const UserCard = Loadable({
+	loader: () => import('./Common/UserCard'),
+	loading: Loader,
+})
+
+const QuestionCard = Loadable({
+	loader: () => import('./Common/QuestionCard'),
+	loading: Loader,
+})
+
+const QuestionTable = Loadable({
+	loader: () => import('./Common/QuestionTable'),
+	loading: Loader,
+})
+
+const Chat = Loadable({
+	loader: () => import('./Chat'),
+	loading: Loader,
+})
+
+const Standings = Loadable({
+	loader: () => import('./Common/Standings'),
+	loading: Loader,
+})
 
 import GoogleAd from './Common/GoogleAd'
 
@@ -17,10 +37,12 @@ class GameArea extends Component {
 		super(props)
 
 		this.state = {
-			users: [],
-			currentQuestion: {},
-			clues: {},
-			standings: {}
+			game: {
+				users: [],
+				currentQuestion: {},
+				clues: {},
+				standings: {}
+			}
 		}
 	}
 
@@ -39,7 +61,7 @@ class GameArea extends Component {
 	}
 
 	render(){
-		if(Object.keys(this.state.clues).length<=0 && this.state.roomID !== undefined || this.state.gameDone){
+		if(Object.keys(this.state.game.clues).length<=0 && this.state.game.roomID !== undefined || this.state.game.gameDone){
 			document.body.style.overflow = "hidden";
 		}else{
 			document.body.style.overflow = "";
@@ -47,14 +69,14 @@ class GameArea extends Component {
 
 		return (
 			<div className={"section no-pad-bot " + (this.props.hidden?'hidden':'')} id="gameArea">
-				{Object.keys(this.state.clues).length<=0 &&
+				{Object.keys(this.state.game.clues).length<=0 &&
 					<div className="loader-holder">
 						<Loader />
 					</div>
 				}
 
 				{this.state.gameDone &&
-					<Standings standings={this.state.standings}/>
+					<Standings standings={this.state.game.standings}/>
 				}
 
 				{/*
@@ -76,7 +98,7 @@ class GameArea extends Component {
 													username={user.username}
 													extraContent={this.getBadges(user)}
 													balance={user.balance}
-													isTurn={user.isTurn&&this.state.gameStarted}
+													isTurn={user.isTurn&&this.state.game.gameStarted}
 													timeLeft={user.timeLeft}
 													maxTime={15}
 													playAudio={user.timeLeft===0?-1:user.timeLeft%2}
@@ -92,7 +114,7 @@ class GameArea extends Component {
 									<article className="tile is-child">
 										{/* Start question area */}
 
-										<QuestionCard question={this.state.currentQuestion}/>
+										<QuestionCard question={this.state.game.currentQuestion}/>
 										{/* End question area */}
 									</article>
 									<article className="tile is-child">

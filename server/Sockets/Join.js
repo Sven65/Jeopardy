@@ -35,6 +35,7 @@ class SocketHandler{
 	}
 
 	async Execute({socket = null, io = null, data = {} }){
+
 		let isHost = false
 		let canJoin = false
 		let errorMessage = "Game is still loading, please wait."
@@ -45,7 +46,7 @@ class SocketHandler{
 		let room = await this._dbUtils.getRoomByID(data.roomID)
 
 		if(!this._isset(room)){
-			await this._dbUtils.addGame(data.roomID)
+			await this._dbUtils.addGame(data.roomID, data.boardID)
 
 			room = await this._dbUtils.getRoomByID(data.roomID)
 		}
@@ -79,6 +80,8 @@ class SocketHandler{
 
 		socket.join(data.roomID)
 
+
+
 		data.timeStamp = Date.now()
 		data.roomID = data.roomID
 		data.userID = socket.id
@@ -97,11 +100,11 @@ class SocketHandler{
 		if(!this._isset(data.user.image)){
 			data.user.image = `https://placehold.it/128x128?text=${data.username}`
 		}
-
+		
 		let user = new User(data)
 
 		await room.addUser(user)
-
+		
 		room.users.forEach(user => {
 			socket.emit("USER_JOIN", user)
 		})

@@ -15,7 +15,9 @@
 			}
 		},
 		"distanceThreshold": 1,
-		"colorCost": 2000
+		"colorCost": 2000,
+		"maxCustomBoards": 1,
+		"maxCustomBoardsPremium": 10
 	},
 	"Client": {
 		"socket": {

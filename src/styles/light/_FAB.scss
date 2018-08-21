@@ -1,0 +1,25 @@
+.FAB {
+	&__action-button {
+		&:hover {
+			.action-button{
+				&__text{
+					background-color: map-deep-get($colors, "light", "FAB", "text", "background");
+					color: map-deep-get($colors, "light", "FAB", "text", "color");
+				}
+			}
+		}
+
+		.action-button{
+			&__text {
+				color: map-deep-get($colors, "light", "general", "background");
+			}
+		}
+	}
+}
+
+.action-button {
+	&__icon{
+		background-color: map-deep-get($colors, "light", "FAB", "icon", "background");
+		color: map-deep-get($colors, "light", "FAB", "icon", "color");
+	}
+}

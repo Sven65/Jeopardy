@@ -10,14 +10,9 @@
 	background-repeat: no-repeat;
 }
 
-.profile-top{
-	background: $profile-top-background;
-	color: $profile-top-text;
-}
-
 .profile-bottom{
+
 	.column{
-		background: $profile-bottom-background;
 		padding: 2rem;
 
 		transition: all .5s;
@@ -28,15 +23,24 @@
 		&:last-of-type{
 			padding-bottom: calc( 2rem + 0.75rem );
 		}
+
+		&.no-bottom-padding{
+			padding-bottom: 0;
+		}
+	}
+
+	.user-settings{
+		.column{
+			&:not(:last-of-type){
+				padding: 1.5rem;
+			}
+		}
 	}
 
 	.column:hover{
 		cursor: pointer;
-		background: $profile-bottom-hover;
-		color: $profile-bottom-hover-text;
 
 		&.no-hover{
-			background: $profile-bottom-background;
 			cursor: auto;
 		}
 	}
@@ -91,9 +95,42 @@
 }
 
 .button.is-profile{
-	background-color: $profile-theme-button-background;
-	border-color: $profile-theme-button-border-color;
-	color: $profile-theme-button-color;
 	box-shadow: none;
 	pointer-events: none;
+}
+
+.user-settings {
+	.tabs{
+		ul{
+			li {
+				a {
+					transition: all .5s;
+					-webkit-transition: all .5s;
+					-moz-transition: .5s all;
+					-o-transition: .5s all;
+				}
+			}
+		}
+	}
+
+	&.is-error{
+		text-align: center;
+		.title, .subtitle{
+			font-weight: 300 !important;
+		}
+
+		.errorIcon{
+			margin: auto;
+		}
+	}
+
+	.column{
+		&.padding-15{
+			padding: 1.5rem;
+		}
+
+		&.no-bottom-padding{
+			padding-bottom: 0;
+		}
+	}
 }

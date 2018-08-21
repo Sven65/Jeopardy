@@ -9,7 +9,7 @@ import App from './Components/App'
 let socket = null
 
 if(CONFIG.DEV){
-	socket = io(`${CONFIG.Client.socket.host}`);
+	
 }else{
 	if (typeof window.__REACT_DEVTOOLS_GLOBAL_HOOK__ === "object") {
 		for (let [key, value] of Object.entries(window.__REACT_DEVTOOLS_GLOBAL_HOOK__)) {
@@ -27,5 +27,5 @@ const Application = ReactDOM.render(
 if(CONFIG.DEV){
 	window.store = store
 	window.Application = Application
-	window.socket = socket
+	
 }

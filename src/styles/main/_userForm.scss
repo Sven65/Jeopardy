@@ -1,5 +1,3 @@
-@import 'variables';
-
 .user-modal-overlay, .user-modal-form-panel.one:before {
 	position: absolute;
 	top: 0;
@@ -13,7 +11,6 @@
 .user-modal-form {
 	z-index: 15;
 	position: relative;
-	background: $user-modal-background;
 	max-width: 600px;
 	border-radius: 4px;
 	box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
@@ -37,7 +34,6 @@
 	position: absolute;
 	top: 60px;
 	right: 60px;
-	background: $user-modal-background;
 	width: 60px;
 	height: 60px;
 	border-radius: 100%;
@@ -56,7 +52,6 @@
 		left: 50%;
 		width: 30px;
 		height: 4px;
-		background: $user-modal-toggle-background-bafter;
 		-webkit-transform: translate(-50%, -50%);
 		transform: translate(-50%, -50%);
 	}
@@ -94,10 +89,6 @@
 	}
 }
 
-.two .user-modal-form-group label {
-	color: $user-modal-label-color;
-}
-
 .user-modal-form-group input {
 	outline: none;
 	display: block;
@@ -118,21 +109,12 @@
 	}
 }
 
-.two .user-modal-form-group input {
-	color: $user-modal-form-input-color;
-	&:focus {
-		color: $user-modal-form-input-color;
-	}
-}
-
 .user-modal-form-group button {
 	outline: none;
-	background: $user-modal-form-button-background;
 	width: 100%;
 	border: 0;
 	border-radius: 4px;
 	padding: 12px 20px;
-	color: $user-modal-form-button-color;
 	font-family: inherit;
 	font-size: inherit;
 	font-weight: 500;
@@ -141,10 +123,6 @@
 	cursor: pointer;
 }
 
-.two .user-modal-form-group button {
-	background: $user-modal-form-button-color;
-	color: $user-modal-form-button-background;
-}
 
 .user-modal-form-group {
 	.user-modal-form-remember {
@@ -159,7 +137,6 @@
 		}
 	}
 	.user-modal-form-recovery {
-		color: $user-modal-recovery-color;
 		font-size: 12px;
 		text-decoration: none;
 	}
@@ -187,7 +164,6 @@
 		position: absolute;
 		top: 0;
 		left: 95%;
-		background: $user-modal-panel-two-background;
 		width: 100%;
 		min-height: 100%;
 		padding: 60px calc(10% + 60px) 60px 60px;
@@ -247,26 +223,13 @@
 	margin: 0 0 40px;
 	h1 {
 		padding: 4px 0;
-		color: $user-modal-form-header-color;
 		font-size: 24px;
 		font-weight: 700;
 		text-transform: uppercase;
 	}
-
-	.user-modal-error{
-		color: $user-modal-error-color;
-	}
-
-	.user-modal-success{
-		color: $user-modal-success-color;
-	}
 }
 
 .two .user-modal-form-header {
-	h1, h6{
-		color: $user-modal-panel-two-header-color;
-	}
-
 	h1 {
 		position: relative;
 		z-index: 40;
@@ -322,20 +285,19 @@ label[for="privacyAgree"] {
 		&:before {
 			width: 20px;
 			height: 20px;
-			background: $md-checkbox-background;
 			border: 2px solid rgba(0, 0, 0, 0.54);
 			border-radius: 2px;
 			cursor: pointer;
 			transition: background .3s;
 		}
 	}
+	
 	input[type="checkbox"] {
 		outline: 0;
 		margin-right: 10px;
 		visibility: hidden;
 		&:checked + label {
 			&:before {
-				background: $md-checkbox-checked-label-before-bg;
 				border: none;
 			}
 			&:after {
@@ -344,7 +306,6 @@ label[for="privacyAgree"] {
 				left: 4px;
 				width: 12px;
 				height: 6px;
-				border: 2px solid $md-checkbox-checked-label-border-color;
 				border-top-style: none;
 				border-right-style: none;
 			}
@@ -357,13 +318,6 @@ label[for="privacyAgree"] {
 				background: rgba(0, 0, 0, 0.26);
 			}
 		}
-	}
-}
-
-#privacyLink {
-	color: $md-privacyLink-color;
-	&:hover{
-		color: $md-privacyLink-hover-color;
 	}
 }
 

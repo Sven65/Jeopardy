@@ -1,62 +1,18 @@
-@import "variables";
-
 body.theme-dark{
 	.FAB {
-		position: absolute;
-		bottom: 64px;
-		right: 64px;
-		width: 64px;
-
-		&__action-button,
-		&__mini-action-button{
-			cursor: pointer;
-			position: absolute;
-		}
-		
 		&__action-button {
-			bottom: 2em;
-			right: 2em;
-			
 			&:hover {
-				.action-button__icon {
-					@include circleShadow(8px);
-					transition: box-shadow .3s;
-					-webkit-transition: box-shadow .3s;
-					-moz-transition: .3s box-shadow;
-					-o-transition: .3s box-shadow;
-				}
-
 				.action-button{
 					&__text{
-						background-color: $FAB-text-show-background;
-						border-radius: 3px;
-						color: $FAB-text-show-color;
-						right: 75px;
-						font-size: 14px;
-						opacity: .8;
-						padding: 5px 9px;
-						position: absolute;
-						top: 2px;
-						white-space: nowrap;
-						opacity: 1;
-
-						transition: opacity .3s;
-						-webkit-transition: opacity .3s;
-						-moz-transition: .3s opacity;
-						-o-transition: .3s opacity;
+						background-color: map-deep-get($colors, "dark", "FAB", "text", "background");
+						color: map-deep-get($colors, "dark", "FAB", "text", "color");
 					}
 				}
 			}
 
 			.action-button{
 				&__text {
-					opacity: 0;
-					background-color: rgba(0, 0, 0, 0);
-					color: $theme-dark-background-color;
-					transition: opacity .1s;
-					-webkit-transition: opacity .1s;
-					-moz-transition: .1s opacity;
-					-o-transition: .1s opacity;
+					color: map-deep-get($colors, "dark", "general", "background");
 				}
 			}
 		}

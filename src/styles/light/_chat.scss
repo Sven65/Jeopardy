@@ -1,0 +1,49 @@
+#chat-container {
+	background-color: map-deep-get($colors, "light", "chat", "container", "background");
+}
+
+#chat-messages {
+	li {
+		background-color: map-deep-get($colors, "light", "chat", "message", "even", "background");
+		color: map-deep-get($colors, "light", "chat", "message", "even", "color");
+
+		&:nth-child(odd) {
+			background-color: map-deep-get($colors, "light", "chat", "message", "odd", "background");
+			color: map-deep-get($colors, "light", "chat", "message", "odd", "color");
+		}
+
+		&.chatBottom{
+			background-color: map-deep-get($colors, "light", "chat", "container", "background");
+		}
+	}
+}
+
+.chat-input{
+	.field{
+		.control{
+			.input{
+				box-shadow: 0 1px 2px map-deep-get($colors, "light", "chat", "inputShadow");
+			}
+		}
+	}
+
+	.button{
+		background-color: map-deep-get($colors, "light", "chat", "button", "background", "normal");
+		color: map-deep-get($colors, "light", "chat", "button", "text");
+
+		&:hover{
+			background-color: map-deep-get($colors, "light", "chat", "button", "background", "hover");
+		}
+
+		&:active{
+			background-color: map-deep-get($colors, "light", "chat", "button", "background", "active");
+		}
+	}
+}
+
+#emoji-picker-toggle{
+	&:hover{
+		background-color: map-deep-get($colors, "light", "chat", "button", "background", "normal");
+		color: map-deep-get($colors, "light", "chat", "button", "text");
+	}
+}

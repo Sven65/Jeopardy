@@ -1,4 +1,3 @@
-@import 'variables.scss';
 @import 'mdlInput';
 @import 'profile';
 @import 'userForm';
@@ -8,218 +7,132 @@
 @import 'FAB';
 @import 'gameBrowser';
 @import 'onoffswitch';
+@import 'boardAdder';
+@import 'errorIcon';
 
 body{
 	&.theme-dark{
-		width: 100%;
-		height: 100%;
-		overflow-y: hidden;
-		overflow-x: hidden;
-		background: $theme-dark-background-color;
-
-		.alert{
-			padding-top: 5px;
-			padding-bottom: 5px;
-		}
+		background: map-deep-get($colors, "dark", "general", "background");
 
 		.alert.alert-danger{
-			background-color: $theme-dark-alert-danger;
-			color: $theme-dark-alert-danger-text;
+			background-color: map-deep-get($colors, "dark", "alert", "danger", "background");
+			color: map-deep-get($colors, "dark", "alert", "danger", "text");
 		}
 
-		.hidden {
-			display: none;
-		}
-
-		.full-width{
-			width: 100%;
-		}
-
-		#beforeGame{
-			//padding-bottom: 0px;
+		.alert.alert-success{
+			background-color: map-deep-get($colors, "dark", "alert", "success", "background");
+			color: map-deep-get($colors, "dark", "alert", "success", "text");
 		}
 
 		#instructions-container{
-
-			width: 90%;
-
 			* {
-				color: $theme-dark-instructions-container-color;
-				font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-				font-weight: 300;
+				color: map-deep-get($colors, "dark", "general", "instructionsContainer", "color");
 			}
 		}
 
 		.navbar {
-			background: $theme-dark-primary-color;
+			background: map-deep-get($colors, "dark", "general", "primaryColor");
 			
 			.navbar-link::after{
-				border-color: $theme-dark-navbar-text;
+				border-color: map-deep-get($colors, "dark", "general", "navbar", "text");
 			}
 
 			.navbar-link:hover::after{
-				border-color: $theme-dark-navbar-text;
-			}
-
-			.navbar-item{
-				font-size: 1rem;
+				border-color: map-deep-get($colors, "dark", "general", "navbar", "text");
 			}
 		}
 
 		.navbar-burger{
 			span {
-				color: $theme-dark-navbar-text;
+				color: map-deep-get($colors, "dark", "general", "navbar", "text");
 			}
 		}
 
 		@media screen and (min-width: 1088px){
 			.navbar-item.has-dropdown:hover .navbar-link, .navbar-item.has-dropdown.is-active{
-				background-color: $theme-dark-primary-color-dark;
+				background-color: map-deep-get($colors, "dark", "general", "primaryColorDark");
 			}
 
 			.navbar {
 				.user-link {
-					color: $theme-dark-navbar-text;
+					color: map-deep-get($colors, "dark", "general", "navbar", "text");
 				}
 
 				a.navbar-item{
-					color: $theme-dark-navbar-text;
+					color: map-deep-get($colors, "dark", "general", "navbar", "text");
 				}
 
 				a.navbar-item.dark-background:hover{
-					background-color: $theme-dark-primary-color-dark;
+					background-color: map-deep-get($colors, "dark", "general", "primaryColorDark");
 				}
-			}
-		}
-
-		@media screen and (max-width: 1088px){
-			.navbar-item {
-				a {
-					color: unset;
-				}
-			}
-
-			.navbar-brand {
-				.navbar-item {
-					img {
-						max-height: 0.9rem;
-					}
-				}
-			}
-		}
-
-		#playButton{
-			width: 100%;
-			cursor: pointer;
-		}
-
-		.loader-holder ~ body{
-			overflow: none;
-		}
-
-		.absolute-center{
-			position: fixed;
-			top: 50%;
-			left: 50%;
-			/* bring your own prefixes */
-			-webkit-transform: translate(-50%, -50%);
-				-ms-transform: translate(-50%, -50%);
-					transform: translate(-50%, -50%);
-		}
-
-		.loader-holder {
-			z-index: 10000000;
-			width: 100%;
-			height: 100%;
-			position: fixed;
-			background: rgba(0, 0, 0, 0.6);
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
-
-			&.is-fixed{
-				position: fixed;
-			}
-		}
-
-		.column {
-			&.user-card{
-				flex-grow: 0;
-			}
-		}
-
-		.image{
-			&.is-192x192{
-				width: 192px;
-				height: 192px;
 			}
 		}
 
 		#gameCodeHeader{
-			color: $theme-dark-gameCodeHeader-text;
+			color: map-deep-get($colors, "dark", "general", "gameCodeHeader", "text");
 		}
 
 		.user-card{
 			.card{
-				background-color: $theme-dark-user-card-background;
+				background-color: map-deep-get($colors, "dark", "userCard", "background");
 				* {
-					color: $theme-dark-user-card-color;
+					color: map-deep-get($colors, "dark", "userCard", "color");
 				}
 			}
 		}
 
 		.swal-modal {
-			background-color: $theme-dark-chat-container-background;
+			background-color: map-deep-get($colors, "dark", "general", "swal", "background");
 		}
 
 		.swal-title, .swal-text{
-			color: #FFF;
+			color: map-deep-get($colors, "dark", "general", "swal", "color");
 		}
 
 		.swal-icon--success:before, .swal-icon--success:after, .swal-icon--success__hide-corners {
-			background: $theme-dark-chat-container-background;
+			background: map-deep-get($colors, "dark", "general", "swal", "background");
 		}
-	}
 
-	#root{
-		height: 100%;
+		.board-button{
+			&.selected{
+				background: map-deep-get($colors, "dark", "general", "primaryColor") !important;
+			}
+		}
 
-		.App{
-			height: 100%;
+		#root{
+			.App{
+				.scroll-wrapper{
+					.scroller{
+						&::-webkit-scrollbar-track{
+							-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "dark", "general", "scrollbar", "track", "boxShadow");
+							background-color: map-deep-get($colors, "dark", "general", "scrollbar", "track", "background");
+						}
 
-			.scroll-wrapper{
-				height: 100%;
+						&::-webkit-scrollbar{
+							background-color: map-deep-get($colors, "dark", "general", "scrollbar", "background");
+						}
 
-				.scroller{
-					overflow-y: scroll;
-					height: 100%;
-
-					&::-webkit-scrollbar-track{
-						-webkit-box-shadow: inset 0 0 6px $theme-dark-scrollbar-track-box-shadow;
-						//border-radius: 10px;
-						background-color: $theme-dark-scrollbar-track-background-color;
-					}
-
-					&::-webkit-scrollbar{
-						width: 12px;
-						background-color: $theme-dark-scrollbar-background-color;
-					}
-
-					&::-webkit-scrollbar-thumb{
-						//border-radius: 10px;
-						-webkit-box-shadow: inset 0 0 6px $theme-dark-scrollbar-thumb-box-shadow;
-						background-color: $theme-dark-scrollbar-thumb-background-color;
-					}
-
-					&.hide-scrollbar{
-						&::-webkit-scrollbar-track, &::-webkit-scrollbar, &::-webkit-scrollbar-thumb{
-							opacity: 0;
+						&::-webkit-scrollbar-thumb{
+							-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "dark", "general", "scrollbar", "thumb", "boxShadow");
+							background-color: map-deep-get($colors, "dark", "general", "scrollbar", "thumb", "background");
 						}
 					}
-
 				}
 			}
+		}
+
+		*::-webkit-scrollbar-track{
+			-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "dark", "general", "scrollbar", "track", "boxShadow");
+			background-color: map-deep-get($colors, "dark", "general", "scrollbar", "track", "background");
+		}
+
+		*::-webkit-scrollbar{
+			background-color: map-deep-get($colors, "dark", "general", "scrollbar", "background");
+		}
+
+		*::-webkit-scrollbar-thumb{
+			-webkit-box-shadow: inset 0 0 6px map-deep-get($colors, "dark", "general", "scrollbar", "thumb", "boxShadow");
+			background-color: map-deep-get($colors, "dark", "general", "scrollbar", "thumb", "background");
 		}
 	}
 }
