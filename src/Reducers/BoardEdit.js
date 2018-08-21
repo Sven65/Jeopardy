@@ -126,7 +126,6 @@ function boardEdit(state={}, action){
 		break
 
 		default:
-			console.log("RETURN DEFAULT")
 			return Object.assign({}, {
 				validUserBoards: [],
 				boardErrorMessage: "",

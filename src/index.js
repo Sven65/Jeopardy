@@ -16,6 +16,8 @@ if(CONFIG.DEV){
 			window.__REACT_DEVTOOLS_GLOBAL_HOOK__[key] = typeof value == "function" ? ()=>{} : null;
 		}
 	}
+
+	socket = io(`${CONFIG.Client.socket.host}`);
 }
 
 
@@ -29,3 +31,5 @@ if(CONFIG.DEV){
 	window.Application = Application
 	
 }
+
+window.socket = socket

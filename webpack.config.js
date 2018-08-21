@@ -34,8 +34,9 @@ function getPlugins() {
 			asset: "[path].gz[query]",
 			algorithm: "gzip",
 			test: /\.js$|\.css$|\.html$/,
-			threshold: 10240,
-			minRatio: 0.8
+			threshold: 0,
+			minRatio: Number.MAX_SAFE_INTEGER
+			//minRatio: 0.8
 		}))
 	}
 
