@@ -62,3 +62,8 @@ typings/
 config/default.json
 config/production.json
 dist/images/*
+dist/*.js
+dist/*.gz
+dist/*.css
+dist/*.svg
+dist/*.wav
